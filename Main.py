@@ -31,7 +31,6 @@ def index():
 def mfccstart():
     th = threading.Thread(target=mfcc_ctrl, args=())
     th.start()
-
     return render_template('temp.html', value=0)
 
 def mfcc_ctrl():
@@ -42,7 +41,7 @@ def mfcc_ctrl():
 
 #if __name__ == "__main__":
 def gen_frames():
-    whenet = WHENet(snapshot='WHENet.h5')
+    whenet = WHENet(snapshot='../WHENet.h5')
     yolo = YOLO()
 
     src = 0  # 웹캠이 없다면 파일 경로 넣기
@@ -122,7 +121,7 @@ def gen_frames():
                 EARSum += EAR
 
         #EAR Threshold는 Main에서
-        if EARAvg is not None:
+        if EARAvg is not None and EAR is not None:
             cv2.putText(frame, f'EAR:{EAR}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                         cv2.LINE_AA)
             earCurTime = time.time()
@@ -172,4 +171,4 @@ def mfcc_feed():
     return render_template('result.html', **mfccData)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1')
+    app.run(host='127.0.0.1', port=5000)

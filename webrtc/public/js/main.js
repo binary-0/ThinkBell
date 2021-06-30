@@ -18,6 +18,7 @@ if(location.href.substr(0,5) !== 'https')
 
 //////////// CONFIGURATION //////////////////
 
+
 /**
  * RTCPeerConnection configuration 
  */
@@ -100,6 +101,8 @@ function init() {
     socket.on('signal', data => {
         peers[data.socket_id].signal(data.signal)
     })
+
+
 }
 
 /**
