@@ -75,8 +75,6 @@ def mfcc_process():
     silence = np.count_nonzero(abs(delta2_mfcc) < 1)
     size = delta2_mfcc.size
 
-    # print(np.count_nonzero(delta2_mfcc))
-
     print("\ntime of silence : ", silence)
     print("total : ", size)
     print("speaking rate : ", 100 - silence / size * 100, "%")
