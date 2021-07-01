@@ -9,7 +9,7 @@ const https = require('https')
 
 
 const spawn = require('child_process').spawn; 
-const result = spawn('python', ['../Main.py']); 
+const result = spawn('python', ['Main.py']); 
 result.stdout.on('data', function(data) { 
     console.log(data.toString()); 
 }); 
