@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>{{title}}</title>
+
+    <style>
+        #if{
+            width: 0px;
+            height: 0px;
+            border: 0px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h3 class="mt-5">{{time}}</h3>
+            <img src="{{ url_for('video_feed') }}" width="100%">
+        </div>
+    </div>
+
+    <form action="http://localhost:3012/mfccstart" method="POST" target="_blank">
+        <input type="submit" name="button" class="btn btn-success" value="MFCC Start">
+    </form>
+
+    <form action="http://localhost:3012/mfccend" method="POST" target="_blank">
+        <input type="submit" name="button" class="btn btn-success" value="MFCC Stop">
+    </form>
+    <!--<iframe id="if" name="param"></iframe>-->
+
+    <form action = "http://localhost:3012/mfcc_feed" method = "GET" target="_blank">
+        <input type="submit" name="button" class="btn btn-success" value="MFCC Result">
+    </form>
+</div>
+
+<script>
+    function ifun(msg){
+        alert(msg);
+    }
+</script>
+
+</body>
+</html>
