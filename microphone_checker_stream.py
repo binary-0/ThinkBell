@@ -12,51 +12,7 @@ def process_stop():
     isStop = 1
 
 def mfcc_process():
-    CHUNK = 1024
-    FORMAT = pyaudio.paInt16
-    CHANNELS = 2
-    RATE = 44100
-    RECORD_SECONDS = 2
-    WAVE_OUTPUT_FILENAME = "output.wav"
-
-    p = pyaudio.PyAudio()
-
-    #print("* recording")
-
-    frames = []
-
-    # for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-    #     data = stream.read(CHUNK)
-    #     frames.append(data)
-    stream = p.open(format=FORMAT,
-                            channels=CHANNELS,
-                            rate=RATE,
-                            input=True,
-                            frames_per_buffer=CHUNK)
-
-
-    global isStop
-    isStop = 0
-    while isStop == 0:
-        data = stream.read(CHUNK)
-        frames.append(data)
-        #if keyboard.is_pressed('s'):
-            # print("\n*Done Recording")
-            #break
-
-
-    #print("\n* done recording")
-    # print(type(data))
-
-
-    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-    wf.setnchannels(CHANNELS)
-    wf.setsampwidth(p.get_sample_size(FORMAT))
-    wf.setframerate(RATE)
-    wf.writeframes(b''.join(frames))
-    wf.close()
-
-    path = 'output.wav'
+    path = 'demo-instruct.wav'
             # path = 'sample.wav' #파일 업로드 시 사용
     sample_rate = 16000
 

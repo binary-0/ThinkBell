@@ -41,8 +41,9 @@ function createPeerConnection() {
     pc.addEventListener('track', function(evt) {
         if (evt.track.kind == 'video')
             document.getElementById('video').srcObject = evt.streams[0];
-        else
+        else {
             document.getElementById('audio').srcObject = evt.streams[0];
+        }
     });
 
     return pc;
