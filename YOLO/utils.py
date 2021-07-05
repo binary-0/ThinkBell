@@ -10,7 +10,6 @@ def compose(*funcs):
     else:
         raise ValueError('Composition of empty sequence not supported.')
 
-
 def letterbox_image(image, size):
     iw, ih = image.size
     w, h = size

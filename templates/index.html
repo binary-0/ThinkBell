@@ -19,6 +19,8 @@
         }
 
     </style>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -29,24 +31,43 @@
         </div>
     </div>
 
-    <form action="http://localhost:3012/mfccstart" method="POST" target="_blank">
+    <form action="http://localhost:5000/mfccstart" method="POST" target="_blank">
         <input type="submit" name="button" class="btn btn-success" value="MFCC Start">
     </form>
-
-    <form action="http://localhost:3012/mfccend" method="POST" target="_blank">
+    <form action="http://localhost:5000/mfccend" method="POST" target="_blank">
         <input type="submit" name="button" class="btn btn-success" value="MFCC Stop">
     </form>
-    <!--<iframe id="if" name="param"></iframe>-->
 
-    <form action = "http://localhost:3012/mfcc_feed" method = "GET" target="_blank">
+    <!--
+    <form action="http://localhost:5000/mfcc_feed" method = "POST" target="_blank">
         <input type="submit" name="button" class="btn btn-success" value="MFCC Result">
     </form>
+    -->
+    
+    <h1 id="silence"></h1>
+    <h1 id="size"></h1>
+    <h1 id="rate"></h1>
+    <script>
+        setInterval(function(){$.ajax({
+            url: '/mfcc_feed',
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+                $("#silence").html(response["silence"]);
+                $("#size").html(response["size"]);
+                $("#rate").html(response["rate"]);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })}, 1000);
+    </script>
 </div>
 
 <script>
-    function ifun(msg){
-        alert(msg);
-    }
+  $(document).ready(function() {
+    $('#result').load('/mfcc_feed')
+  })
 </script>
 
 </body>
