@@ -7,7 +7,7 @@ from YOLO.yolo_postprocess import YOLO
 from PIL import Image
 import time
 
-def draw_axis(img, yaw, pitch, roll, horizAvg, vertiAvg, rollAvg, headArea, areaAvg, tdx=None, tdy=None, size = 100):
+def draw_axis(img, yaw, pitch, roll, horizAvg, vertiAvg, rollAvg, headArea, areaAvg, conType, tdx=None, tdy=None, size = 100):
     pitch = pitch * np.pi / 180
     yaw = -(yaw * np.pi / 180)
     roll = roll * np.pi / 180
@@ -51,21 +51,36 @@ def draw_axis(img, yaw, pitch, roll, horizAvg, vertiAvg, rollAvg, headArea, area
                     cv2.LINE_AA)
     else:
         if abs(horizAvg - horizMove) > 80:
+            conType[0] = True
             cv2.putText(img, 'horizMoveDetected', (10, 250), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
+        else:
+            conType[0] = False
+
         if vertiMove - vertiAvg > 50:
+            conType[1] = True
             cv2.putText(img, 'vertiMoveDetected', (10, 300), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
+        else:
+            conType[1] = False
+
         if abs(rollAvg - rollByXPos) > 85 and headArea > areaAvg * 0.6:
+            conType[2] = True
             cv2.putText(img, 'rollDetected', (10, 350), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
+        else:
+            conType[2] = False
+
         if headArea < areaAvg * 0.6:
+            conType[3] = True
             cv2.putText(img, 'headAreaDetected', (10, 400), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
+        else:
+            conType[3] = False
 
     return horizMove, vertiMove, rollByXPos
 
-def process_detection(model, img, bbox, horizAvg, vertiAvg, rollAvg, areaAvg):
+def process_detection(model, img, bbox, horizAvg, vertiAvg, rollAvg, areaAvg, conType):
     yMin, xMin, yMax, xMax = bbox
 
     yMin = max(0, yMin - abs(yMin - yMax) / 10)
@@ -89,7 +104,7 @@ def process_detection(model, img, bbox, horizAvg, vertiAvg, rollAvg, areaAvg):
 
     headArea = int(xMax - xMin) * int(yMax - yMin)
 
-    horizMove, vertiMove, rollByXPos = draw_axis(img, yaw, pitch, roll, horizAvg, vertiAvg, rollAvg, headArea, areaAvg, tdx=(xMin+xMax)/2, tdy=(yMin+yMax)/2, size = abs(xMax-xMin)//2)
+    horizMove, vertiMove, rollByXPos = draw_axis(img, yaw, pitch, roll, horizAvg, vertiAvg, rollAvg, headArea, areaAvg, conType, tdx=(xMin+xMax)/2, tdy=(yMin+yMax)/2, size = abs(xMax-xMin)//2)
     return img, horizMove, vertiMove, rollByXPos, headArea
 
 '''

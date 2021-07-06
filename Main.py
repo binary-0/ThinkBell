@@ -1,5 +1,7 @@
 import threading
 
+from matplotlib.pyplot import tricontour
+
 import cv2
 import numpy as np
 from whenet import WHENet
@@ -29,11 +31,15 @@ def index():
 
     global silence
     global size
+    global logStartTime
+    global logEndTime
+    global logType
 
+    logStartTime = 0
+    logEndTime = 0
+    logType = 0
     silence = 1
     size = 1
-
-    mfcc_feed()
     
     return render_template('index.html', **templateData)
 
@@ -80,10 +86,22 @@ def gen_frames():
     areaAvg = None
     EARAvg = None
 
+    conType = [False, False, False, False]
+
     startTime = time.time()
     prevTime = startTime
     CALITIME = 15
     EARTime = None
+    HeadTime = None
+    FaceTime = None
+
+    global logStartTime
+    global logEndTime
+    global logType
+
+    logStartTime = 0
+    logEndTime = 0
+    logType = 0
 
     while True:
         try:
@@ -111,7 +129,7 @@ def gen_frames():
         if len(bboxes) == 0:
             continue
         frame, horizMove, vertiMove, rollByXPos, headArea = process_detection(whenet, frame, bboxes[0], horizAvg, vertiAvg,
-                                                                              rollAvg, areaAvg)
+                                                                              rollAvg, areaAvg, conType)
 
         EAR = calculate_ear(rgbFrame, draw=frame)
 
@@ -130,6 +148,7 @@ def gen_frames():
 
             if EAR is not None:
                 EARSum += EAR
+        
 
         #EAR Threshold는 Main에서
         if EARAvg is not None and EAR is not None:
@@ -140,11 +159,43 @@ def gen_frames():
                 if EARTime is None:
                     EARTime = earCurTime
                 else:
-                    if earCurTime - EARTime > 1.5:
+                    if earCurTime - EARTime > 3:
                         cv2.putText(frame, 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0,255,0), 2,
                                     cv2.LINE_AA)
             else:
+                if EARTime is not None and time.time() - EARTime > 3:
+                    logStartTime = EARTime
+                    logEndTime = time.time()
+                    logType = 0
                 EARTime = None
+
+        if conType[0] == True or conType[1] == True or conType[2] == True:
+            if HeadTime is None:
+                HeadTime = time.time()
+            else:
+                headCurTime = time.time()
+                if headCurTime - HeadTime> 3:
+                    pass
+        else:
+            if HeadTime is not None and time.time() - HeadTime > 3:
+                logStartTime = HeadTime
+                logEndTime = time.time()
+                logType = 1
+            HeadTime = None
+
+        if conType[3] == True:
+            if FaceTime is None:
+                FaceTime = time.time()
+            else:
+                faceCurTime = time.time()
+                if faceCurTime - FaceTime > 3:
+                    pass
+        else:
+            if FaceTime is not None and time.time() - FaceTime > 3:
+                logStartTime = FaceTime
+                logEndTime = time.time()
+                logType = 2
+            FaceTime = None
 
 
         #cv2.imshow('output', frame)
@@ -174,10 +225,23 @@ def mfccend():
 
 @app.route('/mfcc_feed', methods=['POST'])
 def mfcc_feed():
+    global silence
+    global size
     return jsonify({
         'silence': str(silence),
         'size': str(size),
         'rate': str(100 - silence / size * 100),
+    })
+
+@app.route('/log_feed', methods=['POST'])
+def log_feed():
+    global logStartTime
+    global logEndTime
+    global logType
+    return jsonify({
+        'startTime': str(logStartTime),
+        'endTime': str(logEndTime),
+        'behaviorType': str(logType)
     })
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ def mfcc_process():
 
     p = pyaudio.PyAudio()
 
-    #print("* recording")
+    print("* recording")
 
     frames = []
 
@@ -34,18 +34,14 @@ def mfcc_process():
                             input=True,
                             frames_per_buffer=CHUNK)
 
-
     global isStop
     isStop = 0
+
     while isStop == 0:
         data = stream.read(CHUNK)
         frames.append(data)
-        #if keyboard.is_pressed('s'):
-            # print("\n*Done Recording")
-            #break
 
-
-    #print("\n* done recording")
+    print("\n* done recording")
     # print(type(data))
 
 
@@ -64,10 +60,12 @@ def mfcc_process():
     S = librosa.feature.melspectrogram(x, sr=sample_rate, n_mels=128)
     log_S = librosa.power_to_db(S, ref=np.max)
     mfcc = librosa.feature.mfcc(S=log_S, n_mfcc=1)
-
+    # print(mfcc)
     delta2_mfcc = librosa.feature.delta(mfcc, order=2)
     # print(delta2_mfcc)
-
+    len = librosa.get_duration(x)
+    # print(type(x), type(S), type(log_S), type(mfcc), type(len))
+    import math
 
     # print(x)
     # print(S)
@@ -76,20 +74,20 @@ def mfcc_process():
     size = delta2_mfcc.size
 
     # print(np.count_nonzero(delta2_mfcc))
-
-    print("\ntime of silence : ", silence)
-    print("total : ", size)
+    print("\ntotal length : ", len, "(sec)")
+    print("time of silence : ", silence, "(frame)")
+    print("total frame : ", size)
     print("speaking rate : ", 100 - silence / size * 100, "%")
 
-    return silence, size
-
-    '''
     plt.figure(figsize=(12, 1))
-    librosa.display.specshow(delta2_mfcc)
+    librosa.display.specshow(delta2_mfcc, x_axis='time')
     # plt.ylabel('MFCC coeffs')
-    plt.xlabel('Time')
-    plt.title('MFCC')
+    # plt.xlabel('Time')
+    # plt.title('MFCC')
     plt.colorbar()
     plt.tight_layout()
-    plt.show()
-    '''
+    plt.savefig('result.png',bbox_inches='tight')
+    #plt.show()
+
+
+    return silence, size
