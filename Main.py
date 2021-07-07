@@ -61,7 +61,7 @@ def gen_frames():
     whenet = WHENet(snapshot='WHENet.h5')
     yolo = YOLO()
 
-    src = 'WIN_20210707_14_50_03_Pro.mp4'  # 웹캠이 없다면 파일 경로 넣기
+    src = 'WIN_20210707_16_05_55_Pro.mp4'  # 웹캠이 없다면 파일 경로 넣기
     cap = cv2.VideoCapture(src)
 
     if src == 0:
@@ -71,7 +71,7 @@ def gen_frames():
 
     ret, frame = cap.read()
     fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-    out = cv2.VideoWriter('Output.avi', fourcc, 30, (frame.shape[1], frame.shape[0]))
+    out = cv2.VideoWriter('Output.avi', fourcc, 6, (frame.shape[1], frame.shape[0]))
 
     # 조건 검사를 위한 변수들
     frCnt = 0
@@ -109,7 +109,21 @@ def gen_frames():
     frameBack = 0
 
     while True:
-        frCnt += 1
+        curTime = time.time()
+        sec = curTime - prevTime
+        prevTime = curTime
+
+        try:
+            if round(1/sec) is not 0:
+                frCnt += round(30/round(1/sec))
+            else:
+                frCnt += round(30/(1/sec))
+        except:
+            frCnt += 1
+        try:
+            print('FPS: ' + str(1 / (sec)))
+        except:
+            print('FPS___')
 
         if frameCtrl is None:
             frameBack = frCnt
@@ -126,19 +140,16 @@ def gen_frames():
             print(frameBack)
         except:
             break
-
-        curTime = time.time()
-        sec = curTime - prevTime
-        prevTime = curTime
+        if frame is None:
+            break
 
         global returnCheck
         if returnCheck == 1:
-            #logStartTime = 0
-            #logEndTime = 0
-            #logType = 0
+            logStartTime = 0
+            logEndTime = 0
+            logType = 0
             returnCheck = 0
 
-        print('FPS: ' + str(1 / (sec)))
 
         rgbFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img_pil = Image.fromarray(rgbFrame)
