@@ -61,7 +61,7 @@ def gen_frames():
     whenet = WHENet(snapshot='WHENet.h5')
     yolo = YOLO()
 
-    src = 0  # 웹캠이 없다면 파일 경로 넣기
+    src = 'WIN_20210707_14_50_03_Pro.mp4'  # 웹캠이 없다면 파일 경로 넣기
     cap = cv2.VideoCapture(src)
 
     if src == 0:
@@ -71,7 +71,7 @@ def gen_frames():
 
     ret, frame = cap.read()
     fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-    #out = cv2.VideoWriter('headPoseOutput.avi', fourcc, 30, (frame.shape[1], frame.shape[0]))
+    out = cv2.VideoWriter('Output.avi', fourcc, 30, (frame.shape[1], frame.shape[0]))
 
     # 조건 검사를 위한 변수들
     frCnt = 0
@@ -91,6 +91,7 @@ def gen_frames():
     startTime = time.time()
     prevTime = startTime
     CALITIME = 15
+    TIMETHRESHOLD = 3
     EARTime = None
     HeadTime = None
     FaceTime = None
@@ -102,17 +103,40 @@ def gen_frames():
     logStartTime = 0
     logEndTime = 0
     logType = 0
+    
+    frameTemp = 0
+    frameCtrl = None
+    frameBack = 0
 
     while True:
+        frCnt += 1
+
+        if frameCtrl is None:
+            frameBack = frCnt
+        else:
+            frameBack = frameCtrl
+            frCnt = frameCtrl
+            print('move back')
+            frameCtrl = None
+
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frameBack)
+
         try:
             ret, frame = cap.read()
+            print(frameBack)
         except:
             break
 
-        frCnt += 1
         curTime = time.time()
         sec = curTime - prevTime
         prevTime = curTime
+
+        global returnCheck
+        if returnCheck == 1:
+            #logStartTime = 0
+            #logEndTime = 0
+            #logType = 0
+            returnCheck = 0
 
         print('FPS: ' + str(1 / (sec)))
 
@@ -155,59 +179,58 @@ def gen_frames():
             cv2.putText(frame, f'EAR:{EAR}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                         cv2.LINE_AA)
             earCurTime = time.time()
-            if EAR < EARAvg*0.85:
+            if EAR < EARAvg*0.9:
                 if EARTime is None:
                     EARTime = earCurTime
+                    frameTemp = frCnt
                 else:
-                    if earCurTime - EARTime > 3:
+                    if earCurTime - EARTime > TIMETHRESHOLD:
                         cv2.putText(frame, 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0,255,0), 2,
                                     cv2.LINE_AA)
             else:
-                if EARTime is not None and time.time() - EARTime > 3:
-                    logStartTime = EARTime
-                    logEndTime = time.time()
+                if EARTime is not None and time.time() - EARTime > TIMETHRESHOLD:
+                    logStartTime = EARTime - startTime
+                    logEndTime = time.time() - startTime
                     logType = 0
                 EARTime = None
 
         if conType[0] == True or conType[1] == True or conType[2] == True:
             if HeadTime is None:
                 HeadTime = time.time()
+                frameTemp = frCnt
             else:
                 headCurTime = time.time()
-                if headCurTime - HeadTime> 3:
+                if headCurTime - HeadTime> TIMETHRESHOLD:
                     pass
         else:
-            if HeadTime is not None and time.time() - HeadTime > 3:
-                logStartTime = HeadTime
-                logEndTime = time.time()
+            if HeadTime is not None and time.time() - HeadTime > TIMETHRESHOLD:
+                logStartTime = HeadTime - startTime
+                logEndTime = time.time() - startTime
                 logType = 1
+                #frameCtrl = frameTemp
             HeadTime = None
 
         if conType[3] == True:
             if FaceTime is None:
                 FaceTime = time.time()
+                frameTemp = frCnt
             else:
                 faceCurTime = time.time()
-                if faceCurTime - FaceTime > 3:
+                if faceCurTime - FaceTime > TIMETHRESHOLD:
                     pass
         else:
-            if FaceTime is not None and time.time() - FaceTime > 3:
-                logStartTime = FaceTime
-                logEndTime = time.time()
+            if FaceTime is not None and time.time() - FaceTime > TIMETHRESHOLD:
+                logStartTime = FaceTime - startTime
+                logEndTime = time.time() - startTime
                 logType = 2
             FaceTime = None
 
 
         #cv2.imshow('output', frame)
-        #out.write(frame)
+        out.write(frame)
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-        key = cv2.waitKey(1) & 0xFF
-
-        if key == ord("q"):
-            break
 
     #cap.release()
     #cv2.destroyAllWindows()
@@ -238,6 +261,9 @@ def log_feed():
     global logStartTime
     global logEndTime
     global logType
+    global returnCheck
+
+    returnCheck = 1
     return jsonify({
         'startTime': str(logStartTime),
         'endTime': str(logEndTime),
