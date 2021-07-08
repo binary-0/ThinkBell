@@ -13,6 +13,7 @@ import time
 from HeadPoseRevised import process_detection
 from EAR import calculate_ear
 import microphone_checker_stream
+from waiting import wait
 import json
 
 import datetime
@@ -34,12 +35,14 @@ def index():
     global logStartTime
     global logEndTime
     global logType
+    global isReady
 
     logStartTime = 0
     logEndTime = 0
     logType = 0
     silence = 1
     size = 1
+    isReady = False
     
     return render_template('index.html', **templateData)
 
@@ -61,17 +64,16 @@ def gen_frames():
     whenet = WHENet(snapshot='WHENet.h5')
     yolo = YOLO()
 
-    src = 'WIN_20210707_16_05_55_Pro.mp4'  # 웹캠이 없다면 파일 경로 넣기
-    cap = cv2.VideoCapture(src)
-
-    if src == 0:
-        print('using web cam')
-    else:
-        print('using video, path: {}'.format(src))
-
-    ret, frame = cap.read()
-    fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-    out = cv2.VideoWriter('Output.avi', fourcc, 6, (frame.shape[1], frame.shape[0]))
+    # cap = cv2.VideoCapture(src)
+    #
+    # if src == 0:
+    #     print('using web cam')
+    # else:
+    #     print('using video, path: {}'.format(src))
+    #
+    # ret, frame = cap.read()
+    # fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+    # out = cv2.VideoWriter('Output.avi', fourcc, 6, (frame.shape[1], frame.shape[0]))
 
     # 조건 검사를 위한 변수들
     frCnt = 0
@@ -108,54 +110,62 @@ def gen_frames():
     frameCtrl = None
     frameBack = 0
 
+    global isReady
+    global g_frame
+
+    isReady = True
     while True:
         curTime = time.time()
         sec = curTime - prevTime
         prevTime = curTime
+        l_frame = g_frame
+        frCnt += 1
 
-        try:
-            if round(1/sec) is not 0:
-                frCnt += round(30/round(1/sec))
-            else:
-                frCnt += round(30/(1/sec))
-        except:
-            frCnt += 1
+        # try:
+        #     if round(1/sec) is not 0:
+        #         frCnt += round(30/round(1/sec))
+        #     else:
+        #         frCnt += round(30/(1/sec))
+        # except:
+        #     frCnt += 1
         try:
             print('FPS: ' + str(1 / (sec)))
         except:
             print('FPS___')
 
-        if frameCtrl is None:
-            frameBack = frCnt
-        else:
-            frameBack = frameCtrl
-            frCnt = frameCtrl
-            print('move back')
-            frameCtrl = None
+        # if frameCtrl is None:
+        #     frameBack = frCnt
+        # else:
+        #     frameBack = frameCtrl
+        #     frCnt = frameCtrl
+        #     print('move back')
+        #     frameCtrl = None
 
-        cap.set(cv2.CAP_PROP_POS_FRAMES, frameBack)
+        #cap.set(cv2.CAP_PROP_POS_FRAMES, frameBack)
 
-        try:
-            ret, frame = cap.read()
-            print(frameBack)
-        except:
-            break
-        if frame is None:
+        # try:
+        #     #ret, frame = cap.read()
+        #     print(frameBack)
+        # except:
+        #     break
+
+        if l_frame is None:
             break
 
         global returnCheck
         if returnCheck == 1:
-            logStartTime = 0
-            logEndTime = 0
-            logType = 0
+            #logStartTime = 0
+            #logEndTime = 0
+            #logType = 0
             returnCheck = 0
 
 
-        rgbFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        #print(str(type(l_frame)))
+        rgbFrame = cv2.cvtColor(l_frame, cv2.COLOR_BGR2RGB)
         img_pil = Image.fromarray(rgbFrame)
         bboxes, scores, classes = yolo.YOLO_DetectProcess(img_pil)
 
-        bgr = cv2.flip(frame, 1)
+        #bgr = cv2.flip(frame, 1)
 
         # for bbox in bboxes:
         #    frame, horizMove, vertiMove, rollByXPos = process_detection(whenet, frame, bbox)
@@ -163,10 +173,11 @@ def gen_frames():
         # 얼굴 하나만 가지고 인식 (위에거는 여러개)
         if len(bboxes) == 0:
             continue
-        frame, horizMove, vertiMove, rollByXPos, headArea = process_detection(whenet, frame, bboxes[0], horizAvg, vertiAvg,
+
+        l_frame, horizMove, vertiMove, rollByXPos, headArea = process_detection(whenet, l_frame, bboxes[0], horizAvg, vertiAvg,
                                                                               rollAvg, areaAvg, conType)
 
-        EAR = calculate_ear(rgbFrame, draw=frame)
+        EAR = calculate_ear(rgbFrame, draw=l_frame)
 
         # 캘리브레이션 끝
         if time.time() - startTime < CALITIME + 1 and time.time() - startTime > CALITIME:
@@ -187,7 +198,7 @@ def gen_frames():
 
         #EAR Threshold는 Main에서
         if EARAvg is not None and EAR is not None:
-            cv2.putText(frame, f'EAR:{EAR}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+            cv2.putText(l_frame, f'EAR:{EAR}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                         cv2.LINE_AA)
             earCurTime = time.time()
             if EAR < EARAvg*0.9:
@@ -196,7 +207,7 @@ def gen_frames():
                     frameTemp = frCnt
                 else:
                     if earCurTime - EARTime > TIMETHRESHOLD:
-                        cv2.putText(frame, 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0,255,0), 2,
+                        cv2.putText(l_frame, 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0,255,0), 2,
                                     cv2.LINE_AA)
             else:
                 if EARTime is not None and time.time() - EARTime > TIMETHRESHOLD:
@@ -236,20 +247,47 @@ def gen_frames():
                 logType = 2
             FaceTime = None
 
-
         #cv2.imshow('output', frame)
-        out.write(frame)
-        ret, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
-        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        #out.write(frame)
+        # ret, buffer = cv2.imencode('.jpg', frame)
+        # frame = buffer.tobytes()
+        # yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
     #cap.release()
     #cv2.destroyAllWindows()
 
+def local_frames():
+    cap = cv2.VideoCapture('./SampleVideo.mp4')
+
+    global g_frame
+    global isReady
+    ret, g_frame = cap.read()
+    print('localType:' + str(type(g_frame)))
+    gen_frame_thread = threading.Thread(target=gen_frames)
+    gen_frame_thread.start()
+
+    wait(lambda: isReady, timeout_seconds=120, waiting_for="video process ready")
+
+    if cap.isOpened():
+        while True:
+            ret, g_frame = cap.read()
+            if ret:
+                ret, buffer = cv2.imencode('.jpg', g_frame)
+                l_frame = buffer.tobytes()
+                yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
+            else:
+                break
+            if cv2.waitKey(33) & 0xFF == ord('q'):  # press q to quit
+
+                break
+    else:
+        print('Cannot Open File ERR')
+
+
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen_frames(),
+    return Response(local_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/mfccend', methods=['POST'])
@@ -261,6 +299,7 @@ def mfccend():
 def mfcc_feed():
     global silence
     global size
+
     return jsonify({
         'silence': str(silence),
         'size': str(size),
