@@ -36,6 +36,8 @@ def index():
     global logEndTime
     global logType
     global isReady
+    global isLiveLocal
+    global returnCheck
 
     logStartTime = 0
     logEndTime = 0
@@ -43,6 +45,8 @@ def index():
     silence = 1
     size = 1
     isReady = False
+    isLiveLocal = 0 #Local
+    returnCheck = 0
     
     return render_template('index.html', **templateData)
 
@@ -101,6 +105,7 @@ def gen_frames():
     global logStartTime
     global logEndTime
     global logType
+    global isLiveLocal
 
     logStartTime = 0
     logEndTime = 0
@@ -154,9 +159,9 @@ def gen_frames():
 
         global returnCheck
         if returnCheck == 1:
-            #logStartTime = 0
-            #logEndTime = 0
-            #logType = 0
+            logStartTime = 0
+            logEndTime = 0
+            logType = 0
             returnCheck = 0
 
 
@@ -257,10 +262,15 @@ def gen_frames():
     #cv2.destroyAllWindows()
 
 def local_frames():
-    cap = cv2.VideoCapture('./SampleVideo.mp4')
-
     global g_frame
     global isReady
+    global isLiveLocal
+
+    if isLiveLocal is 0:
+        cap = cv2.VideoCapture(0)
+    else:   #Local video
+        cap = cv2.VideoCapture('./SampleVideo.mp4')
+
     ret, g_frame = cap.read()
     print('localType:' + str(type(g_frame)))
     gen_frame_thread = threading.Thread(target=gen_frames)
@@ -312,9 +322,13 @@ def log_feed():
     global logEndTime
     global logType
     global returnCheck
+    global studentName
 
-    returnCheck = 1
+    if logStartTime is not 0 and logEndTime is not 0 and logType is not 0:
+        returnCheck = 1
+        
     return jsonify({
+        'name': str(studentName),
         'startTime': str(logStartTime),
         'endTime': str(logEndTime),
         'behaviorType': str(logType)
