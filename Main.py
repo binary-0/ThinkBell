@@ -26,7 +26,7 @@ def index():
     now = datetime.datetime.now()
     timeString = now.strftime("%Y-%m-%d %H:%M")
     templateData = {
-            'title':'Image Streaming',
+            'title': 'Image Streaming',
             'time': timeString
     }
 
@@ -35,8 +35,9 @@ def index():
     global logStartTime
     global logEndTime
     global logType
-    global isReady
+    global isVideoSystemReady
     global isLiveLocal
+    global isRealDebug
     global returnCheck
 
     logStartTime = 0
@@ -44,10 +45,14 @@ def index():
     logType = 0
     silence = 1
     size = 1
-    isReady = False
-    isLiveLocal = 0 #Local
+    isVideoSystemReady = False
+    isLiveLocal = 1 #Local
+    isRealDebug = 1 #Debug
     returnCheck = 0
-    
+
+    global isFrameReady
+    isFrameReady = False
+
     return render_template('index.html', **templateData)
 
 @app.route('/mfccstart', methods=['POST'])
@@ -105,7 +110,9 @@ def gen_frames():
     global logStartTime
     global logEndTime
     global logType
+
     global isLiveLocal
+    global isRealDebug
 
     logStartTime = 0
     logEndTime = 0
@@ -115,10 +122,10 @@ def gen_frames():
     frameCtrl = None
     frameBack = 0
 
-    global isReady
+    global isVideoSystemReady
     global g_frame
 
-    isReady = True
+    isVideoSystemReady = True
     while True:
         curTime = time.time()
         sec = curTime - prevTime
@@ -263,8 +270,10 @@ def gen_frames():
 
 def local_frames():
     global g_frame
-    global isReady
+    global isVideoSystemReady
     global isLiveLocal
+    global isRealDebug
+    global isFrameReady
 
     if isLiveLocal is 0:
         cap = cv2.VideoCapture(0)
@@ -276,7 +285,7 @@ def local_frames():
     gen_frame_thread = threading.Thread(target=gen_frames)
     gen_frame_thread.start()
 
-    wait(lambda: isReady, timeout_seconds=120, waiting_for="video process ready")
+    wait(lambda: isVideoSystemReady, timeout_seconds=120, waiting_for="video process ready")
 
     if cap.isOpened():
         while True:
@@ -287,18 +296,209 @@ def local_frames():
                 yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
             else:
                 break
-            if cv2.waitKey(33) & 0xFF == ord('q'):  # press q to quit
 
-                break
+            if isLiveLocal is 1:
+                if cv2.waitKey(34) & 0xFF == ord('q'):  # press q to quit
+                    break
     else:
         print('Cannot Open File ERR')
+
+
+def debug_gen_frames():
+    whenet = WHENet(snapshot='WHENet.h5')
+    yolo = YOLO()
+
+    global isLiveLocal
+
+    if isLiveLocal is 0:
+        cap = cv2.VideoCapture(0)
+    else:  # Local video
+        cap = cv2.VideoCapture('./SampleVideo.mp4')
+
+    ret, frame = cap.read()
+    #fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+    #out = cv2.VideoWriter('Output.avi', fourcc, 6, (frame.shape[1], frame.shape[0]))
+
+    # 조건 검사를 위한 변수들
+    frCnt = 0
+    horizSum = 0
+    vertiSum = 0
+    rollSum = 0
+    areaSum = 0
+    EARSum = 0
+    horizAvg = None
+    vertiAvg = None
+    rollAvg = None
+    areaAvg = None
+    EARAvg = None
+
+    conType = [False, False, False, False]
+
+    startTime = time.time()
+    prevTime = startTime
+    CALITIME = 15
+    TIMETHRESHOLD = 3
+    EARTime = None
+    HeadTime = None
+    FaceTime = None
+
+    global logStartTime
+    global logEndTime
+    global logType
+
+    logStartTime = 0
+    logEndTime = 0
+    logType = 0
+
+    frameTemp = 0
+    frameCtrl = None
+    frameBack = 0
+
+    while True:
+        curTime = time.time()
+        sec = curTime - prevTime
+        prevTime = curTime
+
+        try:
+            if round(1 / sec) is not 0:
+                frCnt += round(30 / round(1 / sec))
+            else:
+                frCnt += round(30 / (1 / sec))
+        except:
+            frCnt += 1
+        try:
+            print('FPS: ' + str(1 / (sec)))
+        except:
+            print('FPS___')
+
+        if frameCtrl is None:
+            frameBack = frCnt
+        else:
+            frameBack = frameCtrl
+            frCnt = frameCtrl
+            print('move back')
+            frameCtrl = None
+
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frameBack)
+
+        try:
+            ret, frame = cap.read()
+            #print(frameBack)
+        except:
+            break
+        if frame is None:
+            break
+
+        global returnCheck
+        if returnCheck == 1:
+            logStartTime = 0
+            logEndTime = 0
+            logType = 0
+            returnCheck = 0
+
+        rgbFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        img_pil = Image.fromarray(rgbFrame)
+        bboxes, scores, classes = yolo.YOLO_DetectProcess(img_pil)
+
+        bgr = cv2.flip(frame, 1)
+
+        # for bbox in bboxes:
+        #    frame, horizMove, vertiMove, rollByXPos = process_detection(whenet, frame, bbox)
+
+        # 얼굴 하나만 가지고 인식 (위에거는 여러개)
+        if len(bboxes) == 0:
+            continue
+        frame, horizMove, vertiMove, rollByXPos, headArea = process_detection(whenet, frame, bboxes[0], horizAvg,
+                                                                              vertiAvg,
+                                                                              rollAvg, areaAvg, conType)
+
+        EAR = calculate_ear(rgbFrame, draw=frame)
+
+        # 캘리브레이션 끝
+        if time.time() - startTime < CALITIME + 1 and time.time() - startTime > CALITIME:
+            horizAvg = horizSum / frCnt
+            vertiAvg = vertiSum / frCnt
+            rollAvg = rollSum / frCnt
+            areaAvg = areaSum / frCnt
+            EARAvg = EARSum / frCnt
+        else:
+            horizSum += horizMove
+            vertiSum += vertiMove
+            rollSum += rollByXPos
+            areaSum += headArea
+
+            if EAR is not None:
+                EARSum += EAR
+
+        # EAR Threshold는 Main에서
+        if EARAvg is not None and EAR is not None:
+            cv2.putText(frame, f'EAR:{EAR}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        cv2.LINE_AA)
+            earCurTime = time.time()
+            if EAR < EARAvg * 0.9:
+                if EARTime is None:
+                    EARTime = earCurTime
+                    frameTemp = frCnt
+                else:
+                    if earCurTime - EARTime > TIMETHRESHOLD:
+                        cv2.putText(frame, 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 255, 0), 2,
+                                    cv2.LINE_AA)
+            else:
+                if EARTime is not None and time.time() - EARTime > TIMETHRESHOLD:
+                    logStartTime = EARTime - startTime
+                    logEndTime = time.time() - startTime
+                    logType = 0
+                EARTime = None
+
+        if conType[0] == True or conType[1] == True or conType[2] == True:
+            if HeadTime is None:
+                HeadTime = time.time()
+                frameTemp = frCnt
+            else:
+                headCurTime = time.time()
+                if headCurTime - HeadTime > TIMETHRESHOLD:
+                    pass
+        else:
+            if HeadTime is not None and time.time() - HeadTime > TIMETHRESHOLD:
+                logStartTime = HeadTime - startTime
+                logEndTime = time.time() - startTime
+                logType = 1
+                # frameCtrl = frameTemp
+            HeadTime = None
+
+        if conType[3] == True:
+            if FaceTime is None:
+                FaceTime = time.time()
+                frameTemp = frCnt
+            else:
+                faceCurTime = time.time()
+                if faceCurTime - FaceTime > TIMETHRESHOLD:
+                    pass
+        else:
+            if FaceTime is not None and time.time() - FaceTime > TIMETHRESHOLD:
+                logStartTime = FaceTime - startTime
+                logEndTime = time.time() - startTime
+                logType = 2
+            FaceTime = None
+
+        # cv2.imshow('output', frame)
+        #out.write(frame)
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(local_frames(),
+    global isRealDebug
+
+    if isRealDebug is 0:
+        return Response(local_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+    else:
+        return Response(debug_gen_frames(),
+                        mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/mfccend', methods=['POST'])
 def mfccend():
@@ -326,9 +526,8 @@ def log_feed():
 
     if logStartTime is not 0 and logEndTime is not 0 and logType is not 0:
         returnCheck = 1
-        
+
     return jsonify({
-        'name': str(studentName),
         'startTime': str(logStartTime),
         'endTime': str(logEndTime),
         'behaviorType': str(logType)
