@@ -6,6 +6,7 @@ import librosa.display
 import librosa
 import numpy as np
 import math
+from io import BytesIO, StringIO
 
 def process_stop():
     global isStop
@@ -86,8 +87,9 @@ def mfcc_process():
     # plt.title('MFCC')
     plt.colorbar()
     plt.tight_layout()
-    plt.savefig('result.png',bbox_inches='tight')
+    img = BytesIO()
+    plt.savefig(img, format='png', dpi=200)
+    img.seek(0)
     #plt.show()
 
-
-    return silence, size
+    return silence, size, img
