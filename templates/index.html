@@ -1,81 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>THINKBIG</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <title>{{title}}</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
 
     <style>
-        #if{
-            width: 0px;
-            height: 0px;
-            border: 0px;
-        }
+        #if {
+        width: 0px;
+        height: 0px;
+        border: 0px;
+      }
+      .container {
+        gap: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 200px 250px 200px 200px;
+      }
+      .item:nth-child(1) {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+      }
+      .item:nth-child(2) {
+        grid-column-start: 3;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 3;
+      }
+      .item:nth-child(3) {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 4;
+      }
+      .item:nth-child(4) {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 4;
+        grid-row-end: 5;
+      }
+      .item:nth-child(5) {
+        grid-column-start: 3;
+        grid-column-end: 5;
+        grid-row-start: 3;
+        grid-row-end: 5;
+      }
 
+      .align_img {
+        display: block;
+        margin-right: 20px;
+        float: left;
+        background-color: black;
+        /*margin-top: 40px;*/
+      }
     </style>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8  offset-lg-2">
-            <h3 class="mt-5">{{time}}</h3>
-            <img src="{{ url_for('video_feed') }}" width="100%">
-        </div>
+  </head>
+
+  <body>
+
+    <div class="container">
+    <!-- 첫 번째 칸 -->
+    <div class="item" style="margin-top: 20px;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><strong>학생들 얼굴</strong></a>
+            </div>
+        </nav>
+        <br />
+        <img src="{{ url_for('video_feed', peer='1') }}" width="120px" height = "100px">
+        <img src="{{ url_for('video_feed', peer='2') }}" width="120px" height = "100px">
+        <img src="{{ url_for('video_feed', peer='3') }}" width="120px" height = "100px">
+        <img src="{{ url_for('video_feed', peer='4') }}" width="120px" height = "100px">
     </div>
 
-    <form action="http://localhost:5000/mfccstart" method="POST" target="_blank">
-        <input type="submit" name="button" class="btn btn-success" value="MFCC Start">
-    </form>
-    <form action="http://localhost:5000/mfccend" method="POST" target="_blank">
-        <input type="submit" name="button" class="btn btn-success" value="MFCC Stop">
-    </form>
+      <!-- 두번째 칸 -->
+      <div class="item" style = "margin-top: 20px;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><strong>내 얼굴</strong></a>
+            </div>
+          </nav>
+          <img src="{{ url_for('justWebCAM_feed') }}" width="650" height = "400">
+        <br />
+      </div>
 
-    <!--
-    <form action="http://localhost:5000/mfcc_feed" method = "POST" target="_blank">
-        <input type="submit" name="button" class="btn btn-success" value="MFCC Result">
-    </form>
-    -->
-    
-    <h4 id="silence"></h4>
-    <h4 id="size"></h4>
-    <h4 id="rate"></h4>
-    <br>
+      <!--세번째 칸-->
+      <div class="item" style = "margin-top: 20px;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><strong>선생님,발화자 얼굴</strong></a>
+            </div>
+          </nav>
+          <img src="{{ url_for('video_feed', peer='1') }}" width="100%" height = "400px">
+        <br />
+      </div>
+
+
+      <!--네번째 칸-->
+      <div
+      class="item"
+      style="
+        overflow-x: hidden;
+        width: 100%;
+        height: 200px;
+        margin-top: 20px;
+      "
+    >
+      <nav class="navbar sticky-top navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" >
+            <h4><strong>학생들의 발화 기록</strong></h4></a>
+        </div>
+      </nav>
+      <br />
+
+      <div class = "button_gird">
+        <form action="http://localhost:5000/mfccstart" method="POST" target="_blank">
+          <input type="submit" name="button" class="btn btn-success" value="MFCC Start">
+        </form>
+
+        <form action="http://localhost:5000/mfccend" method="POST" target="_blank">
+          <input type="submit" name="button" class="btn btn-success" value="MFCC Stop">
+        </form>
+        </div>
+
+        <h4 id="silence"></h4>
+        <h4 id="size"></h4>
+        <h4 id="rate"></h4>
+        <h4 id ="png"> </h4>
+        <br>
+
+        <script>
+
+          var board = document.getElementById("png");
+          let temp = "temp";
+
+          setInterval(function(){$.ajax({
+              url: '/mfcc_feed',
+              type: 'POST',
+              success: function(response) {
+                  console.log("first response : ");
+                  console.log(response);
+                  if (response["rate"] !== "0.0")
+                  {
+                    if(response["rate"] !== temp)
+                    {
+                      var img = new Image(600,100);
+                      img.src = '{{ url_for('fig') }}';
+                      board.appendChild(img);
+                      temp = response["rate"];
+                    }
+                  }
+              },
+              error: function(error) {
+                  console.log(error);
+              }
+          })}, 1000);
+        </script>
+
+      </div>
+
+
+
+      <!--다섯번째 칸-->
+      <div
+      class="item"
+      style="
+        overflow-x: hidden;
+        width: 100%;
+        height: 500px;
+        margin-top: 20px;
+      "
+    >
+      <nav class="navbar sticky-top navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" >
+            <h4><strong>학생들의 행동 기록</strong></h4></a>
+        </div>
+      </nav>
+      <br />
+          <div id="record"></div>
     <h4 id="startTime"></h4>
     <h4 id="endTime"></h4>
     <h4 id="behaviorType"></h4>
-    <script>
-        setInterval(function(){$.ajax({
-            url: '/mfcc_feed',
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-                $("#silence").html('silence:'+response["silence"]);
-                $("#size").html('size:'+response["size"]);
-                $("#rate").html('rate:'+response["rate"]);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        })}, 1000);
 
-        
-        setInterval(function(){$.ajax({
+    <script>
+         var body = document.getElementById("record");
+         let arr,startTime,endTime,behaviorType,overlap = "None";
+
+         setInterval(function(){$.ajax({
             url: '/log_feed',
             type: 'POST',
             success: function(response) {
-                console.log(response);
+               console.log(response);
+               console.log("test : " + response["startTime"]);
+               if(response["startTime"] !== "0" && response["startTime"] !== overlap)
+               {
+                      var button = document.createElement("button");
+                      button.innerHTML = 'Student: ' + response["name"] + 'StartTime: '+ response["startTime"] + ",\n" +'EndTime: '+response["endTime"] + ",\n" + 'BehaviorType: '+response["behaviorType"] + "\n";
+                      body.appendChild(button);
+                      overlap = response["startTime"];
+               }
 
-                $("#startTime").html('startTime:'+response["startTime"]);
-                $("#endTime").html('endTime:'+response["endTime"]);
-                $("#behaviorType").html('behaviorType:'+response["behaviorType"]);
             },
             error: function(error) {
                 console.log(error);
@@ -83,8 +224,9 @@
         })}, 1000);
 
     </script>
-</div>
 
+      </div>
 
-</body>
+    </div>
+  </body>
 </html>
