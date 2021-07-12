@@ -1,95 +1,139 @@
-import keyboard
-import pyaudio
+# import keyboard
+# import pyaudio
 import wave
-import matplotlib.pyplot as plt
-import librosa.display
-import librosa
-import numpy as np
+# import matplotlib.pyplot as plt
+# import librosa.display
+# import librosa
+# import numpy as np
 import math
-from io import BytesIO, StringIO
+
+import io
+import numpy as np
+import torch
+torch.set_num_threads(1)
+import torchaudio
+import matplotlib
+import matplotlib.pylab as plt
+torchaudio.set_audio_backend("soundfile")
+import pyaudio
+import threading
+
+
+def validate(model,
+             inputs: torch.Tensor):
+    with torch.no_grad():
+        outs = model(inputs)
+    return outs
+
+def int2float(sound):
+    abs_max = np.abs(sound).max()
+    sound = sound.astype('float32')
+    if abs_max > 0:
+        sound *= 1/abs_max
+    sound = sound.squeeze()  # depends on the use case
+    return sound
 
 def process_stop():
     global isStop
     isStop = 1
 
 def mfcc_process():
-    CHUNK = 1024
+    
+    model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
+                              model='silero_vad',
+                              force_reload=True)
+
+    (get_speech_ts,
+    get_speech_ts_adaptive,
+    save_audio,
+    read_audio,
+    state_generator,
+    single_audio_stream,
+    collect_chunks) = utils
+
     FORMAT = pyaudio.paInt16
-    CHANNELS = 2
-    RATE = 44100
-    RECORD_SECONDS = 2
-    WAVE_OUTPUT_FILENAME = "output.wav"
+    CHANNELS = 1
+    SAMPLE_RATE = 16000
+    CHUNK = int(SAMPLE_RATE / 10)
 
-    p = pyaudio.PyAudio()
+    audio = pyaudio.PyAudio()
 
-    print("* recording")
+    frames_to_record = 20 # frames_to_record * frame_duration_ms = recording duration
+    frame_duration_ms = 250
 
-    frames = []
+    stream = audio.open(format=FORMAT,
+                        channels=CHANNELS,
+                        rate=SAMPLE_RATE,
+                        input=True,
+                        frames_per_buffer=CHUNK)
+    data = []
+    voiced_confidences = []
 
-    # for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-    #     data = stream.read(CHUNK)
-    #     frames.append(data)
-    stream = p.open(format=FORMAT,
-                            channels=CHANNELS,
-                            rate=RATE,
-                            input=True,
-                            frames_per_buffer=CHUNK)
+    stream = audio.open(format=FORMAT,
+                        channels=CHANNELS,
+                        rate=SAMPLE_RATE,
+                        input=True,
+                        frames_per_buffer=CHUNK)
+
+    data = []
+    voiced_confidences = []
 
     global isStop
     isStop = 0
 
-    while isStop == 0:
-        data = stream.read(CHUNK)
-        frames.append(data)
-
-    print("\n* done recording")
-    # print(type(data))
+    # pp = ProgressPlot(plot_names=["Silero VAD"], line_names=["speech probabilities"], x_label="audio chunks")
 
 
-    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-    wf.setnchannels(CHANNELS)
-    wf.setsampwidth(p.get_sample_size(FORMAT))
-    wf.setframerate(RATE)
-    wf.writeframes(b''.join(frames))
-    wf.close()
+    # stop_listener = threading.Thread(target=process_stop)
+    # stop_listener.start()
 
-    path = 'output.wav'
-            # path = 'sample.wav' #파일 업로드 시 사용
-    sample_rate = 16000
+    while isStop==0:
+        audio_chunk = stream.read(int(SAMPLE_RATE * frame_duration_ms / 1000.0))
 
-    x = librosa.load(path, sample_rate)[0]
-    S = librosa.feature.melspectrogram(x, sr=sample_rate, n_mels=128)
-    log_S = librosa.power_to_db(S, ref=np.max)
-    mfcc = librosa.feature.mfcc(S=log_S, n_mfcc=1)
-    # print(mfcc)
-    delta2_mfcc = librosa.feature.delta(mfcc, order=2)
-    # print(delta2_mfcc)
-    len = librosa.get_duration(x)
-    # print(type(x), type(S), type(log_S), type(mfcc), type(len))
-    import math
+        # in case you want to save the audio later
+        data.append(audio_chunk)
 
-    # print(x)
-    # print(S)
-    # print(delta2_mfcc)
-    silence = np.count_nonzero(abs(delta2_mfcc) < 1)
-    size = delta2_mfcc.size
+        audio_int16 = np.frombuffer(audio_chunk, np.int16)
 
-    # print(np.count_nonzero(delta2_mfcc))
-    print("\ntotal length : ", len, "(sec)")
-    print("time of silence : ", silence, "(frame)")
-    print("total frame : ", size)
-    print("speaking rate : ", 100 - silence / size * 100, "%")
+        audio_float32 = int2float(audio_int16)
 
-    plt.figure(figsize=(12, 1))
-    librosa.display.specshow(delta2_mfcc, x_axis='time')
-    # plt.ylabel('MFCC coeffs')
-    # plt.xlabel('Time')
-    # plt.title('MFCC')
-    plt.colorbar()
-    plt.tight_layout()
-    img = BytesIO()
-    plt.savefig(img, format='png', dpi=200)
-    img.seek(0)
-    #plt.show()
+        # get the confidences and add them to the list to plot them later
+        vad_outs = validate(model, torch.from_numpy(audio_float32))
 
-    return silence, size, img
+        # get the confidence value so that jupyterplot can process it
+        new_confidence = vad_outs[:, 1].numpy()[0].item()
+        # new_confidence = vad_outs[:, 1]
+
+        voiced_confidences.append(new_confidence)
+
+        print("heyheyhey")
+
+        # pp.update(new_confidence)
+        plt.plot(voiced_confidences)
+        plt.pause(0.0000001)
+        
+
+
+    # pp.finalize()
+    # plt.plot(new_confidence)
+    # plt.figure(figsize=(12, 6))
+        count = sum(map(lambda x: x > 0.7, voiced_confidences))
+        length = len(voiced_confidences)
+        print("total length : ", length)
+        print("count speak : ", count)
+    # print("speaking rate : ", (count/length)*100, "%")
+        plt.savefig('result.png', bbox_inches='tight')
+    # plt.show()
+
+        if count<1:
+            count=1
+        if length<1:
+            length=2
+
+        silence = length-count
+        size = length
+
+    silence = length-count
+    size = length
+
+    return silence, size
