@@ -15,6 +15,7 @@ from EAR import calculate_ear
 import microphone_checker_stream
 from waiting import wait
 import json
+from queue import Queue
 
 import datetime
 from flask import Flask, render_template, Response, jsonify, send_file
@@ -62,7 +63,6 @@ def index():
 
     global isFrameReady
     isFrameReady = False
-
 
     return render_template('index.html', **templateData)
 
@@ -132,6 +132,7 @@ def real_gen_frames():
     frameTemp = 0
     frameCtrl = None
     frameBack = 0
+    dQ = [detectionQueue(), detectionQueue(), detectionQueue(), detectionQueue()]
 
     time.sleep(3)
     while True:
@@ -182,9 +183,14 @@ def real_gen_frames():
             logType = 0
             returnCheck = 0
 
+        isDetectedOnce = [0, 0, 0, 0]
+
+        sendedFrame = list(range(peerNum))
+        for i in range(0, peerNum):
+            sendedFrame[i] = g_frame[i]
         rgbFrame = list(range(peerNum))
         for i in range(0, peerNum):
-            rgbFrame[i] = cv2.cvtColor(g_frame[i], cv2.COLOR_BGR2RGB)
+            rgbFrame[i] = cv2.cvtColor(sendedFrame[i], cv2.COLOR_BGR2RGB)
         img_pil = list(range(peerNum))
         for i in range(0, peerNum):
             img_pil[i] = Image.fromarray(rgbFrame[i])
@@ -210,7 +216,7 @@ def real_gen_frames():
         headArea = list(range(peerNum))
         l_frame = list(range(peerNum))
         for i in range(0, peerNum):
-            l_frame[i], horizMove[i], vertiMove[i], rollByXPos[i], headArea[i] = process_detection(whenet, g_frame[i],
+            l_frame[i], horizMove[i], vertiMove[i], rollByXPos[i], headArea[i] = process_detection(whenet, sendedFrame[i],
                                                                                                  bboxes[i][0],
                                                                                                  horizAvg[i],
                                                                                                  vertiAvg[i],
@@ -245,6 +251,7 @@ def real_gen_frames():
                             cv2.LINE_AA)
                 earCurTime = time.time()
                 if EAR[i] < EARAvg[i] * 0.9:
+                    isDetectedOnce[i] = 1
                     if EARTime[i] is None:
                         EARTime[i] = earCurTime
                         frameTemp = frCnt
@@ -263,6 +270,7 @@ def real_gen_frames():
 
         for i in range(0, peerNum):
             if conType[i][0] == True or conType[i][1] == True or conType[i][2] == True:
+                isDetectedOnce[i] = 1
                 if HeadTime[i] is None:
                     HeadTime[i] = time.time()
                     frameTemp = frCnt
@@ -281,6 +289,7 @@ def real_gen_frames():
 
         for i in range(0, peerNum):
             if conType[i][3] == True:
+                isDetectedOnce[i] = 1
                 if FaceTime[i] is None:
                     FaceTime[i] = time.time()
                     frameTemp = frCnt
@@ -296,35 +305,92 @@ def real_gen_frames():
                     logType = 2
                 FaceTime[i] = None
 
+        for i in range(0, peerNum):
+            global DetectRet
+            DetectRet[i] = dQ[i].detectionPush(isDetectedOnce[i])
+
         # cv2.imshow('output', frame)
         # out.write(frame)
-        global frameReady
-        for i in range(0, peerNum):
-            frameReady[i] = True
+        #global frameReady
+        #for i in range(0, peerNum):
+        #    frameReady[i] = True
+
+def justWebCAM():
+    myCap = cv2.VideoCapture(0)
+    myCap.set(3, 1280)  # CV_CAP_PROP_FRAME_WIDTH
+    myCap.set(4, 720)  # CV_CAP_PROP_FRAME_HEIGHT
+
+    while True:
+        myRet, myFrame = myCap.read()
+
+        if myRet:
+            ret, buffer = cv2.imencode('.jpg', myFrame)
+            myBytes = buffer.tobytes()
+            yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + myBytes + b'\r\n')
+
+class detectionQueue:
+    def __init__(self):
+        self.que = Queue()
+        self.size = 0
+        self.sum = 0
+        self.avg = 0
+
+        self.yelloThresh = 4
+        self.redThresh = 6
+        self.maxSize = 10
+
+        global DetectRet
+        DetectRet = list(range(4)) #peerNum
+
+    def detectionPush(self, data):
+        if self.size < self.maxSize:
+            self.que.put(data)
+            self.size += 1
+            self.sum += data
+            self.avg = self.sum / self.size
+
+            return 0
+        else:
+            deq = self.que.get()
+            self.que.put(data)
+            self.sum += data
+            self.sum -= deq
+            self.avg = self.sum / self.size
+
+            if self.avg > (self.redThresh / self.maxSize):
+                return 3
+            elif self.avg > (self.yelloThresh / self.maxSize):
+                return 2
+            else:
+                return 1
 
 class Streaming:
     gen_frame_thread = threading.Thread(target=real_gen_frames)
     gen_frame_thread.start()
-
+    webCam_thread = threading.Thread(target=justWebCAM)
+    webCam_thread.start()
 
     def __init__(self, peer):
         global isLiveLocal
         global frameReady
-        global loadingComplete
+        #global loadingComplete
         global g_frame
         self.peerNum = 4
 
         g_frame = list(range(self.peerNum))
         frameReady = list(range(self.peerNum))
 
+        self.redImg = np.full((720, 1280, 3), (0, 0, 255), dtype=np.uint8)
+        self.greenImg = np.full((720, 1280, 3), (0, 255, 0), dtype=np.uint8)
+        self.yelloImg = np.full((720, 1280, 3), (0, 255, 255), dtype=np.uint8)
+
         if isLiveLocal is 0:
             self.srcPath = 0
         else:
             self.srcPath = f'./SampleVideo{peer}.mp4'
         self.cap = cv2.VideoCapture(self.srcPath)
-        wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
-        webCam_thread = threading.Thread(target=justWebCAM)
-        webCam_thread.start()
+        #wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
+
 
     def local_frames(self, peer):
         global g_frame
@@ -336,24 +402,115 @@ class Streaming:
         peer = int(peer)
         ret, g_frame[peer-1] = self.cap.read()
 
-        wait(lambda: frameReady[peer-1], timeout_seconds=120, waiting_for="video process ready")
+        #wait(lambda: frameReady[peer-1], timeout_seconds=120, waiting_for="video process ready")
 
         if self.cap.isOpened():
             while True:
                 ret, g_frame[peer-1] = self.cap.read()
                 if ret:
-                    ret, buffer = cv2.imencode('.jpg', g_frame[peer-1])
+                    global DetectRet
+                    if DetectRet[peer-1] is 1:
+                        l_frame = cv2.addWeighted(self.greenImg, 0.15, g_frame[peer-1], 0.85, 0)
+                    elif DetectRet[peer-1] is 2:
+                        l_frame = cv2.addWeighted(self.yelloImg, 0.15, g_frame[peer - 1], 0.85, 0)
+                    elif DetectRet[peer-1] is 3:
+                        l_frame = cv2.addWeighted(self.redImg, 0.15, g_frame[peer - 1], 0.85, 0)
+                    else:
+                        l_frame = g_frame[peer-1]
+                    ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
                     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
                 else:
                     break
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(34) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(15) & 0xFF == ord('q'):  # press q to quit
                         break
+
         else:
             print('Cannot Open File ERR')
 
+
+# def frameSession1():
+#     global byframe
+#     global isRealDebug
+#
+#     try:
+#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[0] + b'\r\n')
+#     except:
+#         pass
+#
+# def frameSession2():
+#     global byframe
+#     try:
+#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[1] + b'\r\n')
+#     except:
+#         pass
+
+
+@app.route('/video_feed/<peer>')
+def video_feed(peer):
+    """Video streaming route. Put this in the src attribute of an img tag."""
+    global isRealDebug
+    global frameReady
+    global loadingComplete
+    wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
+    if isRealDebug is 0:
+        return Response(Streaming(peer).local_frames(peer),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    else:
+        pass
+        # if frameReady[0] is True:
+        #     return Response(frameSession1(),
+        #                 mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route('/justWebCAM_feed')
+def justWebCAM_feed():
+    global loadingComplete
+    wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
+    return Response(justWebCAM(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/mfccend', methods=['POST'])
+def mfccend():
+    microphone_checker_stream.process_stop()
+    return render_template('temp.html', value=0)
+
+@app.route('/mfcc_feed', methods=['POST'])
+def mfcc_feed():
+    global silence
+    global size
+
+    return jsonify({
+        'silence': str(silence),
+        'size': str(size),
+        'rate': str(100 - silence / size * 100),
+    })
+
+@app.route('/fig')
+def fig():
+    global img
+    print(type(img))
+    return send_file(img, mimetype='image/png')
+
+@app.route('/log_feed', methods=['POST'])
+def log_feed():
+    global logStartTime
+    global logEndTime
+    global logType
+    global returnCheck
+    global logStudentName
+
+    if logStartTime is not 0 and logEndTime is not 0 and logType is not 0:
+        returnCheck = 1
+
+    return jsonify({
+        'name': str(logStudentName),
+        'startTime': str(logStartTime),
+        'endTime': str(logEndTime),
+        'behaviorType': str(logType)
+    })
 
 def debug_gen_frames():
     whenet = WHENet(snapshot='WHENet.h5')
@@ -580,92 +737,6 @@ def debug_gen_frames():
 
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[0] + b'\r\n')
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[1] + b'\r\n')
-
-# def frameSession1():
-#     global byframe
-#     global isRealDebug
-#
-#     try:
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[0] + b'\r\n')
-#     except:
-#         pass
-#
-# def frameSession2():
-#     global byframe
-#     try:
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[1] + b'\r\n')
-#     except:
-#         pass
-
-
-@app.route('/video_feed/<peer>')
-def video_feed(peer):
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    global isRealDebug
-    global frameReady
-
-    if isRealDebug is 0:
-        return Response(Streaming(peer).local_frames(peer),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-    else:
-        pass
-        # if frameReady[0] is True:
-        #     return Response(frameSession1(),
-        #                 mimetype='multipart/x-mixed-replace; boundary=frame')
-
-def justWebCAM():
-    myCap = cv2.VideoCapture(0)
-
-    while True:
-        myRet, myFrame = myCap.read()
-
-        if myRet:
-            yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + myFrame + b'\r\n')
-
-@app.route('/justWebCAM_feed')
-def justWebCAM_feed():
-    return Response(justWebCAM(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
-@app.route('/mfccend', methods=['POST'])
-def mfccend():
-    microphone_checker_stream.process_stop()
-    return render_template('temp.html', value=0)
-
-@app.route('/mfcc_feed', methods=['POST'])
-def mfcc_feed():
-    global silence
-    global size
-
-    return jsonify({
-        'silence': str(silence),
-        'size': str(size),
-        'rate': str(100 - silence / size * 100),
-    })
-
-@app.route('/fig')
-def fig():
-    global img
-    print(type(img))
-    return send_file(img, mimetype='image/png')
-
-@app.route('/log_feed', methods=['POST'])
-def log_feed():
-    global logStartTime
-    global logEndTime
-    global logType
-    global returnCheck
-    global logStudentName
-
-    if logStartTime is not 0 and logEndTime is not 0 and logType is not 0:
-        returnCheck = 1
-
-    return jsonify({
-        'name': str(logStudentName),
-        'startTime': str(logStartTime),
-        'endTime': str(logEndTime),
-        'behaviorType': str(logType)
-    })
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1')
