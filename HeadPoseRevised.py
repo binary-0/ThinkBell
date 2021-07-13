@@ -71,7 +71,8 @@ def draw_axis(img, yaw, pitch, roll, horizAvg, vertiAvg, rollAvg, headArea, area
         else:
             conType[2] = False
 
-        if headArea < areaAvg * 0.6:
+        #print('area:' + str(headArea) + '/avg:' + str(areaAvg))
+        if headArea < areaAvg * 0.7:
             conType[3] = True
             cv2.putText(img, 'headAreaDetected', (10, 400), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
