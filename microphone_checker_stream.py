@@ -12,8 +12,9 @@ def process_stop():
     global isStop
     isStop = 1
 
-def mfcc_process(video_name,temp_name,cut_point):
-    mp.VideoFileClip(video_name).subclip(0, cut_point).audio.write_audiofile(temp_name)
+def mfcc_process(audio_name,temp_name,cut_point):
+    # mp.VideoFileClip(video_name).subclip(0, cut_point).audio.write_audiofile(temp_name)
+    mp.AudioFileClip(audio_name).subclip(0,cut_point).write_audiofile(temp_name)
     #지금 여기선 video_name자리에 SampleVideo1.mp4를 집어 넣어도 무방
     path = temp_name
             # path = 'sample.wav' #파일 업로드 시 사용
@@ -33,7 +34,7 @@ def mfcc_process(video_name,temp_name,cut_point):
     # print(delta2_mfcc)
     silence = np.count_nonzero(abs(delta2_mfcc) < 2)
     size = delta2_mfcc.size
-    SpeakingRate = 100 - silence / size * 100
+    SpeakingRate = int(100 - silence / size * 100)
 
     # print(np.count_nonzero(delta2_mfcc))
 
@@ -41,6 +42,6 @@ def mfcc_process(video_name,temp_name,cut_point):
     # print("total : ", size)
     # print("speaking rate : ", SpeakingRate, "%")
 
-    print(video_name, SpeakingRate)
+    print(audio_name, SpeakingRate)
 
     return SpeakingRate

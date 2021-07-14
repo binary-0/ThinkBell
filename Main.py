@@ -51,10 +51,12 @@ def index():
     global SpeakingRate3
     global SpeakingRate4
 
-    SpeakingRate1 = 1
-    SpeakingRate2 = 1
-    SpeakingRate3 = 1
-    SpeakingRate4 = 1
+    SpeakingRate1 = 0
+    SpeakingRate2 = 0
+    SpeakingRate3 = 0
+    SpeakingRate4 = 0
+    global mfccStartTime
+    mfccStartTime = time.time()
     
 
     g_frame = None
@@ -71,6 +73,7 @@ def index():
     returnCheck = 0
     loadingComplete = False
     img = None
+    
 
     global isFrameReady
     isFrameReady = False
@@ -95,11 +98,17 @@ def mfcc_ctrl():
     global SpeakingRate3
     global SpeakingRate4
 
+    global mfccStartTime
+
+    mfccEndTime =  time.time() - mfccStartTime
+
+    
+
     # silence, size, img = microphone_checker_stream.mfcc_process()
-    SpeakingRate1 = microphone_checker_stream.mfcc_process("SampleVideo1.mp4","temp1.wav", 300)
-    SpeakingRate2 = microphone_checker_stream.mfcc_process("SampleVideo2.mp4","temp2.wav", 300)
-    SpeakingRate3 = microphone_checker_stream.mfcc_process("SampleVideo3.mp4","temp3.wav", 300)
-    SpeakingRate4 = microphone_checker_stream.mfcc_process("SampleVideo4.mp4","temp4.wav", 300)
+    SpeakingRate1 = microphone_checker_stream.mfcc_process("SampleAudio1.wav","temp1.wav", mfccEndTime)
+    SpeakingRate2 = microphone_checker_stream.mfcc_process("SampleAudio2.wav","temp2.wav", mfccEndTime)
+    SpeakingRate3 = microphone_checker_stream.mfcc_process("SampleAudio3.wav","temp3.wav", mfccEndTime)
+    SpeakingRate4 = microphone_checker_stream.mfcc_process("SampleAudio4.wav","temp4.wav", mfccEndTime)
 
 def real_gen_frames():
     whenet = WHENet(snapshot='WHENet.h5')
@@ -132,6 +141,7 @@ def real_gen_frames():
     for i in range(0, peerNum):
         conType[i] = [False, False, False, False]
 
+    global startTime
     startTime = time.time()
     prevTime = startTime
     CALITIME = 15
