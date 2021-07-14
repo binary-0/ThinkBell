@@ -300,25 +300,26 @@
                     "border-radius : 10px; background-color : white ";
                   //behaviorType 결정
                   if (behaviorType == "0") {
-                    behavior_setting = "Eye closed";
+                    behavior_setting = "눈 감음";
                   } else if (behaviorType == "1") {
-                    behavior_setting = "Head tilted";
+                    behavior_setting = "고개 기울임";
                   } else {
-                    behavior_setting = "Decreased face area";
+                    behavior_setting = "얼굴 멀어짐";
                   }
+                  //제대로 수정해야한다
+                  var starttime = response["startTime"].slice(0, 3);
+                  var endtime = response["endTime"].slice(0, 3);
                   button.innerHTML =
-                    "<strong>Student : </strong>" +
+                    "학생 " +
                     response["name"] +
-                    ",\n" +
-                    "<strong>StartTime : </strong>" +
-                    response["startTime"] +
-                    ",\n" +
-                    "<strong>EndTime : </strong>" +
-                    response["endTime"] +
-                    ",\n" +
-                    "<strong>BehaviorType : </strong>" +
+                    "의 " +
+                    starttime +
+                    "초 부터 " +
+                    endtime +
+                    "초 까지 " +
+                    "<br/>" +
                     behavior_setting +
-                    "\n";
+                    " 감지됨";
                   body.appendChild(button);
                   overlap = response["startTime"];
                 }
