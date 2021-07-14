@@ -54,15 +54,15 @@ stream = audio.open(format=FORMAT,
 data = []
 voiced_confidences = []
 
-from jupyterplot import ProgressPlot
+# from jupyterplot import ProgressPlot
 import threading
 
-continue_recording = True
+isStop = True
 
 def stop():
     input("Press Enter to stop the recording:")
-    global continue_recording
-    continue_recording = False
+    global isStop
+    isStop = False
 
 def start_recording():
     stream = audio.open(format=FORMAT,
@@ -74,16 +74,16 @@ def start_recording():
     data = []
     voiced_confidences = []
 
-    global continue_recording
-    continue_recording = True
+    global isStop
+    isStop = True
 
-    pp = ProgressPlot(plot_names=["Silero VAD"], line_names=["speech probabilities"], x_label="audio chunks")
+    # pp = ProgressPlot(plot_names=["Silero VAD"], line_names=["speech probabilities"], x_label="audio chunks")
 
 
     stop_listener = threading.Thread(target=stop)
     stop_listener.start()
 
-    while continue_recording:
+    while isStop:
         audio_chunk = stream.read(int(SAMPLE_RATE * frame_duration_ms / 1000.0))
 
         # in case you want to save the audio later
@@ -105,8 +105,9 @@ def start_recording():
         # print(type(voiced_confidences))
 
         # pp.update(new_confidence)
+        
         plt.plot(voiced_confidences)
-        plt.pause(0.0000001)
+        # plt.pause(0.0000001)
 
 
     # pp.finalize()
@@ -117,7 +118,7 @@ def start_recording():
     print("total length : ", length)
     print("count speak : ", count)
     print("speaking rate : ", (count/length)*100, "%")
-    plt.savefig('vad_result.png', bbox_inches='tight')
+    plt.savefig('result.png', bbox_inches='tight')
     plt.show()
 
 

@@ -139,10 +139,10 @@
         </form>
         </div>
 
-        <h4 id="silence"></h4>
-        <h4 id="size"></h4>
-        <h4 id="rate"></h4>
-        <h4 id ="png"> </h4>
+        <h4 id="SpeakingRate1"></h4>
+        <h4 id="SpeakingRate2"></h4>
+        <h4 id="SpeakingRate3"></h4>
+        <h4 id="SpeakingRate4"> </h4>
         <br>
 
         <script>
@@ -156,13 +156,13 @@
               success: function(response) {
                   console.log("first response : ");
                   console.log(response);
-                  if (response["rate"] !== "0.0")
+                  if (response["SpeakingRate"] !== "0.0")
                   {
-                    if(response["rate"] !== temp)
+                    if(response["SpeakingRate"] !== temp)
                     {
-                      var img = new Image(600,100);
+                      <!-- var img = new Image(600,100);
                       img.src = '{{ url_for('fig') }}';
-                      board.appendChild(img);
+                      board.appendChild(img); -->
                       temp = response["rate"];
                     }
                   }
