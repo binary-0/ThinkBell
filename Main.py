@@ -393,8 +393,10 @@ class detectionQueue:
         self.sum = 0
         self.avg = 0
 
-        self.yelloThresh = 4
-        self.redThresh = 6
+        self.lightYellowThr = 3
+        self.deepYellowThr = 5
+        self.lightRedThr = 7
+        self.deepRedThr = 9
         self.maxSize = 10
 
     def detectionPush(self, data):
@@ -412,11 +414,15 @@ class detectionQueue:
             self.sum -= deq
             self.avg = self.sum / self.size
 
-            if self.avg > (self.redThresh / self.maxSize):
+            if self.avg > (self.deepRedThr / self.maxSize):
+                return 5
+            elif self.avg > (self.lightRedThr / self.maxSize):
+                return 4
+            elif self.avg > (self.deepYellowThr / self.maxSize):
                 return 3
-            elif self.avg > (self.yelloThresh / self.maxSize):
+            elif self.avg > (self.lightYellowThr / self.maxSize):
                 return 2
-            else:
+            else:  # green
                 return 1
 
 class Streaming:
@@ -459,14 +465,18 @@ class Streaming:
                 ret, g_frame[peer-1] = self.cap.read()
                 if ret:
                     global DetectRet
-                    if DetectRet[peer-1] is 1:
-                        l_frame = cv2.addWeighted(self.greenImg, 0.15, g_frame[peer-1], 0.85, 0)
-                    elif DetectRet[peer-1] is 2:
-                        l_frame = cv2.addWeighted(self.yelloImg, 0.15, g_frame[peer - 1], 0.85, 0)
-                    elif DetectRet[peer-1] is 3:
-                        l_frame = cv2.addWeighted(self.redImg, 0.15, g_frame[peer - 1], 0.85, 0)
+                    if DetectRet[peer - 1] is 1:
+                        l_frame = cv2.addWeighted(self.greenImg, 0.2, g_frame[peer - 1], 0.8, 0)
+                    elif DetectRet[peer - 1] is 2:
+                        l_frame = cv2.addWeighted(self.yelloImg, 0.1, g_frame[peer - 1], 0.9, 0)
+                    elif DetectRet[peer - 1] is 3:
+                        l_frame = cv2.addWeighted(self.yelloImg, 0.2, g_frame[peer - 1], 0.8, 0)
+                    elif DetectRet[peer - 1] is 4:
+                        l_frame = cv2.addWeighted(self.redImg, 0.1, g_frame[peer - 1], 0.9, 0)
+                    elif DetectRet[peer - 1] is 5:
+                        l_frame = cv2.addWeighted(self.redImg, 0.2, g_frame[peer - 1], 0.8, 0)
                     else:
-                        l_frame = g_frame[peer-1]
+                        l_frame = g_frame[peer - 1]
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
                     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
