@@ -200,46 +200,56 @@
           </div>
         </nav>
 
-        
-
-        <h4 id="SpeakingRate1"></h4>
-        <h4 id="SpeakingRate2"></h4>
-        <h4 id="SpeakingRate3"></h4>
-        <h4 id="SpeakingRate4"></h4>
+        <h3 id="SpeakingRate1"></h3>
+        <h3 id="SpeakingRate2"></h3>
+        <h3 id="SpeakingRate3"></h3>
+        <h3 id="SpeakingRate4"></h3>
         <br />
-
         <script>
-
           var board = document.getElementById("png");
           let temp = "temp";
 
-          setInterval(function(){$.ajax({
-            url: '/mfcc_feed',
-            type: 'POST',
-            success: function(response) {
+          setInterval(function () {
+            $.ajax({
+              url: "/mfcc_feed",
+              type: "POST",
+              success: function (response) {
                 console.log("first response : ");
                 console.log(response);
-                if (response["SpeakingRate1"] !== "0.0")
-                {
-                  $("#SpeakingRate1").html('speaking 1 : '+response["SpeakingRate1"]+'%');
+                if (response["SpeakingRate1"] !== "0.0") {
+                  $("#SpeakingRate1").html(
+                    "Student1 speaking rate : " +
+                      response["SpeakingRate1"] +
+                      "%"
+                  );
                 }
-                if (response["SpeakingRate2"] !== "0.0")
-                {
-                  $("#SpeakingRate2").html('speaking 2 : '+response["SpeakingRate2"]+'%');
+                if (response["SpeakingRate2"] !== "0.0") {
+                  $("#SpeakingRate2").html(
+                    "Student2 speaking rate : " +
+                      response["SpeakingRate2"] +
+                      "%"
+                  );
                 }
-                if (response["SpeakingRate3"] !== "0.0")
-                {
-                  $("#SpeakingRate3").html('speaking 3 : '+response["SpeakingRate3"]+'%');
+                if (response["SpeakingRate3"] !== "0.0") {
+                  $("#SpeakingRate3").html(
+                    "Student3 speaking rate : " +
+                      response["SpeakingRate3"] +
+                      "%"
+                  );
                 }
-                if (response["SpeakingRate4"] !== "0.0")
-                {
-                  $("#SpeakingRate4").html('speaking 4 : '+response["SpeakingRate4"]+'%');
+                if (response["SpeakingRate4"] !== "0.0") {
+                  $("#SpeakingRate4").html(
+                    "Student4 speaking rate : " +
+                      response["SpeakingRate4"] +
+                      "%"
+                  );
                 }
-            },
-            error: function(error) {
+              },
+              error: function (error) {
                 console.log(error);
-            }
-        })}, 1000);
+              },
+            });
+          }, 1000);
         </script>
       </div>
 
@@ -262,7 +272,7 @@
           </div>
         </nav>
         <br />
-        <h4 id = "record"></h4>
+        <h4 id="record"></h4>
         <script>
           var body = document.getElementById("record");
           let arr,
@@ -309,8 +319,8 @@
                     "<strong>BehaviorType : </strong>" +
                     behavior_setting +
                     "\n";
-                    body.appendChild(button);
-                    overlap = response["startTime"];
+                  body.appendChild(button);
+                  overlap = response["startTime"];
                 }
               },
               error: function (error) {
