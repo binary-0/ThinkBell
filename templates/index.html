@@ -262,14 +262,15 @@
           </div>
         </nav>
         <br />
+        <h4 id = "record"></h4>
         <script>
           var body = document.getElementById("record");
           let arr,
             startTime,
             endTime,
             behaviorType,
-            overlap = "None";
-          behavior_setting;
+            overlap = "None",
+            behavior_setting;
 
           setInterval(function () {
             $.ajax({
@@ -298,6 +299,7 @@
                   button.innerHTML =
                     "<strong>Student : </strong>" +
                     response["name"] +
+                    ",\n" +
                     "<strong>StartTime : </strong>" +
                     response["startTime"] +
                     ",\n" +
@@ -307,8 +309,8 @@
                     "<strong>BehaviorType : </strong>" +
                     behavior_setting +
                     "\n";
-                  body.appendChild(button);
-                  overlap = response["startTime"];
+                    body.appendChild(button);
+                    overlap = response["startTime"];
                 }
               },
               error: function (error) {
