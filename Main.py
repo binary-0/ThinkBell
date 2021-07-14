@@ -16,20 +16,32 @@ import microphone_checker_stream
 from waiting import wait
 import json
 from queue import Queue
-
 import datetime
-from flask import Flask, render_template, Response, jsonify, send_file
+
+from flask import Flask, render_template, Response, jsonify, send_file, request
 app = Flask(__name__)
 
 @app.route('/')
+def preform():
+    print('///1///')
+    return render_template('preform.html', send=1)
+
+@app.route('/', methods=['POST'])
 def index():
     """Video streaming home page."""
+    print('///2///')
     now = datetime.datetime.now()
     timeString = now.strftime("%Y-%m-%d %H:%M")
     templateData = {
             'title': 'Image Streaming',
             'time': timeString
     }
+
+    global CALITIME
+    global TIMETHRESHOLD
+    result = request.form
+    CALITIME = int(result["calitime"])
+    TIMETHRESHOLD = int(result["logtime"])
 
     global silence
     global size
@@ -82,6 +94,11 @@ def index():
 
     global isFrameReady
     isFrameReady = False
+
+    gen_frame_thread = threading.Thread(target=real_gen_frames)
+    gen_frame_thread.start()
+    webCam_thread = threading.Thread(target=justWebCAM)
+    webCam_thread.start()
 
     return render_template('index.html', **templateData)
 
@@ -141,8 +158,11 @@ def real_gen_frames():
 
     startTime = time.time()
     prevTime = startTime
-    CALITIME = 15
-    TIMETHRESHOLD = 3
+    global CALITIME
+    global TIMETHRESHOLD
+
+    print(str(CALITIME - 0))
+    print(str(TIMETHRESHOLD - 0))
     EARTime = [None, None, None, None]
     HeadTime = [None, None, None, None]
     FaceTime = [None, None, None, None]
@@ -239,6 +259,13 @@ def real_gen_frames():
         if len(bboxes[0]) is 0 or len(bboxes[1]) is 0:
             continue
 
+        faceDetected = True
+        for i in range(0, peerNum):
+            if len(bboxes[i]) is 0:
+                faceDetected = False
+        if faceDetected is False:
+            continue
+
         horizMove = list(range(peerNum))
         vertiMove = list(range(peerNum))
         rollByXPos = list(range(peerNum))
@@ -263,14 +290,14 @@ def real_gen_frames():
                 rollAvg[i] = rollSum[i] / frCnt
                 areaAvg[i] = areaSum[i] / frCnt
                 EARAvg[i] = EARSum[i] / frCnt
-                print('AVG' + str(i) + ' ' + str(areaAvg[i]))
+                #print('AVG' + str(i) + ' ' + str(areaAvg[i]))
         else:
             for i in range(0, peerNum):
                 horizSum[i] += horizMove[i]
                 vertiSum[i] += vertiMove[i]
                 rollSum[i] += rollByXPos[i]
                 areaSum[i] += headArea[i]
-                print('summing...:' + str(headArea[i]) + ' / sum:' + str(areaSum[i]))
+                #print('summing...:' + str(headArea[i]) + ' / sum:' + str(areaSum[i]))
 
                 if EAR[i] is not None:
                     EARSum[i] += EAR[i]
@@ -393,11 +420,6 @@ class detectionQueue:
                 return 1
 
 class Streaming:
-    gen_frame_thread = threading.Thread(target=real_gen_frames)
-    gen_frame_thread.start()
-    webCam_thread = threading.Thread(target=justWebCAM)
-    webCam_thread.start()
-
     def __init__(self, peer):
         global isLiveLocal
         global frameReady
