@@ -200,16 +200,12 @@
           </div>
         </nav>
 
-        <h4 id="silence"></h4>
-        <h4 id="size"></h4>
-        <h4 id="rate"></h4>
+        
 
-        <h4 id="png"></h4>
-
-        <h4 id="student1_silence"></h4>
-        <h4 id="studnet2_silence"></h4>
-        <h4 id="student3_silence"></h4>
-        <h4 id="student4_silence"></h4>
+        <h4 id="SpeakingRate1"></h4>
+        <h4 id="SpeakingRate2"></h4>
+        <h4 id="SpeakingRate3"></h4>
+        <h4 id="SpeakingRate4"></h4>
         <br />
 
         <script>
@@ -218,26 +214,32 @@
           let temp = "temp";
 
           setInterval(function(){$.ajax({
-              url: '/mfcc_feed',
-              type: 'POST',
-              success: function(response) {
-                  console.log("first response : ");
-                  console.log(response);
-                  if (response["rate"] !== "0.0")
-                  {
-                    if(response["rate"] !== temp)
-                    {
-                      var img = new Image(600,100);
-                      img.src = '{{ url_for('fig') }}';
-                      board.appendChild(img);
-                      temp = response["rate"];
-                    }
-                  }
-              },
-              error: function(error) {
-                  console.log(error);
-              }
-          })}, 1000);
+            url: '/mfcc_feed',
+            type: 'POST',
+            success: function(response) {
+                console.log("first response : ");
+                console.log(response);
+                if (response["SpeakingRate1"] !== "0.0")
+                {
+                  $("#SpeakingRate1").html('speaking 1 : '+response["SpeakingRate1"]+'%');
+                }
+                if (response["SpeakingRate2"] !== "0.0")
+                {
+                  $("#SpeakingRate2").html('speaking 2 : '+response["SpeakingRate2"]+'%');
+                }
+                if (response["SpeakingRate3"] !== "0.0")
+                {
+                  $("#SpeakingRate3").html('speaking 3 : '+response["SpeakingRate3"]+'%');
+                }
+                if (response["SpeakingRate4"] !== "0.0")
+                {
+                  $("#SpeakingRate4").html('speaking 4 : '+response["SpeakingRate4"]+'%');
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })}, 1000);
         </script>
       </div>
 

@@ -46,6 +46,21 @@ def index():
     global img
     global logStudentName
 
+
+    global SpeakingRate1
+    global SpeakingRate2
+    global SpeakingRate3
+    global SpeakingRate4
+
+    SpeakingRate1 = 0
+    SpeakingRate2 = 0
+    SpeakingRate3 = 0
+    SpeakingRate4 = 0
+
+    global mfccStartTime
+    mfccStartTime = time.time()
+
+
     g_frame = None
 
     logStudentName = 0
@@ -72,17 +87,26 @@ def index():
 
 @app.route('/mfccstart', methods=['POST'])
 def mfccstart():
-    th = threading.Thread(target=mfcc_ctrl, args=())
-    th.start()
-
-    return render_template('temp.html', value=0)
+    # th = threading.Thread(target=mfcc_ctrl, args=())
+    # th.start()
+    # return render_template('temp.html', value=0)
+    print("Start")
 
 def mfcc_ctrl():
-    global silence
-    global size
-    global img
+    global SpeakingRate1
+    global SpeakingRate2
+    global SpeakingRate3
+    global SpeakingRate4
 
-    silence, size, img = microphone_checker_stream.mfcc_process()
+    global mfccStartTime
+
+    mfccEndTime =  time.time() - mfccStartTime
+
+    SpeakingRate1 = microphone_checker_stream.mfcc_process("SampleAudio1.wav","temp1.wav", mfccEndTime)
+    SpeakingRate2 = microphone_checker_stream.mfcc_process("SampleAudio2.wav","temp2.wav", mfccEndTime)
+    SpeakingRate3 = microphone_checker_stream.mfcc_process("SampleAudio3.wav","temp3.wav", mfccEndTime)
+    SpeakingRate4 = microphone_checker_stream.mfcc_process("SampleAudio4.wav","temp4.wav", mfccEndTime)
+
 
 def real_gen_frames():
     whenet = WHENet(snapshot='WHENet.h5')
@@ -478,18 +502,20 @@ def justWebCAM_feed():
 
 @app.route('/mfccend', methods=['POST'])
 def mfccend():
-    microphone_checker_stream.process_stop()
+    # microphone_checker_stream.process_stop()
+    mfcc_ctrl()
     return render_template('temp.html', value=0)
 
 @app.route('/mfcc_feed', methods=['POST'])
 def mfcc_feed():
-    global silence
-    global size
+    # global silence
+    # global size
 
     return jsonify({
-        'silence': str(silence),
-        'size': str(size),
-        'rate': str(100 - silence / size * 100),
+        'SpeakingRate1': str(SpeakingRate1),
+        'SpeakingRate2': str(SpeakingRate2),
+        'SpeakingRate3': str(SpeakingRate3),
+        'SpeakingRate4': str(SpeakingRate4),
     })
 
 @app.route('/fig')
