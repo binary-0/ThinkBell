@@ -272,7 +272,7 @@
           </div>
         </nav>
         <br />
-        <h4 id="record"></h4>
+        <div id="record"></div>
         <script>
           var body = document.getElementById("record");
           let arr,
@@ -297,11 +297,12 @@
                   var button = document.createElement("button");
                   //버튼 디자인
                   button.style.cssText =
-                    "border-radius : 10px; background-color : white ";
+                    "border-radius : 10px; background-color : white; width :100%; text-align : center ";
                   //behaviorType 결정
-                  if (behaviorType == "0") {
+                  behaviorType = response["behaviorType"];
+                  if (behaviorType === "0") {
                     behavior_setting = "눈 감음";
-                  } else if (behaviorType == "1") {
+                  } else if (behaviorType === "1") {
                     behavior_setting = "고개 기울임";
                   } else {
                     behavior_setting = "얼굴 멀어짐";
