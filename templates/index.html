@@ -7,8 +7,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -17,173 +15,113 @@
       crossorigin="anonymous"
     />
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <link href="css/styles.css" rel="stylesheet" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
-      #if {
-        width: 0px;
-        height: 0px;
-        border: 0px;
-      }
-      .container {
-        gap: 20px;
+      .wrapper {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 200px 250px 200px 200px;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 200px 200px 200px 250px;
+        grid-gap: 10px;
+        margin-right :10px;
+        margin-left: 10px;
       }
       .item:nth-child(1) {
         grid-column-start: 1;
-        grid-column-end: 3;
+        grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 2;
       }
       .item:nth-child(2) {
-        grid-column-start: 3;
-        grid-column-end: 5;
-        grid-row-start: 1;
-        grid-row-end: 3;
-      }
-      .item:nth-child(3) {
         grid-column-start: 1;
-        grid-column-end: 3;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 2;
+      }
+      .item:nth-child(2) {
+        grid-column-start: 1;
+        grid-column-end: 4;
         grid-row-start: 2;
         grid-row-end: 4;
       }
-      .item:nth-child(4) {
+      .item:nth-child(3) {
         grid-column-start: 1;
-        grid-column-end: 3;
+        grid-column-end: 4;
         grid-row-start: 4;
         grid-row-end: 5;
       }
+      .item:nth-child(4) {
+        grid-column-start: 4;
+        grid-column-end: 6;
+        grid-row-start: 1;
+        grid-row-end: 3;
+      }
       .item:nth-child(5) {
-        grid-column-start: 3;
-        grid-column-end: 5;
+        grid-column-start: 4;
+        grid-column-end: 6;
         grid-row-start: 3;
         grid-row-end: 5;
       }
-      .align_img {
-        display: block;
-        margin-right: 20px;
-        float: left;
-        background-color: black;
-        /*margin-top: 40px;*/
-      }
+    
     </style>
   </head>
-
   <body>
+    <!--woongjin_boys-->
     <nav class="navbar navbar-expand-lg navbar-flame bg-flame">
-      <div class="container px-5">
-        <span style="font: italic bold 1.5em/1em Georgia, serif">
-          <a class="navbar-brand" href="#!" style="color: black"
-            >Woonjin_boys</a
-          >
-        </span>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
+      <span style="font: italic bold 1.5em/1em Georgia, serif">
+        <a class="navbar-brand" href="#!" style="color: black">Woonjin_boys</a>
+      </span>
     </nav>
-
-    <div class="container">
-      <!-- 첫 번째 칸 -->
-      <div class="item" style="margin-top: 5px; border: 3px solid black">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong>학생들 얼굴</strong></a>
-          </div>
-        </nav>
-        <img
-          src="{{ url_for('video_feed', peer='1') }}"
-          width="125px"
-          height="125px"
-        />
-        <img
-          src="{{ url_for('video_feed', peer='2') }}"
-          width="125px"
-          height="125px"
-        />
-        <img
-          src="{{ url_for('video_feed', peer='3') }}"
-          width="125px"
-          height="125px"
-        />
-        <img
-          src="{{ url_for('video_feed', peer='4') }}"
-          width="125px"
-          height="125px"
-        />
-        <br />
-      </div>
-
-      <!-- 두번째 칸 -->
-      <div class="item" style="margin-top: 5px; border: 3px solid black">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong>내 얼굴</strong></a>
-          </div>
-        </nav>
-        <img
-          src="{{ url_for('justWebCAM_feed') }}"
-          width="100%"
-          height="100%"
-        />
-        <br />
-      </div>
-
-      <!--세번째 칸-->
-      <div class="item" style="margin-top: 5px; border: 3px solid black">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"
-              ><strong>선생님,발화자 얼굴</strong></a
-            >
-          </div>
-        </nav>
-        <img
-          src="{{ url_for('video_feed', peer='1') }}"
-          width="100%"
-          height="400px"
-        />
-        <br />
-      </div>
-
-      <!--네번째 칸-->
+    <div class="wrapper">
+      <!--첫번째 칸 __ 참여자 얼굴-->
       <div
         class="item"
-        style="
-          overflow-x: hidden;
-          width: 100%;
-          height: 280px;
-          margin-top: 5px;
-          border: 3px solid black;
-        "
-      >
+        style="border: 5px double black; border-radius: 10px; text-align: center;"
+      > 
+      <img style ="border-radius: 10px; margin : 5px;  border: 3px solid black; margin-right: 5px;"
+      src="{{ url_for('video_feed', peer='1') }}"
+      width="23%"
+      height="90%"
+    />
+    <img style ="border-radius: 10px; margin : 5px; border: 3px solid black; "
+      src="{{ url_for('video_feed', peer='2') }}"
+      width="23%"
+      height="90%"
+    />
+    <img style ="border-radius: 10px; margin : 5px; border: 3px solid black; "
+      src="{{ url_for('video_feed', peer='3') }}"
+      width="23%"
+      height="90%"
+    />
+    <img style ="border-radius: 10px; margin : 5px; border: 3px solid black; "
+      src="{{ url_for('video_feed', peer='4') }}"
+      width="23%"
+      height="90%"
+    />
+    <br /></div>
+
+      <!--두번째 칸 __ 발화자 얼굴-->
+      <div class="item" style="border: 3px solid black; border-radius: 10px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#"><strong>발화자</strong></a>
+          </div>
+        </nav>
+        <div style ="text-align: center;">
+        <img style ="border: 5px double black;border-radius: 10px; margin : 5px; margin-top: 10px;"
+        src="{{ url_for('video_feed', peer='1') }}"
+        width="50%"
+        height="80%"
+      />
+      </div>
+      </div>
+
+      <!--세번째 칸 __ 발화 기록-->
+      <div class="item" style="border: 3px solid black; border-radius: 10px">
         <nav class="navbar sticky-top navbar-dark bg-dark">
           <div class="container-fluid">
             <a class="navbar-brand" href="#"
               ><strong>학생들의 발화 기록</strong></a
             >
-            <form
-              action="http://localhost:5000/mfccstart"
-              method="POST"
-              target="_blank"
-            >
-              <input
-                type="submit"
-                name="button"
-                class="btn btn-success"
-                value="MFCC Start"
-              />
-            </form>
             <form
               action="http://localhost:5000/mfccend"
               method="POST"
@@ -194,12 +132,11 @@
                 name="button"
                 class="btn btn-success"
                 style="background-color: rgb(211, 62, 8)"
-                value="MFCC Stop"
+                value="Refresh"
               />
             </form>
           </div>
         </nav>
-
         <h3 id="SpeakingRate1"></h3>
         <h3 id="SpeakingRate2"></h3>
         <h3 id="SpeakingRate3"></h3>
@@ -253,26 +190,40 @@
         </script>
       </div>
 
-      <!--다섯번째 칸-->
-      <div
-        class="item"
-        style="
-          overflow-x: hidden;
-          width: 100%;
-          height: 500px;
-          margin-top: 5px;
-          border: 3px solid black;
-        "
-      >
-        <nav class="navbar sticky-top navbar-dark bg-dark">
+      <!--네번째 칸 __ 내 얼굴-->
+      <div class="item" style="border-radius: 10px; border: 3px solid black">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-              <strong>학생들의 행동 기록</strong></a
-            >
+            <a class="navbar-brand" href="#"><strong>내 얼굴</strong></a>
           </div>
-        </nav>
-        <br />
-        <div id="record"></div>
+        </nav> 
+        <div style ="text-align: center;">
+          <img style ="border: 5px double black;border-radius: 10px; margin-top: 20px;"
+          src="{{ url_for('justWebCAM_feed') }}"
+          width="72%"
+          height="84%"
+        />
+        </div>
+      </div>
+
+      <!--다섯번째 칸 학생들의 행동 기록-->
+        <div
+          class="item"
+          style="
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            border: 3px solid black;
+          "
+        >
+          <nav class="navbar sticky-top navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">
+                <strong>학생들의 행동 기록</strong></a
+              >            
+          </nav>
+          <div id="record"></div>
         <script>
           var body = document.getElementById("record");
           let arr,
@@ -331,7 +282,7 @@
             });
           }, 1000);
         </script>
-      </div>
+        </div>      
     </div>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
