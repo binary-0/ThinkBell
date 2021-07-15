@@ -83,6 +83,10 @@ def index():
     global mfccStartTime
     mfccStartTime = time.time()
 
+    global logFile
+    logFile = list(range(4))
+    for i in range(0, 4):
+        logFile[i] = open(f"evalLog{i+1}.txt", "w")
 
     g_frame = None
 
@@ -269,9 +273,14 @@ def real_gen_frames():
         sendedFrame = list(range(peerNum))
         for i in range(0, peerNum):
             sendedFrame[i] = g_frame[i]
-        rgbFrame = list(range(peerNum))
-        for i in range(0, peerNum):
-            rgbFrame[i] = cv2.cvtColor(sendedFrame[i], cv2.COLOR_BGR2RGB)
+        try:
+            rgbFrame = list(range(peerNum))
+            for i in range(0, peerNum):
+                rgbFrame[i] = cv2.cvtColor(sendedFrame[i], cv2.COLOR_BGR2RGB)
+        except:
+            print("Video Ended.")
+            break
+
         img_pil = list(range(peerNum))
         for i in range(0, peerNum):
             img_pil[i] = Image.fromarray(rgbFrame[i])
@@ -288,9 +297,6 @@ def real_gen_frames():
         #    frame, horizMove, vertiMove, rollByXPos = process_detection(whenet, frame, bbox)
 
         # 얼굴 하나만 가지고 인식 (위에거는 여러개)
-        if len(bboxes[0]) is 0 or len(bboxes[1]) is 0:
-            continue
-
         faceDetected = True
         for i in range(0, peerNum):
             if len(bboxes[i]) is 0:
@@ -340,7 +346,7 @@ def real_gen_frames():
                 cv2.putText(l_frame[i], f'EAR:{EAR[i]}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                             cv2.LINE_AA)
                 earCurTime = time.time()
-                if EAR[i] < EARAvg[i] * 0.9:
+                if EAR[i] < EARAvg[i] * 0.925:
                     isDetectedOnce[i] = 1
                     if EARTime[i] is None:
                         EARTime[i] = earCurTime
@@ -405,6 +411,10 @@ def real_gen_frames():
         #for i in range(0, peerNum):
         #    frameReady[i] = True
 
+    global logFile
+    for i in range(0, peerNum):
+        logFile[i].close()
+
 def justWebCAM():
     myCap = cv2.VideoCapture(0)
     myCap.set(3, 1280)  # CV_CAP_PROP_FRAME_WIDTH
@@ -425,10 +435,8 @@ class detectionQueue:
         self.sum = 0
         self.avg = 0
 
-        self.lightYellowThr = 3
-        self.deepYellowThr = 5
-        self.lightRedThr = 7
-        self.deepRedThr = 9
+        self.yelloThresh = 4
+        self.redThresh = 6
         self.maxSize = 10
 
     def detectionPush(self, data):
@@ -446,15 +454,11 @@ class detectionQueue:
             self.sum -= deq
             self.avg = self.sum / self.size
 
-            if self.avg > (self.deepRedThr / self.maxSize):
-                return 5
-            elif self.avg > (self.lightRedThr / self.maxSize):
-                return 4
-            elif self.avg > (self.deepYellowThr / self.maxSize):
+            if self.avg > (self.redThresh / self.maxSize):
                 return 3
-            elif self.avg > (self.lightYellowThr / self.maxSize):
+            elif self.avg > (self.yelloThresh / self.maxSize):
                 return 2
-            else:  # green
+            else:
                 return 1
 
 class Streaming:
@@ -498,15 +502,14 @@ class Streaming:
                 if ret:
                     global DetectRet
                     if DetectRet[peer - 1] is 1:
-                        l_frame = cv2.addWeighted(self.greenImg, 0.2, g_frame[peer - 1], 0.8, 0)
+                        l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
+                        cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 255, 0), 20)
                     elif DetectRet[peer - 1] is 2:
                         l_frame = cv2.addWeighted(self.yelloImg, 0.1, g_frame[peer - 1], 0.9, 0)
+                        cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 255, 255), 20)
                     elif DetectRet[peer - 1] is 3:
-                        l_frame = cv2.addWeighted(self.yelloImg, 0.2, g_frame[peer - 1], 0.8, 0)
-                    elif DetectRet[peer - 1] is 4:
                         l_frame = cv2.addWeighted(self.redImg, 0.1, g_frame[peer - 1], 0.9, 0)
-                    elif DetectRet[peer - 1] is 5:
-                        l_frame = cv2.addWeighted(self.redImg, 0.2, g_frame[peer - 1], 0.8, 0)
+                        cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 0, 255), 20)
                     else:
                         l_frame = g_frame[peer - 1]
                     ret, buffer = cv2.imencode('.jpg', l_frame)
@@ -516,7 +519,7 @@ class Streaming:
                     break
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(50) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(40) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
@@ -547,6 +550,7 @@ def video_feed(peer):
     global frameReady
     global loadingComplete
     wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
+    cv2.waitKey(200)
     if isRealDebug is 0:
         return Response(Streaming(peer).local_frames(peer),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -599,8 +603,11 @@ def log_feed():
     global logType
     global returnCheck
     global logStudentName
+    global logFile
 
     if logStartTime is not 0 and logEndTime is not 0 and logType is not 0:
+        print(f"fStinghatton: {round(logStartTime, 1)} {round(logEndTime, 1)} {logType}\n")
+        logFile[logStudentName].write(f"{round(logStartTime, 1)} {round(logEndTime, 1)} {logType}\n")
         returnCheck = 1
 
     return jsonify({
