@@ -141,6 +141,10 @@
         <h3 id="SpeakingRate2"></h3>
         <h3 id="SpeakingRate3"></h3>
         <h3 id="SpeakingRate4"></h3>
+        <h3 id="SpeakingCount1"></h3>
+        <h3 id="SpeakingCount2"></h3>
+        <h3 id="SpeakingCount3"></h3>
+        <h3 id="SpeakingCount4"></h3>
         <br />
         <script>
           var board = document.getElementById("png");
@@ -155,30 +159,22 @@
                 console.log(response);
                 if (response["SpeakingRate1"] !== "0.0") {
                   $("#SpeakingRate1").html(
-                    "Student1 speaking rate : " +
-                      response["SpeakingRate1"] +
-                      "%"
+                    "<학생 1> 발화율 : " +  response["SpeakingRate1"] + "%, 발화 횟수" + response["SpeakingCount1"] + "회"
                   );
                 }
                 if (response["SpeakingRate2"] !== "0.0") {
                   $("#SpeakingRate2").html(
-                    "Student2 speaking rate : " +
-                      response["SpeakingRate2"] +
-                      "%"
+                    "<학생 2> 발화율 : " +  response["SpeakingRate2"] + "%, 발화 횟수" + response["SpeakingCount2"] + "회"
                   );
                 }
                 if (response["SpeakingRate3"] !== "0.0") {
                   $("#SpeakingRate3").html(
-                    "Student3 speaking rate : " +
-                      response["SpeakingRate3"] +
-                      "%"
+                    "<학생 3> 발화율 : " +  response["SpeakingRate3"] + "%, 발화 횟수" + response["SpeakingCount3"] + "회"
                   );
                 }
                 if (response["SpeakingRate4"] !== "0.0") {
                   $("#SpeakingRate4").html(
-                    "Student4 speaking rate : " +
-                      response["SpeakingRate4"] +
-                      "%"
+                    "<학생 4> 발화율 : " +  response["SpeakingRate4"] + "%, 발화 횟수" + response["SpeakingCount4"] + "회"
                   );
                 }
               },

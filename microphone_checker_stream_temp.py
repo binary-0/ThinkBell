@@ -18,7 +18,6 @@ torchaudio.set_audio_backend("soundfile")
 import pyaudio
 import threading
 
-
 def validate(model,
              inputs: torch.Tensor):
     with torch.no_grad():

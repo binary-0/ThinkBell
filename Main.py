@@ -18,6 +18,7 @@ import json
 from queue import Queue
 import datetime
 
+
 from flask import Flask, render_template, Response, jsonify, send_file, request
 app = Flask(__name__)
 
@@ -58,7 +59,6 @@ def index():
     global img
     global logStudentName
 
-
     global SpeakingRate1
     global SpeakingRate2
     global SpeakingRate3
@@ -68,6 +68,17 @@ def index():
     SpeakingRate2 = 0
     SpeakingRate3 = 0
     SpeakingRate4 = 0
+
+    global SpeakingCount1
+    global SpeakingCount2
+    global SpeakingCount3
+    global SpeakingCount4
+
+    SpeakingCount1 = 0
+    SpeakingCount2 = 0
+    SpeakingCount3 = 0
+    SpeakingCount4 = 0
+
 
     global mfccStartTime
     mfccStartTime = time.time()
@@ -114,16 +125,37 @@ def mfcc_ctrl():
     global SpeakingRate2
     global SpeakingRate3
     global SpeakingRate4
+    global SpeakingCount1
+    global SpeakingCount2
+    global SpeakingCount3
+    global SpeakingCount4
 
     global mfccStartTime
 
     mfccEndTime =  time.time() - mfccStartTime
 
-    SpeakingRate1 = microphone_checker_stream.mfcc_process("SampleAudio1.wav","temp1.wav", mfccEndTime)
-    SpeakingRate2 = microphone_checker_stream.mfcc_process("SampleAudio2.wav","temp2.wav", mfccEndTime)
-    SpeakingRate3 = microphone_checker_stream.mfcc_process("SampleAudio3.wav","temp3.wav", mfccEndTime)
-    SpeakingRate4 = microphone_checker_stream.mfcc_process("SampleAudio4.wav","temp4.wav", mfccEndTime)
+    t1=threading.Thread(target=microphone_checker_stream.mfcc_process, args=("SampleAudio1.wav","temp1.wav", mfccEndTime))
+    t2=threading.Thread(target=microphone_checker_stream.mfcc_process, args=("SampleAudio2.wav","temp2.wav", mfccEndTime))
+    t3=threading.Thread(target=microphone_checker_stream.mfcc_process, args=("SampleAudio3.wav","temp3.wav", mfccEndTime))
+    t4=threading.Thread(target=microphone_checker_stream.mfcc_process, args=("SampleAudio4.wav","temp4.wav", mfccEndTime))
 
+    t1.start()
+    t2.start()
+    t3.start()
+    t4.start()
+
+    t1.join()
+    t2.join()
+    t3.join()
+    t4.join()
+
+    SpeakingRate1,SpeakingCount1 = microphone_checker_stream.getAD1()
+    SpeakingRate2,SpeakingCount2 = microphone_checker_stream.getAD2()
+    SpeakingRate3,SpeakingCount3 = microphone_checker_stream.getAD3()
+    SpeakingRate4,SpeakingCount4 = microphone_checker_stream.getAD4()
+
+    print("\n\n\n디버기이잉", SpeakingCount1, SpeakingCount2, SpeakingCount3, SpeakingCount4)
+ 
 
 def real_gen_frames():
     whenet = WHENet(snapshot='WHENet.h5')
@@ -548,6 +580,10 @@ def mfcc_feed():
         'SpeakingRate2': str(SpeakingRate2),
         'SpeakingRate3': str(SpeakingRate3),
         'SpeakingRate4': str(SpeakingRate4),
+        'SpeakingCount1': str(SpeakingCount1),
+        'SpeakingCount2': str(SpeakingCount2),
+        'SpeakingCount3': str(SpeakingCount3),
+        'SpeakingCount4': str(SpeakingCount4)
     })
 
 @app.route('/fig')
