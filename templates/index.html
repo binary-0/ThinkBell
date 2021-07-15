@@ -22,8 +22,8 @@
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 200px 200px 200px 250px;
         grid-gap: 10px;
-        margin-right :10px;
-        margin-left: 10px;
+        margin-right :15px;
+        margin-left: 15px;
       }
       .item:nth-child(1) {
         grid-column-start: 1;
@@ -61,7 +61,23 @@
         grid-row-start: 3;
         grid-row-end: 5;
       }
-    
+      #navbar {
+        border-radius: 25px;                      
+        margin-top : 20px;        
+        text-align: center;
+        border : 3px solid black;
+        margin-left: 10px;
+        margin-right: 10px;
+      }     
+      .bold {
+        padding-top: 25px;
+        font-size:20px;        
+        color: black;       
+      } 
+      .ta1
+      {
+        margin-top : 13px;
+      }    
     </style>
   </head>
   <body>
@@ -136,16 +152,15 @@
               />
             </form>
           </div>
-        </nav>
-        <h3 id="SpeakingRate1"></h3>
-        <h3 id="SpeakingRate2"></h3>
-        <h3 id="SpeakingRate3"></h3>
-        <h3 id="SpeakingRate4"></h3>
+        </nav>                 
+        <h4 id="SpeakingRate1" class = "ta1">.</h4>
+        <h4 id="SpeakingRate2" class = "ta1">.</h4>
+        <h4 id="SpeakingRate3" class = "ta1">.</h4>
+        <h4 id="SpeakingRate4" class = "ta1">.</h4>
         <h3 id="SpeakingCount1"></h3>
         <h3 id="SpeakingCount2"></h3>
         <h3 id="SpeakingCount3"></h3>
-        <h3 id="SpeakingCount4"></h3>
-        <br />
+        <h3 id="SpeakingCount4"></h3>                       
         <script>
           var board = document.getElementById("png");
           let temp = "temp";
@@ -159,22 +174,22 @@
                 console.log(response);
                 if (response["SpeakingRate1"] !== "0.0") {
                   $("#SpeakingRate1").html(
-                    "<학생 1> 발화율 : " +  response["SpeakingRate1"] + "%, 발화 횟수" + response["SpeakingCount1"] + "회"
+                    "<strong> 성효제 </strong> 발화율 : " +  response["SpeakingRate1"] + "%, 발화 횟수" + response["SpeakingCount1"] + "회" + "</br>"
                   );
                 }
                 if (response["SpeakingRate2"] !== "0.0") {
                   $("#SpeakingRate2").html(
-                    "<학생 2> 발화율 : " +  response["SpeakingRate2"] + "%, 발화 횟수" + response["SpeakingCount2"] + "회"
+                    "<strong> 이관우 </strong> 발화율 : " +  response["SpeakingRate2"] + "%, 발화 횟수" + response["SpeakingCount2"] + "회"+ "</br>"
                   );
                 }
                 if (response["SpeakingRate3"] !== "0.0") {
                   $("#SpeakingRate3").html(
-                    "<학생 3> 발화율 : " +  response["SpeakingRate3"] + "%, 발화 횟수" + response["SpeakingCount3"] + "회"
+                    "<strong> 이진영 </strong> 발화율 : " +  response["SpeakingRate3"] + "%, 발화 횟수" + response["SpeakingCount3"] + "회"+ "</br>"
                   );
                 }
                 if (response["SpeakingRate4"] !== "0.0") {
                   $("#SpeakingRate4").html(
-                    "<학생 4> 발화율 : " +  response["SpeakingRate4"] + "%, 발화 횟수" + response["SpeakingCount4"] + "회"
+                    "<strong> 최시열 </strong> 발화율 : " +  response["SpeakingRate4"] + "%, 발화 횟수" + response["SpeakingCount4"] + "회"+ "</br>"
                   );
                 }
               },
@@ -219,15 +234,73 @@
                 <strong>학생들의 행동 기록</strong></a
               >            
           </nav>
+
+
           <div id="record"></div>
+          <!-- 학생들 행동 기록 -> 나중에 동적 생성으로 수정해야한다. -->
+          <nav class="navbar navbar-light bg-light text-nowrap" id="navbar" style="margin-top: 40px;">
+            <div class="container-fluid">      
+              <p class="navbar-brand text-nowrap" id="name" style="padding: 0px;">
+                <div >
+                <span class="bold" id = "student1"></span>
+              </div>
+              </p>                    
+                </ul>    
+                </div>                 
+          </nav>
+
+          <nav class="navbar navbar-light bg-light text-nowrap" id="navbar" style="margin-top: 40px;">
+            <div class="container-fluid">      
+              <p class="navbar-brand text-nowrap" id="name" style="padding: 0px;">
+                <div >
+                <span class="bold" id = "student2"></span>
+              </div>
+              </p>                    
+                </ul>
+              </div>
+            
+          </nav>
+
+          <nav class="navbar navbar-light bg-light text-nowrap" id="navbar" style="margin-top: 40px;">
+            <div class= "container-fluid">      
+              <p class="navbar-brand text-nowrap" id="name" style="padding: 0px;">
+                <div >
+                <span class="bold" id = "student3"></span>
+              </div>
+              </p>                    
+                </ul>
+                </div>
+              
+          
+          </nav>
+
+          <nav class="navbar navbar-light bg-light text-nowrap" id="navbar" style="margin-top: 40px;">
+            <div class="container-fluid">      
+              <p class="navbar-brand text-nowrap" id="name" style="padding: 0px;">
+                <div >
+                <span class="bold" id = "student4"></span>
+              </div>
+              </p>                    
+                </ul>  
+                </div>                        
+          </nav>
+
+
+
         <script>
           var body = document.getElementById("record");
+          var student_1 = document.getElementById("student1");
+          var student_2 = document.getElementById("student2");
+          var student_3 = document.getElementById("student3");
+          var student_4 = document.getElementById("student4");
+
           let arr,
             startTime,
             endTime,
             behaviorType,
             overlap = "None",
             behavior_setting;
+          let action = [0,0,0,0];
 
           setInterval(function () {
             $.ajax({
@@ -235,16 +308,16 @@
               type: "POST",
               success: function (response) {
                 console.log(response);
-                console.log("test : " + response["startTime"]);
+                console.log("test : " + response["name"]);
                 if (
                   response["startTime"] !== "0" &&
                   response["startTime"] !== overlap
                 ) {
-                  //이상 행동 발생시 버튼 생성
+                  /*//이상 행동 발생시 버튼 생성
                   var button = document.createElement("button");
                   //버튼 디자인
                   button.style.cssText =
-                    "border-radius : 10px; background-color : white; width :100%; text-align : center ";
+                    "border-radius : 10px; background-color : white; width :100%; text-align : center ";*/
                   //behaviorType 결정
                   behaviorType = response["behaviorType"];
                   if (behaviorType === "0") {
@@ -253,10 +326,34 @@
                     behavior_setting = "고개 기울임";
                   } else {
                     behavior_setting = "얼굴 멀어짐";
-                  }
-                  //제대로 수정해야한다
+                  }                 
+                  //행동 유지 시간 소수점 제거 -> 나중에 수정해야한다.
                   var starttime = response["startTime"].slice(0, 3);
                   var endtime = response["endTime"].slice(0, 3);
+
+                  if(response["name"] === "1")
+                  {
+                    action[0]++;
+                    $("#student1").html("<strong> 성효제 </strong> 학생의 이상행동 횟수 : "+action[0] + ", 경고 횟수 : ");
+                  }
+                  else if(response["name"] === "2")
+                  {
+                    action[1]++;
+                    $("#student2").html("<strong> 이관우 </strong> 학생의 이상 행동 횟수 : "+action[1] + ", 경고 횟수 : ");
+                  }
+                  else if(response["name"] === "3")
+                  {
+                    action[2]++;
+                    $("#student3").html("<strong> 이진영 </strong> 학생의 이상 행동 횟수 : "+action[2] + ", 경고 횟수 : ");
+                  }
+                  else if(response["name"] === "4")
+                  {
+                    action[3]++;
+                    $("#student4").html("<strong> 최시열 </strong> 학생의 이상 행동 횟수 : "+action[3]+ ", 경고 횟수 : ");
+                  }
+
+
+                  /* 버튼 생성
                   button.innerHTML =
                     "학생 " +
                     response["name"] +
@@ -269,6 +366,8 @@
                     behavior_setting +
                     " 감지됨";
                   body.appendChild(button);
+
+                  */
                   overlap = response["startTime"];
                 }
               },
