@@ -153,6 +153,11 @@ def mfcc_ctrl():
     t3.join()
     t4.join()
 
+    microphone_checker_stream.plot1()
+    microphone_checker_stream.plot2()
+    microphone_checker_stream.plot3()
+    microphone_checker_stream.plot4()
+    
     SpeakingRate1,SpeakingCount1 = microphone_checker_stream.getAD1()
     SpeakingRate2,SpeakingCount2 = microphone_checker_stream.getAD2()
     SpeakingRate3,SpeakingCount3 = microphone_checker_stream.getAD3()

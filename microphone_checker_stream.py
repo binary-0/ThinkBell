@@ -18,6 +18,10 @@ sc2=0
 sc3=0
 sc4=0
 
+x1=0
+x2=0
+x3=0
+x4=0
 
 def process_stop():
     global isStop
@@ -31,27 +35,24 @@ def mfcc_process(audio_name,temp_name,cut_point):
             # path = 'sample.wav' #파일 업로드 시 사용
     sample_rate = 16000
 
+    global x1
+    global x2
+    global x3
+    global x4
+
     x = librosa.load(path, sample_rate)[0]
     # plt.figure(figsize=(9, 3))
     # librosa.display.waveplot(x) 
     # plt.savefig('result1.png',bbox_inches='tight')
 
-    # if audio_name == "SampleAudio1.wav":
-    #     plt.figure(figsize=(9, 3))
-    #     librosa.display.waveplot(x) 
-    #     plt.savefig('result1.png',bbox_inches='tight')
-    # elif audio_name == "SampleAudio2.wav":
-    #     plt.figure(figsize=(9, 3))
-    #     librosa.display.waveplot(x) 
-    #     plt.savefig('result2.png',bbox_inches='tight')
-    # elif audio_name == "SampleAudio3.wav":
-    #     plt.figure(figsize=(9, 3))
-    #     librosa.display.waveplot(x) 
-    #     plt.savefig('result3.png',bbox_inches='tight')
-    # elif audio_name == "SampleAudio4.wav":
-    #     plt.figure(figsize=(9, 3))
-    #     librosa.display.waveplot(x) 
-    #     plt.savefig('result4.png',bbox_inches='tight')
+    if audio_name == "SampleAudio1.wav":
+        x1=x
+    elif audio_name == "SampleAudio2.wav":
+        x2=x
+    elif audio_name == "SampleAudio3.wav":
+        x3=x
+    elif audio_name == "SampleAudio4.wav":
+        x4=x
 
     S = librosa.feature.melspectrogram(x, sr=sample_rate, n_mels=128)
     log_S = librosa.power_to_db(S, ref=np.max)
@@ -126,3 +127,20 @@ def getAD3():
     return sr3, sc3
 def getAD4():
     return sr4, sc4
+
+def plot1():
+    plt.figure(figsize=(9, 3))
+    librosa.display.waveplot(x1)
+    plt.savefig('mfccResult1.png',bbox_inches='tight')
+def plot2():
+    plt.figure(figsize=(9, 3))
+    librosa.display.waveplot(x2)
+    plt.savefig('mfccResult2.png',bbox_inches='tight')
+def plot3():
+    plt.figure(figsize=(9, 3))
+    librosa.display.waveplot(x3)
+    plt.savefig('mfccResult3.png',bbox_inches='tight')
+def plot4():
+    plt.figure(figsize=(9, 3))
+    librosa.display.waveplot(x4)
+    plt.savefig('mfccResult4.png',bbox_inches='tight')
