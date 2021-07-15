@@ -129,18 +129,30 @@ def getAD4():
     return sr4, sc4
 
 def plot1():
-    plt.figure(figsize=(9, 3))
+    plt.figure(figsize=(12, 2))
     librosa.display.waveplot(x1)
-    plt.savefig('mfccResult1.png',bbox_inches='tight')
+    img1 = BytesIO()
+    plt.savefig(img1,format='png',bbox_inches='tight', dpi=200)
+    img1.seek(0)
+    return img1
 def plot2():
-    plt.figure(figsize=(9, 3))
+    plt.figure(figsize=(12, 2))
     librosa.display.waveplot(x2)
-    plt.savefig('mfccResult2.png',bbox_inches='tight')
+    img2 = BytesIO()
+    plt.savefig(img2,format='png',bbox_inches='tight', dpi=200)
+    img2.seek(0)
+    return img2
 def plot3():
-    plt.figure(figsize=(9, 3))
+    plt.figure(figsize=(12, 2))
     librosa.display.waveplot(x3)
-    plt.savefig('mfccResult3.png',bbox_inches='tight')
+    img3 = BytesIO()
+    plt.savefig(img3,format='png',bbox_inches='tight', dpi=200)
+    img3.seek(0)
+    return img3
 def plot4():
-    plt.figure(figsize=(9, 3))
+    plt.figure(figsize=(12, 2))
     librosa.display.waveplot(x4)
-    plt.savefig('mfccResult4.png',bbox_inches='tight')
+    img4 = BytesIO()
+    plt.savefig(img4,format='png',bbox_inches='tight', dpi=200)
+    img4.seek(0)
+    return img4
