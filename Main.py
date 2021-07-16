@@ -576,7 +576,7 @@ class Streaming:
                     break
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(20) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(25) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
@@ -607,7 +607,7 @@ def video_feed(peer):
     global frameReady
     global loadingComplete
     wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
-    cv2.waitKey(100)
+    cv2.waitKey(200)
     if isRealDebug is 0:
         return Response(Streaming(peer).local_frames(peer),
                         mimetype='multipart/x-mixed-replace; boundary=frame')

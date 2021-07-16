@@ -50,21 +50,21 @@ def draw_axis(img, yaw, pitch, roll, horizAvg, vertiAvg, rollAvg, headArea, area
         cv2.putText(img, '!Calibrationing!', (120, 300), cv2.FONT_HERSHEY_SIMPLEX, 1.5, green, 2,
                     cv2.LINE_AA)
     else:
-        if abs(horizAvg - horizMove) > 80:
+        if abs(horizAvg - horizMove) > 90:
             conType[0] = True
             cv2.putText(img, 'horizMoveDetected', (10, 250), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
         else:
             conType[0] = False
 
-        if vertiMove - vertiAvg > 50:
+        if vertiMove - vertiAvg > 60:
             conType[1] = True
             cv2.putText(img, 'vertiMoveDetected', (10, 300), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
         else:
             conType[1] = False
 
-        if abs(rollAvg - rollByXPos) > 85 and headArea > areaAvg * 0.6:
+        if abs(rollAvg - rollByXPos) > 95 and headArea > areaAvg * 0.6:
             conType[2] = True
             cv2.putText(img, 'rollDetected', (10, 350), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
@@ -72,7 +72,7 @@ def draw_axis(img, yaw, pitch, roll, horizAvg, vertiAvg, rollAvg, headArea, area
             conType[2] = False
 
         #print('area:' + str(headArea) + '/avg:' + str(areaAvg))
-        if headArea < areaAvg * 0.7:
+        if headArea < areaAvg * 0.85:
             conType[3] = True
             cv2.putText(img, 'headAreaDetected', (10, 400), cv2.FONT_HERSHEY_SIMPLEX, 1.1, green, 2,
                         cv2.LINE_AA)
