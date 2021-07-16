@@ -13,129 +13,106 @@
     }
     .user{
         position: absolute;
-left: 38.29%;
-right: 14.29%;
-top: 39.24%;
-bottom: 51.81%;
-
-background: #F6F6F6;
-box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
-border-radius: 10px;
+        left: 38.29%;
+        right: 14.29%;
+        top: 39.24%;
+        bottom: 51.81%;
+        background: #F6F6F6;
+        box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
 
         
     }
-    input[type=submit] {
-        position: absolute;
-left: 12.76%;
-right: 13.01%;
-top: 85.46%;
-bottom: 5.18%;
 
-background: #343A40;
-border-radius: 10px;
-
-font-family: Manrope;
-font-style: normal;
-font-weight: bold;
-font-size: 18px;
-line-height: 26px;
-display: flex;
-align-items: center;
-text-align: center;
-color: #FFFFFF;
-        }
-        .containerLogin .Llogtime{
-        position: absolute;
-left: 54.08%;
-right: 18.88%;
-top: 69.57%;
-bottom: 21.48%;
-
-background: #F6F6F6;
-box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
-border-radius: 10px;
-
-
-
-    }
     .containerLogin .calibrationtime{
         position: absolute;
-left: 54.08%;
-right: 18.88%;
-top: 53.69%;
-bottom: 37.36%;
-
-background: #F6F6F6;
-box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
-border-radius: 10px;
+        left: 54.08%;
+        right: 18.88%;
+        top: 53.69%;
+        bottom: 37.36%;
+        background: #F6F6F6;
+        box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
     }
+
     .temp1{
         position: absolute;
-left: 18.11%;
-right: 47.19%;
-top: 54.36%;
-bottom: 38.03%;
+        left: 18.11%;
+        right: 47.19%;
+        top: 54.36%;
+        bottom: 38.03%;
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+            }
 
-font-family: Manrope;
-font-style: normal;
-font-weight: bold;
-font-size: 15px;
-line-height: 26px;
-/* or 173% */
-display: flex;
-align-items: center;
-
-color: #000000;
-    }
     .temp2{
-        /* Log Time: */
-
-position: absolute;
-left: 26.02%;
-right: 55.1%;
-top: 70.25%;
-bottom: 22.15%;
-
-font-family: Manrope;
-font-style: normal;
-font-weight: bold;
-font-size: 15px;
-line-height: 26px;
-/* or 173% */
-display: flex;
-align-items: center;
-
-color: #000000;
-
-
+        position: absolute;
+        left: 26.02%;
+        right: 55.1%;
+        top: 70.25%;
+        bottom: 22.15%;
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 26px;
+        display: flex;
+        align-items: center;
+        color: #000000;
     }
+
     .startclass{
         position: absolute;
-left: 12.76%;
-right: 13.01%;
-top: 85.46%;
-bottom: 5.18%;
-
-background: #343A40;
-border-radius: 10px;
-
-
+        left: 12.76%;
+        top: 85.46%;
+        bottom: 5.18%;
+        background: #343A40;
+        border-radius: 10px;
+        width: 345px;
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 26px;
+        align-items: center;
+        text-align: center;
+        color: #FFFFFF;
     }
+
     .logo{
         position: absolute;
-left: 44.23%;
-right: 24.23%;
-top: 10.07%;
-bottom: 69.8%;
-width: 125px;
-height: 125px;
+        left: 44.23%;
+        right: 24.23%;
+        top: 10.07%;
+        bottom: 69.8%;
+        width: 125px;
+        height: 125px;
+    }
+
+    .Llogtime{
+        position: absolute;
+        left: 54.08%;
+        right: 18.88%;
+        top: 69.57%;
+        bottom: 21.48%;
+
+        background: #F6F6F6;
+        box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+
 
     }
     </style>
+
     <form action="/" method="post">
         <div class= "containerLogin">
             <img class="logo" src="logo.png">
-            <input class="user" type="text" name="studentname" placeholder="Username">
             <div class= "temp1">Calibration Time:</div>
             <input class= "calibrationtime" type="text" name="calitime" placeholder="초 단위">
             <div class="temp2">Log Time:</div> 
