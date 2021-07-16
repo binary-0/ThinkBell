@@ -157,6 +157,7 @@
         <h4 id="SpeakingRate2" class = "ta1">.</h4>
         <h4 id="SpeakingRate3" class = "ta1">.</h4>
         <h4 id="SpeakingRate4" class = "ta1">.</h4>
+        <div id="png"></div>
         <h3 id="SpeakingCount1"></h3>
         <h3 id="SpeakingCount2"></h3>
         <h3 id="SpeakingCount3"></h3>
@@ -174,22 +175,26 @@
                 console.log(response);
                 if (response["SpeakingRate1"] !== "0.0") {
                   $("#SpeakingRate1").html(
-                    "<strong> 성효제 </strong> 발화율 : " +  response["SpeakingRate1"] + "%, 발화 횟수" + response["SpeakingCount1"] + "회" + "</br>"
+                    "<strong> 성효제 </strong> 발화율 : " +  response["SpeakingRate1"] + "%, 발화 횟수" + response["SpeakingCount1"] + "회" + 
+                    "<img width = '100px' src = {{url_for('fig1')}}>"+"</br>"
                   );
                 }
                 if (response["SpeakingRate2"] !== "0.0") {
                   $("#SpeakingRate2").html(
-                    "<strong> 이관우 </strong> 발화율 : " +  response["SpeakingRate2"] + "%, 발화 횟수" + response["SpeakingCount2"] + "회"+ "</br>"
+                    "<strong> 이관우 </strong> 발화율 : " +  response["SpeakingRate2"] + "%, 발화 횟수" + response["SpeakingCount2"] + "회"+ 
+                    "<img width = '100px' src = {{url_for('fig2')}}>"+"</br>"
                   );
                 }
                 if (response["SpeakingRate3"] !== "0.0") {
                   $("#SpeakingRate3").html(
-                    "<strong> 이진영 </strong> 발화율 : " +  response["SpeakingRate3"] + "%, 발화 횟수" + response["SpeakingCount3"] + "회"+ "</br>"
+                    "<strong> 이진영 </strong> 발화율 : " +  response["SpeakingRate3"] + "%, 발화 횟수" + response["SpeakingCount3"] + "회"+
+                    "<img width = '100px' src = {{url_for('fig3')}}>"+ "</br>"
                   );
                 }
                 if (response["SpeakingRate4"] !== "0.0") {
                   $("#SpeakingRate4").html(
-                    "<strong> 최시열 </strong> 발화율 : " +  response["SpeakingRate4"] + "%, 발화 횟수" + response["SpeakingCount4"] + "회"+ "</br>"
+                    "<strong> 최시열 </strong> 발화율 : " +  response["SpeakingRate4"] + "%, 발화 횟수" + response["SpeakingCount4"] + "회"+
+                    "<img width = '100px' src = {{url_for('fig4')}}>"+ "</br>"
                   );
                 }
               },
@@ -200,6 +205,8 @@
           }, 1000);
         </script>
       </div>
+
+      
 
       <!--네번째 칸 __ 내 얼굴-->
       <div class="item" style="border-radius: 10px; border: 3px solid black">
