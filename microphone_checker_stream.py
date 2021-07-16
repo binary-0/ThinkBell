@@ -7,6 +7,7 @@ import librosa
 import numpy as np
 import math
 import moviepy.editor as mp
+from io import BytesIO
 
 sr1=0
 sr2=0
@@ -132,21 +133,21 @@ def plot1():
     plt.figure(figsize=(12, 2))
     librosa.display.waveplot(x1)
     img1 = BytesIO()
-    plt.savefig(img1,format='png',bbox_inches='tight', dpi=200)
+    plt.savefig(img1, format='png', bbox_inches='tight', dpi=200)
     img1.seek(0)
     return img1
 def plot2():
     plt.figure(figsize=(12, 2))
     librosa.display.waveplot(x2)
     img2 = BytesIO()
-    plt.savefig(img2,format='png',bbox_inches='tight', dpi=200)
+    plt.savefig(img2, format='png',bbox_inches='tight', dpi=200)
     img2.seek(0)
     return img2
 def plot3():
     plt.figure(figsize=(12, 2))
     librosa.display.waveplot(x3)
     img3 = BytesIO()
-    plt.savefig(img3,format='png',bbox_inches='tight', dpi=200)
+    plt.savefig(img3, format='png',bbox_inches='tight', dpi=200)
     img3.seek(0)
     return img3
 def plot4():

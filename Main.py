@@ -56,7 +56,10 @@ def index():
     global isThreadStart
     global loadingComplete
     global g_frame
-    global img
+    global img1
+    global img2
+    global img3
+    global img4
     global logStudentName
 
     global SpeakingRate1
@@ -101,7 +104,11 @@ def index():
     isRealDebug = 0 #Debug
     returnCheck = 0
     loadingComplete = False
-    img = None
+    img1 = None
+    img2 = None
+    img3 = None
+    img4 = None
+    
 
     global DetectRet
     #DetectRet = list(range(4))  # peerNum
@@ -153,10 +160,10 @@ def mfcc_ctrl():
     t3.join()
     t4.join()
 
-    microphone_checker_stream.plot1()
-    microphone_checker_stream.plot2()
-    microphone_checker_stream.plot3()
-    microphone_checker_stream.plot4()
+    # microphone_checker_stream.plot1()
+    # microphone_checker_stream.plot2()
+    # microphone_checker_stream.plot3()
+    # microphone_checker_stream.plot4()
     
     SpeakingRate1,SpeakingCount1 = microphone_checker_stream.getAD1()
     SpeakingRate2,SpeakingCount2 = microphone_checker_stream.getAD2()
@@ -595,11 +602,29 @@ def mfcc_feed():
         'SpeakingCount4': str(SpeakingCount4)
     })
 
-@app.route('/fig')
-def fig():
-    global img
-    print(type(img))
-    return send_file(img, mimetype='image/png')
+@app.route('/fig1')
+def fig1():
+    global img1
+    img1 = microphone_checker_stream.plot1()
+    return send_file(img1, mimetype='image/png')
+
+@app.route('/fig2')
+def fig2():
+    global img2
+    img2 = microphone_checker_stream.plot2()
+    return send_file(img2, mimetype='image/png')
+
+@app.route('/fig3')
+def fig3():
+    global img3
+    img3 = microphone_checker_stream.plot3()
+    return send_file(img3, mimetype='image/png')
+
+@app.route('/fig4')
+def fig4():
+    global img4
+    img4 = microphone_checker_stream.plot4()
+    return send_file(img4, mimetype='image/png')
 
 @app.route('/log_feed', methods=['POST'])
 def log_feed():
