@@ -173,7 +173,7 @@
           </div>
         </nav>
         <div id="SpeakingRate1" class="ta1">
-          <strong>성효제</strong> 발화율 : 0%, 발화 횟수 0회
+          <strong>최시열</strong> 발화율 : 0%, 발화 횟수 0회
         </div>
         <div id="SpeakingRate2" class="ta1">
           <strong>이관우</strong> 발화율 : 0%, 발화 횟수 0회
@@ -182,7 +182,7 @@
           <strong>이진영</strong> 발화율 : 0%, 발화 횟수 0회
         </div>
         <div id="SpeakingRate4" class="ta1">
-          <strong>최시열</strong> 발화율 : 0%, 발화 횟수 0회
+          <strong>성효제</strong> 발화율 : 0%, 발화 횟수 0회
         </div>
         <script>
           setInterval(function () {
@@ -195,7 +195,7 @@
 
                 if (response["speakingRate1"] !== "0") {
                   $("#SpeakingRate1").html(
-                    "<strong> 성효제 </strong> 발화율 : " +
+                    "<strong> 최시열 </strong> 발화율 : " +
                       response["SpeakingRate1"] +
                       "%, 발화 횟수 " +
                       response["SpeakingCount1"] +
@@ -228,7 +228,7 @@
                 }
                 if (response["SpeakingRate4"] !== "0") {
                   $("#SpeakingRate4").html(
-                    "<strong> 최시열 </strong> 발화율 : " +
+                    "<strong> 성효제 </strong> 발화율 : " +
                       response["SpeakingRate4"] +
                       "%, 발화 횟수" +
                       response["SpeakingCount4"] +
@@ -312,7 +312,6 @@
             </div>
           </div>
         </nav>
-
         <!-- 학생들 행동 기록 -> 나중에 동적 생성으로 수정해야한다. -->
 
         <div id="record"></div>
@@ -350,7 +349,7 @@
                 console.log(response);
                 console.log("test : " + response["behaviorType"]);
 
-                if (response["name"] === "1") {
+                if (response["name"] === "0") {
                   if (response["behaviorType"] === "0") {
                     behavior_1[0]++;
                   } else if (response["behaviorType"] === "1") {
@@ -359,11 +358,11 @@
                     behavior_3[0]++;
                   }
                   action[0]++;
-                  student_name = "성효제";
+                  student_name = "최시열";
                   behavior_time[0] +=
                     parseInt(response["endTime"]) -
                     parseInt(response["startTime"]);
-                } else if (response["name"] === "2") {
+                } else if (response["name"] === "1") {
                   if (response["behaviorType"] === "0") {
                     behavior_1[1]++;
                   } else if (response["behaviorType"] === "1") {
@@ -376,7 +375,7 @@
                   behavior_time[1] +=
                     parseInt(response["endTime"]) -
                     parseInt(response["startTime"]);
-                } else if (response["name"] === "3") {
+                } else if (response["name"] === "2") {
                   if (response["behaviorType"] === "0") {
                     behavior_1[2]++;
                   } else if (response["behaviorType"] === "1") {
@@ -389,7 +388,7 @@
                   behavior_time[2] +=
                     parseInt(response["endTime"]) -
                     parseInt(response["startTime"]);
-                } else if (response["name"] === "4") {
+                } else if (response["name"] === "3") {
                   if (response["behaviorType"] === "0") {
                     behavior_1[3]++;
                   } else if (response["behaviorType"] === "1") {
@@ -398,13 +397,13 @@
                     behavior_3[3]++;
                   }
                   action[3]++;
-                  student_name = "최시열";
+                  student_name = "성효제";
                   behavior_time[3] +=
                     parseInt(response["endTime"]) -
                     parseInt(response["startTime"]);
                 }
                 $("#student1").html(
-                  "<strong> 성효제 </strong> 학생" +
+                  "<strong> 최시열 </strong> 학생" +
                     "</br>" +
                     "<strong>얼굴 멀어짐 </strong>:" +
                     behavior_3[0] +
@@ -455,7 +454,7 @@
                 );
 
                 $("#student4").html(
-                  "<strong> 최시열 </strong> 학생" +
+                  "<strong> 성효제 </strong> 학생" +
                     "</br>" +
                     "<strong>얼굴 멀어짐 </strong>:" +
                     behavior_3[3] +
@@ -508,7 +507,6 @@
                     "</strong>" +
                     " 감지됨";
                   body.appendChild(button);
-
                   overlap = response["startTime"];
                 }
               },
