@@ -18,14 +18,16 @@ import json
 from queue import Queue
 import datetime
 
-
 from flask import Flask, render_template, Response, jsonify, send_file, request
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def preform():
     print('///1///')
     return render_template('preform.html', send=1)
+
 
 @app.route('/', methods=['POST'])
 def index():
@@ -34,8 +36,8 @@ def index():
     now = datetime.datetime.now()
     timeString = now.strftime("%Y-%m-%d %H:%M")
     templateData = {
-            'title': 'Image Streaming',
-            'time': timeString
+        'title': 'Image Streaming',
+        'time': timeString
     }
 
     global CALITIME
@@ -43,6 +45,11 @@ def index():
     result = request.form
     CALITIME = int(result["calitime"])
     TIMETHRESHOLD = int(result["logtime"])
+    global systemEnded
+    systemEnded = False
+
+    global createdTag
+    createdTag = [[], [], [], []]
 
     global silence
     global size
@@ -82,14 +89,13 @@ def index():
     SpeakingCount3 = 0
     SpeakingCount4 = 0
 
-
     global mfccStartTime
     mfccStartTime = time.time()
 
     global logFile
     logFile = list(range(4))
     for i in range(0, 4):
-        logFile[i] = open(f"evalLog{i+1}.txt", "w")
+        logFile[i] = open(f"evalLog{i + 1}.txt", "w")
 
     g_frame = None
 
@@ -100,8 +106,8 @@ def index():
     silence = 1
     size = 1
     isVideoSystemReady = False
-    isLiveLocal = 1 #Local
-    isRealDebug = 0 #Debug
+    isLiveLocal = 1  # Local
+    isRealDebug = 0  # Debug
     returnCheck = 0
     loadingComplete = False
     img1 = None
@@ -111,7 +117,7 @@ def index():
     
 
     global DetectRet
-    #DetectRet = list(range(4))  # peerNum
+    # DetectRet = list(range(4))  # peerNum
     DetectRet = [0, 0, 0, 0]
 
     global isFrameReady
@@ -124,12 +130,14 @@ def index():
 
     return render_template('index.html', **templateData)
 
+
 @app.route('/mfccstart', methods=['POST'])
 def mfccstart():
     # th = threading.Thread(target=mfcc_ctrl, args=())
     # th.start()
     # return render_template('temp.html', value=0)
     print("Start")
+
 
 def mfcc_ctrl():
     global SpeakingRate1
@@ -143,12 +151,16 @@ def mfcc_ctrl():
 
     global mfccStartTime
 
-    mfccEndTime =  time.time() - mfccStartTime
+    mfccEndTime = time.time() - mfccStartTime
 
-    t1=threading.Thread(target=microphone_checker_stream.mfcc_process, args=("SampleAudio1.wav","temp1.wav", mfccEndTime))
-    t2=threading.Thread(target=microphone_checker_stream.mfcc_process, args=("SampleAudio2.wav","temp2.wav", mfccEndTime))
-    t3=threading.Thread(target=microphone_checker_stream.mfcc_process, args=("SampleAudio3.wav","temp3.wav", mfccEndTime))
-    t4=threading.Thread(target=microphone_checker_stream.mfcc_process, args=("SampleAudio4.wav","temp4.wav", mfccEndTime))
+    t1 = threading.Thread(target=microphone_checker_stream.mfcc_process,
+                          args=("SampleAudio1.wav", "temp1.wav", mfccEndTime))
+    t2 = threading.Thread(target=microphone_checker_stream.mfcc_process,
+                          args=("SampleAudio2.wav", "temp2.wav", mfccEndTime))
+    t3 = threading.Thread(target=microphone_checker_stream.mfcc_process,
+                          args=("SampleAudio3.wav", "temp3.wav", mfccEndTime))
+    t4 = threading.Thread(target=microphone_checker_stream.mfcc_process,
+                          args=("SampleAudio4.wav", "temp4.wav", mfccEndTime))
 
     t1.start()
     t2.start()
@@ -171,7 +183,7 @@ def mfcc_ctrl():
     SpeakingRate4,SpeakingCount4 = microphone_checker_stream.getAD4()
 
     print("\n\n\n디버기이잉", SpeakingCount1, SpeakingCount2, SpeakingCount3, SpeakingCount4)
- 
+
 
 def real_gen_frames():
     whenet = WHENet(snapshot='WHENet.h5')
@@ -260,7 +272,7 @@ def real_gen_frames():
             print('move back')
             frameCtrl = None
 
-        #for i in range(0, peerNum):
+        # for i in range(0, peerNum):
         #    cap[i].set(cv2.CAP_PROP_POS_FRAMES, frameBack)
 
         # try:
@@ -322,32 +334,34 @@ def real_gen_frames():
         headArea = list(range(peerNum))
         l_frame = list(range(peerNum))
         for i in range(0, peerNum):
-            l_frame[i], horizMove[i], vertiMove[i], rollByXPos[i], headArea[i] = process_detection(whenet, sendedFrame[i],
-                                                                                                 bboxes[i][0],
-                                                                                                 horizAvg[i],
-                                                                                                 vertiAvg[i],
-                                                                                                 rollAvg[i], areaAvg[i],
-                                                                                                 conType[i])
+            l_frame[i], horizMove[i], vertiMove[i], rollByXPos[i], headArea[i] = process_detection(whenet,
+                                                                                                   sendedFrame[i],
+                                                                                                   bboxes[i][0],
+                                                                                                   horizAvg[i],
+                                                                                                   vertiAvg[i],
+                                                                                                   rollAvg[i],
+                                                                                                   areaAvg[i],
+                                                                                                   conType[i])
         EAR = list(range(peerNum))
         for i in range(0, peerNum):
             EAR[i] = calculate_ear(rgbFrame[i], draw=l_frame[i])
 
         # 캘리브레이션 끝
-        if time.time() - startTime < CALITIME + 1 and time.time() - startTime > CALITIME:
+        if time.time() - startTime < CALITIME + 5 and time.time() - startTime > CALITIME:
             for i in range(0, peerNum):
                 horizAvg[i] = horizSum[i] / frCnt
                 vertiAvg[i] = vertiSum[i] / frCnt
                 rollAvg[i] = rollSum[i] / frCnt
                 areaAvg[i] = areaSum[i] / frCnt
                 EARAvg[i] = EARSum[i] / frCnt
-                #print('AVG' + str(i) + ' ' + str(areaAvg[i]))
+                print('AVG' + str(i) + ' ' + str(areaAvg[i]))
         else:
             for i in range(0, peerNum):
                 horizSum[i] += horizMove[i]
                 vertiSum[i] += vertiMove[i]
                 rollSum[i] += rollByXPos[i]
                 areaSum[i] += headArea[i]
-                #print('summing...:' + str(headArea[i]) + ' / sum:' + str(areaSum[i]))
+                # print('summing...:' + str(headArea[i]) + ' / sum:' + str(areaSum[i]))
 
                 if EAR[i] is not None:
                     EARSum[i] += EAR[i]
@@ -358,14 +372,15 @@ def real_gen_frames():
                 cv2.putText(l_frame[i], f'EAR:{EAR[i]}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                             cv2.LINE_AA)
                 earCurTime = time.time()
-                if EAR[i] < EARAvg[i] * 0.925:
+                if EAR[i] < EARAvg[i] * 0.915:
                     isDetectedOnce[i] = 1
                     if EARTime[i] is None:
                         EARTime[i] = earCurTime
                         frameTemp = frCnt
                     else:
                         if earCurTime - EARTime[i] > TIMETHRESHOLD:
-                            cv2.putText(l_frame[i], 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 255, 0),
+                            cv2.putText(l_frame[i], 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1,
+                                        (0, 255, 0),
                                         2,
                                         cv2.LINE_AA)
                 else:
@@ -419,13 +434,42 @@ def real_gen_frames():
 
         # cv2.imshow('output', frame)
         # out.write(frame)
-        #global frameReady
-        #for i in range(0, peerNum):
+        # global frameReady
+        # for i in range(0, peerNum):
         #    frameReady[i] = True
 
+    global systemEnded
+    systemEnded = True
     global logFile
+    global createdTag
     for i in range(0, peerNum):
         logFile[i].close()
+
+    tagList = [[], [], [], []]
+    for i in range(0, peerNum):
+        with open(f"TestTag{i + 1}.txt", "r") as taggedFile:
+            for text in taggedFile:
+                text = text.strip('\n')
+                lineStrList = text.split()
+                for idx in range(0, 3):
+                    lineStrList[idx] = round(float(lineStrList[idx]))
+                tagList[i].append(lineStrList)
+
+    print(tagList)
+    print('///')
+    print(createdTag)
+
+    corrCnt = [0, 0, 0, 0]
+    derrCnt = [0, 0, 0, 0]
+    attemptAccur = list(range(peerNum))
+    for i in range(0, peerNum):
+        for oneTagLog in tagList[i]:
+            for oneCrLog in createdTag[i]:
+                if oneTagLog[0] > oneCrLog[0] - 15 and oneTagLog[1] < oneCrLog[1] + 15:
+                    corrCnt[i] += 1
+                    break
+        attemptAccur[i] = (corrCnt[i] / len(tagList[i])) * 100
+        print(f"{i+1}번: {attemptAccur[i]}%")
 
 def justWebCAM():
     myCap = cv2.VideoCapture(0)
@@ -439,6 +483,7 @@ def justWebCAM():
             ret, buffer = cv2.imencode('.jpg', myFrame)
             myBytes = buffer.tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + myBytes + b'\r\n')
+
 
 class detectionQueue:
     def __init__(self):
@@ -473,11 +518,12 @@ class detectionQueue:
             else:
                 return 1
 
+
 class Streaming:
     def __init__(self, peer):
         global isLiveLocal
         global frameReady
-        #global loadingComplete
+        # global loadingComplete
         global g_frame
         self.peerNum = 4
 
@@ -493,8 +539,7 @@ class Streaming:
         else:
             self.srcPath = f'./SampleVideo{peer}.mp4'
         self.cap = cv2.VideoCapture(self.srcPath)
-        #wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
-
+        # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
 
     def local_frames(self, peer):
         global g_frame
@@ -504,13 +549,13 @@ class Streaming:
         global frameReady
 
         peer = int(peer)
-        ret, g_frame[peer-1] = self.cap.read()
+        ret, g_frame[peer - 1] = self.cap.read()
 
-        #wait(lambda: frameReady[peer-1], timeout_seconds=120, waiting_for="video process ready")
+        # wait(lambda: frameReady[peer-1], timeout_seconds=120, waiting_for="video process ready")
 
         if self.cap.isOpened():
             while True:
-                ret, g_frame[peer-1] = self.cap.read()
+                ret, g_frame[peer - 1] = self.cap.read()
                 if ret:
                     global DetectRet
                     if DetectRet[peer - 1] is 1:
@@ -531,7 +576,7 @@ class Streaming:
                     break
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(40) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(20) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
@@ -562,10 +607,10 @@ def video_feed(peer):
     global frameReady
     global loadingComplete
     wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
-    cv2.waitKey(200)
+    cv2.waitKey(100)
     if isRealDebug is 0:
         return Response(Streaming(peer).local_frames(peer),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+                        mimetype='multipart/x-mixed-replace; boundary=frame')
     else:
         pass
         # if frameReady[0] is True:
@@ -580,11 +625,13 @@ def justWebCAM_feed():
     return Response(justWebCAM(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
 @app.route('/mfccend', methods=['POST'])
 def mfccend():
     # microphone_checker_stream.process_stop()
     mfcc_ctrl()
     return render_template('temp.html', value=0)
+
 
 @app.route('/mfcc_feed', methods=['POST'])
 def mfcc_feed():
@@ -626,6 +673,7 @@ def fig4():
     img4 = microphone_checker_stream.plot4()
     return send_file(img4, mimetype='image/png')
 
+
 @app.route('/log_feed', methods=['POST'])
 def log_feed():
     global logStartTime
@@ -634,10 +682,12 @@ def log_feed():
     global returnCheck
     global logStudentName
     global logFile
+    global createdTag
 
     if logStartTime is not 0 and logEndTime is not 0 and logType is not 0:
-        print(f"fStinghatton: {round(logStartTime, 1)} {round(logEndTime, 1)} {logType}\n")
+        #print(f"fStinghatton: {round(logStartTime, 1)} {round(logEndTime, 1)} {logType}\n")
         logFile[logStudentName].write(f"{round(logStartTime, 1)} {round(logEndTime, 1)} {logType}\n")
+        createdTag[logStudentName].append([round(logStartTime), round(logEndTime), logType])
         returnCheck = 1
 
     return jsonify({
