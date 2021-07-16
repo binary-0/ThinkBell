@@ -73,6 +73,7 @@ def mfcc_process(audio_name,temp_name,cut_point):
     # print(x)
     # print(S)
     # print(delta2_mfcc)
+    len = librosa.get_duration(x)
     silence = np.count_nonzero(abs(delta2_mfcc) < 2)
     size = delta2_mfcc.size
     SpeakingRate = int(100 - silence / size * 100)
@@ -83,19 +84,35 @@ def mfcc_process(audio_name,temp_name,cut_point):
     # print("total : ", size)
     # print("speaking rate : ", SpeakingRate, "%")
 
-    speakCount =0
+    speakCount = 0
     speakIndex = np.where(abs(delta2_mfcc)>5)[1]
     # print(speakIndex.size)
 
-    toggle = True
-    for i in speakIndex:
-        if i-3&i-2&i-1&i&i+1&i+2&i+3 in speakIndex :
-            if Toggle == True :
-                speakCount+=1
-                # print(i)
-                Toggle = False
+    secIndex = speakIndex*len/size
+    secIndexUni = np.unique(secIndex.astype(int))
+    # print(speakIndex)
+    print(np.unique(secIndex.astype(int)))
+
+    temp=0
+    speakCount=0
+    for j in secIndexUni:
+        if (j-2 in secIndexUni) & (j-1 in secIndexUni) & (j in secIndexUni):
+            if temp == 0:
+                speakCount=speakCount+1
+                temp = 1
+                print(j)
         else :
-            Toggle = True   
+            temp = 0
+
+    # toggle = True
+    # for i in speakIndex:
+    #     if i-6&i-5&i-4&i-3&i-2&i-1&i&i+1&i+2&i+3&i+4&i+5&i+6 in speakIndex :
+    #         if Toggle == True :
+    #             speakCount+=1
+    #             # print(i)
+    #             Toggle = False
+    #     else :
+    #         Toggle = True   
 
     print("[{}] 발화율 : {}%, 발화횟수 : {}회".format(audio_name, SpeakingRate, speakCount))
 
