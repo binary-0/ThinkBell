@@ -69,6 +69,9 @@ def index():
     global img4
     global logStudentName
 
+    global isStartAudio
+    isStartAudio=False
+
     global SpeakingRate1
     global SpeakingRate2
     global SpeakingRate3
@@ -553,7 +556,7 @@ class Streaming:
         ret, g_frame[peer - 1] = self.cap.read()
 
         # wait(lambda: frameReady[peer-1], timeout_seconds=120, waiting_for="video process ready")
-
+        global isStartAudio
         if self.cap.isOpened():
             while True:
                 ret, g_frame[peer - 1] = self.cap.read()
@@ -573,6 +576,7 @@ class Streaming:
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
                     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
+                    isStartAudio=True
                 else:
                     break
 
@@ -602,12 +606,14 @@ class Streaming:
 
 @app.route("/wav")
 def streamwav():
+    global isStartAudio
     def generate():
         with open("SampleAudioAll.wav", "rb") as fwav:
             data = fwav.read(1024)
             while data:
                 yield data
                 data = fwav.read(1024)
+    wait(lambda: isStartAudio, timeout_seconds=120, waiting_for="audio ready")
     return Response(generate(), mimetype="audio/x-wav")
 
 @app.route('/video_feed/<peer>')
