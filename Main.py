@@ -128,6 +128,8 @@ def index():
     gen_frame_thread.start()
     webCam_thread = threading.Thread(target=justWebCAM)
     webCam_thread.start()
+    wav_thread = threading.Thread(target=streamwav)
+    wav_thread.start()
 
     return render_template('index.html', **templateData)
 
@@ -446,31 +448,34 @@ def real_gen_frames():
     for i in range(0, peerNum):
         logFile[i].close()
 
-    tagList = [[], [], [], []]
-    for i in range(0, peerNum):
-        with open(f"TestTag{i + 1}.txt", "r") as taggedFile:
-            for text in taggedFile:
-                text = text.strip('\n')
-                lineStrList = text.split()
-                for idx in range(0, 3):
-                    lineStrList[idx] = round(float(lineStrList[idx]))
-                tagList[i].append(lineStrList)
+    try:
+        tagList = [[], [], [], []]
+        for i in range(0, peerNum):
+            with open(f"TestTag{i + 1}.txt", "r") as taggedFile:
+                for text in taggedFile:
+                    text = text.strip('\n')
+                    lineStrList = text.split()
+                    for idx in range(0, 3):
+                        lineStrList[idx] = round(float(lineStrList[idx]))
+                    tagList[i].append(lineStrList)
 
-    print(tagList)
-    print('///')
-    print(createdTag)
+        print(tagList)
+        print('///')
+        print(createdTag)
 
-    corrCnt = [0, 0, 0, 0]
-    #derrCnt = [0, 0, 0, 0]
-    attemptAccur = list(range(peerNum))
-    for i in range(0, peerNum):
-        for oneTagLog in tagList[i]:
-            for oneCrLog in createdTag[i]:
-                if oneTagLog[0] > oneCrLog[0] - 15 and oneTagLog[1] < oneCrLog[1] + 15:
-                    corrCnt[i] += 1
-                    break
-        attemptAccur[i] = (corrCnt[i] / len(tagList[i])) * 100
-        print(f"{i+1}번: 정확도: {attemptAccur[i]}%")
+        corrCnt = [0, 0, 0, 0]
+        #derrCnt = [0, 0, 0, 0]
+        attemptAccur = list(range(peerNum))
+        for i in range(0, peerNum):
+            for oneTagLog in tagList[i]:
+                for oneCrLog in createdTag[i]:
+                    if oneTagLog[0] > oneCrLog[0] - 15 and oneTagLog[1] < oneCrLog[1] + 15:
+                        corrCnt[i] += 1
+                        break
+            attemptAccur[i] = (corrCnt[i] / len(tagList[i])) * 100
+            print(f"{i+1}번: 정확도: {attemptAccur[i]}%")
+    except:
+        print('File Not Found.')
 
 def justWebCAM():
     myCap = cv2.VideoCapture(0)
@@ -604,7 +609,7 @@ class Streaming:
 #     except:
 #         pass
 
-@app.route("/wav")
+@app.route("/streamwav")
 def streamwav():
     global isStartAudio
     def generate():
