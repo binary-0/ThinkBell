@@ -454,7 +454,7 @@
       </table>
         <!-- 학생들 행동 기록 -> 나중에 동적 생성으로 수정해야한다. -->
 
-        <div id="record"></div>
+        <div id="record" class="logContainer"></div>
 
         <script>
           var body = document.getElementById("record");
@@ -760,6 +760,7 @@
                     ")" +
                     "<br/>" +
                     behavior_setting;
+                  button.className = "logItem"
                   body.appendChild(button);
                   overlap = response["startTime"];
                 }
@@ -774,5 +775,13 @@
     </div>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      .logContainer {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+      .logItem { flex: 0 0 auto; }
+    </style>
   </body>
 </html>
