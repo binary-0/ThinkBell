@@ -20,10 +20,11 @@
       .wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 200px 200px 150px 350px;
+        grid-template-rows: 200px 200px 150px 340px;
         grid-gap: 10px;
         margin-right: 15px;
         margin-left: 15px;
+        margin-top: 10px;
       }
       .item:nth-child(1) {
         grid-column-start: 1;
@@ -208,7 +209,7 @@
             style="border: 5px double black; border-radius: 10px"
             src="{{ url_for('video_feed', peer='1') }}"
             width="50%"
-            height="70%"
+            height="290px"
           />
         </div>
       </div>
@@ -731,10 +732,10 @@
                   var endtime = response["endTime"].slice(0, 3);
                   var timee = endtime - starttime;
 
+
                   //버튼 생성
                   button.innerHTML =
                   imgSrcStr +
-                  "<br/>" +
                   "<br/>" +
                   "<strong>" +
                   student_name +
