@@ -104,3 +104,5 @@ dist
 .tern-port
 *.pyc
 __pycache__/microphone_checker_stream.cpython-36.pyc
+*.xml
+*.iml
