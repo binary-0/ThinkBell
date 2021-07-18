@@ -180,13 +180,13 @@
 		width: 100%;
 		top: 0;
 		left: 0;
-		background-color: #343A40;
-		padding-top: 50px;
-		padding-bottom: 39px;
+		background-color: #FF9BAC;
+		padding-top: 10px;
+		padding-bottom: 10px;
 		}
 
 		.wrap-input100 {
-		width: 50%;
+		width: 20%;
 		background-color: #fff;
 		border-radius: 27px;
 		position: relative;
@@ -203,8 +203,8 @@
 		line-height: 1.2;
 			
 		position: relative;
-		display: block;
-		width: 100%;
+		display: inline-block;
+		width: 40%;
 		height: 55px;
 		background: #ebebeb;
 		border-radius: 27px;
@@ -212,10 +212,10 @@
 		}
 
 		.focus-input100 {
-		display: block;
+		display: inline-block;
 		position: absolute;
 		z-index: -1;
-		width: 100%;
+		width: 70%;
 		height: 100%;
 		top: 0;
 		left: 50%;
@@ -260,7 +260,7 @@
 		padding: 0 20px;
 		width: 100%;
 		height: 50px;
-		background-color: #343A40;
+		background-color: #FF9BAC;
 		border-radius: 25px;
 
         font-family: Manrope;
@@ -297,8 +297,8 @@
 		.p-t-178{
 			padding-top: 178px;
 		}
-		.m-b-23{
-			margin-bottom: 23px;
+		.m-b-30{
+			margin-bottom: 30px;
 		}
 		.p-t-13{
 			padding-top: 13px;
@@ -315,13 +315,22 @@
 		.p-l-50{
 			padding-left: 50px ;
 		}
-		.m-l-190{
-			margin-left: 190px ;
+		.m-l-25{
+			margin-left: 25px ;
+		}
+		.m-l-6{
+			margin-left: 6px ;
+		}
+		.m-r-30{
+			margin-right: 500;
 		}
 		.temp{
 			font-family: Manrope;
             font-weight: bold;
             font-size: 20px;
+		}
+		.m-b-50{
+			margin-bottom: 50px;
 		}
     </style>
 	<form action="/" method="post">
@@ -331,20 +340,15 @@
 				<div class="login100-form validate-form p-l-55 p-r-55 p-t-178">
 
 						<span class="login100-form-title">
-							Think Bell
+							<img src="https://i.ibb.co/b6nPGtN/logo.png" alt="logo" border="0" width="" height="100px">
 						</span>
 						<div class="temp">
-						    Calibration Time:
-						</div>
-						<div class="wrap-input100 validate-input m-b-23 m-l-190" data-validate="Please enter username">
-							<input class="input100 " type="text" name="calitime" placeholder="초 단위">
+							초기 자세 설정시간: <input class="input100 m-b-30 m-l-25" type="text" name="calitime" placeholder="초 단위">
 							<span class="focus-input100"></span>
 						</div>
+
 						<div class="temp">
-							Log Time:
-						</div>
-						<div class="wrap-input100 validate-input m-l-190" data-validate = "Please enter password">
-							<input class="input100" type="text" name="logtime" placeholder="초 단위">
+							부주의 알림 기준시간: <input class="input100 m-l-6" type="text" name="logtime" placeholder="초 단위">
 							<span class="focus-input100"></span>
 						</div>
 						<div class="p-t-13 p-b-30">
@@ -356,8 +360,7 @@
 
 						</div>
 
-						<div class="container-login100-form-btn">
-							<img src="https://i.ibb.co/b6nPGtN/logo.png" alt="logo" border="0" width="35%" height="35%">
+						<div class="container-login100-form-btn m-b-50">
 						</div>
 				</div>
 			</div>
