@@ -46,14 +46,7 @@ def mfcc_process(audio_name,temp_name,cut_point):
     # librosa.display.waveplot(x) 
     # plt.savefig('result1.png',bbox_inches='tight')
 
-    if audio_name == "SampleAudio1.wav":
-        x1=x
-    elif audio_name == "SampleAudio2.wav":
-        x2=x
-    elif audio_name == "SampleAudio3.wav":
-        x3=x
-    elif audio_name == "SampleAudio4.wav":
-        x4=x
+
 
     S = librosa.feature.melspectrogram(x, sr=sample_rate, n_mels=128)
     log_S = librosa.power_to_db(S, ref=np.max)
@@ -61,6 +54,15 @@ def mfcc_process(audio_name,temp_name,cut_point):
 
     delta2_mfcc = librosa.feature.delta(mfcc, order=2)
     # print(delta2_mfcc)
+
+    if audio_name == "SampleAudio1.wav":
+        x1=delta2_mfcc
+    elif audio_name == "SampleAudio2.wav":
+        x2=delta2_mfcc
+    elif audio_name == "SampleAudio3.wav":
+        x3=delta2_mfcc
+    elif audio_name == "SampleAudio4.wav":
+        x4=delta2_mfcc
 
     global sr1
     global sr2
@@ -95,15 +97,20 @@ def mfcc_process(audio_name,temp_name,cut_point):
 
     temp=0
     speakCount=0
+    
+    speakLength = 0
     for j in secIndexUni:
         if (j-2 in secIndexUni) & (j-1 in secIndexUni) & (j in secIndexUni):
             if temp == 0:
                 speakCount=speakCount+1
                 temp = 1
                 print(j)
+            else :
+                speakLength+=1
         else :
             temp = 0
 
+    speakLength = speakLength + speakCount*3
     # toggle = True
     # for i in speakIndex:
     #     if i-6&i-5&i-4&i-3&i-2&i-1&i&i+1&i+2&i+3&i+4&i+5&i+6 in speakIndex :
@@ -114,8 +121,9 @@ def mfcc_process(audio_name,temp_name,cut_point):
     #     else :
     #         Toggle = True   
 
-    print("[{}] 발화율 : {}%, 발화횟수 : {}회".format(audio_name, SpeakingRate, speakCount))
+    print("[{}] 발화 시간 : {}초, 발화횟수 : {}회".format(audio_name, speakLength, speakCount))
 
+    SpeakingRate = speakLength #SpeakingRate가 원래는 SPEAKLENGTH임
     if audio_name == "SampleAudio1.wav":
         sr1 = SpeakingRate
         sc1 = speakCount
@@ -148,28 +156,28 @@ def getAD4():
 
 def plot1():
     plt.figure(figsize=(12, 2))
-    librosa.display.waveplot(x1)
+    plt.plot(x1[0])
     img1 = BytesIO()
     plt.savefig(img1, format='png', bbox_inches='tight', dpi=200)
     img1.seek(0)
     return img1
 def plot2():
     plt.figure(figsize=(12, 2))
-    librosa.display.waveplot(x2)
+    plt.plot(x2[0])
     img2 = BytesIO()
     plt.savefig(img2, format='png',bbox_inches='tight', dpi=200)
     img2.seek(0)
     return img2
 def plot3():
     plt.figure(figsize=(12, 2))
-    librosa.display.waveplot(x3)
+    plt.plot(x3[0])
     img3 = BytesIO()
     plt.savefig(img3, format='png',bbox_inches='tight', dpi=200)
     img3.seek(0)
     return img3
 def plot4():
     plt.figure(figsize=(12, 2))
-    librosa.display.waveplot(x4)
+    plt.plot(x4[0])
     img4 = BytesIO()
     plt.savefig(img4,format='png',bbox_inches='tight', dpi=200)
     img4.seek(0)
