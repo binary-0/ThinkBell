@@ -17,6 +17,7 @@ from waiting import wait
 import json
 from queue import Queue
 import datetime
+from playsound import playsound
 
 from flask import Flask, render_template, Response, jsonify, send_file, request
 
@@ -128,10 +129,20 @@ def index():
     gen_frame_thread.start()
     webCam_thread = threading.Thread(target=justWebCAM)
     webCam_thread.start()
-    wav_thread = threading.Thread(target=streamwav)
-    wav_thread.start()
+
+    audio_thread = threading.Thread(target=play_audio)
+    audio_thread.start()
 
     return render_template('index.html', **templateData)
+
+def play_audio():
+    global isStartAudio
+    while True:
+        if isStartAudio is True:
+            print("hello")
+            playsound('SampleAudioAll.wav')
+            break
+        time.sleep(0.1)
 
 
 @app.route('/mfccstart', methods=['POST'])
@@ -609,17 +620,19 @@ class Streaming:
 #     except:
 #         pass
 
-@app.route("/streamwav")
-def streamwav():
-    global isStartAudio
-    def generate():
-        with open("SampleAudioAll.wav", "rb") as fwav:
-            data = fwav.read(1024)
-            while data:
-                yield data
-                data = fwav.read(1024)
-    wait(lambda: isStartAudio, timeout_seconds=120, waiting_for="audio ready")
-    return Response(generate(), mimetype="audio/x-wav")
+
+# def audio_generate():
+#     with open("SampleAudioAll.wav", "rb") as fwav:
+#         data = fwav.read(1024)
+#         while data:
+#             yield data
+#             data = fwav.read(1024)
+
+# @app.route("/wav")
+# def streamwav():
+#     global isStartAudio
+#     wait(lambda: isStartAudio, timeout_seconds=120, waiting_for="audio ready")
+#     return Response(audio_generate(), mimetype="audio/x-wav")
 
 @app.route('/video_feed/<peer>')
 def video_feed(peer):
