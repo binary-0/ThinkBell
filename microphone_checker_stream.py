@@ -9,15 +9,15 @@ import math
 import moviepy.editor as mp
 from io import BytesIO
 
-sr1=0
-sr2=0
-sr3=0
-sr4=0
+sr1=-1
+sr2=-1
+sr3=-1
+sr4=-1
 
-sc1=0
-sc2=0
-sc3=0
-sc4=0
+sc1=-1
+sc2=-1
+sc3=-1
+sc4=-1
 
 x1=0
 x2=0

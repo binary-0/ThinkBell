@@ -600,6 +600,15 @@ class Streaming:
 #     except:
 #         pass
 
+@app.route("/wav")
+def streamwav():
+    def generate():
+        with open("SampleAudioAll.wav", "rb") as fwav:
+            data = fwav.read(1024)
+            while data:
+                yield data
+                data = fwav.read(1024)
+    return Response(generate(), mimetype="audio/x-wav")
 
 @app.route('/video_feed/<peer>')
 def video_feed(peer):
