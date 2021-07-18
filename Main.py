@@ -89,8 +89,6 @@ def index():
     SpeakingCount3 = 0
     SpeakingCount4 = 0
 
-    global mfccStartTime
-    mfccStartTime = time.time()
 
     global logFile
     logFile = list(range(4))
@@ -540,6 +538,9 @@ class Streaming:
             self.srcPath = f'./TestVideo{peer}.mp4'
         self.cap = cv2.VideoCapture(self.srcPath)
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
+
+        global mfccStartTime
+        mfccStartTime = time.time()
 
     def local_frames(self, peer):
         global g_frame
