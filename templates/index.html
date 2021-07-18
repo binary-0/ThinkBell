@@ -77,6 +77,22 @@
       .ta1 {
         margin-top: 13px;
       }
+      .lb-wrap {
+        width: 23%;
+        height: 50%;
+      }
+      .lb-wrap img {
+        width: 100%;
+        vertical-align: middle;
+      }
+      .lb-text {
+        margin-left: 40px;
+        height: 20px;
+        background-color: #fbfbfa;
+        text-align: center;
+        font-size: 15px;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -96,35 +112,90 @@
           text-align: center;
         "
       >
-        <img
-          style="
-            border-radius: 10px;
-            margin: 5px;
-            border: 3px solid black;
-            margin-right: 5px;
-          "
-          src="{{ url_for('video_feed', peer='1') }}"
-          width="23%"
-          height="90%"
-        />
-        <img
-          style="border-radius: 10px; margin: 5px; border: 3px solid black"
-          src="{{ url_for('video_feed', peer='2') }}"
-          width="23%"
-          height="90%"
-        />
-        <img
-          style="border-radius: 10px; margin: 5px; border: 3px solid black"
-          src="{{ url_for('video_feed', peer='3') }}"
-          width="23%"
-          height="90%"
-        />
-        <img
-          style="border-radius: 10px; margin: 5px; border: 3px solid black"
-          src="{{ url_for('video_feed', peer='4') }}"
-          width="23%"
-          height="90%"
-        />
+        <div class="lb-wrap" style="float: left">
+          <!--이미지 layout 사이즈-->
+          <div class="lb-text" style="float: left">
+            <!--텍스트 디자인-->
+            <p>최시열</p>
+          </div>
+          <div class="lb-image" style="float: left">
+            <img
+              src="{{ url_for('video_feed', peer='1') }}"
+              style="
+                height: 160px;
+                border-radius: 10px;
+                margin: 5px;
+                border: 3px solid black;
+                margin-left: 35px;
+                margin-right: 5px;
+              "
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="lb-wrap" style="float: left; margin-left: 5px">
+          <!--이미지 layout 사이즈-->
+          <div class="lb-text" style="float: left">
+            <!--텍스트 디자인-->
+            <p>이관우</p>
+          </div>
+          <div class="lb-image" style="float: left">
+            <img
+              src="{{ url_for('video_feed', peer='2') }}"
+              style="
+                height: 160px;
+                border-radius: 10px;
+                margin: 5px;
+                border: 3px solid black;
+                margin-left: 35px;
+                margin-right: 5px;
+              "
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="lb-wrap" style="float: left; margin-left: 5px">
+          <!--이미지 layout 사이즈-->
+          <div class="lb-text" style="float: left">
+            <!--텍스트 디자인-->
+            <p>이진영</p>
+          </div>
+          <div class="lb-image" style="float: left">
+            <img
+              src="{{ url_for('video_feed', peer='3') }}"
+              style="
+                height: 160px;
+                border-radius: 10px;
+                margin: 5px;
+                border: 3px solid black;
+                margin-left: 35px;
+                margin-right: 5px;
+              "
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="lb-wrap" style="float: left; margin-left: 5px">
+          <!--이미지 layout 사이즈-->
+          <div class="lb-text" style="float: left">
+            <!--텍스트 디자인-->
+            <p>성효제</p>
+          </div>
+          <div class="lb-image" style="float: left">
+            <img
+              src="{{ url_for('video_feed', peer='4') }}"
+              style="
+                height: 160px;
+                border-radius: 10px;
+                margin: 5px;
+                border: 3px solid black;
+                margin-left: 35px;
+                margin-right: 5px;
+              "
+              alt=""
+            />
+          </div>
+        </div>
         <br />
       </div>
 
@@ -135,14 +206,10 @@
             <a class="navbar-brand" href="#"><strong>발화자</strong></a>
           </div>
         </nav>
+        <div style="margin-left: 300px"><strong>최시열</strong></div>
         <div style="text-align: center">
           <img
-            style="
-              border: 5px double black;
-              border-radius: 10px;
-              margin: 5px;
-              margin-top: 10px;
-            "
+            style="border: 5px double black; border-radius: 10px"
             src="{{ url_for('video_feed', peer='1') }}"
             width="50%"
             height="80%"
@@ -172,78 +239,104 @@
             </form>
           </div>
         </nav>
-        <div id="SpeakingRate1" class="ta1">
-          <strong>최시열</strong> 발화율 : 0%, 발화 횟수 0회
-        </div>
-        <div id="SpeakingRate2" class="ta1">
-          <strong>이관우</strong> 발화율 : 0%, 발화 횟수 0회
-        </div>
-        <div id="SpeakingRate3" class="ta1">
-          <strong>이진영</strong> 발화율 : 0%, 발화 횟수 0회
-        </div>
-        <div id="SpeakingRate4" class="ta1">
-          <strong>성효제</strong> 발화율 : 0%, 발화 횟수 0회
-        </div>
-        <script>
-          setInterval(function () {
-            $.ajax({
-              url: "/mfcc_feed",
-              type: "POST",
-              success: function (response) {
-                console.log("first response : ");
-                console.log(response["SpeakingRate1"]);
+        <div style="overflow-x: hidden; width: 100%; height: 75%">
+          <div
+            id="SpeakingRate1"
+            class="ta1"
+            style="border: 3px double black; border-radius: 10px"
+          >
+            <strong>최시열</strong> 발화율 : 0%, 발화 횟수 0회
+          </div>
+          <div
+            id="SpeakingRate2"
+            class="ta1"
+            style="border: 3px double black; border-radius: 10px"
+          >
+            <strong>이관우</strong> 발화율 : 0%, 발화 횟수 0회
+          </div>
+          <div
+            id="SpeakingRate3"
+            class="ta1"
+            style="border: 3px double black; border-radius: 10px"
+          >
+            <strong>이진영</strong> 발화율 : 0%, 발화 횟수 0회
+          </div>
+          <div
+            id="SpeakingRate4"
+            class="ta1"
+            style="border: 3px double black; border-radius: 10px"
+          >
+            <strong>성효제</strong> 발화율 : 0%, 발화 횟수 0회
+          </div>
+          <script>
+            var speakImg1 = new Image(650,50);
+            var speakingBoard1 = document.getElementById("SpeakingRate1");
+            var speakImg2 = new Image(650,50);
+            var speakingBoard2 = document.getElementById("SpeakingRate2");
+            var speakImg3 = new Image(650,50);
+            var speakingBoard3 = document.getElementById("SpeakingRate3");
+            var speakImg4 = new Image(650,50);
+            var speakingBoard4 = document.getElementById("SpeakingRate4");
+            setInterval(function () {
+              $.ajax({
+                url: "/mfcc_feed",
+                type: "POST",
+                success: function (response) {
+                  console.log("first response : ");
+                  console.log(response["SpeakingRate1"]);
 
-                if (response["speakingRate1"] !== "0") {
-                  $("#SpeakingRate1").html(
-                    "<strong> 최시열 </strong> 발화율 : " +
-                      response["SpeakingRate1"] +
-                      "%, 발화 횟수 " +
-                      response["SpeakingCount1"] +
-                      "회" +
-                      "<img width = '100px' src = {{url_for('fig1')}}>" +
-                      "</br>"
-                  );
-                }
-                if (response["SpeakingRate2"] !== "0") {
-                  $("#SpeakingRate2").html(
-                    "<strong> 이관우 </strong> 발화율 : " +
-                      response["SpeakingRate2"] +
-                      "%, 발화 횟수" +
-                      response["SpeakingCount2"] +
-                      "회" +
-                      "<img width = '100px' src = {{url_for('fig2')}}>" +
-                      "</br>"
-                  );
-                }
-                if (response["SpeakingRate3"] !== "0") {
-                  $("#SpeakingRate3").html(
-                    "<strong> 이진영 </strong> 발화율 : " +
-                      response["SpeakingRate3"] +
-                      "%, 발화 횟수" +
-                      response["SpeakingCount3"] +
-                      "회" +
-                      "<img width = '100px' src = {{url_for('fig3')}}>" +
-                      "</br>"
-                  );
-                }
-                if (response["SpeakingRate4"] !== "0") {
-                  $("#SpeakingRate4").html(
-                    "<strong> 성효제 </strong> 발화율 : " +
-                      response["SpeakingRate4"] +
-                      "%, 발화 횟수" +
-                      response["SpeakingCount4"] +
-                      "회" +
-                      "<img width = '100px' src = {{url_for('fig4')}}>" +
-                      "</br>"
-                  );
-                }
-              },
-              error: function (error) {
-                console.log(error);
-              },
-            });
-          }, 1000);
-        </script>
+                  if (response["SpeakingRate1"] !== "0") {
+                    speakImg1.src = '{{url_for('fig1')}}';
+                    $("#SpeakingRate1").html(
+                      "<strong> 최시열 : </strong> 발화율 : " +
+                        response["SpeakingRate1"] +
+                        "%, 발화 횟수 " +
+                        response["SpeakingCount1"] +
+                        "회" + ", 발화 그래프 : "
+                    );
+                    speakingBoard1.appendChild(speakImg1);
+                  }
+                  if (response["SpeakingRate2"] !== "0") {
+                    speakImg2.src = '{{url_for('fig2')}}';
+                    $("#SpeakingRate2").html(
+                      "<strong> 이관우 : </strong> 발화율 : " +
+                        response["SpeakingRate2"] +
+                        "%, 발화 횟수 " +
+                        response["SpeakingCount2"] +
+                        "회" + ", 발화 그래프 : "
+                    );
+                    speakingBoard2.appendChild(speakImg2);
+                  }
+                  if (response["SpeakingRate3"] !== "0") {
+                    speakImg3.src = '{{url_for('fig3')}}';
+                    $("#SpeakingRate3").html(
+                      "<strong> 이진영 : </strong> 발화율 : " +
+                        response["SpeakingRate3"] +
+                        "%, 발화 횟수 " +
+                        response["SpeakingCount3"] +
+                        "회" + ", 발화 그래프 : "
+                    );
+                    speakingBoard3.appendChild(speakImg3);
+                  }
+                  if (response["SpeakingRate4"] !== "0") {
+                    speakImg4.src = '{{url_for('fig4')}}';
+                    $("#SpeakingRate4").html(
+                      "<strong> 성효제 : </strong> 발화율 : " +
+                        response["SpeakingRate4"] +
+                        "%, 발화 횟수 " +
+                        response["SpeakingCount4"] +
+                        "회" + ", 발화 그래프 : "
+                    );
+                    speakingBoard4.appendChild(speakImg4);
+                  }
+                },
+                error: function (error) {
+                  console.log(error);
+                },
+              });
+            }, 1000);
+          </script>
+        </div>
       </div>
 
       <!--네번째 칸 __ 내 얼굴-->
@@ -253,6 +346,7 @@
             <a class="navbar-brand" href="#"><strong>내 얼굴</strong></a>
           </div>
         </nav>
+
         <div style="text-align: center">
           <img
             style="
@@ -329,6 +423,11 @@
             behaviorType,
             overlap = "None",
             behavior_setting;
+          let isoverlap1 = "0";
+          let isoverlap2 = "0";
+          let isoverlap3 = "0";
+          let isoverlap4 = "0";
+
           /*!!! 전부다 동적 생성으로 바꿔야 함 !!!*/
           //모든 이상 행동 종합
           let action = [0, 0, 0, 0];
@@ -347,9 +446,12 @@
               type: "POST",
               success: function (response) {
                 console.log(response);
-                console.log("test : " + response["behaviorType"]);
+                console.log("test : " + response["startTime"]);
 
-                if (response["name"] === "0") {
+                if (
+                  response["name"] === "0" &&
+                  isoverlap1 !== response["startTime"]
+                ) {
                   if (response["behaviorType"] === "0") {
                     behavior_1[0]++;
                   } else if (response["behaviorType"] === "1") {
@@ -357,12 +459,16 @@
                   } else {
                     behavior_3[0]++;
                   }
+                  isoverlap1 = response["startTime"];
                   action[0]++;
                   student_name = "최시열";
                   behavior_time[0] +=
                     parseInt(response["endTime"]) -
                     parseInt(response["startTime"]);
-                } else if (response["name"] === "1") {
+                } else if (
+                  response["name"] === "1" &&
+                  isoverlap2 !== response["startTime"]
+                ) {
                   if (response["behaviorType"] === "0") {
                     behavior_1[1]++;
                   } else if (response["behaviorType"] === "1") {
@@ -370,12 +476,16 @@
                   } else {
                     behavior_3[1]++;
                   }
+                  isoverlap2 = response["startTime"];
                   action[1]++;
                   student_name = "이관우";
                   behavior_time[1] +=
                     parseInt(response["endTime"]) -
                     parseInt(response["startTime"]);
-                } else if (response["name"] === "2") {
+                } else if (
+                  response["name"] === "2" &&
+                  isoverlap3 !== response["startTime"]
+                ) {
                   if (response["behaviorType"] === "0") {
                     behavior_1[2]++;
                   } else if (response["behaviorType"] === "1") {
@@ -383,12 +493,16 @@
                   } else {
                     behavior_3[2]++;
                   }
+                  isoverlap3 = response["startTime"];
                   action[2]++;
                   student_name = "이진영";
                   behavior_time[2] +=
                     parseInt(response["endTime"]) -
                     parseInt(response["startTime"]);
-                } else if (response["name"] === "3") {
+                } else if (
+                  response["name"] === "3" &&
+                  isoverlap4 !== response["startTime"]
+                ) {
                   if (response["behaviorType"] === "0") {
                     behavior_1[3]++;
                   } else if (response["behaviorType"] === "1") {
@@ -396,6 +510,7 @@
                   } else {
                     behavior_3[3]++;
                   }
+                  isoverlap4 = response["startTime"];
                   action[3]++;
                   student_name = "성효제";
                   behavior_time[3] +=
