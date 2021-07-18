@@ -460,7 +460,7 @@ def real_gen_frames():
     print(createdTag)
 
     corrCnt = [0, 0, 0, 0]
-    derrCnt = [0, 0, 0, 0]
+    #derrCnt = [0, 0, 0, 0]
     attemptAccur = list(range(peerNum))
     for i in range(0, peerNum):
         for oneTagLog in tagList[i]:
@@ -469,7 +469,7 @@ def real_gen_frames():
                     corrCnt[i] += 1
                     break
         attemptAccur[i] = (corrCnt[i] / len(tagList[i])) * 100
-        print(f"{i+1}번: {attemptAccur[i]}%")
+        print(f"{i+1}번: 정확도: {attemptAccur[i]}%")
 
 def justWebCAM():
     myCap = cv2.VideoCapture(0)
@@ -537,7 +537,7 @@ class Streaming:
         if isLiveLocal is 0:
             self.srcPath = 0
         else:
-            self.srcPath = f'./SampleVideo{peer}.mp4'
+            self.srcPath = f'./TestVideo{peer}.mp4'
         self.cap = cv2.VideoCapture(self.srcPath)
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
 
@@ -576,7 +576,7 @@ class Streaming:
                     break
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(25) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(10) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
