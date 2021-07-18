@@ -222,7 +222,7 @@
         <nav class="navbar sticky-top navbar-dark bg-dark">
           <div class="container-fluid">
             <a class="navbar-brand" href="#"
-              ><strong>학생들의 발화 기록</strong></a
+              ><strong>발표 기록</strong></a
             >
             <form
               action="http://localhost:5000/mfccend"
@@ -233,8 +233,8 @@
                 type="submit"
                 name="button"
                 class="btn btn-success"
-                style="background-color: rgb(211, 62, 8)"
-                value="Refresh"
+                style="background-color: rgb(25, 247, 62)"
+                value="새로고침"
               />
             </form>
           </div>
@@ -245,28 +245,28 @@
             class="ta1"
             style="border: 3px double black; border-radius: 10px"
           >
-            <strong>최시열</strong> 발화율 : 0%, 발화 횟수 0회
+            <strong>최시열 : </strong> 발표 횟수 0회, 발표 시간 0초
           </div>
           <div
             id="SpeakingRate2"
             class="ta1"
             style="border: 3px double black; border-radius: 10px"
           >
-            <strong>이관우</strong> 발화율 : 0%, 발화 횟수 0회
+            <strong>이관우 : </strong> 발표 횟수 0회, 발표 시간 0초
           </div>
           <div
             id="SpeakingRate3"
             class="ta1"
             style="border: 3px double black; border-radius: 10px"
           >
-            <strong>이진영</strong> 발화율 : 0%, 발화 횟수 0회
+            <strong>이진영 : </strong> 발표 횟수 0회, 발표 시간 0초
           </div>
           <div
             id="SpeakingRate4"
             class="ta1"
             style="border: 3px double black; border-radius: 10px"
           >
-            <strong>성효제</strong> 발화율 : 0%, 발화 횟수 0회
+            <strong>성효제 : </strong> 발표 횟수 0회, 발표 시간 0초
           </div>
           <script>
             var speakImg1 = new Image(650,50);
@@ -288,44 +288,44 @@
                   if (response["SpeakingRate1"] !== "0") {
                     speakImg1.src = '{{url_for('fig1')}}';
                     $("#SpeakingRate1").html(
-                      "<strong> 최시열 : </strong> 발화율 : " +
-                        response["SpeakingRate1"] +
-                        "%, 발화 횟수 " +
-                        response["SpeakingCount1"] +
-                        "회" + ", 발화 그래프 : "
+                      "<strong> 최시열 : </strong> 발표 횟수 " +
+                      response["SpeakingCount1"] +
+                      "회, 발표 시간 " +
+                      response["SpeakingRate1"] +
+                      "초" + "   "
                     );
                     speakingBoard1.appendChild(speakImg1);
                   }
                   if (response["SpeakingRate2"] !== "0") {
                     speakImg2.src = '{{url_for('fig2')}}';
                     $("#SpeakingRate2").html(
-                      "<strong> 이관우 : </strong> 발화율 : " +
-                        response["SpeakingRate2"] +
-                        "%, 발화 횟수 " +
-                        response["SpeakingCount2"] +
-                        "회" + ", 발화 그래프 : "
+                      "<strong> 이관우 : </strong> 발표 횟수 " +
+                      response["SpeakingCount2"] +
+                      "회, 발표 시간 " +
+                      response["SpeakingRate2"] +
+                      "초" + "   "
                     );
                     speakingBoard2.appendChild(speakImg2);
                   }
                   if (response["SpeakingRate3"] !== "0") {
                     speakImg3.src = '{{url_for('fig3')}}';
                     $("#SpeakingRate3").html(
-                      "<strong> 이진영 : </strong> 발화율 : " +
-                        response["SpeakingRate3"] +
-                        "%, 발화 횟수 " +
-                        response["SpeakingCount3"] +
-                        "회" + ", 발화 그래프 : "
+                      "<strong> 이진영 : </strong> 발표 횟수 " +
+                      response["SpeakingCount3"] +
+                      "회, 발표 시간 " +
+                      response["SpeakingRate3"] +
+                      "초" + "   "
                     );
                     speakingBoard3.appendChild(speakImg3);
                   }
                   if (response["SpeakingRate4"] !== "0") {
                     speakImg4.src = '{{url_for('fig4')}}';
                     $("#SpeakingRate4").html(
-                      "<strong> 성효제 : </strong> 발화율 : " +
-                        response["SpeakingRate4"] +
-                        "%, 발화 횟수 " +
-                        response["SpeakingCount4"] +
-                        "회" + ", 발화 그래프 : "
+                      "<strong> 성효제 : </strong> 발표 횟수 " +
+                      response["SpeakingCount4"] +
+                      "회, 발표 시간 " +
+                      response["SpeakingRate4"] +
+                      "초" + "   "
                     );
                     speakingBoard4.appendChild(speakImg4);
                   }
