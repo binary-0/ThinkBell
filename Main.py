@@ -535,7 +535,7 @@ class Streaming:
         if isLiveLocal is 0:
             self.srcPath = 0
         else:
-            self.srcPath = f'./TestVideo{peer}.mp4'
+            self.srcPath = f'./SampleVideo{peer}.mp4'
         self.cap = cv2.VideoCapture(self.srcPath)
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
 
