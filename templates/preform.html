@@ -1,84 +1,268 @@
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <title>Preform Stage</title>
+<html lang="en">
+<head>
+	<title>ThinkBell</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <style>
-    .containerLogin{
-        position: relative;
-        width: 392px;
-        height: 447px;
-        margin: auto;
-        display: flex;
-        align-items: center;
-        text-align: center;
-    }
-    .user{
-        position: absolute;
-        left: 38.29%;
-        right: 14.29%;
-        top: 39.24%;
-        bottom: 51.81%;
-        background: #F6F6F6;
-        box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
-        border-radius: 10px;
+	    <style>
+		* {
+			margin: 0px; 
+			padding: 0px; 
+			box-sizing: border-box;
+		}
 
-        
-    }
+		body, html {
+			height: 100%;
+			font-family: Manrope;
+		}
+		a {
+			font-family: Manrope;
+			font-size: 14px;
+			line-height: 1.7;
+			color: #666666;
+			margin: 0px;
+			transition: all 0.4s;
+			-webkit-transition: all 0.4s;
+		-o-transition: all 0.4s;
+		-moz-transition: all 0.4s;
+		}
 
-    .containerLogin .calibrationtime{
-        position: absolute;
-        left: 54.08%;
-        right: 18.88%;
-        top: 53.69%;
-        bottom: 37.36%;
-        background: #F6F6F6;
-        box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
-        border-radius: 10px;
-    }
+		a:focus {
+			outline: none !important;
+		}
 
-    .temp1{
-        position: absolute;
-        left: 18.11%;
-        right: 47.19%;
-        top: 54.36%;
-        bottom: 38.03%;
-        font-family: Manrope;
-        font-style: normal;
+		a:hover {
+			text-decoration: none;
+		color: #232527;
+		}
+
+		h1,h2,h3,h4,h5,h6 {
+			margin: 0px;
+		}
+
+		p {
+			font-family: Manrope;
+			font-size: 14px;
+			line-height: 1.7;
+			color: #666666;
+			margin: 0px;
+		}
+
+		ul, li {
+			margin: 0px;
+			list-style-type: none;
+		}
+
+		input {
+			outline: none;
+			border: none;
+		}
+
+		input[type="number"] {
+			-moz-appearance: textfield;
+			appearance: none;
+			-webkit-appearance: none;
+		}
+
+		input[type="number"]::-webkit-outer-spin-button,
+		input[type="number"]::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+		}
+
+		textarea {
+		outline: none;
+		border: none;
+		}
+
+		textarea:focus, input:focus {
+		border-color: transparent !important;
+		}
+
+
+		input::-webkit-input-placeholder { color: #232527;}
+		input:-moz-placeholder { color: #232527;}
+		input::-moz-placeholder { color: #232527;}
+		input:-ms-input-placeholder { color: #232527;}
+
+		textarea::-webkit-input-placeholder { color: #232527;}
+		textarea:-moz-placeholder { color: #232527;}
+		textarea::-moz-placeholder { color: #232527;}
+		textarea:-ms-input-placeholder { color: #232527;}
+
+		button {
+			outline: none !important;
+			border: none;
+			background: transparent;
+		}
+
+		button:hover {
+			cursor: pointer;
+		}
+
+		iframe {
+			border: none !important;
+		}
+
+		.txt1 {
+		font-family: Manrope;
+		font-size: 15px;
+		color: #999999;
+		line-height: 1.4;
+		}
+
+		.txt2 {
+		font-family: Manrope;
+		font-size: 15px;
+		color: #343A40;
+		line-height: 1.4;
+		}
+
+		.txt3 {
+		font-family: Manrope;
         font-weight: bold;
-        font-size: 15px;
-        line-height: 26px;
-        display: flex;
-        align-items: center;
-        color: #000000;
-            }
+		font-size: 15px;
+		color: #343A40;
+		line-height: 1.4;
+		text-transform: uppercase;
+		}
 
-    .temp2{
-        position: absolute;
-        left: 26.02%;
-        right: 55.1%;
-        top: 70.25%;
-        bottom: 22.15%;
-        font-family: Manrope;
-        font-style: normal;
+		.limiter {
+		width: 100%;
+		margin: 0 auto;
+		}
+
+		.container-login100 {
+		width: 100%;  
+		min-height: 100vh;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		padding: 15px;
+		position: relative;
+		background-color: #fff;
+		}
+
+		.wrap-login100 {
+		width: 500px;
+		background: #fff;
+		border-radius: 20px;
+		overflow: hidden;
+		box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+		-moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+		-webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+		-o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+		-ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+		}
+
+
+		.login100-form {
+		width: 100%;
+		position: relative;
+		}
+
+		.login100-form-title {
+		font-family: Manrope;
         font-weight: bold;
-        font-size: 15px;
-        line-height: 26px;
-        display: flex;
-        align-items: center;
-        color: #000000;
-    }
+		font-size: 30px;
+		color: #fff;
+		line-height: 1.2;
+		text-align: center;
 
-    .startclass{
-        position: absolute;
-        left: 12.76%;
-        top: 85.46%;
-        bottom: 5.18%;
-        background: #343A40;
-        border-radius: 10px;
-        width: 345px;
+		display: block;
+		position: absolute;
+		width: 100%;
+		top: 0;
+		left: 0;
+		background-color: #343A40;
+		padding-top: 50px;
+		padding-bottom: 39px;
+		}
+
+		.wrap-input100 {
+		width: 50%;
+		background-color: #fff;
+		border-radius: 27px;
+		position: relative;
+		z-index: 1;
+		
+		}
+
+
+		.input100 {
+		font-family: Manrope;
+        font-weight: bold;
+		font-size: 15px;
+		color: #232527;
+		line-height: 1.2;
+			
+		position: relative;
+		display: block;
+		width: 100%;
+		height: 55px;
+		background: #ebebeb;
+		border-radius: 27px;
+		padding: 0 35px 0 35px;
+		}
+
+		.focus-input100 {
+		display: block;
+		position: absolute;
+		z-index: -1;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 50%;
+		-webkit-transform: translateX(-50%);
+		-moz-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		-o-transform: translateX(-50%);
+		transform: translateX(-50%);
+		border-radius: 31px;
+		background-color: #ebebeb;
+		pointer-events: none;
+		
+		-webkit-transition: all 0.4s;
+		-o-transition: all 0.4s;
+		-moz-transition: all 0.4s;
+		transition: all 0.4s;
+		}
+
+		.input100:focus + .focus-input100 {
+		width: calc(100% + 20px);
+		}
+
+		.container-login100-form-btn {
+		width: 100%;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		}
+
+		.login100-form-btn {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0 20px;
+		width: 100%;
+		height: 50px;
+		background-color: #343A40;
+		border-radius: 25px;
+
         font-family: Manrope;
         font-style: normal;
         font-weight: bold;
@@ -86,43 +270,99 @@
         line-height: 26px;
         align-items: center;
         text-align: center;
-        color: #FFFFFF;
-    }
+		color: #fff;
 
-    .logo{
-        position: absolute;
-        left: 44.23%;
-        right: 24.23%;
-        top: 10.07%;
-        bottom: 69.8%;
-        width: 125px;
-        height: 125px;
-    }
+		-webkit-transition: all 0.4s;
+		-o-transition: all 0.4s;
+		-moz-transition: all 0.4s;
+		transition: all 0.4s;
+		}
 
-    .Llogtime{
-        position: absolute;
-        left: 54.08%;
-        right: 18.88%;
-        top: 69.57%;
-        bottom: 21.48%;
+		.validate-input {
+		position: relative;
+		}
 
-        background: #F6F6F6;
-        box-shadow: inset 0px 2px 8px rgba(0, 0, 0, 0.25);
-        border-radius: 10px;
-
-
-    }
+		@media (max-width: 576px) {
+		.login100-form {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+		}
+		.p-l-55{
+			padding-left: 55px;
+		}
+		.p-r-55{
+			padding-right: 55px;
+		}
+		.p-t-178{
+			padding-top: 178px;
+		}
+		.m-b-23{
+			margin-bottom: 23px;
+		}
+		.p-t-13{
+			padding-top: 13px;
+		}
+		.p-b-30{
+			padding-bottom: 30px;
+		}
+		.p-t-170{
+			padding-top: 170px;
+		}
+		.p-b-40{
+			padding-bottom: 40px;
+		}
+		.p-l-50{
+			padding-left: 50px ;
+		}
+		.m-l-190{
+			margin-left: 190px ;
+		}
+		.temp{
+			font-family: Manrope;
+            font-weight: bold;
+            font-size: 20px;
+		}
     </style>
+	<form action="/" method="post">
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-form validate-form p-l-55 p-r-55 p-t-178">
 
-    <form action="/" method="post">
-        <div class= "containerLogin">
-            <img class="logo" src="logo.png">
-            <div class= "temp1">Calibration Time:</div>
-            <input class= "calibrationtime" type="text" name="calitime" placeholder="초 단위">
-            <div class="temp2">Log Time:</div> 
-            <input class = "Llogtime" type="text" name="logtime" placeholder="초 단위">
-            <input class ="startclass" type="submit" value="수업 입장">
-        </div>        
-    </form>
+						<span class="login100-form-title">
+							Think Bell
+						</span>
+						<div class="temp">
+						    Calibration Time:
+						</div>
+						<div class="wrap-input100 validate-input m-b-23 m-l-190" data-validate="Please enter username">
+							<input class="input100 " type="text" name="calitime" placeholder="초 단위">
+							<span class="focus-input100"></span>
+						</div>
+						<div class="temp">
+							Log Time:
+						</div>
+						<div class="wrap-input100 validate-input m-l-190" data-validate = "Please enter password">
+							<input class="input100" type="text" name="logtime" placeholder="초 단위">
+							<span class="focus-input100"></span>
+						</div>
+						<div class="p-t-13 p-b-30">
+
+						</div>
+
+						<div class="container-login100-form-btn">
+							<input class="login100-form-btn" type="submit" value="수업 입장">
+
+						</div>
+
+						<div class="p-t-170 p-b-40">
+
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
 </body>
 </html>
