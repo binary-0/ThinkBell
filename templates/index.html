@@ -413,9 +413,9 @@
           </tr>
           <tr height="18%" align = "center" bgcolor="lavender">
         <td width="15%" style="border-right: none;">학생</td>
-        <td width="20%"><img src = "eye.jpg"></td>
-        <td width="20%"><img src = "head.jpg"></td>
-        <td width="20%"><img src = "area.jpg"></td>
+        <td width="20%"><img src="https://i.ibb.co/jbHBS0v/sleep.jpg" alt="eye" border="0" height=100 width=100></img></td>
+        <td width="20%"><img src="https://i.ibb.co/GktDbgd/head.jpg" alt="head" border="0" height=100 width=100></img></td>
+        <td width="20%"><img src="https://i.ibb.co/sKKfK97/area.jpg" alt="area" border="0" height=100 width=100></img></td>
         <td width="15%">총 부주의 시간</th>
         <td width="10%"></td>
           </tr>
@@ -722,13 +722,17 @@
                   button.style.cssText =
                     "border-radius : 10px; background-color : white; width :20%; height :180%; text-align : center ";
                   //behaviorType 결정
+                  let imgSrcStr = ""
                   behaviorType = response["behaviorType"];
                   if (behaviorType === "0") {
                     behavior_setting = "눈 감음";
+                    imgSrcStr = '<img src="https://i.ibb.co/jbHBS0v/sleep.jpg" alt="eye" border="0" height=75 width=75>'
                   } else if (behaviorType === "1") {
                     behavior_setting = "고개 기울임";
+                    imgSrcStr = '<img src="https://i.ibb.co/GktDbgd/head.jpg" alt="head" border="0" height=75 width=75>'
                   } else {
                     behavior_setting = "얼굴 멀어짐";
+                    imgSrcStr = '<img src="https://i.ibb.co/sKKfK97/area.jpg" alt="area" border="0" height=75 width=75>'
                   }
                   //행동 유지 시간 소수점 제거 -> 나중에 수정해야한다.
                   var starttime = response["startTime"].slice(0, 3);
@@ -737,7 +741,7 @@
 
                   //버튼 생성
                   button.innerHTML =
-                  "<img src='eye.jpg'>" +
+                  imgSrcStr +
                   "<br/>" +
                   "<br/>" +
                   "<strong>" +
