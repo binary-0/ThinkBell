@@ -16,51 +16,53 @@
     />
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--wrapper 클래스에서 layout 규격 조절 가능
+     1fr은 행을 똑같은 비율로 나눠줌 지금 비율은 2*3으로 설정-->
     <style>
       .wrapper {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 200px 200px 150px 340px;
-        grid-gap: 10px;
+        grid-template-rows: 450px 450px;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 3px;
         margin-right: 15px;
         margin-left: 15px;
         margin-top: 10px;
       }
       .item:nth-child(1) {
         grid-column-start: 1;
-        grid-column-end: 4;
+        grid-column-end: 2;
         grid-row-start: 1;
         grid-row-end: 2;
       }
       .item:nth-child(2) {
-        grid-column-start: 1;
-        grid-column-end: 4;
+        grid-column-start: 2;
+        grid-column-end: 3;
         grid-row-start: 1;
         grid-row-end: 2;
-      }
-      .item:nth-child(2) {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 2;
-        grid-row-end: 4;
       }
       .item:nth-child(3) {
         grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 4;
-        grid-row-end: 5;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
       }
       .item:nth-child(4) {
-        grid-column-start: 4;
-        grid-column-end: 6;
-        grid-row-start: 1;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
         grid-row-end: 3;
       }
       .item:nth-child(5) {
-        grid-column-start: 4;
-        grid-column-end: 6;
-        grid-row-start: 3;
-        grid-row-end: 5;
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 2;
+      }
+      .item:nth-child(6) {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 3;
       }
       #navbar {
         border-radius: 25px;
@@ -94,249 +96,454 @@
         font-size: 15px;
         font-weight: bold;
       }
+
+      #fix{
+        position:fixed;
+        right:1%;
+        top:40%;
+        width:32%;
+      }
+      #btn{
+        width:24%;
+        height:30px;
+        font-weight: bold;
+        color:navy;
+        background-color:skyblue
+      }
+      #btn-modal{
+        width:24%;
+        height:30px;
+        font-weight: bold;
+        color:navy;
+        background-color:skyblue
+      }
+      .switch {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 70px;
+    text-align: center;
+    margin: -30px 0 0 -75px;
+    background: #46BEFF;
+    transition: all 0.2s ease;
+    border-radius: 25px;
+    font-size: 13px;
+  }
+  input[type=radio] {
+    display: none;
+  }
+  .switch label {
+    cursor: pointer;
+    color: rgba(0,0,0,0.2);
+    width: 60px;
+    line-height: 50px;
+    transition: all 0.2s ease;
+  }
+  label[for=yes1] {
+    position: absolute;
+    left: 20px;
+    top: -10px;
+  }
+  label[for=no1] {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+  }
+  #no1:checked ~ .switch {
+    background: #60BD89;
+  }
+  #yes1:checked ~ .switch label[for=yes1] {
+    color: black;
+    font-weight: bold;
+  }
+  #no1:checked ~ .switch label[for=no1] {
+    color: black;
+    font-weight: bold;
+  }
+  label[for=yes2] {
+    position: absolute;
+    left: 20px;
+    top: -10px;
+  }
+  label[for=no2] {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+  }
+  #no2:checked ~ .switch {
+    background: #60BD89;
+  }
+  #yes2:checked ~ .switch label[for=yes2] {
+    color: black;
+    font-weight: bold;
+  }
+  #no2:checked ~ .switch label[for=no2] {
+    color: black;
+    font-weight: bold;
+  }
+  label[for=yes3] {
+    position: absolute;
+    left: 20px;
+    top: -10px;
+  }
+  label[for=no3] {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+  }
+  #no3:checked ~ .switch {
+    background: #60BD89;
+  }
+  #yes3:checked ~ .switch label[for=yes3] {
+    color: black;
+    font-weight: bold;
+  }
+  #no3:checked ~ .switch label[for=no3] {
+    color: black;
+    font-weight: bold;
+  }
+  label[for=yes4] {
+    position: absolute;
+    left: 20px;
+    top: -10px;
+  }
+  label[for=no4] {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+  }
+  #no4:checked ~ .switch {
+    background: #60BD89;
+  }
+  #yes4:checked ~ .switch label[for=yes4] {
+    color: black;
+    font-weight: bold;
+  }
+  #no4:checked ~ .switch label[for=no4] {
+    color: black;
+    font-weight: bold;
+  }
+  #modal.modal-overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(1.5px);
+            -webkit-backdrop-filter: blur(1.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        #modal .modal-window {
+            background: rgba( 69, 139, 197, 0.70 );
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            backdrop-filter: blur( 13.5px );
+            -webkit-backdrop-filter: blur( 13.5px );
+            border-radius: 10px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            width: 1300px;
+            height: 700px;
+            position: relative;
+            top: -50px;
+            padding: 10px;
+        }
+        #modal .title {
+            padding-left: 10px;
+            display: inline;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+            
+        }
+        #modal .title h2 {
+            display: inline;
+        }
+        #modal .close-area {
+            display: inline;
+            float: right;
+            padding-right: 10px;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+        }
+        
+        #modal .content {
+            margin-top: 20px;
+            padding: 0px 10px;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+        }
     </style>
   </head>
   <body>
-    <!-- <audio src="/wav" style="display: none;" autoplay></audio> -->
-    <!--woongjin_boys-->
     <div class="wrapper">
-      <!--첫번째 칸 __ 참여자 얼굴-->
-      <div
-        class="item"
-        style="
-          border: 5px double black;
-          border-radius: 10px;
-          text-align: center;
-        "
-      >
-        <div class="lb-wrap" style="float: left">
-          <!--이미지 layout 사이즈-->
-          <div class="lb-text" style="float: left">
-            <!--텍스트 디자인-->
-            <p>최시열</p>
-          </div>
-          <div class="lb-image" style="float: left">
-            <img
-              src="{{ url_for('video_feed', peer='1') }}"
-              style="
-                height: 160px;
-                border-radius: 10px;
-                margin: 5px;
-                border: 3px solid black;
-                margin-left: 35px;
-                margin-right: 5px;
-              "
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="lb-wrap" style="float: left; margin-left: 5px">
-          <!--이미지 layout 사이즈-->
-          <div class="lb-text" style="float: left">
-            <!--텍스트 디자인-->
-            <p>이관우</p>
-          </div>
-          <div class="lb-image" style="float: left">
-            <img
-              src="{{ url_for('video_feed', peer='2') }}"
-              style="
-                height: 160px;
-                border-radius: 10px;
-                margin: 5px;
-                border: 3px solid black;
-                margin-left: 35px;
-                margin-right: 5px;
-              "
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="lb-wrap" style="float: left; margin-left: 5px">
-          <!--이미지 layout 사이즈-->
-          <div class="lb-text" style="float: left">
-            <!--텍스트 디자인-->
-            <p>이진영</p>
-          </div>
-          <div class="lb-image" style="float: left">
-            <img
-              src="{{ url_for('video_feed', peer='3') }}"
-              style="
-                height: 160px;
-                border-radius: 10px;
-                margin: 5px;
-                border: 3px solid black;
-                margin-left: 35px;
-                margin-right: 5px;
-              "
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="lb-wrap" style="float: left; margin-left: 5px">
-          <!--이미지 layout 사이즈-->
-          <div class="lb-text" style="float: left">
-            <!--텍스트 디자인-->
-            <p>성효제</p>
-          </div>
-          <div class="lb-image" style="float: left">
-            <img
-              src="{{ url_for('video_feed', peer='4') }}"
-              style="
-                height: 160px;
-                border-radius: 10px;
-                margin: 5px;
-                border: 3px solid black;
-                margin-left: 35px;
-                margin-right: 5px;
-              "
-              alt=""
-            />
-          </div>
-        </div>
-        <br />
-      </div>
-
-      <!--두번째 칸 __ 발화자 얼굴-->
+      <!--첫번째 칸 -->
       <div class="item" style="border: 3px solid black; border-radius: 10px">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 30px;">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
           <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong style="font-style: italic;">발화자</strong></a>
+            <a class="navbar-brand" href="#"><strong>최시열</strong></a>
           </div>
         </nav>
-        <div style="margin-left: 300px"><strong>최시열</strong></div>
-        <div style="text-align: center">
+
+        <div style="margin-left: 10px; float:left; width: 80%;">
           <img
             style="border: 5px double black; border-radius: 10px"
             src="{{ url_for('video_feed', peer='1') }}"
-            width="50%"
-            height="290px"
+            width="100%"
+            height="360px"
           />
         </div>
+        <div class="dropdown" style="margin-top: 20px; float:right; width:17%">
+          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            AI Agent
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+            <li><button class="dropdown-item" type="button">졸음 깨우기</button></li>
+            <li><button class="dropdown-item" type="button">자리비움 경고</button></li>
+            <li><button class="dropdown-item" type="button">발표 독려하기</button></li>
+            <li><button class="dropdown-item" type="button">칭찬하기</button></li>
+          </ul>
+        </div>
+
+        <div class="toggle-radio" style="margin-top: 270px; float:right; width:11%">
+          <input type="radio" name="rdo1" id="yes1" value="yes1" checked>
+          <input type="radio" name="rdo1" id="no1" value="no1">
+          <div class="switch">
+            <label for="yes1">총 몰입도</label>
+            <label for="no1">발표 기록</label>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 5px;">
+          <img
+          id="base1"
+          name="base1"
+            style="border: 5px double black; border-radius: 10px; padding: 5px;"
+            src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif"
+            width="100%"
+            height="50px"
+          />
+        </div>
+
+        <script type='text/javascript'>
+          $(document).ready(function(){
+              $("input:radio[name=rdo1]").click(function() {
+                  var value = $(this).val();
+                  var image_name;
+                  if(value == 'yes1'){
+                      image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
+                  }else{
+                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+                      }
+                   $('#base1').attr('src', image_name);
+              });
+          });
+      </script>
       </div>
 
-      <!--세번째 칸 __ 발화 기록-->
+      <!--두번째 칸-->
       <div class="item" style="border: 3px solid black; border-radius: 10px">
-        <nav class="navbar sticky-top navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
           <div class="container-fluid">
-            <a class="navbar-brand" href="#"
-              ><strong style="font-style: italic;">발표 기록</strong></a
-            >
-            <form
-              action="http://localhost:5000/mfccend"
-              method="POST"
-              target="_blank"
-            >
-              <input
-                type="submit"
-                name="button"
-                class="btn btn-success"
-                style="background-color: rgb(25, 247, 62)"
-                value="새로고침"
-              />
-            </form>
+            <a class="navbar-brand" href="#"><strong>이관우</strong></a>
           </div>
         </nav>
-        <div style="overflow-x: hidden; width: 100%; height: 75%">
-          <div
-            id="SpeakingRate1"
-            class="ta1"
-          >
-            <strong>최시열 : </strong> 발표 횟수 0회, 발표 시간 0초
-          </div>
-          <div
-            id="SpeakingRate2"
-            class="ta1"
-          >
-            <strong>이관우 : </strong> 발표 횟수 0회, 발표 시간 0초
-          </div>
-          <div
-            id="SpeakingRate3"
-            class="ta1"
-          >
-            <strong>이진영 : </strong> 발표 횟수 0회, 발표 시간 0초
-          </div>
-          <div
-            id="SpeakingRate4"
-            class="ta1"
-          >
-            <strong>성효제 : </strong> 발표 횟수 0회, 발표 시간 0초
-          </div>
-          <script>
-            var speakImg1 = new Image(650,50);
-            var speakingBoard1 = document.getElementById("SpeakingRate1");
-            var speakImg2 = new Image(650,50);
-            var speakingBoard2 = document.getElementById("SpeakingRate2");
-            var speakImg3 = new Image(650,50);
-            var speakingBoard3 = document.getElementById("SpeakingRate3");
-            var speakImg4 = new Image(650,50);
-            var speakingBoard4 = document.getElementById("SpeakingRate4");
-            setInterval(function () {
-              $.ajax({
-                url: "/mfcc_feed",
-                type: "POST",
-                success: function (response) {
-                  console.log("first response : ");
-                  console.log(response["SpeakingRate1"]);
 
-                  if (response["SpeakingRate1"] !== "0") {
-                    speakImg1.src = '{{url_for('fig1')}}';
-                    $("#SpeakingRate1").html(
-                      "<strong> 최시열 : </strong> 발표 횟수 " +
-                      response["SpeakingCount1"] +
-                      "회, 발표 시간 " +
-                      response["SpeakingRate1"] +
-                      "초" + "   "
-                    );
-                    speakingBoard1.appendChild(speakImg1);
-                  }
-                  if (response["SpeakingRate2"] !== "0") {
-                    speakImg2.src = '{{url_for('fig2')}}';
-                    $("#SpeakingRate2").html(
-                      "<strong> 이관우 : </strong> 발표 횟수 " +
-                      response["SpeakingCount2"] +
-                      "회, 발표 시간 " +
-                      response["SpeakingRate2"] +
-                      "초" + "   "
-                    );
-                    speakingBoard2.appendChild(speakImg2);
-                  }
-                  if (response["SpeakingRate3"] !== "0") {
-                    speakImg3.src = '{{url_for('fig3')}}';
-                    $("#SpeakingRate3").html(
-                      "<strong> 이진영 : </strong> 발표 횟수 " +
-                      response["SpeakingCount3"] +
-                      "회, 발표 시간 " +
-                      response["SpeakingRate3"] +
-                      "초" + "   "
-                    );
-                    speakingBoard3.appendChild(speakImg3);
-                  }
-                  if (response["SpeakingRate4"] !== "0") {
-                    speakImg4.src = '{{url_for('fig4')}}';
-                    $("#SpeakingRate4").html(
-                      "<strong> 성효제 : </strong> 발표 횟수 " +
-                      response["SpeakingCount4"] +
-                      "회, 발표 시간 " +
-                      response["SpeakingRate4"] +
-                      "초" + "   "
-                    );
-                    speakingBoard4.appendChild(speakImg4);
-                  }
-                },
-                error: function (error) {
-                  console.log(error);
-                },
-              });
-            }, 1000);
-          </script>
+        <div style="margin-left: 10px; float:left; width: 80%;">
+          <img
+            style="border: 5px double black; border-radius: 10px"
+            src="{{ url_for('video_feed', peer='2') }}"
+            width="100%"
+            height="360px"
+          />
         </div>
+        <div class="dropdown" style="margin-top: 20px; float:right; width:17%">
+          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            AI Agent
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+            <li><button class="dropdown-item" type="button">졸음 깨우기</button></li>
+            <li><button class="dropdown-item" type="button">자리비움 경고</button></li>
+            <li><button class="dropdown-item" type="button">발표 독려하기</button></li>
+            <li><button class="dropdown-item" type="button">칭찬하기</button></li>
+          </ul>
+        </div>
+
+        <div class="toggle-radio" style="margin-top: 270px; float:right; width: 11%">
+          <input type="radio" name="rdo2" id="yes2" value="yes2" checked>
+          <input type="radio" name="rdo2" id="no2" value="no2">
+          <div class="switch">
+            <label for="yes2">총 몰입도</label>
+            <label for="no2">발표 기록</label>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 5px;">
+          <img
+          id="base2"
+          name="base2"
+            style="border: 5px double black; border-radius: 10px; padding: 5px;"
+            src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif"
+            width="100%"
+            height="50px"
+          />
+        </div>
+
+        <script type='text/javascript'>
+          $(document).ready(function(){
+              $("input:radio[name=rdo2]").click(function() {
+                  var value = $(this).val();
+                  var image_name;
+                  if(value == 'yes2'){
+                      image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
+                  }else{
+                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+                      }
+                   $('#base2').attr('src', image_name);
+              });
+          });
+      </script>
       </div>
 
-      <!--네번째 칸 __ 내 얼굴-->
-      <div class="item" style="border-radius: 10px; border: 3px solid black">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 30px;">
+      <!--세번째 칸 -->
+      <div class="item" style="border: 3px solid black; border-radius: 10px">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
           <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong style="font-style: italic;">내 얼굴</strong></a>
+            <a class="navbar-brand" href="#"><strong>이진영</strong></a>
+          </div>
+        </nav>
+
+        <div style="margin-left: 10px; float:left; width: 80%;">
+          <img
+            style="border: 5px double black; border-radius: 10px"
+            src="{{ url_for('video_feed', peer='3') }}"
+            width="100%"
+            height="360px"
+          />
+        </div>
+        <div class="dropdown" style="margin-top: 20px; float:right; width:17%">
+          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            AI Agent
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+            <li><button class="dropdown-item" type="button">졸음 깨우기</button></li>
+            <li><button class="dropdown-item" type="button">자리비움 경고</button></li>
+            <li><button class="dropdown-item" type="button">발표 독려하기</button></li>
+            <li><button class="dropdown-item" type="button">칭찬하기</button></li>
+          </ul>
+        </div>
+
+        <div class="toggle-radio" style="margin-top: 270px; float:right; width:11%">
+          <input type="radio" name="rdo3" id="yes3" value="yes3" checked>
+          <input type="radio" name="rdo3" id="no3" value="no3">
+          <div class="switch">
+            <label for="yes3">총 몰입도</label>
+            <label for="no3">발표 기록</label>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 5px;">
+          <img
+          id="base3"
+          name="base3"
+            style="border: 5px double black; border-radius: 10px; padding: 5px;"
+            src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif"
+            width="100%"
+            height="50px"
+          />
+        </div>
+
+        <script type='text/javascript'>
+          $(document).ready(function(){
+              $("input:radio[name=rdo3]").click(function() {
+                  var value = $(this).val();
+                  var image_name;
+                  if(value == 'yes3'){
+                      image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
+                  }else{
+                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+                      }
+                   $('#base3').attr('src', image_name);
+              });
+          });
+      </script>
+      </div>
+
+      <!--네번째 칸-->
+      <div class="item" style="border: 3px solid black; border-radius: 10px">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#"><strong>성효제</strong></a>
+          </div>
+        </nav>
+
+        <div style="margin-left: 10px; float:left; width: 80%;">
+          <img
+            style="border: 5px double black; border-radius: 10px"
+            src="{{ url_for('video_feed', peer='4') }}"
+            width="100%"
+            height="360px"
+          />
+        </div>
+        <div class="dropdown" style="margin-top: 20px; float:right; width:17%">
+          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            AI Agent
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+            <li><button class="dropdown-item" type="button">졸음 깨우기</button></li>
+            <li><button class="dropdown-item" type="button">자리비움 경고</button></li>
+            <li><button class="dropdown-item" type="button">발표 독려하기</button></li>
+            <li><button class="dropdown-item" type="button">칭찬하기</button></li>
+          </ul>
+        </div>
+
+        <div class="toggle-radio" style="margin-top: 270px; float:right; width: 11%">
+          <input type="radio" name="rdo4" id="yes4" value="yes4" checked>
+          <input type="radio" name="rdo4" id="no4" value="no4">
+          <div class="switch">
+            <label for="yes4">총 몰입도</label>
+            <label for="no4">발표 기록</label>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 5px;">
+          <img
+          id="base4"
+          name="base4"
+            style="border: 5px double black; border-radius: 10px; padding: 5px;"
+            src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif"
+            width="100%"
+            height="50px"
+          />
+        </div>
+
+        <script type='text/javascript'>
+          $(document).ready(function(){
+              $("input:radio[name=rdo4]").click(function() {
+                  var value = $(this).val();
+                  var image_name;
+                  if(value == 'yes4'){
+                      image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
+                  }else{
+                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+                      }
+                   $('#base4').attr('src', image_name);
+              });
+          });
+      </script>
+      </div>
+
+      <!--다섯번째 칸-->
+      <div class="item" style="border-radius: 10px; border: 3px solid black">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#"><strong>선생님 CAM</strong></a>
           </div>
         </nav>
 
@@ -352,102 +559,71 @@
             height="90%"
           />
         </div>
-      </div>
 
-      <!--다섯번째 칸 학생들의 행동 기록-->
-      <div
-        class="item"
-        style="
-          overflow: auto;
-          width: 100%;
-          height: 100%;
-          border-radius: 10px;
-          border: 3px solid black;
-        "
-      >
-        <!-- <nav class="navbar sticky-top navbar-white bg-white">
-          <div class="container-fluid">
-            <div class="container" style="border-radius: 5px; width: 100%">
-              <div class="row" style="border-radius: 5px; height: 30%">
-                <div class="col" style="border: 3px double black">
-                  <p
-                    id="student1"
-                    style="padding: 0px; font-size: 15px; text-align: center"
-                  ></p>
-                </div>
-                <div class="col" style="border: 3px double black">
-                  <p
-                    id="student2"
-                    style="padding: 0px; font-size: 15px; text-align: center"
-                  ></p>
-                </div>
+        <div id="fix">
+          <button id="btn">Mute</button>
+          <button id="btn">Cam</button>
+          <button id="btn">학생 전체 알림</button>
+          <button id="btn-modal">학생 전체 기록</button>
+        </div>
+        
+        <div id="modal" class="modal-overlay">
+          <div class="modal-window">
+              <div class="title">
+                  <h2>학생 전체 상세 기록</h2>
               </div>
-              <div class="row" style="border-radius: 5px; height: 30%">
-                <div class="col" style="border: 3px double black">
-                  <p
-                    id="student3"
-                    style="padding: 0px; font-size: 15px; text-align: center"
-                  ></p>
-                </div>
-                <div class="col" style="border: 3px double black">
-                  <p
-                    id="student4"
-                    style="padding: 0px; font-size: 15px; text-align: center"
-                  ></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav> -->
+              <div class="close-area">X</div>
+              <div class="content">
+                <table width ="100%" height="54%" align = "center" >
+          
+                  <tr height="15%" align = "center" bgcolor="black">
+                <td width="12%" style="border-right: none;">학생</td>
+                <td width="10%">총 시간</td>
+                <td width="10%"><img src="https://i.ibb.co/jbHBS0v/sleep.jpg" alt="eye" border="0" height=100 width=100></img></td>
+                <td width="10%"><img src="https://i.ibb.co/GktDbgd/head.jpg" alt="head" border="0" height=100 width=100></img></td>
+                <td width="10%"><img src="https://i.ibb.co/sKKfK97/area.jpg" alt="area" border="0" height=100 width=100></img></td>
+                <td width="40%">발표 기록</td>
+                <td width="8%">시간</td>
+                  </tr>
+                  <tr height="100px" align="center">
+                    <td><strong>최시열</strong></td>
+                <td id="student1_3"></td>
+                <td id="student1_0"></td>
+                <td id="student1_1"></td>
+                <td id="student1_2"></td>
+                <td><img src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" height="100px" width="100%"></td>
+                <td>0s</td>
+                  </tr>
+                  <tr height="100px" align="center">
+                <td><strong>이관우</strong></td>
+                <td id="student2_3"></td>
+                <td id="student2_0"></td>
+                <td id="student2_1"></td>
+                <td id="student2_2"></td>
+                <td><img src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" height="100px" width="100%"></td>
+                <td>0s</td>
+                  </tr>
+                  <tr height="100px" align="center">
+                <td><strong>이진영</strong></td>
+                <td id="student3_3"></td>
+                <td id="student3_0"></td>
+                <td id="student3_1"></td>
+                <td id="student3_2"></td>
+                <td><img src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" height="100px" width="100%"></td>
+                <td>0s</td>
+                  </tr>
+                  <tr height="100px" align="center">
+                <td><strong>성효제</strong></td>
+                <td id="student4_3"></td>
+                <td id="student4_0"></td>
+                <td id="student4_1"></td>
+                <td id="student4_2"></td>
+                <td><img src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" height="100px" width="100%"></td>
+                <td>0s</td>
+                  </tr>
+              </table>
 
-        <table bordercolor="black" width ="100%" height="60%" align = "center" >
-          <tr bgcolor="blue" align ="center">
-        <p><td colspan = "6" height="10%" span style="color:white;"><strong>학생들 집중도 경고 기록</strong></td></p>
-          </tr>
-          <tr height="18%" align = "center" bgcolor="lavender">
-        <td width="15%" style="border-right: none;"><strong>학생</strong></td>
-        <td width="20%"><img src="https://i.ibb.co/jbHBS0v/sleep.jpg" alt="eye" border="0" height=100 width=100></img></td>
-        <td width="20%"><img src="https://i.ibb.co/GktDbgd/head.jpg" alt="head" border="0" height=100 width=100></img></td>
-        <td width="20%"><img src="https://i.ibb.co/sKKfK97/area.jpg" alt="area" border="0" height=100 width=100></img></td>
-        <td width="15%"><strong>총 부주의 시간</strong></th>
-        <td width="10%"></td>
-          </tr>
-          <tr height="8%" align="center">
-            <td><strong>최시열</strong></td>
-        <td id="student1_0"></td>
-        <td id="student1_1"></td>
-        <td id="student1_2"></td>
-        <td id="student1_3"></td>
-        <td></td>
-          </tr>
-          <tr height="8%" align="center">
-        <td><strong>이관우</strong></td>
-        <td id="student2_0"></td>
-        <td id="student2_1"></td>
-        <td id="student2_2"></td>
-        <td id="student2_3"></td>
-        <td></td>
-          </tr>
-          <tr height="8%" align="center">
-        <td><strong>이진영</strong></td>
-        <td id="student3_0"></td>
-        <td id="student3_1"></td>
-        <td id="student3_2"></td>
-        <td id="student3_3"></td>
-        <td></td>
-          </tr>
-          <tr height="8%" align="center">
-        <td><strong>성효제</strong></td>
-        <td id="student4_0"></td>
-        <td id="student4_1"></td>
-        <td id="student4_2"></td>
-        <td id="student4_3"></td>
-        <td></td>
-          </tr>
-      </table>
-        <!-- 학생들 행동 기록 -> 나중에 동적 생성으로 수정해야한다. -->
-
-        <div id="record" class="logContainer"></div>
+              <div id="record" class="logContainer"></div>
 
         <script>
           var body = document.getElementById("record");
@@ -491,11 +667,14 @@
                   isoverlap1 !== response["startTime"]
                 ) {
                   if (response["behaviorType"] === "0") {
-                    eye[0]++;
+                    eye[0] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   } else if (response["behaviorType"] === "1") {
-                    head[0]++;
+                    head[0] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   } else {
-                    area[0]++;
+                    area[0] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   }
                   isoverlap1 = response["startTime"];
                   action[0]++;
@@ -508,11 +687,14 @@
                   isoverlap2 !== response["startTime"]
                 ) {
                   if (response["behaviorType"] === "0") {
-                    eye[1]++;
+                    eye[1] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   } else if (response["behaviorType"] === "1") {
-                    head[1]++;
+                    head[1] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   } else {
-                    area[1]++;
+                    area[1] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   }
                   isoverlap2 = response["startTime"];
                   action[1]++;
@@ -525,11 +707,14 @@
                   isoverlap3 !== response["startTime"]
                 ) {
                   if (response["behaviorType"] === "0") {
-                    eye[2]++;
+                    eye[2] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   } else if (response["behaviorType"] === "1") {
-                    head[2]++;
+                    head[2] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   } else {
-                    area[2]++;
+                    area[2] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   }
                   isoverlap3 = response["startTime"];
                   action[2]++;
@@ -542,11 +727,14 @@
                   isoverlap4 !== response["startTime"]
                 ) {
                   if (response["behaviorType"] === "0") {
-                    eye[3]++;
+                    eye[3] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   } else if (response["behaviorType"] === "1") {
-                    head[3]++;
+                    head[3] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   } else {
-                    area[3]++;
+                    area[3] += parseInt(response["endTime"]) -
+                    parseInt(response["startTime"]);
                   }
                   isoverlap4 = response["startTime"];
                   action[3]++;
@@ -559,204 +747,101 @@
                   "<strong>" +
                     eye[0] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student1_1").html(
                   "<strong>" +
                     head[0] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student1_2").html(
                   "<strong>" +
                     area[0] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student1_3").html(
                   "<strong>" +
                     behavior_time[0] +
                     "</strong>" +
-                    "초"
+                    "s"
                 );
 
                 $("#student2_0").html(
                   "<strong>" +
                     eye[1] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student2_1").html(
                   "<strong>" +
                     head[1] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student2_2").html(
                   "<strong>" +
                     area[1] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student2_3").html(
                   "<strong>" +
                     behavior_time[1] +
                     "</strong>" +
-                    "초"
+                    "s"
                 );
 
                 $("#student3_0").html(
                   "<strong>" +
                     eye[2] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student3_1").html(
                   "<strong>" +
                     head[2] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student3_2").html(
                   "<strong>" +
                     area[2] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student3_3").html(
                   "<strong>" +
                     behavior_time[2] +
                     "</strong>" +
-                    "초"
+                    "s"
                 );
 
                 $("#student4_0").html(
                   "<strong>" +
                     eye[3] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student4_1").html(
                   "<strong>" +
                     head[3] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student4_2").html(
                   "<strong>" +
                     area[3] +
                     "</strong>" +
-                    "회"
+                    "s"
                 );
                 $("#student4_3").html(
                   "<strong>" +
                     behavior_time[3] +
                     "</strong>" +
-                    "초"
+                    "s"
                 );
-
-                // $("#student2").html(
-                //   "<strong> 이관우 </strong> 학생" +
-                //   "</br>" +
-                //     "<strong>얼굴 멀어짐 </strong>:" +
-                //     area[1] +
-                //     "회, " +
-                //     "<strong>고개 기울임</strong>:" +
-                //     head[1] +
-                //     "회 </br>" +
-                //     "<strong>눈 감음 </strong>:" +
-                //     eye[1] +
-                //     "회, " +
-                //     "<strong>이상 행동 시간</strong>:" +
-                //     behavior_time[1] +
-                //     "초"
-                // );
-
-                // $("#student3").html(
-                //   "<strong> 이진영 </strong> 학생" +
-                //   "</br>" +
-                //     "<strong>얼굴 멀어짐 </strong>:" +
-                //     area[2] +
-                //     "회, " +
-                //     "<strong>고개 기울임</strong>:" +
-                //     head[2] +
-                //     "회 </br>" +
-                //     "<strong>눈 감음 </strong>:" +
-                //     eye[2] +
-                //     "회, " +
-                //     "<strong>이상 행동 시간</strong>:" +
-                //     behavior_time[2] +
-                //     "초"
-                // );
-
-                // $("#student4").html(
-                //   "<strong> 최시열 </strong> 학생" +
-                //   "</br>" +
-                //     "<strong>얼굴 멀어짐 </strong>:" +
-                //     area[3] +
-                //     "회, " +
-                //     "<strong>고개 기울임</strong>:" +
-                //     head[3] +
-                //     "회 </br>" +
-                //     "<strong>눈 감음 </strong>:" +
-                //     eye[3] +
-                //     "회, " +
-                //     "<strong>이상 행동 시간</strong>:" +
-                //     behavior_time[3] +
-                //     "초"
-                // );
-                if (
-                  response["startTime"] !== "0" &&
-                  response["startTime"] !== overlap
-                ) {
-                  //이상 행동 발생시 버튼 생성
-                  var button = document.createElement("button");
-                  //버튼 디자인
-                  button.style.cssText =
-                    "border-radius : 10px; background-color : white; width :20%; height :180%; text-align : center ";
-                  //behaviorType 결정
-                  let imgSrcStr = ""
-                  behaviorType = response["behaviorType"];
-                  if (behaviorType === "0") {
-                    behavior_setting = "눈 감음";
-                    imgSrcStr = '<img src="https://i.ibb.co/jbHBS0v/sleep.jpg" alt="eye" border="0" height=75 width=75>'
-                  } else if (behaviorType === "1") {
-                    behavior_setting = "고개 기울임";
-                    imgSrcStr = '<img src="https://i.ibb.co/GktDbgd/head.jpg" alt="head" border="0" height=75 width=75>'
-                  } else {
-                    behavior_setting = "얼굴 멀어짐";
-                    imgSrcStr = '<img src="https://i.ibb.co/sKKfK97/area.jpg" alt="area" border="0" height=75 width=75>'
-                  }
-                  //행동 유지 시간 소수점 제거 -> 나중에 수정해야한다.
-                  var starttime = response["startTime"].slice(0, 3);
-                  var endtime = response["endTime"].slice(0, 3);
-                  var timee = endtime - starttime;
-
-
-                  //버튼 생성
-                  button.innerHTML =
-                  imgSrcStr +
-                  "<br/>" +
-                  "<strong>" +
-                  student_name +
-                  "</strong>" +
-                  "<br/>" +
-                  "<strong>" +
-                  timee +
-                  "초" +
-                  "</strong>" +
-                  "<br/>" +
-                  "(" +
-                    starttime +
-                    " ~ " +
-                    endtime +
-                    ")" +
-                    "<br/>" +
-                    behavior_setting;
-                  button.className = "logItem"
-                  body.appendChild(button);
-                  overlap = response["startTime"];
-                }
               },
               error: function (error) {
                 console.log(error);
@@ -764,17 +849,52 @@
             });
           }, 1000);
         </script>
+                  
+              </div>
+          </div>
       </div>
+
+      <script>
+        const loremIpsum = document.getElementById("lorem-ipsum")
+fetch("https://baconipsum.com/api/?type=all-meat&paras=200&format=html")
+    .then(response => response.text())
+    .then(result => loremIpsum.innerHTML = result)
+const modal = document.getElementById("modal")
+function modalOn() {
+    modal.style.display = "flex"
+}
+function isModalOn() {
+    return modal.style.display === "flex"
+}
+function modalOff() {
+    modal.style.display = "none"
+}
+const btnModal = document.getElementById("btn-modal")
+btnModal.addEventListener("click", e => {
+    modalOn()
+})
+const closeBtn = modal.querySelector(".close-area")
+closeBtn.addEventListener("click", e => {
+    modalOff()
+})
+modal.addEventListener("click", e => {
+    const evTarget = e.target
+    if(evTarget.classList.contains("modal-overlay")) {
+        modalOff()
+    }
+})
+window.addEventListener("keyup", e => {
+    if(isModalOn() && e.key === "Escape") {
+        modalOff()
+    }
+})
+    </script>
+
+      </div>
+
+      
     </div>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-      .logContainer {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-      }
-      .logItem { flex: 0 0 auto; }
-    </style>
+   
+    </div>
   </body>
 </html>
