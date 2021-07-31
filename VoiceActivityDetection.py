@@ -25,6 +25,15 @@ model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
  single_audio_stream,
  collect_chunks) = utils
 
+sc1 = []
+sc2 = []
+sc3 = []
+sc4 = []
+
+vc1 = []
+vc2 = []
+vc3 = []
+vc4 = []
 
 def validate(model,
              inputs: torch.Tensor):
@@ -78,7 +87,7 @@ def vadStart(wavPATH):
 
     startTime=time.time()
     data = []
-    voiced_confidences = []
+    # voiced_confidences = [] #이게 문제가 될 수도?
     test_confidences = []
 
     global continue_recording
@@ -131,6 +140,22 @@ def vadStart(wavPATH):
         voiced_confidences.append(new_confidence)
         test_confidences.append(new_confidence)
 
+        if wavPATH=='SampleAudio1.wav':
+            global vc1, sc1
+            vc1 = voiced_confidences
+            sc1 = speechCount
+        elif wavPATH=='SampleAudio2.wav':
+            global vc2, sc2
+            vc2 = voiced_confidences
+            sc2 = speechCount
+        elif wavPATH=='SampleAudio3.wav':
+            global vc3, sc3
+            vc3 = voiced_confidences
+            sc3 = speechCount
+        elif wavPATH=='SampleAudio4.wav':
+            global vc4, sc4
+            vc4 = voiced_confidences
+            sc4 = speechCount
         # print(type(voiced_confidences))
 
         # pp.update(new_confidence)
@@ -160,6 +185,7 @@ def vadStart(wavPATH):
     # plt.show()
 
 def getVADdata(sampleNum):
+    # return voiced_confidences
     if sampleNum==1:
         return sc1
     elif sampleNum==2:
@@ -169,7 +195,26 @@ def getVADdata(sampleNum):
     elif sampleNum==4:
         return sc4
 
-def getPlot(sampleNum):
-    tempImg = BytesIO()
-    plt.savefig(tempImg, format='png', bbox_inches='tight', dpi=200)
-    tempImg.seek(0)
+def getPlot(imgNum):
+    plt.clf()
+    plt.ylim([0,1])
+    plt.xticks([])
+    plt.axhline(y=0.7, color='r')
+    imgNum = BytesIO()
+    if imgNum==1:
+        plt.plot(vc1)
+        plt.savefig(imgNum, format='png', bbox_inches='tight', dpi=200)
+        return imgNum
+    elif imgNum==2:
+        plt.plot(vc2)
+        plt.savefig(imgNum, format='png', bbox_inches='tight', dpi=200)
+        return imgNum
+    elif imgNum==3:
+        plt.plot(vc3)
+        plt.savefig(imgNum, format='png', bbox_inches='tight', dpi=200)
+        return imgNum
+    elif imgNum==4:
+        plt.plot(vc4)
+        plt.savefig(imgNum, format='png', bbox_inches='tight', dpi=200)
+        return imgNum
+    # plt.pause(0.00001)

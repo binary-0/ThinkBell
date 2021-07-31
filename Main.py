@@ -386,12 +386,15 @@ def mfccend():
 def vad_feed():
     # global silence
     # global size
-
+    sc1 = VoiceActivityDetection.getVADdata(1)
+    sc2 = VoiceActivityDetection.getVADdata(2)
+    sc3 = VoiceActivityDetection.getVADdata(3)
+    sc4 = VoiceActivityDetection.getVADdata(4)
     return jsonify({
-        'SpeakingCount1': str(SpeakingCount1),
-        'SpeakingCount2': str(SpeakingCount2),
-        'SpeakingCount3': str(SpeakingCount3),
-        'SpeakingCount4': str(SpeakingCount4)
+        'SpeechCount1': str(sc1),
+        'SpeechCount2': str(sc2),
+        'SpeechCount3': str(sc3),
+        'SpeechCount4': str(sc4)
     })
 
 @app.route('/fig1')
