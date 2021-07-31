@@ -9,12 +9,19 @@ from math import cos, sin
 from PIL import Image
 import time
 import microphone_checker_stream
+from HeadPoseRevised import process_detection
+from EAR import calculate_ear
+# import microphone_checker_stream
+import VoiceActivityDetection
 from waiting import wait
 import json
 from queue import Queue
 import datetime
 from playsound import playsound
 import daiseecnn
+
+from multiprocessing import Process
+
 from flask import Flask, render_template, Response, jsonify, send_file, request
 
 app = Flask(__name__)
@@ -72,26 +79,6 @@ def index():
     global isStartAudio
     isStartAudio=False
 
-    global SpeakingRate1
-    global SpeakingRate2
-    global SpeakingRate3
-    global SpeakingRate4
-
-    SpeakingRate1 = 0
-    SpeakingRate2 = 0
-    SpeakingRate3 = 0
-    SpeakingRate4 = 0
-
-    global SpeakingCount1
-    global SpeakingCount2
-    global SpeakingCount3
-    global SpeakingCount4
-
-    SpeakingCount1 = 0
-    SpeakingCount2 = 0
-    SpeakingCount3 = 0
-    SpeakingCount4 = 0
-
 
     global logFile
     logFile = list(range(4))
@@ -111,10 +98,7 @@ def index():
     isRealDebug = 0  # Debug
     returnCheck = 0
     loadingComplete = False
-    img1 = None
-    img2 = None
-    img3 = None
-    img4 = None
+
     
 
     global DetectRet
@@ -132,6 +116,12 @@ def index():
     audio_thread = threading.Thread(target=play_audio)
     audio_thread.start()
 
+    # threading.Thread(target=vad_ctrl).start()
+    Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
+    Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
+    Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
+    Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
+    
     return render_template('index.html', **templateData)
 
 def play_audio():
@@ -144,58 +134,22 @@ def play_audio():
         time.sleep(0.1)
 
 
-@app.route('/mfccstart', methods=['POST'])
-def mfccstart():
-    # th = threading.Thread(target=mfcc_ctrl, args=())
-    # th.start()
-    # return render_template('temp.html', value=0)
-    print("Start")
+# @app.route('/mfccstart', methods=['POST'])
+# def mfccstart():
+#     # th = threading.Thread(target=mfcc_ctrl, args=())
+#     # th.start()
+#     # return render_template('temp.html', value=0)
+#     print("Start")
 
 
-def mfcc_ctrl():
-    global SpeakingRate1
-    global SpeakingRate2
-    global SpeakingRate3
-    global SpeakingRate4
-    global SpeakingCount1
-    global SpeakingCount2
-    global SpeakingCount3
-    global SpeakingCount4
-
-    global mfccStartTime
-
-    mfccEndTime = time.time() - mfccStartTime
-
-    t1 = threading.Thread(target=microphone_checker_stream.mfcc_process,
-                          args=("SampleAudio1.wav", "temp1.wav", mfccEndTime))
-    t2 = threading.Thread(target=microphone_checker_stream.mfcc_process,
-                          args=("SampleAudio2.wav", "temp2.wav", mfccEndTime))
-    t3 = threading.Thread(target=microphone_checker_stream.mfcc_process,
-                          args=("SampleAudio3.wav", "temp3.wav", mfccEndTime))
-    t4 = threading.Thread(target=microphone_checker_stream.mfcc_process,
-                          args=("SampleAudio4.wav", "temp4.wav", mfccEndTime))
-
-    t1.start()
-    t2.start()
-    t3.start()
-    t4.start()
-
-    t1.join()
-    t2.join()
-    t3.join()
-    t4.join()
-
-    # microphone_checker_stream.plot1()
-    # microphone_checker_stream.plot2()
-    # microphone_checker_stream.plot3()
-    # microphone_checker_stream.plot4()
+def vad_ctrl():
+   
+    # SpeechCount1 = VoiceActivityDetection.getSC(1)
+    # SpeechCount2 = VoiceActivityDetection.getSC(2)
+    # SpeechCount3 = VoiceActivityDetection.getSC(3)
+    # SpeechCount4 = VoiceActivityDetection.getSC(4)
     
-    SpeakingRate1,SpeakingCount1 = microphone_checker_stream.getAD1()
-    SpeakingRate2,SpeakingCount2 = microphone_checker_stream.getAD2()
-    SpeakingRate3,SpeakingCount3 = microphone_checker_stream.getAD3()
-    SpeakingRate4,SpeakingCount4 = microphone_checker_stream.getAD4()
-
-    print("\n\n\n디버기이잉", SpeakingCount1, SpeakingCount2, SpeakingCount3, SpeakingCount4)
+    # print("\n\n\n디버기이잉", SpeechCount1, SpeechCount2, SpeechCount3, SpeechCount4)
 
 
 def real_gen_frames():
@@ -424,20 +378,16 @@ def justWebCAM_feed():
 @app.route('/mfccend', methods=['POST'])
 def mfccend():
     # microphone_checker_stream.process_stop()
-    mfcc_ctrl()
+    # mfcc_ctrl()
     return render_template('temp.html', value=0)
 
 
-@app.route('/mfcc_feed', methods=['POST'])
-def mfcc_feed():
+@app.route('/vad_feed', methods=['POST'])
+def vad_feed():
     # global silence
     # global size
 
     return jsonify({
-        'SpeakingRate1': str(SpeakingRate1),
-        'SpeakingRate2': str(SpeakingRate2),
-        'SpeakingRate3': str(SpeakingRate3),
-        'SpeakingRate4': str(SpeakingRate4),
         'SpeakingCount1': str(SpeakingCount1),
         'SpeakingCount2': str(SpeakingCount2),
         'SpeakingCount3': str(SpeakingCount3),
