@@ -4,21 +4,17 @@ from matplotlib.pyplot import tricontour
 
 import cv2
 import numpy as np
-from whenet import WHENet
 import os
 from math import cos, sin
-from YOLO.yolo_postprocess import YOLO
 from PIL import Image
 import time
-from HeadPoseRevised import process_detection
-from EAR import calculate_ear
 import microphone_checker_stream
 from waiting import wait
 import json
 from queue import Queue
 import datetime
 from playsound import playsound
-
+import daiseecnn
 from flask import Flask, render_template, Response, jsonify, send_file, request
 
 app = Flask(__name__)
@@ -69,6 +65,9 @@ def index():
     global img3
     global img4
     global logStudentName
+
+    global predEngage
+    predEngage = [-1, -1, -1, -1]
 
     global isStartAudio
     isStartAudio=False
@@ -200,8 +199,7 @@ def mfcc_ctrl():
 
 
 def real_gen_frames():
-    whenet = WHENet(snapshot='WHENet.h5')
-    yolo = YOLO()
+    daisee = daiseecnn.DaiseeCNN()
 
     global loadingComplete
     loadingComplete = True
@@ -210,42 +208,22 @@ def real_gen_frames():
     global g_frame
     peerNum = 4
 
-    # fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-    # out = cv2.VideoWriter('Output.avi', fourcc, 6, (frame.shape[1], frame.shape[0]))
-
     # 조건 검사를 위한 변수들
     frCnt = 0
-    horizSum = [0, 0, 0, 0]
-    vertiSum = [0, 0, 0, 0]
-    rollSum = [0, 0, 0, 0]
-    areaSum = [0, 0, 0, 0]
-    EARSum = [0, 0, 0, 0]
-    horizAvg = [None, None, None, None]
-    vertiAvg = [None, None, None, None]
-    rollAvg = [None, None, None, None]
-    areaAvg = [None, None, None, None]
-    EARAvg = [None, None, None, None]
-
-    conType = list(range(peerNum))
-    for i in range(0, peerNum):
-        conType[i] = [False, False, False, False]
 
     startTime = time.time()
     prevTime = startTime
     global CALITIME
     global TIMETHRESHOLD
 
-    print(str(CALITIME - 0))
     print(str(TIMETHRESHOLD - 0))
-    EARTime = [None, None, None, None]
-    HeadTime = [None, None, None, None]
-    FaceTime = [None, None, None, None]
+    CNNTime = [None, None, None, None]
 
+    # log 남기기 위한 global vars
     global logStudentName
     global logStartTime
     global logEndTime
     global logType
-
     logStudentName = 0
     logStartTime = 0
     logEndTime = 0
@@ -254,7 +232,7 @@ def real_gen_frames():
     frameTemp = 0
     frameCtrl = None
     frameBack = 0
-    dQ = [detectionQueue(), detectionQueue(), detectionQueue(), detectionQueue()]
+    #dQ = [detectionQueue(), detectionQueue(), detectionQueue(), detectionQueue()]
 
     time.sleep(3)
     while True:
@@ -265,38 +243,19 @@ def real_gen_frames():
         if g_frame is None:
             continue
 
-        # try:
-        #     if round(1 / sec) is not 0:
-        #         frCnt += round(30 / round(1 / sec))
-        #     else:
-        #         frCnt += round(30 / (1 / sec))
-        # except:
-        #     frCnt += 1
         frCnt += 1
         try:
             print('FPS: ' + str(1 / (sec)))
         except:
             print('FPS___')
 
-        if frameCtrl is None:
-            frameBack = frCnt
-        else:
-            frameBack = frameCtrl
-            frCnt = frameCtrl
-            print('move back')
-            frameCtrl = None
-
-        # for i in range(0, peerNum):
-        #    cap[i].set(cv2.CAP_PROP_POS_FRAMES, frameBack)
-
-        # try:
-        #     for i in range(0, peerNum):
-        #         ret[i], frame[i] = cap[i].read()
-        #     # print(frameBack)
-        # except:
-        #     break
-        # if frame[0] is None or frame[1] is None:
-        #     break
+        # if frameCtrl is None:
+        #     frameBack = frCnt
+        # else:
+        #     frameBack = frameCtrl
+        #     frCnt = frameCtrl
+        #     print('move back')
+        #     frameCtrl = None
 
         global returnCheck
         if returnCheck == 1:
@@ -319,174 +278,27 @@ def real_gen_frames():
             print("Video Ended.")
             break
 
-        img_pil = list(range(peerNum))
+        global predEngage
         for i in range(0, peerNum):
-            img_pil[i] = Image.fromarray(rgbFrame[i])
-
-        bboxes = list(range(peerNum))
-        scores = list(range(peerNum))
-        classes = list(range(peerNum))
-        for i in range(0, peerNum):
-            bboxes[i], scores[i], classes[i] = yolo.YOLO_DetectProcess(img_pil[i])
-
-        # bgr = cv2.flip(frame, 1)
-
-        # for bbox in bboxes:
-        #    frame, horizMove, vertiMove, rollByXPos = process_detection(whenet, frame, bbox)
-
-        # 얼굴 하나만 가지고 인식 (위에거는 여러개)
-        faceDetected = True
-        for i in range(0, peerNum):
-            if len(bboxes[i]) is 0:
-                faceDetected = False
-        if faceDetected is False:
-            continue
-
-        horizMove = list(range(peerNum))
-        vertiMove = list(range(peerNum))
-        rollByXPos = list(range(peerNum))
-        headArea = list(range(peerNum))
-        l_frame = list(range(peerNum))
-        for i in range(0, peerNum):
-            l_frame[i], horizMove[i], vertiMove[i], rollByXPos[i], headArea[i] = process_detection(whenet,
-                                                                                                   sendedFrame[i],
-                                                                                                   bboxes[i][0],
-                                                                                                   horizAvg[i],
-                                                                                                   vertiAvg[i],
-                                                                                                   rollAvg[i],
-                                                                                                   areaAvg[i],
-                                                                                                   conType[i])
-        EAR = list(range(peerNum))
-        for i in range(0, peerNum):
-            EAR[i] = calculate_ear(rgbFrame[i], draw=l_frame[i])
-
-        # 캘리브레이션 끝
-        if time.time() - startTime < CALITIME + 5 and time.time() - startTime > CALITIME:
-            for i in range(0, peerNum):
-                horizAvg[i] = horizSum[i] / frCnt
-                vertiAvg[i] = vertiSum[i] / frCnt
-                rollAvg[i] = rollSum[i] / frCnt
-                areaAvg[i] = areaSum[i] / frCnt
-                EARAvg[i] = EARSum[i] / frCnt
-                print('AVG' + str(i) + ' ' + str(areaAvg[i]))
-        else:
-            for i in range(0, peerNum):
-                horizSum[i] += horizMove[i]
-                vertiSum[i] += vertiMove[i]
-                rollSum[i] += rollByXPos[i]
-                areaSum[i] += headArea[i]
-                # print('summing...:' + str(headArea[i]) + ' / sum:' + str(areaSum[i]))
-
-                if EAR[i] is not None:
-                    EARSum[i] += EAR[i]
-
-        # EAR Threshold는 Main에서
-        for i in range(0, peerNum):
-            if EARAvg[i] is not None and EAR[i] is not None:
-                cv2.putText(l_frame[i], f'EAR:{EAR[i]}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                            cv2.LINE_AA)
-                earCurTime = time.time()
-                if EAR[i] < EARAvg[i] * 0.915:
-                    isDetectedOnce[i] = 1
-                    if EARTime[i] is None:
-                        EARTime[i] = earCurTime
-                        frameTemp = frCnt
-                    else:
-                        if earCurTime - EARTime[i] > TIMETHRESHOLD:
-                            cv2.putText(l_frame[i], 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1,
-                                        (0, 255, 0),
-                                        2,
-                                        cv2.LINE_AA)
-                else:
-                    if EARTime[i] is not None and time.time() - EARTime[i] > TIMETHRESHOLD:
-                        logStudentName = i
-                        logStartTime = EARTime[i] - startTime
-                        logEndTime = time.time() - startTime
-                        logType = 0
-                    EARTime[i] = None
+            predEngage[i] = int(daisee.prediction(sendedFrame[i]))
 
         for i in range(0, peerNum):
-            if conType[i][0] == True or conType[i][1] == True or conType[i][2] == True:
-                isDetectedOnce[i] = 1
-                if HeadTime[i] is None:
-                    HeadTime[i] = time.time()
+            if predEngage[i] is 0 or predEngage[i] is 1:
+                if CNNTime[i] is None:
+                    CNNTime[i] = time.time()
                     frameTemp = frCnt
                 else:
-                    headCurTime = time.time()
-                    if headCurTime - HeadTime[i] > TIMETHRESHOLD:
+                    cnnCurTime = time.time()
+                    if cnnCurTime - CNNTime[i] > TIMETHRESHOLD:
                         pass
             else:
-                if HeadTime[i] is not None and time.time() - HeadTime[i] > TIMETHRESHOLD:
-                    logStudentName = i
-                    logStartTime = HeadTime[i] - startTime
-                    logEndTime = time.time() - startTime
-                    logType = 1
-                    # frameCtrl = frameTemp
-                HeadTime[i] = None
-
-        for i in range(0, peerNum):
-            if conType[i][3] == True:
-                isDetectedOnce[i] = 1
-                if FaceTime[i] is None:
-                    FaceTime[i] = time.time()
-                    frameTemp = frCnt
-                else:
-                    faceCurTime = time.time()
-                    if faceCurTime - FaceTime[i] > TIMETHRESHOLD:
-                        pass
-            else:
-                if FaceTime[i] is not None and time.time() - FaceTime[i] > TIMETHRESHOLD:
-                    logStudentName = i
-                    logStartTime = FaceTime[i] - startTime
-                    logEndTime = time.time() - startTime
-                    logType = 2
-                FaceTime[i] = None
-
-        for i in range(0, peerNum):
-            global DetectRet
-            DetectRet[i] = dQ[i].detectionPush(isDetectedOnce[i])
-
-        # cv2.imshow('output', frame)
-        # out.write(frame)
-        # global frameReady
-        # for i in range(0, peerNum):
-        #    frameReady[i] = True
+                if CNNTime[i] is not None and time.time() - CNNTime[i] > TIMETHRESHOLD:
+                    pass #LOG남기는Action
+                CNNTime[i] = None
 
     global systemEnded
     systemEnded = True
-    global logFile
-    global createdTag
-    for i in range(0, peerNum):
-        logFile[i].close()
 
-    try:
-        tagList = [[], [], [], []]
-        for i in range(0, peerNum):
-            with open(f"TestTag{i + 1}.txt", "r") as taggedFile:
-                for text in taggedFile:
-                    text = text.strip('\n')
-                    lineStrList = text.split()
-                    for idx in range(0, 3):
-                        lineStrList[idx] = round(float(lineStrList[idx]))
-                    tagList[i].append(lineStrList)
-
-        print(tagList)
-        print('///')
-        print(createdTag)
-
-        corrCnt = [0, 0, 0, 0]
-        #derrCnt = [0, 0, 0, 0]
-        attemptAccur = list(range(peerNum))
-        for i in range(0, peerNum):
-            for oneTagLog in tagList[i]:
-                for oneCrLog in createdTag[i]:
-                    if oneTagLog[0] > oneCrLog[0] - 15 and oneTagLog[1] < oneCrLog[1] + 15:
-                        corrCnt[i] += 1
-                        break
-            attemptAccur[i] = (corrCnt[i] / len(tagList[i])) * 100
-            print(f"{i+1}번: 정확도: {attemptAccur[i]}%")
-    except:
-        print('File Not Found.')
 
 def justWebCAM():
     myCap = cv2.VideoCapture(0)
@@ -502,40 +314,6 @@ def justWebCAM():
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + myBytes + b'\r\n')
 
 
-class detectionQueue:
-    def __init__(self):
-        self.que = Queue()
-        self.size = 0
-        self.sum = 0
-        self.avg = 0
-
-        self.yelloThresh = 4
-        self.redThresh = 6
-        self.maxSize = 10
-
-    def detectionPush(self, data):
-        if self.size < self.maxSize:
-            self.que.put(data)
-            self.size += 1
-            self.sum += data
-            self.avg = self.sum / self.size
-
-            return 0
-        else:
-            deq = self.que.get()
-            self.que.put(data)
-            self.sum += data
-            self.sum -= deq
-            self.avg = self.sum / self.size
-
-            if self.avg > (self.redThresh / self.maxSize):
-                return 3
-            elif self.avg > (self.yelloThresh / self.maxSize):
-                return 2
-            else:
-                return 1
-
-
 class Streaming:
     def __init__(self, peer):
         global isLiveLocal
@@ -549,6 +327,7 @@ class Streaming:
 
         self.redImg = np.full((720, 1280, 3), (0, 0, 255), dtype=np.uint8)
         self.greenImg = np.full((720, 1280, 3), (0, 255, 0), dtype=np.uint8)
+        self.blueImg = np.full((720, 1280, 3), (255, 0, 0), dtype=np.uint8)
         self.yelloImg = np.full((720, 1280, 3), (0, 255, 255), dtype=np.uint8)
 
         if isLiveLocal is 0:
@@ -577,18 +356,30 @@ class Streaming:
             while True:
                 ret, g_frame[peer - 1] = self.cap.read()
                 if ret:
-                    global DetectRet
-                    if DetectRet[peer - 1] is 1:
-                        l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
-                        cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 255, 0), 20)
-                    elif DetectRet[peer - 1] is 2:
-                        l_frame = cv2.addWeighted(self.yelloImg, 0.1, g_frame[peer - 1], 0.9, 0)
-                        cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 255, 255), 20)
-                    elif DetectRet[peer - 1] is 3:
+                    global predEngage
+                    #print(f'peer:{peer - 1} and pred: {predEngage[peer - 1]}')
+                    if predEngage[peer - 1] is -1: #undefined
+                        l_frame = g_frame[peer - 1]
+                    elif predEngage[peer - 1] is 0 or predEngage[peer - 1] is 1: #not engaged
                         l_frame = cv2.addWeighted(self.redImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 0, 255), 20)
-                    else:
-                        l_frame = g_frame[peer - 1]
+                        cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                                    cv2.LINE_AA)
+                    elif predEngage[peer - 1] is 2: #neutral
+                        l_frame = cv2.addWeighted(self.blueImg, 0.1, g_frame[peer - 1], 0.9, 0)
+                        cv2.rectangle(l_frame, (0, 0), (1280, 720), (255, 0, 0), 20)
+                        cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                                    cv2.LINE_AA)
+                    else: #highly engaged
+                        l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
+                        cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 255, 0), 20)
+                        cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                                cv2.LINE_AA)
+
+
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
                     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
@@ -603,36 +394,6 @@ class Streaming:
         else:
             print('Cannot Open File ERR')
 
-
-# def frameSession1():
-#     global byframe
-#     global isRealDebug
-#
-#     try:
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[0] + b'\r\n')
-#     except:
-#         pass
-#
-# def frameSession2():
-#     global byframe
-#     try:
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[1] + b'\r\n')
-#     except:
-#         pass
-
-
-# def audio_generate():
-#     with open("SampleAudioAll.wav", "rb") as fwav:
-#         data = fwav.read(1024)
-#         while data:
-#             yield data
-#             data = fwav.read(1024)
-
-# @app.route("/wav")
-# def streamwav():
-#     global isStartAudio
-#     wait(lambda: isStartAudio, timeout_seconds=120, waiting_for="audio ready")
-#     return Response(audio_generate(), mimetype="audio/x-wav")
 
 @app.route('/video_feed/<peer>')
 def video_feed(peer):
@@ -720,8 +481,10 @@ def log_feed():
 
     if logStartTime is not 0 and logEndTime is not 0 and logType is not 0:
         #print(f"fStinghatton: {round(logStartTime, 1)} {round(logEndTime, 1)} {logType}\n")
-        logFile[logStudentName].write(f"{round(logStartTime, 1)} {round(logEndTime, 1)} {logType}\n")
-        createdTag[logStudentName].append([round(logStartTime), round(logEndTime), logType])
+
+        #NO LOG IN THIS VERSION
+        # logFile[logStudentName].write(f"{round(logStartTime, 1)} {round(logEndTime, 1)} {logType}\n")
+        # createdTag[logStudentName].append([round(logStartTime), round(logEndTime), logType])
         returnCheck = 1
 
     return jsonify({
@@ -730,232 +493,6 @@ def log_feed():
         'endTime': str(logEndTime),
         'behaviorType': str(logType)
     })
-
-# def debug_gen_frames():
-#     whenet = WHENet(snapshot='WHENet.h5')
-#     yolo = YOLO()
-#
-#     global isLiveLocal
-#     peerNum = 4
-#
-#     cap = list(range(peerNum))
-#     ret = list(range(peerNum))
-#     frame = list(range(peerNum))
-#
-#     if isLiveLocal is 0:
-#         cap[0] = cv2.VideoCapture(0)
-#     else:  # Local video
-#         cap[0] = cv2.VideoCapture('./SampleVideo.mp4')
-#         cap[1] = cv2.VideoCapture('./SampleVideo2.mp4')
-#
-#     for i in range(0, peerNum):
-#         ret[i], frame[i] = cap[i].read()
-#     #fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-#     #out = cv2.VideoWriter('Output.avi', fourcc, 6, (frame.shape[1], frame.shape[0]))
-#
-#     # 조건 검사를 위한 변수들
-#     frCnt = 0
-#     horizSum = [0, 0]
-#     vertiSum = [0, 0]
-#     rollSum = [0, 0]
-#     areaSum = [0, 0]
-#     EARSum = [0, 0]
-#     horizAvg = [None, None]
-#     vertiAvg = [None, None]
-#     rollAvg = [None, None]
-#     areaAvg = [None, None]
-#     EARAvg = [None, None]
-#
-#     conType = list(range(peerNum))
-#     for i in range(0, peerNum):
-#         conType[i] = [False, False, False, False]
-#
-#     startTime = time.time()
-#     prevTime = startTime
-#     CALITIME = 15
-#     TIMETHRESHOLD = 3
-#     EARTime = [None, None]
-#     HeadTime = [None, None]
-#     FaceTime = [None, None]
-#
-#     global logStudentName
-#     global logStartTime
-#     global logEndTime
-#     global logType
-#
-#     logStudentName = 0
-#     logStartTime = 0
-#     logEndTime = 0
-#     logType = 0
-#
-#     frameTemp = 0
-#     frameCtrl = None
-#     frameBack = 0
-#
-#     while True:
-#         curTime = time.time()
-#         sec = curTime - prevTime
-#         prevTime = curTime
-#
-#         try:
-#             if round(1 / sec) is not 0:
-#                 frCnt += round(30 / round(1 / sec))
-#             else:
-#                 frCnt += round(30 / (1 / sec))
-#         except:
-#             frCnt += 1
-#         try:
-#             print('FPS: ' + str(1 / (sec)))
-#         except:
-#             print('FPS___')
-#
-#         if frameCtrl is None:
-#             frameBack = frCnt
-#         else:
-#             frameBack = frameCtrl
-#             frCnt = frameCtrl
-#             print('move back')
-#             frameCtrl = None
-#
-#         for i in range(0, peerNum):
-#             cap[i].set(cv2.CAP_PROP_POS_FRAMES, frameBack)
-#
-#         try:
-#             for i in range(0, peerNum):
-#                 ret[i], frame[i] = cap[i].read()
-#             #print(frameBack)
-#         except:
-#             break
-#         if frame[0] is None or frame[1] is None:
-#             break
-#
-#         global returnCheck
-#         if returnCheck == 1:
-#             logStudentName = 0
-#             logStartTime = 0
-#             logEndTime = 0
-#             logType = 0
-#             returnCheck = 0
-#
-#         rgbFrame = list(range(peerNum))
-#         for i in range(0, peerNum):
-#             rgbFrame[i] = cv2.cvtColor(frame[i], cv2.COLOR_BGR2RGB)
-#         img_pil = list(range(peerNum))
-#         for i in range(0, peerNum):
-#             img_pil[i] = Image.fromarray(rgbFrame[i])
-#
-#         bboxes = list(range(peerNum))
-#         scores = list(range(peerNum))
-#         classes = list(range(peerNum))
-#         for i in range(0, peerNum):
-#             bboxes[i], scores[i], classes[i] = yolo.YOLO_DetectProcess(img_pil[i])
-#
-#         #bgr = cv2.flip(frame, 1)
-#
-#         # for bbox in bboxes:
-#         #    frame, horizMove, vertiMove, rollByXPos = process_detection(whenet, frame, bbox)
-#
-#         # 얼굴 하나만 가지고 인식 (위에거는 여러개)
-#         if len(bboxes[0]) is 0 or len(bboxes[1]) is 0:
-#             continue
-#
-#         horizMove = list(range(peerNum))
-#         vertiMove = list(range(peerNum))
-#         rollByXPos = list(range(peerNum))
-#         headArea = list(range(peerNum))
-#         for i in range(0, peerNum):
-#             frame[i], horizMove[i], vertiMove[i], rollByXPos[i], headArea[i] = process_detection(whenet, frame[i], bboxes[i][0], horizAvg[i], vertiAvg[i],
-#                                                                                                  rollAvg[i], areaAvg[i], conType[i])
-#         EAR = list(range(peerNum))
-#         for i in range(0, peerNum):
-#             EAR[i] = calculate_ear(rgbFrame[i], draw=frame[i])
-#
-#         # 캘리브레이션 끝
-#         if time.time() - startTime < CALITIME + 1 and time.time() - startTime > CALITIME:
-#             for i in range(0, peerNum):
-#                 horizAvg[i] = horizSum[i] / frCnt
-#                 vertiAvg[i] = vertiSum[i] / frCnt
-#                 rollAvg[i] = rollSum[i] / frCnt
-#                 areaAvg[i] = areaSum[i] / frCnt
-#                 EARAvg[i] = EARSum[i] / frCnt
-#         else:
-#             for i in range(0, peerNum):
-#                 horizSum[i] += horizMove[i]
-#                 vertiSum[i] += vertiMove[i]
-#                 rollSum[i] += rollByXPos[i]
-#                 areaSum[i] += headArea[i]
-#
-#                 if EAR[i] is not None:
-#                     EARSum[i] += EAR[i]
-#
-#         # EAR Threshold는 Main에서
-#         for i in range(0, peerNum):
-#             if EARAvg[i] is not None and EAR[i] is not None:
-#                 cv2.putText(frame[i], f'EAR:{EAR[i]}', (400, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-#                             cv2.LINE_AA)
-#                 earCurTime = time.time()
-#                 if EAR[i] < EARAvg[i] * 0.9:
-#                     if EARTime[i] is None:
-#                         EARTime[i] = earCurTime
-#                         frameTemp = frCnt
-#                     else:
-#                         if earCurTime - EARTime[i] > TIMETHRESHOLD:
-#                             cv2.putText(frame[i], 'EARDetected', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 255, 0), 2,
-#                                         cv2.LINE_AA)
-#                 else:
-#                     if EARTime[i] is not None and time.time() - EARTime[i] > TIMETHRESHOLD:
-#                         logStartTime = EARTime[i] - startTime
-#                         logEndTime = time.time() - startTime
-#                         logType = 0
-#                     EARTime[i] = None
-#
-#         for i in range(0, peerNum):
-#             if conType[i][0] == True or conType[i][1] == True or conType[i][2] == True:
-#                 if HeadTime[i] is None:
-#                     HeadTime[i] = time.time()
-#                     frameTemp = frCnt
-#                 else:
-#                     headCurTime = time.time()
-#                     if headCurTime - HeadTime[i] > TIMETHRESHOLD:
-#                         pass
-#             else:
-#                 if HeadTime[i] is not None and time.time() - HeadTime[i] > TIMETHRESHOLD:
-#                     logStartTime = HeadTime[i] - startTime
-#                     logEndTime = time.time() - startTime
-#                     logType = 1
-#                     # frameCtrl = frameTemp
-#                 HeadTime[i] = None
-#
-#         for i in range(0, peerNum):
-#             if conType[i][3] == True:
-#                 if FaceTime[i] is None:
-#                     FaceTime[i] = time.time()
-#                     frameTemp = frCnt
-#                 else:
-#                     faceCurTime = time.time()
-#                     if faceCurTime - FaceTime[i] > TIMETHRESHOLD:
-#                         pass
-#             else:
-#                 if FaceTime[i] is not None and time.time() - FaceTime[i] > TIMETHRESHOLD:
-#                     logStartTime = FaceTime[i] - startTime
-#                     logEndTime = time.time() - startTime
-#                     logType = 2
-#                 FaceTime[i] = None
-#
-#         # cv2.imshow('output', frame)
-#         #out.write(frame)
-#         buffer = list(range(peerNum))
-#         global byframe
-#         global frameReady
-#         byframe = list(range(peerNum))
-#         frameReady = list(range(peerNum))
-#         for i in range(0, peerNum):
-#             ret[i], buffer[i] = cv2.imencode('.jpg', frame[i])
-#             byframe[i] = buffer[i].tobytes()
-#             frameReady[i] = True
-#
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[0] + b'\r\n')
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + byframe[1] + b'\r\n')
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1')
