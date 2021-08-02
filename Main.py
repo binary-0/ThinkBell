@@ -20,6 +20,7 @@ import datetime
 from playsound import playsound
 import daiseecnn
 import csv
+import torch
 
 from multiprocessing import Process
 
@@ -27,6 +28,21 @@ from flask import Flask, render_template, Response, jsonify, send_file, request
 
 app = Flask(__name__)
 
+# torch.hub.download_url_to_file('https://s3.amazonaws.com/pytorch/models/resnet18-5c106cde.pth', '/tmp/temporary_file')
+# model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
+#                               model='silero_vad',
+#                               force_reload=True)
+
+# (get_speech_ts,
+#  get_speech_ts_adaptive,
+#  save_audio,
+#  read_audio,
+#  state_generator,
+#  single_audio_stream,
+#  collect_chunks) = utils
+
+# def sendMU():
+#     return model, utils
 
 @app.route('/')
 def preform():
@@ -428,25 +444,25 @@ def vad_feed():
 @app.route('/fig1')
 def fig1():
     global img1
-    img1 = microphone_checker_stream.plot1()
+    img1 = VoiceActivityDetection.getPlot(1)
     return send_file(img1, mimetype='image/png')
 
 @app.route('/fig2')
 def fig2():
     global img2
-    img2 = microphone_checker_stream.plot2()
+    img2 = VoiceActivityDetection.getPlot(2)
     return send_file(img2, mimetype='image/png')
 
 @app.route('/fig3')
 def fig3():
     global img3
-    img3 = microphone_checker_stream.plot3()
+    img3 = VoiceActivityDetection.getPlot(3)
     return send_file(img3, mimetype='image/png')
 
 @app.route('/fig4')
 def fig4():
     global img4
-    img4 = microphone_checker_stream.plot4()
+    img4 = VoiceActivityDetection.getPlot(4)
     return send_file(img4, mimetype='image/png')
 
 

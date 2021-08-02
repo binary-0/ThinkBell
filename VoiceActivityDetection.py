@@ -9,13 +9,13 @@ torchaudio.set_audio_backend("soundfile")
 import pyaudio
 import time
 from io import BytesIO
+# from Main import sendMU
 
 plt.rcParams["figure.figsize"]=(12,3)
 
 
 model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
-                              model='silero_vad',
-                              force_reload=True)
+                              model='silero_vad')
 
 (get_speech_ts,
  get_speech_ts_adaptive,
@@ -24,6 +24,8 @@ model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
  state_generator,
  single_audio_stream,
  collect_chunks) = utils
+
+# model, utils = sendMU()
 
 sc1 = []
 sc2 = []
