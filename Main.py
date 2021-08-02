@@ -9,8 +9,8 @@ from math import cos, sin
 from PIL import Image
 import time
 import microphone_checker_stream
-from HeadPoseRevised import process_detection
-from EAR import calculate_ear
+#from HeadPoseRevised import process_detection
+#from EAR import calculate_ear
 # import microphone_checker_stream
 import VoiceActivityDetection
 from waiting import wait
