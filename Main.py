@@ -19,6 +19,7 @@ from queue import Queue
 import datetime
 from playsound import playsound
 import daiseecnn
+import csv
 
 from multiprocessing import Process
 
@@ -85,6 +86,10 @@ def index():
     for i in range(0, 4):
         logFile[i] = open(f"evalLog{i + 1}.txt", "w")
 
+    global labels    
+    labelFile = open('AllLabels.csv','r')
+    labels = csv.reader(labelFile)
+
     g_frame = None
 
     logStudentName = 0
@@ -143,7 +148,7 @@ def play_audio():
 
 
 def vad_ctrl():
-   
+   pass
     # SpeechCount1 = VoiceActivityDetection.getSC(1)
     # SpeechCount2 = VoiceActivityDetection.getSC(2)
     # SpeechCount3 = VoiceActivityDetection.getSC(3)
@@ -289,7 +294,15 @@ class Streaming:
         else:
             self.srcPath = f'./SampleVideo{peer}.mp4'
         self.cap = cv2.VideoCapture(self.srcPath)
+
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
+        self.labeledEngagement = -1
+
+        global labels
+        for line in labels:
+            if line[0] == self.srcPath :
+                self.labeledEngagement = int(line[2])
+                break
 
         global mfccStartTime
         mfccStartTime = time.time()
@@ -317,19 +330,34 @@ class Streaming:
                     elif predEngage[peer - 1] is 0 or predEngage[peer - 1] is 1: #not engaged
                         l_frame = cv2.addWeighted(self.redImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 0, 255), 20)
-                        cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                        if self.labeledEngagement is -1:
+                            cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                                    cv2.LINE_AA)
+                        else:
+                            cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]} / Cor: {self.labeledEngagement}', (10, 100),
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                     cv2.LINE_AA)
                     elif predEngage[peer - 1] is 2: #neutral
                         l_frame = cv2.addWeighted(self.blueImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (1280, 720), (255, 0, 0), 20)
-                        cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                        if self.labeledEngagement is -1:
+                            cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                                    cv2.LINE_AA)
+                        else:
+                            cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]} / Cor: {self.labeledEngagement}', (10, 100),
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                     cv2.LINE_AA)
                     else: #highly engaged
                         l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (1280, 720), (0, 255, 0), 20)
-                        cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                        if self.labeledEngagement is -1:
+                            cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]}', (10, 100),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                                cv2.LINE_AA)
+                        else:
+                            cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]} / Cor: {self.labeledEngagement}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
 
