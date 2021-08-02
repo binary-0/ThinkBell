@@ -11,7 +11,7 @@ import time
 from io import BytesIO
 # from Main import sendMU
 
-plt.rcParams["figure.figsize"]=(12,3)
+plt.rcParams["figure.figsize"]=(6,3)
 
 
 model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
@@ -164,10 +164,10 @@ def vadStart(wavPATH):
 
         #여기가 플롯팅 파트인데 잠시
         plt.clf()
-        plt.ylim([0,1])
+        plt.ylim([0,0.7])
         plt.xticks([])
         plt.plot(voiced_confidences)
-        plt.axhline(y=0.7, color='r')
+        plt.axhline(y=0.5, color='r')
         plt.pause(0.00001)
 
 
@@ -202,21 +202,21 @@ def getPlot(imgNum):
     plt.ylim([0,1])
     plt.xticks([])
     plt.axhline(y=0.7, color='r')
-    imgNum = BytesIO()
+    img1 = img2 = img3 = img4 = BytesIO()
     if imgNum==1:
         plt.plot(vc1)
-        plt.savefig(imgNum, format='png', bbox_inches='tight', dpi=200)
-        return imgNum
+        plt.savefig(img1, format='png', bbox_inches='tight', dpi=200)
+        return img1
     elif imgNum==2:
         plt.plot(vc2)
-        plt.savefig(imgNum, format='png', bbox_inches='tight', dpi=200)
-        return imgNum
+        plt.savefig(img2, format='png', bbox_inches='tight', dpi=200)
+        return img2
     elif imgNum==3:
         plt.plot(vc3)
-        plt.savefig(imgNum, format='png', bbox_inches='tight', dpi=200)
-        return imgNum
+        plt.savefig(img3, format='png', bbox_inches='tight', dpi=200)
+        return img3
     elif imgNum==4:
         plt.plot(vc4)
-        plt.savefig(imgNum, format='png', bbox_inches='tight', dpi=200)
-        return imgNum
+        plt.savefig(img4, format='png', bbox_inches='tight', dpi=200)
+        return img4
     # plt.pause(0.00001)

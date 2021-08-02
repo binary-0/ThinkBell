@@ -441,13 +441,13 @@ def vad_feed():
         'SpeechCount4': str(sc4)
     })
 
-@app.route('/fig1')
+@app.route('/fig1', methods=['POST'])
 def fig1():
     global img1
     img1 = VoiceActivityDetection.getPlot(1)
     return send_file(img1, mimetype='image/png')
 
-@app.route('/fig2')
+@app.route('/fig2', methods=['POST'])
 def fig2():
     global img2
     img2 = VoiceActivityDetection.getPlot(2)
