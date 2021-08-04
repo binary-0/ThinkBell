@@ -1,902 +1,689 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <title>THINKBIG</title>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
-    />
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />   
-    <!--wrapper 클래스에서 layout 규격 조절 가능
-     1fr은 행을 똑같은 비율로 나눠줌 지금 비율은 2*3으로 설정-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">  
+
     <style>
+      @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+      @import url('https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap');
       .wrapper {
         display: grid;
-        grid-template-rows: 450px 450px;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-gap: 3px;
-        margin-right: 15px;
-        margin-left: 15px;
-        margin-top: 10px;
+        grid-template-columns: repeat(16, 1fr);
+        grid-template-rows: 35px 375px 375px 80px;
+        grid-gap: 20px;
+        border-radius: 10px;
       }
       .item:nth-child(1) {
         grid-column-start: 1;
-        grid-column-end: 2;
+        grid-column-end: 17;
         grid-row-start: 1;
         grid-row-end: 2;
       }
       .item:nth-child(2) {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 1;
-        grid-row-end: 2;
+        grid-column-start: 4;
+        grid-column-end: 9;
+        grid-row-start: 2;
+        grid-row-end: 3;
       }
       .item:nth-child(3) {
-        grid-column-start: 1;
-        grid-column-end: 2;
+        grid-column-start: 9;
+        grid-column-end: 14;
         grid-row-start: 2;
         grid-row-end: 3;
       }
       .item:nth-child(4) {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 2;
-        grid-row-end: 3;
+        grid-column-start: 4;
+        grid-column-end: 9;
+        grid-row-start: 3;
+        grid-row-end: 4;
       }
       .item:nth-child(5) {
-        grid-column-start: 3;
-        grid-column-end: 4;
-        grid-row-start: 1;
-        grid-row-end: 2;
+        grid-column-start: 9;
+        grid-column-end: 14;
+        grid-row-start: 3;
+        grid-row-end: 4;
       }
       .item:nth-child(6) {
-        grid-column-start: 3;
-        grid-column-end: 4;
-        grid-row-start: 2;
-        grid-row-end: 3;
+        grid-column-start: 1;
+        grid-column-end: 17;
+        grid-row-start: 4;
+        grid-row-end: 5;
       }
-      #navbar {
-        border-radius: 25px;
-        margin-top: 20px;
-        text-align: center;
-        border: 3px solid black;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-      .bold {
-        padding-top: 25px;
-        font-size: 20px;
-        color: black;
-      }
-      .ta1 {
-        margin-top: 13px;
-      }
-      .lb-wrap {
-        width: 23%;
-        height: 50%;
-      }
-      .lb-wrap img {
-        width: 100%;
-        vertical-align: middle;
-      }
-      .lb-text {
-        margin-left: 40px;
-        height: 20px;
-        background-color: #fbfbfa;
-        text-align: center;
-        font-size: 15px;
-        font-weight: bold;
-      }
-
-      #fix{
-        position:fixed;
-        right:1%;
-        top:40%;
-        width:32%;
-      }
-      #btn{
-        width:24%;
-        height:30px;
-        font-weight: bold;
-        color:navy;
-        background-color:skyblue
-      }
-      #btn-modal{
-        width:24%;
-        height:30px;
-        font-weight: bold;
-        color:navy;
-        background-color:skyblue
-      }
-      .switch {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    width: 100px;
-    height: 70px;
-    text-align: center;
-    margin: -30px 0 0 -75px;
-    background: #46BEFF;
-    transition: all 0.2s ease;
-    border-radius: 25px;
-    font-size: 13px;
-  }
-  input[type=radio] {
-    display: none;
-  }
-  .switch label {
-    cursor: pointer;
-    color: rgba(0,0,0,0.2);
-    width: 60px;
-    line-height: 50px;
-    transition: all 0.2s ease;
-  }
-  label[for=yes1] {
-    position: absolute;
-    left: 20px;
-    top: -10px;
-  }
-  label[for=no1] {
-    position: absolute;
-    right: 20px;
-    top: 30px;
-  }
-  #no1:checked ~ .switch {
-    background: #60BD89;
-  }
-  #yes1:checked ~ .switch label[for=yes1] {
-    color: black;
-    font-weight: bold;
-  }
-  #no1:checked ~ .switch label[for=no1] {
-    color: black;
-    font-weight: bold;
-  }
-  label[for=yes2] {
-    position: absolute;
-    left: 20px;
-    top: -10px;
-  }
-  label[for=no2] {
-    position: absolute;
-    right: 20px;
-    top: 30px;
-  }
-  #no2:checked ~ .switch {
-    background: #60BD89;
-  }
-  #yes2:checked ~ .switch label[for=yes2] {
-    color: black;
-    font-weight: bold;
-  }
-  #no2:checked ~ .switch label[for=no2] {
-    color: black;
-    font-weight: bold;
-  }
-  label[for=yes3] {
-    position: absolute;
-    left: 20px;
-    top: -10px;
-  }
-  label[for=no3] {
-    position: absolute;
-    right: 20px;
-    top: 30px;
-  }
-  #no3:checked ~ .switch {
-    background: #60BD89;
-  }
-  #yes3:checked ~ .switch label[for=yes3] {
-    color: black;
-    font-weight: bold;
-  }
-  #no3:checked ~ .switch label[for=no3] {
-    color: black;
-    font-weight: bold;
-  }
-  label[for=yes4] {
-    position: absolute;
-    left: 20px;
-    top: -10px;
-  }
-  label[for=no4] {
-    position: absolute;
-    right: 20px;
-    top: 30px;
-  }
-  #no4:checked ~ .switch {
-    background: #60BD89;
-  }
-  #yes4:checked ~ .switch label[for=yes4] {
-    color: black;
-    font-weight: bold;
-  }
-  #no4:checked ~ .switch label[for=no4] {
-    color: black;
-    font-weight: bold;
-  }
-  #modal.modal-overlay {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(1.5px);
-            -webkit-backdrop-filter: blur(1.5px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+      .container{
+            margin-left: 29%;
+            margin-top:1.5%;
+            float: left;
+            text-align: center;      
         }
-        #modal .modal-window {
-            background: rgba( 69, 139, 197, 0.70 );
-            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-            backdrop-filter: blur( 13.5px );
-            -webkit-backdrop-filter: blur( 13.5px );
-            border-radius: 10px;
-            border: 1px solid rgba( 255, 255, 255, 0.18 );
-            width: 1300px;
-            height: 700px;
-            position: relative;
-            top: -50px;
-            padding: 10px;
+        .box{
+            float: left;
+            font-family: 'Andada Pro', serif;
+            color: black;
+            font-size: 20px;
+            text-align: center;
+            width: 10%;
+            line-height:31px;
+            margin-left: 5%;
+            background: #DDDDDD;
+            opacity:0.9;
+            border-radius: 20px;
+            border: none;
         }
-        #modal .title {
-            padding-left: 10px;
-            display: inline;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-            
+      .img_btn{
+          background-color:transparent;
+          border:0;
         }
-        #modal .title h2 {
-            display: inline;
+        #stu1_img1{
+          position: absolute;
+          left: 46.5%;
+          top:147px;
         }
-        #modal .close-area {
-            display: inline;
-            float: right;
-            padding-right: 10px;
-            cursor: pointer;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
+        #stu1_img2{
+          position: absolute;
+          left: 46.5%;
+          top:210px;
         }
-        
-        #modal .content {
-            margin-top: 20px;
-            padding: 0px 10px;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
+        #stu1_img3{
+          position: absolute;
+          left: 46.5%;
+          top:270px;
+        }
+        #stu1_img1_black{
+          position: absolute;
+          left: 46.5%;
+          top:147px;
+        }
+        #stu1_img2_black{
+          position: absolute;
+          left: 46.5%;
+          top:210px;
+        }
+        #stu1_img3_black{
+          position: absolute;
+          left: 46.5%;
+          top:270px;
+        }
+        #stu2_img1{
+          position: absolute;
+          left: 78%;
+          top:147px;
+        }
+        #stu2_img2{
+          position: absolute;
+          left: 78%;
+          top:210px;
+        }
+        #stu2_img3{
+          position: absolute;
+          left: 78%;
+          top:270px;
+        }
+        #stu2_img1_black{
+          position: absolute;
+          left: 78%;
+          top:147px;
+        }
+        #stu2_img2_black{
+          position: absolute;
+          left: 78%;
+          top:210px;
+        }
+        #stu2_img3_black{
+          position: absolute;
+          left: 78%;
+          top:270px;
+        }
+        #stu3_img1{
+          position: absolute;
+          left: 46.5%;
+          top:542px;
+        }
+        #stu3_img2{
+          position: absolute;
+          left: 46.5%;
+          top:605px;
+        }
+        #stu3_img3{
+          position: absolute;
+          left: 46.5%;
+          top:665px;
+        }
+        #stu3_img1_black{
+          position: absolute;
+          left: 46.5%;
+          top:542px;
+        }
+        #stu3_img2_black{
+          position: absolute;
+          left: 46.5%;
+          top:605px;
+        }
+        #stu3_img3_black{
+          position: absolute;
+          left: 46.5%;
+          top:665px;
+        }
+        #stu4_img1{
+          position: absolute;
+          left: 78%;
+          top:542px;
+        }
+        #stu4_img2{
+          position: absolute;
+          left: 78%;
+          top:605px;
+        }
+        #stu4_img3{
+          position: absolute;
+          left: 78%;
+          top:665px;
+        }
+        #stu4_img1_black{
+          position: absolute;
+          left: 78%;
+          top:542px;
+        }
+        #stu4_img2_black{
+          position: absolute;
+          left: 78%;
+          top:605px;
+        }
+        #stu4_img3_black{
+          position: absolute;
+          left: 78%;
+          top:665px;
+        }
+        #present1{
+          position: absolute;
+          border: 0;
+          left: 20.7%;
+          top: 330px;
+        }
+        #present2{
+          position: absolute;
+          border: 0;
+          left: 52.2%;
+          top: 330px;
+        }
+        #present3{
+          position: absolute;
+          border: 0;
+          left: 20.7%;
+          top: 725px;
+        }
+        #present4{
+          position: absolute;
+          border: 0;
+          left: 52.2%;
+          top: 725px;
+        }
+        .prenum1{
+          position: absolute;
+          left: 23%;
+          top: 330px;
+          font-size: 30px;
+        }
+        .prenum2{
+          position: absolute;
+          left: 54.5%;
+          top: 330px;
+          font-size: 30px;
+        }
+        .prenum3{
+          position: absolute;
+          left: 23%;
+          top: 725px;
+          font-size: 30px;
+        }
+        .prenum4{
+          position: absolute;
+          left: 54.5%;
+          top: 725px;
+          font-size: 30px;
+        }
+        .name{
+          font-size: 25px;
+          font-family: 'Jeju Gothic', sans-serif;
+        }
+        #name1{
+          position: absolute;
+          left: 19.8%;
+          top: 6.7%;
+        }
+        #name2{
+          position: absolute;
+          left: 51.3%;
+          top: 6.7%;
+        }
+        #name3{
+          position: absolute;
+          left: 19.8%;
+          top: 48%;
+        }
+        #name4{
+          position: absolute;
+          left: 51.3%;
+          top: 48%;
         }
     </style>
   </head>
   <body>
     <div class="wrapper">
-      <!--첫번째 칸 -->
-      <div class="item" style="border: 3px solid black; border-radius: 10px">
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong>최시열</strong></a>
-          </div>
-        </nav>
-
-        <div style="margin-left: 10px; float:left; width: 80%;">
+      <!--(navbar)-->
+      <div class="item">
+        <div style="text-align: left; margin-left: 18%; margin-top: 10px">
           <img
-            style="border: 5px double black; border-radius: 10px"
-            src="{{ url_for('video_feed', peer='1') }}"
-            width="100%"
-            height="360px"
+            src="https://drive.google.com/uc?id=1pIGISXi-LwqThWN8oCki2kBtW8pU0pFC"
+            alt=""
+            width="23px"
+            height="23px"
           />
-        </div>
-        <div class="dropdown" style="margin-top: 20px; float:right; width:17%">
-          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            AI Agent
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
-            <li><button class="dropdown-item" type="button">졸음 깨우기</button></li>
-            <li><button class="dropdown-item" type="button">자리비움 경고</button></li>
-            <li><button class="dropdown-item" type="button">발표 독려하기</button></li>
-            <li><button class="dropdown-item" type="button">칭찬하기</button></li>
-          </ul>
-        </div>
-
-        <div class="toggle-radio" style="margin-top: 270px; float:right; width:11%">
-          <input type="radio" name="rdo1" id="yes1" value="yes1" checked>
-          <input type="radio" name="rdo1" id="no1" value="no1">
-          <div class="switch">
-            <label for="yes1">총 몰입도</label>
-            <label for="no1">발표 기록</label>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 5px;">
-          <img
-          id="base1"
-          name="base1"
-            style="border: 5px double black; border-radius: 10px; padding: 5px;"
-            src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif"
-            width="100%"
-            height="50px"
-          />
-        </div>
-
-        <script type='text/javascript'>
-          $(document).ready(function(){
-              $("input:radio[name=rdo1]").click(function() {
-                  var value = $(this).val();
-                  var image_name;
-                  if(value == 'yes1'){
-                      image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
-                  }else{
-                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
-                      }
-                   $('#base1').attr('src', image_name);
-              });
-          });
-      </script>
-      </div>
-
-      <!--두번째 칸-->
-      <div class="item" style="border: 3px solid black; border-radius: 10px">
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong>이관우</strong></a>
-          </div>
-        </nav>
-
-        <div style="margin-left: 10px; float:left; width: 80%;">
-          <img
-            style="border: 5px double black; border-radius: 10px"
-            src="{{ url_for('video_feed', peer='2') }}"
-            width="100%"
-            height="360px"
-          />
-        </div>
-        <div class="dropdown" style="margin-top: 20px; float:right; width:17%">
-          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            AI Agent
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
-            <li><button class="dropdown-item" type="button">졸음 깨우기</button></li>
-            <li><button class="dropdown-item" type="button">자리비움 경고</button></li>
-            <li><button class="dropdown-item" type="button">발표 독려하기</button></li>
-            <li><button class="dropdown-item" type="button">칭찬하기</button></li>
-          </ul>
-        </div>
-
-        <div class="toggle-radio" style="margin-top: 270px; float:right; width: 11%">
-          <input type="radio" name="rdo2" id="yes2" value="yes2" checked>
-          <input type="radio" name="rdo2" id="no2" value="no2">
-          <div class="switch">
-            <label for="yes2">총 몰입도</label>
-            <label for="no2">발표 기록</label>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 5px;">
-          <img
-          id="base2"
-          name="base2"
-            style="border: 5px double black; border-radius: 10px; padding: 5px;"
-            src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif"
-            width="100%"
-            height="50px"
-          />
-        </div>
-
-        <script type='text/javascript'>
-          $(document).ready(function(){
-              $("input:radio[name=rdo2]").click(function() {
-                  var value = $(this).val();
-                  var image_name;
-                  if(value == 'yes2'){
-                      image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
-                  }else{
-                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
-                      }
-                   $('#base2').attr('src', image_name);
-              });
-          });
-      </script>
-      </div>
-
-      <!--세번째 칸 -->
-      <div class="item" style="border: 3px solid black; border-radius: 10px">
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong>이진영</strong></a>
-          </div>
-        </nav>
-
-        <div style="margin-left: 10px; float:left; width: 80%;">
-          <img
-            style="border: 5px double black; border-radius: 10px"
-            src="{{ url_for('video_feed', peer='3') }}"
-            width="100%"
-            height="360px"
-          />
-        </div>
-        <div class="dropdown" style="margin-top: 20px; float:right; width:17%">
-          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            AI Agent
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
-            <li><button class="dropdown-item" type="button">졸음 깨우기</button></li>
-            <li><button class="dropdown-item" type="button">자리비움 경고</button></li>
-            <li><button class="dropdown-item" type="button">발표 독려하기</button></li>
-            <li><button class="dropdown-item" type="button">칭찬하기</button></li>
-          </ul>
-        </div>
-
-        <div class="toggle-radio" style="margin-top: 270px; float:right; width:11%">
-          <input type="radio" name="rdo3" id="yes3" value="yes3" checked>
-          <input type="radio" name="rdo3" id="no3" value="no3">
-          <div class="switch">
-            <label for="yes3">총 몰입도</label>
-            <label for="no3">발표 기록</label>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 5px;">
-          <img
-          id="base3"
-          name="base3"
-            style="border: 5px double black; border-radius: 10px; padding: 5px;"
-            src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif"
-            width="100%"
-            height="50px"
-          />
-        </div>
-
-        <script type='text/javascript'>
-          $(document).ready(function(){
-              $("input:radio[name=rdo3]").click(function() {
-                  var value = $(this).val();
-                  var image_name;
-                  if(value == 'yes3'){
-                      image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
-                  }else{
-                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
-                      }
-                   $('#base3').attr('src', image_name);
-              });
-          });
-      </script>
-      </div>
-
-      <!--네번째 칸-->
-      <div class="item" style="border: 3px solid black; border-radius: 10px">
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong>성효제</strong></a>
-          </div>
-        </nav>
-
-        <div style="margin-left: 10px; float:left; width: 80%;">
-          <img
-            style="border: 5px double black; border-radius: 10px"
-            src="{{ url_for('video_feed', peer='4') }}"
-            width="100%"
-            height="360px"
-          />
-        </div>
-        <div class="dropdown" style="margin-top: 20px; float:right; width:17%">
-          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            AI Agent
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
-            <li><button class="dropdown-item" type="button">졸음 깨우기</button></li>
-            <li><button class="dropdown-item" type="button">자리비움 경고</button></li>
-            <li><button class="dropdown-item" type="button">발표 독려하기</button></li>
-            <li><button class="dropdown-item" type="button">칭찬하기</button></li>
-          </ul>
-        </div>
-
-        <div class="toggle-radio" style="margin-top: 270px; float:right; width: 11%">
-          <input type="radio" name="rdo4" id="yes4" value="yes4" checked>
-          <input type="radio" name="rdo4" id="no4" value="no4">
-          <div class="switch">
-            <label for="yes4">총 몰입도</label>
-            <label for="no4">발표 기록</label>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 5px;">
-          <img
-          id="base4"
-          name="base4"
-            style="border: 5px double black; border-radius: 10px; padding: 5px;"
-            src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif"
-            width="100%"
-            height="50px"
-          />
-        </div>
-
-        <script type='text/javascript'>
-          $(document).ready(function(){
-              $("input:radio[name=rdo4]").click(function() {
-                  var value = $(this).val();
-                  var image_name;
-                  if(value == 'yes4'){
-                      image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
-                  }else{
-                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
-                      }
-                   $('#base4').attr('src', image_name);
-              });
-          });
-      </script>
-      </div>
-
-      <!--다섯번째 칸-->
-      <div class="item" style="border-radius: 10px; border: 3px solid black">
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; height: 30px;">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><strong>선생님 CAM</strong></a>
-          </div>
-        </nav>
-
-        <div style="text-align: center">
-          <img
+          <span
             style="
-              border: 5px double black;
-              border-radius: 10px;
-              margin-top: 20px;
+              width: 123px;
+              height: 22px;
+              font-family: Rokkitt;
+              font-style: normal;
+              font-weight: normal;
+              font-size: 20px;
+              text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             "
-            src="{{ url_for('justWebCAM_feed') }}"
-            width="78%"
-            height="90%"
-          />
+            >Woonjin_boys</span
+          >
+          <span
+            style="
+              font-family: Rokkitt;
+              font-style: normal;
+              font-weight: normal;
+              font-size: 20px;
+              float: right;
+              margin-right: 20%;
+            "
+          >
+            Show menu bar
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            fill="currentColor"
+            class="bi bi-box-arrow-in-down"
+            viewBox="0 0 16 16"
+            style="float: right; margin-top: 8px; margin-right: 5px"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"
+            />
+          </svg>
+          <span
+            style="
+              font-family: Rokkitt;
+              font-style: normal;
+              font-weight: normal;
+              font-size: 20px;
+              float: right;
+              margin-right: 6px;
+            "
+          >
+            Meeting info |
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-app-indicator"
+            viewBox="0 0 16 16"
+            style="float: right; margin-top: 10px; margin-right: 5px"
+          >
+            <path
+              d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z"
+            />
+            <path d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+          </svg>
+        </div>
+      </div>
+
+      <!--첫번째 칸(최시열)-->
+      <div class="item">
+        <div style="
+            width: 100%;
+            height: 100%;
+            background: #fafafa;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            margin-right: 35px;
+          ">
+        <div class="name" id="name1">
+          최시열
         </div>
 
-        <div id="fix">
-          <button id="btn">Mute</button>
-          <button id="btn">Cam</button>
-          <button id="btn">학생 전체 알림</button>
-          <button id="btn-modal">학생 전체 기록</button>
+        <div style="width: 100%;">
+          <img style="border-radius: 10px" src="/video_feed/1" width="100%" height="325px">
+          <img class="present" id="present1" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+          <div class="prenum1">0</div>
+          <script type="text/javascript">
+          $(function() {
+		  var cnt0 = 0;
+
+		  counterFn();
+
+		  function counterFn() {
+
+		    id0 = setInterval(count0Fn, 4000);
+
+		    function count0Fn() {
+		      cnt0++;
+		      if (cnt0 > 20) {
+		        clearInterval(id0);
+		      } else {
+		        $(".prenum1").text(cnt0);
+		      }
+		    }
+		  }
+		});
+          </script>
+          <button type="button" class="img_btn" id="stu1_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
+          <button type="button" class="img_btn" id="stu1_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
+          <button type="button" class="img_btn" id="stu1_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
+          <button type="button" class="img_btn" id="stu1_img2_black"><img src="https://drive.google.com/uc?id=1vtjEZnBETgcrwcoZ7VADakIj0cUol1Xf" width="40px"></button>
+          <button type="button" class="img_btn" id="stu1_img3"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
+          <button type="button" class="img_btn" id="stu1_img3_black"><img src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR" width="40px"></button>
+
         </div>
-        
-        <div id="modal" class="modal-overlay">
-          <div class="modal-window">
-              <div class="title">
-                  <h2>학생 전체 상세 기록</h2>
-              </div>
-              <div class="close-area">X</div>
-              <div class="content">
-                <table width ="100%" height="54%" align = "center" >
-          
-                  <tr height="15%" align = "center" bgcolor="black">
-                <td width="12%" style="border-right: none;">학생</td>
-                <td width="10%">총 시간</td>
-                <td width="10%"><img src="https://i.ibb.co/jbHBS0v/sleep.jpg" alt="eye" border="0" height=100 width=100></img></td>
-                <td width="10%"><img src="https://i.ibb.co/GktDbgd/head.jpg" alt="head" border="0" height=100 width=100></img></td>
-                <td width="10%"><img src="https://i.ibb.co/sKKfK97/area.jpg" alt="area" border="0" height=100 width=100></img></td>
-                <td width="40%">발표 기록</td>
-                <td width="8%">시간</td>
-                  </tr>
-                  <tr height="100px" align="center">
-                    <td><strong>최시열</strong></td>
-                <td id="student1_3"></td>
-                <td id="student1_0"></td>
-                <td id="student1_1"></td>
-                <td id="student1_2"></td>
-                <td><img src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" height="100px" width="100%"></td>
-                <td>0s</td>
-                  </tr>
-                  <tr height="100px" align="center">
-                <td><strong>이관우</strong></td>
-                <td id="student2_3"></td>
-                <td id="student2_0"></td>
-                <td id="student2_1"></td>
-                <td id="student2_2"></td>
-                <td><img src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" height="100px" width="100%"></td>
-                <td>0s</td>
-                  </tr>
-                  <tr height="100px" align="center">
-                <td><strong>이진영</strong></td>
-                <td id="student3_3"></td>
-                <td id="student3_0"></td>
-                <td id="student3_1"></td>
-                <td id="student3_2"></td>
-                <td><img src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" height="100px" width="100%"></td>
-                <td>0s</td>
-                  </tr>
-                  <tr height="100px" align="center">
-                <td><strong>성효제</strong></td>
-                <td id="student4_3"></td>
-                <td id="student4_0"></td>
-                <td id="student4_1"></td>
-                <td id="student4_2"></td>
-                <td><img src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" height="100px" width="100%"></td>
-                <td>0s</td>
-                  </tr>
-              </table>
 
-              <div id="record" class="logContainer"></div>
+        <div style="margin-top: 7px; margin-right: 2%; float:right;">
+          <img id="change1" onclick="changeImg1()" src="https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS" width="40px">
+        </div>
 
-        <script>
-          var body = document.getElementById("record");
-          var student_1 = document.getElementById("student1");
-          var student_2 = document.getElementById("student2");
-          var student_3 = document.getElementById("student3");
-          var student_4 = document.getElementById("student4");
-
-          let arr,
-            startTime,
-            endTime,
-            behaviorType,
-            overlap = "None",
-            behavior_setting;
-          let isoverlap1 = "0";
-          let isoverlap2 = "0";
-          let isoverlap3 = "0";
-          let isoverlap4 = "0";
-          /*!!! 전부다 동적 생성으로 바꿔야 함 !!!*/
-          //모든 이상 행동 종합
-          let action = [0, 0, 0, 0];
-          //눈 감음
-          let eye = [0, 0, 0, 0];
-          //고개 기울임
-          let head = [0, 0, 0, 0];
-          //얼굴 멀어짐
-          let area = [0, 0, 0, 0];
-          //이상 행동 시간
-          let behavior_time = [0, 0, 0, 0];
-          var student_name = "?";
-          setInterval(function () {
-            $.ajax({
-              url: "/log_feed",
-              type: "POST",
-              success: function (response) {
-                console.log(response);
-                console.log("test : " + response["startTime"]);
-
-                if (
-                  response["name"] === "0" &&
-                  isoverlap1 !== response["startTime"]
-                ) {
-                  if (response["behaviorType"] === "0") {
-                    eye[0] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  } else if (response["behaviorType"] === "1") {
-                    head[0] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  } else {
-                    area[0] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  }
-                  isoverlap1 = response["startTime"];
-                  action[0]++;
-                  student_name = "최시열";
-                  behavior_time[0] +=
-                    parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                } else if (
-                  response["name"] === "1" &&
-                  isoverlap2 !== response["startTime"]
-                ) {
-                  if (response["behaviorType"] === "0") {
-                    eye[1] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  } else if (response["behaviorType"] === "1") {
-                    head[1] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  } else {
-                    area[1] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  }
-                  isoverlap2 = response["startTime"];
-                  action[1]++;
-                  student_name = "이관우";
-                  behavior_time[1] +=
-                    parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                } else if (
-                  response["name"] === "2" &&
-                  isoverlap3 !== response["startTime"]
-                ) {
-                  if (response["behaviorType"] === "0") {
-                    eye[2] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  } else if (response["behaviorType"] === "1") {
-                    head[2] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  } else {
-                    area[2] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  }
-                  isoverlap3 = response["startTime"];
-                  action[2]++;
-                  student_name = "이진영";
-                  behavior_time[2] +=
-                    parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                } else if (
-                  response["name"] === "3" &&
-                  isoverlap4 !== response["startTime"]
-                ) {
-                  if (response["behaviorType"] === "0") {
-                    eye[3] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  } else if (response["behaviorType"] === "1") {
-                    head[3] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  } else {
-                    area[3] += parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                  }
-                  isoverlap4 = response["startTime"];
-                  action[3]++;
-                  student_name = "성효제";
-                  behavior_time[3] +=
-                    parseInt(response["endTime"]) -
-                    parseInt(response["startTime"]);
-                }
-                $("#student1_0").html(
-                  "<strong>" +
-                    eye[0] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student1_1").html(
-                  "<strong>" +
-                    head[0] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student1_2").html(
-                  "<strong>" +
-                    area[0] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student1_3").html(
-                  "<strong>" +
-                    behavior_time[0] +
-                    "</strong>" +
-                    "s"
-                );
-
-                $("#student2_0").html(
-                  "<strong>" +
-                    eye[1] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student2_1").html(
-                  "<strong>" +
-                    head[1] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student2_2").html(
-                  "<strong>" +
-                    area[1] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student2_3").html(
-                  "<strong>" +
-                    behavior_time[1] +
-                    "</strong>" +
-                    "s"
-                );
-
-                $("#student3_0").html(
-                  "<strong>" +
-                    eye[2] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student3_1").html(
-                  "<strong>" +
-                    head[2] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student3_2").html(
-                  "<strong>" +
-                    area[2] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student3_3").html(
-                  "<strong>" +
-                    behavior_time[2] +
-                    "</strong>" +
-                    "s"
-                );
-
-                $("#student4_0").html(
-                  "<strong>" +
-                    eye[3] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student4_1").html(
-                  "<strong>" +
-                    head[3] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student4_2").html(
-                  "<strong>" +
-                    area[3] +
-                    "</strong>" +
-                    "s"
-                );
-                $("#student4_3").html(
-                  "<strong>" +
-                    behavior_time[3] +
-                    "</strong>" +
-                    "s"
-                );
-              },
-              error: function (error) {
-                console.log(error);
-              },
-            });
-          }, 1000);
+        <script type="text/javascript">
+        state=0;
+        function changeImg1(){
+          if(state==0){
+            state=1;
+            document.getElementById('base1').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+          }
+          else{
+            state=0;
+            document.getElementById('base1').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
+          }
+        }
         </script>
-                  
-              </div>
-          </div>
-      </div>
 
-      <script>
-        const loremIpsum = document.getElementById("lorem-ipsum")
-fetch("https://baconipsum.com/api/?type=all-meat&paras=200&format=html")
-    .then(response => response.text())
-    .then(result => loremIpsum.innerHTML = result)
-const modal = document.getElementById("modal")
-function modalOn() {
-    modal.style.display = "flex"
-}
-function isModalOn() {
-    return modal.style.display === "flex"
-}
-function modalOff() {
-    modal.style.display = "none"
-}
-const btnModal = document.getElementById("btn-modal")
-btnModal.addEventListener("click", e => {
-    modalOn()
-})
-const closeBtn = modal.querySelector(".close-area")
-closeBtn.addEventListener("click", e => {
-    modalOff()
-})
-modal.addEventListener("click", e => {
-    const evTarget = e.target
-    if(evTarget.classList.contains("modal-overlay")) {
-        modalOff()
-    }
-})
-window.addEventListener("keyup", e => {
-    if(isModalOn() && e.key === "Escape") {
-        modalOff()
-    }
-})
-    </script>
+        <div style="margin-top: 5px;">
+          <img id="base1" name="base1" style="border: 2px double black; border-radius: 10px; margin-left: 0.5%; padding: 2px;" src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" width="90%" height="42px">
+        </div>
 
       </div>
+      </div>
 
-      
-    </div>
-   
+      <!--두번째 칸(이관우)-->
+      <div class="item">
+        <div style="
+            width: 100%;
+            height: 100%;
+            background: #fafafa;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            margin-right: 35px;
+          ">
+        <div class="name" id="name2">
+          이관우
+        </div>
+
+        <div style="width: 100%;">
+          <img style="border-radius: 10px" src="/video_feed/2" width="100%" height="325px">
+          <img class="present" id="present2" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+          <div class="prenum2">0</div>
+          <script type="text/javascript">
+          $(function() {
+		  var cnt0 = 0;
+
+		  counterFn();
+
+		  function counterFn() {
+
+		    id0 = setInterval(count0Fn, 5000);
+
+		    function count0Fn() {
+		      cnt0++;
+		      if (cnt0 > 14) {
+		        clearInterval(id0);
+		      } else {
+		        $(".prenum2").text(cnt0);
+		      }
+		    }
+		  }
+		});
+          </script>
+          <button type="button" class="img_btn" id="stu2_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
+          <button type="button" class="img_btn" id="stu2_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
+          <button type="button" class="img_btn" id="stu2_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
+          <button type="button" class="img_btn" id="stu2_img2_black"><img src="https://drive.google.com/uc?id=1vtjEZnBETgcrwcoZ7VADakIj0cUol1Xf" width="40px"></button>
+          <button type="button" class="img_btn" id="stu2_img3"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
+          <button type="button" class="img_btn" id="stu2_img3_black"><img src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR" width="40px"></button>
+
+        </div>
+
+        <div style="margin-top: 7px; margin-right: 2%; float:right;">
+          <img id="change2" onclick="changeImg2()" src="https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS" width="40px">
+        </div>
+
+        <script type="text/javascript">
+        state=0;
+        function changeImg2(){
+          if(state==0){
+            state=1;
+            document.getElementById('base2').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+          }
+          else{
+            state=0;
+            document.getElementById('base2').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
+          }
+        }
+        </script>
+
+        <div style="margin-top: 5px;">
+          <img id="base2" name="base2" style="border: 2px double black; border-radius: 10px; margin-left: 0.5%; padding: 2px;" src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" width="90%" height="42px">
+        </div>
+
+      </div>
+      </div>
+
+      <!--세번째 칸(이진영)-->
+      <div class="item">
+        <div style="
+            width: 100%;
+            height: 100%;
+            background: #fafafa;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            margin-right: 35px;
+          ">
+        <div class="name" id="name3">
+          이진영
+        </div>
+
+        <div style="width: 100%;">
+          <img style="border-radius: 10px" src="/video_feed/3" width="100%" height="325px">
+          <img class="present" id="present3" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+          <div class="prenum3">0</div>
+          <script type="text/javascript">
+          $(function() {
+		  var cnt0 = 0;
+
+		  counterFn();
+
+		  function counterFn() {
+
+		    id0 = setInterval(count0Fn, 2500);
+
+		    function count0Fn() {
+		      cnt0++;
+		      if (cnt0 > 33) {
+		        clearInterval(id0);
+		      } else {
+		        $(".prenum3").text(cnt0);
+		      }
+		    }
+		  }
+		});
+          </script>
+          <button type="button" class="img_btn" id="stu3_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
+          <button type="button" class="img_btn" id="stu3_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
+          <button type="button" class="img_btn" id="stu3_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
+          <button type="button" class="img_btn" id="stu3_img2_black"><img src="https://drive.google.com/uc?id=1vtjEZnBETgcrwcoZ7VADakIj0cUol1Xf" width="40px"></button>
+          <button type="button" class="img_btn" id="stu3_img3"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
+          <button type="button" class="img_btn" id="stu3_img3_black"><img src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR" width="40px"></button>
+
+        </div>
+
+        <div style="margin-top: 7px; margin-right: 2%; float:right;">
+          <img id="change3" onclick="changeImg3()" src="https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS" width="40px">
+        </div>
+
+        <script type="text/javascript">
+        state=0;
+        function changeImg1(){
+          if(state==0){
+            state=1;
+            document.getElementById('base3').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+          }
+          else{
+            state=0;
+            document.getElementById('base3').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
+          }
+        }
+        </script>
+
+        <div style="margin-top: 5px;">
+          <img id="base3" name="base3" style="border: 2px double black; border-radius: 10px; margin-left: 0.5%; padding: 2px;" src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" width="90%" height="42px">
+        </div>
+
+      </div>
+      </div>
+
+      <!--네번째 칸(성효제)-->
+      <div class="item">
+        <div style="
+            width: 100%;
+            height: 100%;
+            background: #fafafa;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            margin-right: 35px;
+          ">
+        <div class="name" id="name4">
+          성효제
+        </div>
+
+        <div style="width: 100%;">
+          <img style="border-radius: 10px" src="/video_feed/4" width="100%" height="325px">
+          <img class="present" id="present4" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+          <div class="prenum4">0</div>
+          <script type="text/javascript">
+          $(function() {
+		  var cnt0 = 0;
+
+		  counterFn();
+
+		  function counterFn() {
+
+		    id0 = setInterval(count0Fn, 7000);
+
+		    function count0Fn() {
+		      cnt0++;
+		      if (cnt0 > 8) {
+		        clearInterval(id0);
+		      } else {
+		        $(".prenum4").text(cnt0);
+		      }
+		    }
+		  }
+		});
+          </script>
+          <button type="button" class="img_btn" id="stu4_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
+          <button type="button" class="img_btn" id="stu4_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
+          <button type="button" class="img_btn" id="stu4_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
+          <button type="button" class="img_btn" id="stu4_img2_black"><img src="https://drive.google.com/uc?id=1vtjEZnBETgcrwcoZ7VADakIj0cUol1Xf" width="40px"></button>
+          <button type="button" class="img_btn" id="stu4_img3"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
+          <button type="button" class="img_btn" id="stu4_img3_black"><img src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR" width="40px"></button>
+
+        </div>
+
+        <div style="margin-top: 7px; margin-right: 2%; float:right;">
+          <img id="change4" onclick="changeImg4()" src="https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS" width="40px">
+        </div>
+
+        <script type="text/javascript">
+        state=0;
+        function changeImg4(){
+          if(state==0){
+            state=1;
+            document.getElementById('base4').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+          }
+          else{
+            state=0;
+            document.getElementById('base4').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
+          }
+        }
+        </script>
+
+        <div style="margin-top: 5px;">
+          <img id="base4" name="base4" style="border: 2px double black; border-radius: 10px; margin-left: 0.5%; padding: 2px;" src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" width="90%" height="42px">
+        </div>
+
+      </div>
+      </div>
+
+      <!--(menubar)-->
+      <div class="item">
+        <div class="container">
+          <button class="box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"></path>
+                </svg>
+                &nbsp;Cam
+          </button>
+  
+          <button class="box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic" viewBox="0 0 16 16">
+                  <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"></path>
+                  <path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"></path>
+                </svg>
+                &nbsp;Mic
+          </button>
+  
+          <button class="box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-data" viewBox="0 0 16 16">
+                  <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z"></path>
+                  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
+                  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
+                </svg>
+                &nbsp;Log
+          </button>
+  
+          <button class="box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"></path>
+                </svg>
+                &nbsp;Alarm
+          </button>
+      </div>
+      </div>
+
     </div>
   </body>
 </html>
