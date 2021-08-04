@@ -145,6 +145,9 @@ def index():
 
     global isFrameReady
     isFrameReady = False
+
+    global headStatus
+    headStatus = [None, None, None, None, None]
     
     gen_frame_thread = threading.Thread(target=real_gen_frames)
     gen_frame_thread.start()
@@ -207,6 +210,9 @@ def real_gen_frames():
     # 조건 검사를 위한 변수들
     frCnt = 0
 
+    CALITIME = 30
+    caliEnd = False
+
     startTime = time.time()
     prevTime = startTime
     global STD_HUMAN_LABEL
@@ -214,6 +220,10 @@ def real_gen_frames():
     global TIMETHRESHOLD
     print(str(LABEL_VAL - 0))
     CNNTime = [None, None, None, None, None]
+
+    headSum = [0, 0, 0, 0, 0]
+    headAvg = [None, None, None, None, None]
+
     # log 남기기 위한 global vars
     global logStudentName
     global logStartTime
@@ -232,6 +242,8 @@ def real_gen_frames():
     firstImg = cv2.imread('./FirstImage.jpg')
     global predOnce
     time.sleep(3)
+
+    faceAddedTime = [0, 0, 0, 0, 0]
     
     while True:
         curTime = time.time()
@@ -242,6 +254,7 @@ def real_gen_frames():
             print("predictMae")
             dummy = daisee.prediction(firstImg)
             predOnce = True
+            startTime = time.time()
             continue
 
         if g_frame is None:
@@ -284,6 +297,14 @@ def real_gen_frames():
             #break
 
         ### FOR YOLO ###
+        
+        global headStatus
+        # !설명 headStatus:
+        # None: Calibationing
+        # 1: cannot recognize face
+        # 2: face detected is too smaller than avg
+        # 3: normal!
+
         img_pil = list(range(peerNum))
         for i in range(0, peerNum):
             img_pil[i] = Image.fromarray(rgbFrame[i])
@@ -294,22 +315,44 @@ def real_gen_frames():
         for i in range(0, peerNum):
             bboxes[i], scores[i], classes[i] = yolo.YOLO_DetectProcess(img_pil[i])
 
-        faceDetected = True
-        for i in range(0, peerNum):
-            if len(bboxes[i]) is 0:
-                faceDetected = False
-        if faceDetected is False:
-            ##just continue only at this time. put 'not detected' as itself later
-            continue
-        
         headArea = list(range(peerNum))
+        faceDetected = list(range(peerNum))
         for i in range(0, peerNum):
-            headArea[i] = process_detection(sendedFrame[i], bboxes[i][0]) # reason of referencing index 0 in bboxes:
-            print(f'{i+1}: {headArea[i]}')
+            faceDetected[i] = True
+            if len(bboxes[i]) is 0:
+                faceDetected[i] = False
+            else:
+                headArea[i] = process_detection(sendedFrame[i], bboxes[i][0])# reason of referencing index 0 in bboxes:
+                print(f'area:{headArea[i]}')
+                #print(f'{i+1}: {headArea[i]}')
         print()
+
+        if caliEnd is False:
+            if time.time() - startTime > CALITIME: # CALIBRATION DONE
+                print('/////////////////////////')
+                print('////////CALIDONE/////////')
+                print('/////////////////////////')
+                
+                for i in range(0, peerNum):
+                    headAvg[i] = headSum[i] / faceAddedTime[i]
+                    print(f'AVG: {headAvg[i]}')
+                caliEnd = True
+            else:
+                for i in range(0, peerNum):
+                    if faceDetected[i] is True:
+                        headSum[i] += headArea[i]
+                        faceAddedTime[i] += 1
+        else: #caliEnd is True:
+            for i in range(0, peerNum):
+                if faceDetected[i] is False:
+                    headStatus[i] = 1
+                else:
+                    if headArea[i] < headAvg[i] * 0.85:
+                        headStatus[i] = 2
+                    else:
+                        headStatus[i] = 3
         ### FOR YOLO ###
         
-
         global predEngage
         for i in range(0, peerNum):
             predEngage[i] = int(daisee.prediction(sendedFrame[i]))
@@ -440,6 +483,8 @@ class Streaming:
                 ret, g_frame[peer - 1] = self.cap.read()
                 if ret:
                     global predEngage
+                    global headStatus
+
                     #print(f'peer:{peer - 1} and pred: {predEngage[peer - 1]}')
                     if predEngage[peer - 1] is -1: #undefined
                         l_frame = g_frame[peer - 1]
@@ -459,6 +504,23 @@ class Streaming:
                         l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 255, 0), 20)
                         cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                            cv2.LINE_AA)
+
+                    if headStatus[peer - 1] is None:
+                        cv2.putText(l_frame, f'HeadDt: Calibrationing...Do wait.', (10, 400),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                            cv2.LINE_AA)
+                    elif headStatus[peer - 1] is 1:
+                        cv2.putText(l_frame, f'HeadDt: Cannot Have Detected Face!', (10, 400),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                            cv2.LINE_AA)
+                    elif headStatus[peer - 1] is 2:
+                        cv2.putText(l_frame, f'HeadDt: Detected Decreased Face', (10, 400),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                            cv2.LINE_AA)
+                    else:
+                        cv2.putText(l_frame, f'HeadDt: NORMAL!', (10, 400),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                             cv2.LINE_AA)
 
