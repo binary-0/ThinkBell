@@ -26,8 +26,12 @@ import YOLODetection
 from YOLO.yolo_postprocess import YOLO
 from tensorflow.python.framework.ops import disable_eager_execution
 from YOLODetection import process_detection
+import globalVAR
+import matplotlib.pylab as plt
+from io import BytesIO
 
-from multiprocessing import Process
+
+from multiprocessing import Process, Queue
 
 from flask import Flask, render_template, Response, jsonify, send_file, request
 
@@ -54,6 +58,7 @@ def preform():
     print('///1///')
     return render_template('preform.html', send=1)
 
+global plotImg
 
 @app.route('/', methods=['POST'])
 def index():
@@ -108,7 +113,9 @@ def index():
     global isStartAudio
     isStartAudio=False
 
-
+    # global globalVAR.vc1, globalVAR.vc2, globalVAR.vc3, globalVAR.vc4
+    
+    
     global logFile
     logFile = list(range(4))
     for i in range(0, 4):
@@ -161,7 +168,63 @@ def index():
     g_webcamVC.set(4, 480)
     wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
 
+    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
+    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
+    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
+    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()  
+    threading.Thread(target=getVADdata).start()
+
+    # while True:
+    #     print(vc1, vc2, vc3, vc4)
+    #     time.sleep(500)
     return render_template('index.html', **templateData)
+
+plt.rcParams["figure.figsize"]=(12,8)
+
+def getVADdata():
+    while True: 
+        global vc1, vc2, vc3, vc4
+        global sc1, sc2, sc3, sc4
+        vc1,sc1 = VoiceActivityDetection.setVADdata(1)
+        vc2,sc2 = VoiceActivityDetection.setVADdata(2)
+        vc3,sc3 = VoiceActivityDetection.setVADdata(3)
+        vc4,sc4 = VoiceActivityDetection.setVADdata(4)
+        
+        plt.ylim([0,1])
+        plt.xticks([])
+        plt.axhline(y=0.7, color='r')
+        fig, axs = plt.subplots(4)
+
+        axs[0].plot(vc1)
+        axs[0].set_ylim([0,0.7])
+        axs[0].axhline(y=0.5, color='r')
+        axs[1].plot(vc2)
+        axs[1].set_ylim([0,0.7])
+        axs[1].axhline(y=0.5, color='r')
+        axs[2].plot(vc3)
+        axs[2].set_ylim([0,0.7])
+        axs[2].axhline(y=0.5, color='r')
+        axs[3].plot(vc4)
+        axs[3].set_ylim([0,0.7])
+        axs[3].axhline(y=0.5, color='r')
+        imgBytes = BytesIO()
+        plt.savefig(imgBytes, format='png', bbox_inches='tight', dpi=200)
+        yield (b'--frame\r\n'b'Content-Type: image/png\r\n\r\n' + imgBytes.getvalue() + b'\r\n')
+        # global plotImg
+        # plotImg = imgBytes
+        # temp1 = VoiceActivityDetection.setVC1()
+        # temp2 = VoiceActivityDetection.setVC2()
+        # print(temp1)
+        # print("\n\n\n", temp2, "시발\n\n\n\n")
+        # time.sleep(1)
+        # plt.plot(vc1)
+        # plt.pause(0.000001)
+        # plt.clf()
+        # plt.clf()
+        # time.sleep(1)
+        # print(vc1[:5],vc2[:5],vc3[:5],vc4[:5],"\n\n\n\n")
+        
+
 
 def play_audio():
     global isStartAudio
@@ -687,40 +750,81 @@ def generalStat_feed(peer):
 def vad_feed():
     # global silence
     # global size
-    sc1 = VoiceActivityDetection.getVADdata(1)
-    sc2 = VoiceActivityDetection.getVADdata(2)
-    sc3 = VoiceActivityDetection.getVADdata(3)
-    sc4 = VoiceActivityDetection.getVADdata(4)
+    # global sc1
+    # global sc2
+    # global sc3
+    # global sc4
+    sc1 = VoiceActivityDetection.setSC1()
+    sc2 = VoiceActivityDetection.setSC2()
+    sc3 = VoiceActivityDetection.setSC3()
+    sc4 = VoiceActivityDetection.setSC4()
     return jsonify({
-        'SpeechCount1': str(sc1),
-        'SpeechCount2': str(sc2),
-        'SpeechCount3': str(sc3),
-        'SpeechCount4': str(sc4)
+        'SpeechCount1': int(sc1),
+        'SpeechCount2': int(sc2),
+        'SpeechCount3': int(sc3),
+        'SpeechCount4': int(sc4)
     })
+import base64
+@app.route('/vad_img_feed', methods=['POST'])
+# @app.route('/vad_img_feed')
+def vad_img_feed():
+    vc1,sc1 = VoiceActivityDetection.setVADdata(1)
+    vc2,sc2 = VoiceActivityDetection.setVADdata(2)
+    vc3,sc3 = VoiceActivityDetection.setVADdata(3)
+    vc4,sc4 = VoiceActivityDetection.setVADdata(4)
+    
+    # plt.ylim([0,1])
+    # plt.xticks([])
+    # plt.axhline(y=0.7, color='r')
+    fig, axs = plt.subplots(4)
 
-@app.route('/fig1')
-def fig1():
-    global img1
-    img1 = VoiceActivityDetection.getPlot(1)
-    return send_file(img1, mimetype='image/png')
+    axs[0].plot(vc1)
+    axs[0].set_ylim([0,0.7])
+    axs[0].axhline(y=0.5, color='r')
+    axs[1].plot(vc2)
+    axs[1].set_ylim([0,0.7])
+    axs[1].axhline(y=0.5, color='r')
+    axs[2].plot(vc3)
+    axs[2].set_ylim([0,0.7])
+    axs[2].axhline(y=0.5, color='r')
+    axs[3].plot(vc4)
+    axs[3].set_ylim([0,0.7])
+    axs[3].axhline(y=0.5, color='r')
+    imgByte = BytesIO()
+    # plt.show()
 
-@app.route('/fig2')
-def fig2():
-    global img2
-    img2 = VoiceActivityDetection.getPlot(2)
-    return send_file(img2, mimetype='image/png')
+    plt.savefig(imgByte, format='png', bbox_inches='tight', dpi=200)
+    # global plotImg
+    # plotImg = imgBytes
+    imgByte.seek(0)
+    # encoded_string = base64.b64encode(imgByte.read())
 
-@app.route('/fig3')
-def fig3():
-    global img3
-    img3 = VoiceActivityDetection.getPlot(3)
-    return send_file(img3, mimetype='image/png')
+    return send_file(imgByte, mimetype='image/png')
+    # return Response(getVADdata(),mimetype='image/png')
 
-@app.route('/fig4')
-def fig4():
-    global img4
-    img4 = VoiceActivityDetection.getPlot(4)
-    return send_file(img4, mimetype='image/png')
+# @app.route('/fig1')
+# def fig1():
+#     global img1
+#     img1 = VoiceActivityDetection.getPlot(1)
+#     return send_file(img1, mimetype='image/png')
+
+# @app.route('/fig2')
+# def fig2():
+#     global img2
+#     img2 = VoiceActivityDetection.getPlot(2)
+#     return send_file(img2, mimetype='image/png')
+
+# @app.route('/fig3')
+# def fig3():
+#     global img3
+#     img3 = VoiceActivityDetection.getPlot(3)
+#     return send_file(img3, mimetype='image/png')
+
+# @app.route('/fig4')
+# def fig4():
+#     global img4
+#     img4 = VoiceActivityDetection.getPlot(4)
+#     return send_file(img4, mimetype='image/png')
 
 
 @app.route('/log_feed', methods=['POST'])

@@ -9,7 +9,7 @@ torchaudio.set_audio_backend("soundfile")
 import pyaudio
 import time
 from io import BytesIO
-# from Main import sendMU
+import globalVAR
 
 plt.rcParams["figure.figsize"]=(12,3)
 
@@ -26,11 +26,12 @@ model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
  collect_chunks) = utils
 
 # model, utils = sendMU()
-
-sc1 = []
-sc2 = []
-sc3 = []
-sc4 = []
+global vc1, vc2, vc3, vc4
+global sc1, sc2, sc3, sc4
+sc1 = 0
+sc2 = 0
+sc3 = 0
+sc4 = 0
 
 vc1 = []
 vc2 = []
@@ -71,9 +72,13 @@ def stop():
     global continue_recording
     continue_recording = False
 
-def vadStart(wavPATH):
-    print("\n\n\n\n\n\n\n\n\n\n", type(model), type(utils))
+# def multi_audio():
+#     vadStart("SampleAudio1.wav")
+#     vadStart("SampleAudio2.wav")
+#     vadStart("SampleAudio3.wav")
+#     vadStart("SampleAudio4.wav")
 
+def vadStart(wavPATH):
     with wave.open(wavPATH, 'rb') as f:
         width = f.getsampwidth()
         channels = f.getnchannels()
@@ -89,7 +94,7 @@ def vadStart(wavPATH):
 
     startTime=time.time()
     data = []
-    # voiced_confidences = [] #이게 문제가 될 수도?
+    voiced_confidences = [] #이게 문제가 될 수도?
     test_confidences = []
 
     global continue_recording
@@ -107,7 +112,7 @@ def vadStart(wavPATH):
         audio_chunk = stream.read(int(SAMPLE_RATE * frame_duration_ms / 1000.0), exception_on_overflow=False)
         data.append(audio_chunk)
 
-        audio_int16 = np.frombuffer(audio_chunk, np.int16);
+        audio_int16 = np.frombuffer(audio_chunk, np.int16)
         audio_float32 = int2float(audio_int16)
 
         # get the confidences and add them to the list to plot them later
@@ -142,33 +147,44 @@ def vadStart(wavPATH):
         voiced_confidences.append(new_confidence)
         test_confidences.append(new_confidence)
 
+        # print(wavPATH,"\t\t\t", voiced_confidences, "\n\n\n")
+
         if wavPATH=='SampleAudio1.wav':
             global vc1, sc1
             vc1 = voiced_confidences
             sc1 = speechCount
+            # print(vc1, sc1)
+            # que.put("1")
         elif wavPATH=='SampleAudio2.wav':
             global vc2, sc2
             vc2 = voiced_confidences
             sc2 = speechCount
+            # print(vc2, sc2)
+            # que.put("2")
         elif wavPATH=='SampleAudio3.wav':
             global vc3, sc3
             vc3 = voiced_confidences
             sc3 = speechCount
+            # print(vc3, sc3)
+            # globalVAR.vc3.append(voiced_confidences)
         elif wavPATH=='SampleAudio4.wav':
             global vc4, sc4
             vc4 = voiced_confidences
             sc4 = speechCount
+            # print(vc4, sc4)
+            # globalVAR.vc4.append(voiced_confidences)
         # print(type(voiced_confidences))
 
         # pp.update(new_confidence)
 
         #여기가 플롯팅 파트인데 잠시
-        plt.clf()
-        plt.ylim([0,1])
-        plt.xticks([])
-        plt.plot(voiced_confidences)
-        plt.axhline(y=0.7, color='r')
-        plt.pause(0.00001)
+        # plt.switch_backend('agg')
+        # plt.clf()
+        # plt.ylim([0,1])
+        # plt.xticks([])
+        # plt.plot(voiced_confidences)
+        # plt.axhline(y=0.7, color='r')
+        # plt.pause(0.00001)
 
 
     print("\n\n총 발표 횟수 : ",speechCount)
@@ -186,16 +202,42 @@ def vadStart(wavPATH):
     # plt.savefig('vad_result.png', bbox_inches='tight')
     # plt.show()
 
-def getVADdata(sampleNum):
+def setVADdata(sampleNum):
+    global vc1, vc2, vc3, vc4
+    global sc1, sc2, sc3, sc4
     # return voiced_confidences
     if sampleNum==1:
-        return sc1
+        return vc1, sc1
     elif sampleNum==2:
-        return sc2
+        return vc2, sc2
     elif sampleNum==3:
-        return sc3
+        return vc3, sc3
     elif sampleNum==4:
-        return sc4
+        return vc4, sc4
+
+def setVC1():
+    global vc1
+    return vc1
+
+def setVC2():
+    global vc2
+    return vc2
+
+def setSC1():
+    global sc1
+    return sc1
+
+def setSC2():
+    global sc2
+    return sc2
+
+def setSC3():
+    global sc3
+    return sc3
+
+def setSC4():
+    global sc4
+    return sc4      
 
 def getPlot(imgNum):
     plt.clf()

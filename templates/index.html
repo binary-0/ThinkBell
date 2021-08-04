@@ -572,6 +572,53 @@
           <img id="base3" name="base3" style="border: 2px double black; border-radius: 10px; margin-left: 0.5%; padding: 2px;" src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" width="90%" height="42px">
         </div>
 
+        <div
+          id="testimg"
+        >
+        </div>
+
+        <script type='text/javascript'>
+          var image = new Image(600,500);
+          var sb = document.getElementById("testimg");
+          setInterval(function(){
+            $.ajax({
+              url : "/vad_img_feed",
+              type : "POST",
+              success : function(response){
+                console.log("success!!")
+                image.src='{{url_for('vad_img_feed')}}';
+                console.log(response)
+                sb.appendChild(image);
+              },
+              error : function(error){
+                console.log("fig2 err!!!");
+              },
+            });
+          },1000); 
+      </script>
+          
+        
+
+      <script type='text/javascript'>
+        setInterval(function(){
+          $.ajax({
+            url : "/vad_feed",
+            type : "POST",
+            success : function(response){
+              console.log("success!!")
+          
+              console.log(response['SpeechCount1'])
+              console.log(response['SpeechCount2'])
+              console.log(response['SpeechCount3'])
+              console.log(response['SpeechCount4'])
+
+            },
+            error : function(error){
+              console.log("fig2 err!!!");
+            },
+          });
+        },1000); 
+    </script>
       </div>
       </div>
 
