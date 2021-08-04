@@ -101,6 +101,11 @@ def index():
     global img4
     global logStudentName
 
+    global colorStatus #0: Red / 1: Cream / 2: Green
+    colorStatus = [2, 2, 2, 2, 2]
+    global generalStatus # index 0: 자리비움 / 1: 면적 줄어듬 / 2: 발표안함
+    generalStatus = [[False, False, False], [False, False, False], [False, False, False], [False, False, False], [False, False, False]]
+
     global predEngage
     predEngage = [-1, -1, -1, -1, -1]
 
@@ -472,6 +477,8 @@ class Streaming:
         global isRealDebug
         global frameReady
         global predOnce
+        global colorStatus
+        global generalStatus
 
         peer = int(peer)
         ret, g_frame[peer - 1] = self.cap.read()
@@ -494,18 +501,22 @@ class Streaming:
                         cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
+                        colorStatus[peer - 1] = 0
+                        
                     elif predEngage[peer - 1] is 2: #neutral
                         l_frame = cv2.addWeighted(self.neutralImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (160, 172, 203), 20)
                         cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
+                        colorStatus[peer - 1] = 1
                     else: #highly engaged
                         l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 255, 0), 20)
                         cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                             cv2.LINE_AA)
+                        colorStatus[peer - 1] = 2
 
                     if headStatus[peer - 1] is None:
                         cv2.putText(l_frame, f'HeadDt: Calibrationing...Do wait.', (10, 400),
@@ -515,14 +526,20 @@ class Streaming:
                         cv2.putText(l_frame, f'HeadDt: Cannot Have Detected Face!', (10, 400),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                             cv2.LINE_AA)
+                        generalStatus[peer - 1][0] = True
+                        generalStatus[peer - 1][1] = False
                     elif headStatus[peer - 1] is 2:
                         cv2.putText(l_frame, f'HeadDt: Detected Decreased Face', (10, 400),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                             cv2.LINE_AA)
+                        generalStatus[peer - 1][0] = False
+                        generalStatus[peer - 1][1] = True
                     else:
                         cv2.putText(l_frame, f'HeadDt: NORMAL!', (10, 400),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                             cv2.LINE_AA)
+                        generalStatus[peer - 1][0] = False
+                        generalStatus[peer - 1][1] = False
 
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
@@ -710,6 +727,33 @@ def mfccend():
     # microphone_checker_stream.process_stop()
     # mfcc_ctrl()
     return render_template('temp.html', value=0)
+
+
+@app.route('/colorStat_feed/<peer>')
+def colorStat_feed(peer):
+    global colorStatus
+
+    return jsonify({
+        'colorStatus': str(colorStatus[peer - 1])
+    })
+
+@app.route('/generalStat_feed/<peer>')
+def generalStat_feed(peer):
+    global generalStatus
+
+    returnVal = [0, 0, 0]
+    if generalStatus[peer - 1][0] is True:
+        returnVal[0] = 1
+    if generalStatus[peer - 1][1] is True:
+        returnVal[1] = 1
+    if generalStatus[peer - 1][2] is True:
+        returnVal[2] = 1
+
+    return jsonify({
+        'away': str(returnVal[0]),
+        'smallhead': str(returnVal[1]),
+        'silence': str(returnVal[2])
+    })
 
 
 @app.route('/vad_feed', methods=['POST'])
