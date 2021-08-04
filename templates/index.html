@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>THINKBIG</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -14,8 +17,7 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />   
     <!--wrapper 클래스에서 layout 규격 조절 가능
      1fr은 행을 똑같은 비율로 나눠줌 지금 비율은 2*3으로 설정-->
     <style>
@@ -192,7 +194,7 @@
     right: 20px;
     top: 30px;
   }
-  #no3:checked ~ .switch {`
+  #no3:checked ~ .switch {
     background: #60BD89;
   }
   #yes3:checked ~ .switch label[for=yes3] {
@@ -396,31 +398,18 @@
         </div>
 
         <script type='text/javascript'>
-          var image_name;
           $(document).ready(function(){
               $("input:radio[name=rdo2]").click(function() {
-                  var value = $(this).val();                  
+                  var value = $(this).val();
+                  var image_name;
                   if(value == 'yes2'){
                       image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif";
                   }else{
-                          setInterval(function(){
-                            $.ajax({
-                              url : "/fig2",
-                              type : "POST",
-                              success : function(response){
-                                console.log("success!!")
-                                image_name = '{{url_for('fig2')}}';
-                                $('#base2').attr('src', image_name);
-                              },
-                              error : function(error){
-                                console.log("fig2 err!!!");
-                              },
-                            });
-                          },1000);                          
-                      }                      
+                          image_name = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
+                      }
                    $('#base2').attr('src', image_name);
               });
-          });     
+          });
       </script>
       </div>
 
