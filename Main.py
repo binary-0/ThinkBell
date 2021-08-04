@@ -22,6 +22,10 @@ import daiseecnn
 import csv
 import torch
 import glob
+import YOLODetection
+from YOLO.yolo_postprocess import YOLO
+from tensorflow.python.framework.ops import disable_eager_execution
+from YOLODetection import process_detection
 
 from multiprocessing import Process
 
@@ -55,6 +59,8 @@ def preform():
 def index():
     """Video streaming home page."""
     print('///2///')
+    
+    disable_eager_execution()
     now = datetime.datetime.now()
     timeString = now.strftime("%Y-%m-%d %H:%M")
     templateData = {
@@ -96,7 +102,7 @@ def index():
     global logStudentName
 
     global predEngage
-    predEngage = [-1, -1, -1, -1]
+    predEngage = [-1, -1, -1, -1, -1]
 
     global isStartAudio
     isStartAudio=False
@@ -134,10 +140,6 @@ def index():
     returnCheck = 0
     loadingComplete = False
 
-    global DetectRet
-    # DetectRet = list(range(4))  # peerNum
-    DetectRet = [0, 0, 0, 0]
-
     global predOnce
     predOnce = False
 
@@ -146,8 +148,8 @@ def index():
     
     gen_frame_thread = threading.Thread(target=real_gen_frames)
     gen_frame_thread.start()
-    webCam_thread = threading.Thread(target=justWebCAM)
-    webCam_thread.start()
+    #webCam_thread = threading.Thread(target=justWebCAM)
+    #webCam_thread.start()
 
     audio_thread = threading.Thread(target=play_audio)
     audio_thread.start()
@@ -157,7 +159,11 @@ def index():
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
-    
+
+    global g_webcamVC
+    g_webcamVC = cv2.VideoCapture(0)
+    g_webcamVC.set(3, 640)
+    g_webcamVC.set(4, 480)
     wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
 
     return render_template('index.html', **templateData)
@@ -189,14 +195,15 @@ def vad_ctrl():
 
     # print("\n\n\n디버기이잉", SpeechCount1, SpeechCount2, SpeechCount3, SpeechCount4)
 
-
 def real_gen_frames():
     daisee = daiseecnn.DaiseeCNN()
+    yolo = YOLO()
+
     global loadingComplete
     loadingComplete = True
     global isLiveLocal
     global g_frame
-    peerNum = 4
+    peerNum = 5
     # 조건 검사를 위한 변수들
     frCnt = 0
 
@@ -206,7 +213,7 @@ def real_gen_frames():
     global LABEL_VAL
     global TIMETHRESHOLD
     print(str(LABEL_VAL - 0))
-    CNNTime = [None, None, None, None]
+    CNNTime = [None, None, None, None, None]
     # log 남기기 위한 global vars
     global logStudentName
     global logStartTime
@@ -262,7 +269,7 @@ def real_gen_frames():
             logType = 0
             returnCheck = 0
 
-        isDetectedOnce = [0, 0, 0, 0]
+        #isDetectedOnce = [0, 0, 0, 0]
 
         sendedFrame = list(range(peerNum))
         for i in range(0, peerNum):
@@ -275,6 +282,33 @@ def real_gen_frames():
             print("Couldn't grapped. Maybe video is changing..")
             continue
             #break
+
+        ### FOR YOLO ###
+        img_pil = list(range(peerNum))
+        for i in range(0, peerNum):
+            img_pil[i] = Image.fromarray(rgbFrame[i])
+
+        bboxes = list(range(peerNum))
+        scores = list(range(peerNum))
+        classes = list(range(peerNum))
+        for i in range(0, peerNum):
+            bboxes[i], scores[i], classes[i] = yolo.YOLO_DetectProcess(img_pil[i])
+
+        faceDetected = True
+        for i in range(0, peerNum):
+            if len(bboxes[i]) is 0:
+                faceDetected = False
+        if faceDetected is False:
+            ##just continue only at this time. put 'not detected' as itself later
+            continue
+        
+        headArea = list(range(peerNum))
+        for i in range(0, peerNum):
+            headArea[i] = process_detection(sendedFrame[i], bboxes[i][0]) # reason of referencing index 0 in bboxes:
+            print(f'{i+1}: {headArea[i]}')
+        print()
+        ### FOR YOLO ###
+        
 
         global predEngage
         for i in range(0, peerNum):
@@ -302,7 +336,8 @@ def justWebCAM():
     myCap = cv2.VideoCapture(0)
     myCap.set(3, 1280)  # CV_CAP_PROP_FRAME_WIDTH
     myCap.set(4, 720)  # CV_CAP_PROP_FRAME_HEIGHT
-
+    
+    myRet, myFrame = myCap.read()
     global predOnce
     wait(lambda: predOnce, timeout_seconds=120, waiting_for="video process ready")
 
@@ -349,11 +384,12 @@ class detectionQueue:
 
 class Streaming:
     def __init__(self, peer):
+        peer = int(peer)
         global isLiveLocal
         global frameReady
         # global loadingComplete
         global g_frame
-        self.peerNum = 4
+        self.peerNum = 5
 
         g_frame = list(range(self.peerNum))
         frameReady = list(range(self.peerNum))
@@ -366,9 +402,13 @@ class Streaming:
 
         if isLiveLocal is 0:
             self.srcPath = 0
+        elif peer is 5:
+            global g_webcamVC
+            self.srcPath = 0
+            self.cap = g_webcamVC
         else:
             self.srcPath = f'./SamV{peer}.mp4'
-        self.cap = cv2.VideoCapture(self.srcPath)
+            self.cap = cv2.VideoCapture(self.srcPath)
 
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
         # self.labeledEngagement = -1
@@ -392,7 +432,7 @@ class Streaming:
 
         peer = int(peer)
         ret, g_frame[peer - 1] = self.cap.read()
-
+        
         wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
         global isStartAudio
         if self.cap.isOpened():
@@ -432,7 +472,7 @@ class Streaming:
                     break
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(33) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(10) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
@@ -440,6 +480,7 @@ class Streaming:
 
 class Streaming_LabelBased:
     def __init__(self, peer, level):
+        peer = int(peer)
         global isLiveLocal
         global frameReady
         # global loadingComplete
@@ -449,7 +490,7 @@ class Streaming_LabelBased:
         global labelFile_2
         global labelFile_3
 
-        self.peerNum = 4
+        self.peerNum = 5
         self.engageLevel = level
 
         g_frame = list(range(self.peerNum))
@@ -463,6 +504,10 @@ class Streaming_LabelBased:
 
         if isLiveLocal is 0:
             self.srcPath = 0
+        elif peer is 5:
+            global g_webcamVC
+            self.srcPath = 0
+            self.cap = g_webcamVC
         else:
             if self.engageLevel is 0:
                 self.srcPath = labelFile_0.readline()
@@ -472,9 +517,9 @@ class Streaming_LabelBased:
                 self.srcPath = labelFile_2.readline()
             elif self.engageLevel is 3:
                 self.srcPath = labelFile_3.readline()
-        self.srcPath = './DAiSEE/DataSet/Test/' + self.srcPath[0:6] + '/' + self.srcPath[0:-4] + '/' + self.srcPath
+            self.srcPath = './DAiSEE/DataSet/Test/' + self.srcPath[0:6] + '/' + self.srcPath[0:-4] + '/' + self.srcPath
 
-        self.cap = cv2.VideoCapture(self.srcPath)
+            self.cap = cv2.VideoCapture(self.srcPath)
 
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
         # self.labeledEngagement = -1
@@ -562,7 +607,7 @@ class Streaming_LabelBased:
                     self.cap = cv2.VideoCapture(self.srcPath)
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(33) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(10) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
