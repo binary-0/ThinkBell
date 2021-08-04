@@ -157,8 +157,6 @@ def index():
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
-    
-    wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
 
     return render_template('index.html', **templateData)
 
@@ -192,11 +190,14 @@ def vad_ctrl():
 
 def real_gen_frames():
     daisee = daiseecnn.DaiseeCNN()
+
     global loadingComplete
     loadingComplete = True
+
     global isLiveLocal
     global g_frame
     peerNum = 4
+
     # 조건 검사를 위한 변수들
     frCnt = 0
 
@@ -205,8 +206,10 @@ def real_gen_frames():
     global STD_HUMAN_LABEL
     global LABEL_VAL
     global TIMETHRESHOLD
+
     print(str(LABEL_VAL - 0))
     CNNTime = [None, None, None, None]
+
     # log 남기기 위한 global vars
     global logStudentName
     global logStartTime
@@ -224,27 +227,26 @@ def real_gen_frames():
 
     firstImg = cv2.imread('./FirstImage.jpg')
     global predOnce
+
     time.sleep(3)
-    
     while True:
         curTime = time.time()
         sec = curTime - prevTime
         prevTime = curTime
 
-        if predOnce is False:
-            print("predictMae")
-            dummy = daisee.prediction(firstImg)
-            predOnce = True
-            continue
-
         if g_frame is None:
             continue
         
+        if predOnce is False:
+            dummy = daisee.prediction(firstImg)
+            predOnce = True
+            continue
+        
         frCnt += 1
-        try:
-            print('FPS: ' + str(1 / (sec)))
-        except:
-            print('FPS___')
+        # try:
+        #     print('FPS: ' + str(1 / (sec)))
+        # except:
+        #     print('FPS___')
 
         # if frameCtrl is None:
         #     frameBack = frCnt
@@ -367,7 +369,7 @@ class Streaming:
         if isLiveLocal is 0:
             self.srcPath = 0
         else:
-            self.srcPath = f'./SamV{peer}.mp4'
+            self.srcPath = f'./SamVideo{peer}.mp4'
         self.cap = cv2.VideoCapture(self.srcPath)
 
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
@@ -432,7 +434,7 @@ class Streaming:
                     break
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(33) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(10) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
@@ -537,7 +539,7 @@ class Streaming_LabelBased:
                         cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
-                    
+
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
                     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
@@ -562,7 +564,7 @@ class Streaming_LabelBased:
                     self.cap = cv2.VideoCapture(self.srcPath)
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(33) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(10) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
