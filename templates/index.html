@@ -233,6 +233,7 @@
         border-radius: 5px;
         margin-top: 10px;
         margin-left: 2px;
+        flex:0 0 auto;
       }
       .block2 {
         width: 26px;
@@ -242,6 +243,7 @@
         border-radius: 5px;
         margin-top: 10px;
         margin-left: 2px;
+        flex:0 0 auto;
       }
       .block3 {
         width: 26px;
@@ -251,6 +253,7 @@
         border-radius: 5px;
         margin-top: 10px;
         margin-left: 2px;
+        flex:0 0 auto;
       }
       #live{
         position: absolute;
@@ -368,11 +371,14 @@
         top: 74%;
         left: 51.5%;
       }
+      .block_bar::-webkit-scrollbar {
+        display: none;
+      }
 
     </style>
   </head>
   <body>
-    <form action="/video_rewind">
+    <form action="/video_rewind" method="POST">
       <div class="refresh_button">
         <button id = "refresh_button" type="submit" style="background: white">
           <img src = "https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS" style="width: 30px; height: 30px; border: 0px; ">
@@ -489,6 +495,24 @@
               var smallhead;
               var silence;
               var sleep;
+
+              var away1Count = 0;
+              var small1Count = 0;
+              var sil1Count = 0;
+              var sleep1Count = 0;
+              var away2Count = 0;
+              var small2Count = 0;
+              var sil2Count = 0;
+              var sleep2Count = 0;
+              var away3Count = 0;
+              var small3Count = 0;
+              var sil3Count = 0;
+              var sleep3Count = 0;
+              var away4Count = 0;
+              var small4Count = 0;
+              var sil4Count = 0;
+              var sleep4Count = 0;
+
               var bombaudio = new Audio(
                 "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
               );
@@ -542,130 +566,169 @@
                     if (away1 === "1") {
                       document.getElementById("stu1_img1").style.display =
                         "block";
+                        away1Count++;
                     }
                     else{
                       document.getElementById("stu1_img1").style.display = "none";
+                      away1Count = 0;
                     }
 
                     if (smallhead1 === "1") {
                       document.getElementById("stu1_img2").style.display =
                         "block";
+                        small1Count++;
                     }
                     else{
                       document.getElementById("stu1_img2").style.display = "none";
+                      small1Count = 0;
                     }
 
                     if (silence1 === "1") {
                       document.getElementById("stu1_img3").style.display =
                         "block";
+                        sil1Count++;
                     }
                     else{
                       document.getElementById("stu1_img3").style.display = "none";
+                      sil1Count = 0;
                     }
 
                     if (sleep1 === "1") {
                       document.getElementById("stu1_img4").style.display =
                         "block";
+                        sleep1Count++;
                     }
                     else{
                       document.getElementById("stu1_img4").style.display = "none";
+                      sleep1Count = 0;
                     }
 
                     if (away2 === "1") {
                       document.getElementById("stu2_img1").style.display =
                         "block";
+                        away2Count++;
                     }
                     else{
                       document.getElementById("stu2_img1").style.display = "none";
+                      away2Count = 0;
                     }
 
                     if (smallhead2 === "1") {
                       document.getElementById("stu2_img2").style.display =
                         "block";
+                        small2Count++;
                     }
                     else{
                       document.getElementById("stu2_img2").style.display = "none";
+                      small2Count = 0;
                     }
 
                     if (silence2 === "1") {
                       document.getElementById("stu2_img3").style.display =
                         "block";
+                        sil2Count++;
                     }
                     else{
                       document.getElementById("stu2_img3").style.display = "none";
+                      sil2Count = 0;
                     }
 
                     if (sleep2 === "1") {
                       document.getElementById("stu2_img4").style.display =
                         "block";
+                        sleep2Count++;
                     }
                     else{
                       document.getElementById("stu2_img4").style.display = "none";
+                      sleep2Count = 0;
                     }
 
                     if (away3 === "1") {
                       document.getElementById("stu3_img1").style.display =
                         "block";
+                        away3Count++;
                     }
                     else{
                       document.getElementById("stu3_img1").style.display = "none";
+                      away3Count = 0;
                     }
 
                     if (smallhead3 === "1") {
                       document.getElementById("stu3_img2").style.display =
                         "block";
+                        small3Count++;
                     }
                     else{
                       document.getElementById("stu3_img2").style.display = "none";
+                      small3Count = 0;
                     }
 
                     if (silence3 === "1") {
                       document.getElementById("stu3_img3").style.display =
                         "block";
+                        sil3Count++;
                     }
                     else{
                       document.getElementById("stu3_img3").style.display = "none";
+                      sil3Count = 0;
                     }
 
                     if (sleep3 === "1") {
                       document.getElementById("stu3_img4").style.display =
                         "block";
+                        sleep3Count++;
                     }
                     else{
                       document.getElementById("stu3_img4").style.display = "none";
+                      sleep3Count = 0;
                     }
 
                     if (away4 === "1") {
                       document.getElementById("stu4_img1").style.display =
                         "block";
+                        away4Count++;
                     }
                     else{
                       document.getElementById("stu4_img1").style.display = "none";
+                      away4Count = 0;
                     }
 
                     if (smallhead4 === "1") {
                       document.getElementById("stu4_img2").style.display =
                         "block";
+                        small4Count++;
                     }
                     else{
                       document.getElementById("stu4_img2").style.display = "none";
+                      small4Count = 0;
                     }
 
                     if (silence4 === "1") {
                       document.getElementById("stu4_img3").style.display =
                         "block";
+                        sil4Count++;
                     }
                     else{
                       document.getElementById("stu4_img3").style.display = "none";
+                      sil4Count = 0;
                     }
 
                     if (sleep4 === "1") {
                       document.getElementById("stu4_img4").style.display =
                         "block";
+                        sleep4Count++;
                     }
                     else{
                       document.getElementById("stu4_img4").style.display = "none";
+                      sleep4Count = 0;
                     }
+
+                    // if(away1Count > 3){
+                    //   document.getElementById("modal_comeback_white").style.display = "block";
+                    // }
+                    // else{
+                    //   document.getElementById("modal_comeback_white").style.display = "none";
+                    // }
                   },
                   error: function (error) {
                     console.log("signal_err");
@@ -842,23 +905,10 @@
             }
           </script>
           <!--수정-->
-          <div style="margin-top: 5px" id="block_1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="currentColor"
-              class="bi bi-exclamation-octagon"
-              viewBox="0 0 16 16"
-              style="float: left; margin-left: 5px"
-            >
-              <path
-                d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"
-              />
-              <path
-                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"
-              />
-            </svg>
+          <div style="width: 8%; float: left; padding-left: 5px">
+            <img width="85%" src="https://drive.google.com/uc?id=1Ho7lewCLoX9QXcCnqv0dm0uLE_uK2i28">
+          </div>
+          <div class="block_bar" style="width:70%; height: 40px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; margin-top: 5px" id="block_1">
           </div>
           <!--수정-->
         </div>
@@ -898,6 +948,7 @@
             <div class="prenum2">0</div> -->
 
             <script type="text/javascript">
+              
               function stu2img1() {
                 document.getElementById("stu2_img1").style.display = "none";
                 sirenaudio.autoplay = true;
@@ -997,24 +1048,10 @@
             }
           </script>
           <!--수정-->
-          <div style="margin-top: 5px" id="block_2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="currentColor"
-              class="bi bi-exclamation-octagon"
-              viewBox="0 0 16 16"
-              style="float: left; margin-left: 5px"
-            >
-              <path
-                d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"
-              />
-              <path
-                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"
-              />
-            </svg>
-            <!--수정-->
+          <div style="width: 8%; float: left; padding-left: 5px">
+            <img width="85%" src="https://drive.google.com/uc?id=1Ho7lewCLoX9QXcCnqv0dm0uLE_uK2i28">
+          </div>
+          <div class="block_bar" style="width:70%; height: 40px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; margin-top: 5px" id="block_2">
           </div>
         </div>
       </div>
@@ -1152,24 +1189,10 @@
             }
           </script>
           <!--수정-->
-          <div style="margin-top: 5px" id="block_3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="currentColor"
-              class="bi bi-exclamation-octagon"
-              viewBox="0 0 16 16"
-              style="float: left; margin-left: 5px"
-            >
-              <path
-                d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"
-              />
-              <path
-                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"
-              />
-            </svg>
-            <!--수정-->
+          <div style="width: 8%; float: left; padding-left: 5px">
+            <img width="85%" src="https://drive.google.com/uc?id=1Ho7lewCLoX9QXcCnqv0dm0uLE_uK2i28">
+          </div>
+          <div class="block_bar" style="width:70%; height: 40px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; margin-top: 5px" id="block_3">
           </div>
         </div>
       </div>
@@ -1307,25 +1330,11 @@
             }
           </script>
           <!--수정-->
-          <div style="margin-top: 5px" id="block_4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="currentColor"
-              class="bi bi-exclamation-octagon"
-              viewBox="0 0 16 16"
-              style="float: left; margin-left: 5px"
-            >
-              <path
-                d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"
-              />
-              <path
-                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"
-              />
-            </svg>
+          <div style="width: 8%; float: left; padding-left: 5px">
+            <img width="85%" src="https://drive.google.com/uc?id=1Ho7lewCLoX9QXcCnqv0dm0uLE_uK2i28">
           </div>
-          <!--수정-->
+          <div class="block_bar" style="width:70%; height: 40px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; margin-top: 5px" id="block_4">
+          </div>
         </div>
       </div>
 
@@ -1440,6 +1449,7 @@
         var board3 = document.getElementById("block_3");
         var board4 = document.getElementById("block_4");
 
+        //board1.scrollLeft=board1.scrollWidth;
         var student1_count = [0, 0, 0];
         var student2_count = [0, 0, 0];
         var student3_count = [0, 0, 0];
@@ -1503,8 +1513,7 @@
                 student4.setAttribute("class", "block3");
                 student4_count[2]++;
               }
-              if (time_count % 15 === 0) {
-                
+              if (time_count >0 ) {
                 var student1_max = Math.max(...student1_count);
                 var student2_max = Math.max(...student2_count);
                 var student3_max = Math.max(...student3_count);
@@ -1589,6 +1598,11 @@
                 student3_count.fill(0);
                 student4_count.fill(0);
                 console.log("student clear!\n" + student1_count);
+                
+                board1.scrollLeft=board1.scrollWidth;
+                board2.scrollLeft=board2.scrollWidth;
+                board3.scrollLeft=board3.scrollWidth;
+                board4.scrollLeft=board4.scrollWidth;
               }
             },
             error: function (error) {
