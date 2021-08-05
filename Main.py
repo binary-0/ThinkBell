@@ -12,7 +12,7 @@ import microphone_checker_stream
 #from HeadPoseRevised import process_detection
 #from EAR import calculate_ear
 # import microphone_checker_stream
-#import VoiceActivityDetection
+# import VoiceActivityDetection
 from waiting import wait
 import json
 from queue import Queue
@@ -26,8 +26,9 @@ import YOLODetection
 from YOLO.yolo_postprocess import YOLO
 from tensorflow.python.framework.ops import disable_eager_execution
 from YOLODetection import process_detection
-
+import single_live_vad
 from multiprocessing import Process
+from EAR import calculate_ear
 
 from flask import Flask, render_template, Response, jsonify, send_file, request
 
@@ -104,10 +105,16 @@ def index():
     global colorStatus #0: Red / 1: Cream / 2: Green
     colorStatus = [2, 2, 2, 2]
     global generalStatus # index 0: 자리비움 / 1: 면적 줄어듬 / 2: 발표안함
-    generalStatus = [[False, False, False], [False, False, False], [False, False, False], [False, False, False]]
+    generalStatus = [[False, False, False, False], [False, False, False, False], [False, False, False, False], [False, False, False, False]]
 
     global predEngage
     predEngage = [-1, -1, -1, -1]
+    
+    global headStatus
+    headStatus = [None, None, None, None]
+
+    global EARStatus
+    EARStatus = [False, False, False, False]
 
     global isStartAudio
     isStartAudio=False
@@ -151,16 +158,14 @@ def index():
     global isFrameReady
     isFrameReady = False
 
-    global headStatus
-    headStatus = [None, None, None, None]
     
     gen_frame_thread = threading.Thread(target=real_gen_frames)
     gen_frame_thread.start()
     #webCam_thread = threading.Thread(target=justWebCAM)
     #webCam_thread.start()
 
-    audio_thread = threading.Thread(target=play_audio)
-    audio_thread.start()
+    # audio_thread = threading.Thread(target=play_audio)
+    # audio_thread.start()
 
     # threading.Thread(target=vad_ctrl).start()
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
@@ -180,18 +185,25 @@ def index():
     g_webcamVC.set(4, 480)
     wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
 
+    threading.Thread(target=single_live_vad.start_recording).start()
+
     return render_template('index.html', **templateData)
 
-def play_audio():
-    global isStartAudio
+# def play_audio():
+#     global isStartAudio
+#     while True:
+#         if isStartAudio is True:
+#             print("hello")
+#             playsound('SampleAudioAll.wav')
+#             break
+#         time.sleep(0.1)
+
+def getLiveSC():
     while True:
-        if isStartAudio is True:
-            print("hello")
-            playsound('SampleAudioAll.wav')
-            break
-        time.sleep(0.1)
-
-
+        global liveSC
+        liveSC=single_live_vad.returnLiveSC()
+        time.sleep(0.5)
+    
 # @app.route('/mfccstart', methods=['POST'])
 # def mfccstart():
 #     # th = threading.Thread(target=mfcc_ctrl, args=())
@@ -222,7 +234,7 @@ def real_gen_frames():
     # 조건 검사를 위한 변수들
     frCnt = 0
 
-    CALITIME = 30
+    CALITIME = 13
     caliEnd = False
 
     startTime = time.time()
@@ -230,11 +242,15 @@ def real_gen_frames():
     global STD_HUMAN_LABEL
     global LABEL_VAL
     global TIMETHRESHOLD
-    print(str(LABEL_VAL - 0))
+    #print(str(LABEL_VAL - 0))
     CNNTime = [None, None, None, None]
 
     headSum = [0, 0, 0, 0]
     headAvg = [None, None, None, None]
+    
+    EARSum = [0, 0, 0, 0]
+    EARAvg = [None, None, None, None]
+    EARTime = [None, None, None, None]
 
     # log 남기기 위한 global vars
     global logStudentName
@@ -256,6 +272,9 @@ def real_gen_frames():
     global predOnce
 
     faceAddedTime = [0, 0, 0, 0]
+    EARAddedTime = [0, 0, 0, 0]
+
+    global EARStatus
     
     while True:
         curTime = time.time()
@@ -304,7 +323,7 @@ def real_gen_frames():
             for i in range(0, peerNum):
                 rgbFrame[i] = cv2.cvtColor(sendedFrame[i], cv2.COLOR_BGR2RGB)
         except:
-            print("Couldn't grapped. Maybe video is changing..")
+            #print("Couldn't grapped. Maybe video is changing..")
             continue
             #break
 
@@ -335,53 +354,86 @@ def real_gen_frames():
                 faceDetected[i] = False
             else:
                 headArea[i] = process_detection(sendedFrame[i], bboxes[i][0])# reason of referencing index 0 in bboxes:
-                print(f'area:{headArea[i]}')
+                #print(f'area:{headArea[i]}')
                 #print(f'{i+1}: {headArea[i]}')
         print()
 
+        EAR = list(range(peerNum))
+        for i in range(0, peerNum):
+            EAR[i] = calculate_ear(rgbFrame[i])
+
         if caliEnd is False:
             if time.time() - startTime > CALITIME: # CALIBRATION DONE
-                print('/////////////////////////')
-                print('////////CALIDONE/////////')
-                print('/////////////////////////')
+                #print('/////////////////////////')
+                #print('////////CALIDONE/////////')
+                #print('/////////////////////////')
                 
                 for i in range(0, peerNum):
                     headAvg[i] = headSum[i] / faceAddedTime[i]
-                    print(f'AVG: {headAvg[i]}')
+                    EARAvg[i] = EARSum[i] / EARAddedTime[i]
+                    #print(f'AVG: {headAvg[i]}')
                 caliEnd = True
             else:
                 for i in range(0, peerNum):
                     if faceDetected[i] is True:
                         headSum[i] += headArea[i]
                         faceAddedTime[i] += 1
+                    if EAR[i] is not None:
+                        EARSum[i] += EAR[i]
+                        EARAddedTime[i] += 1
         else: #caliEnd is True:
             for i in range(0, peerNum):
                 if faceDetected[i] is False:
                     headStatus[i] = 1
                 else:
-                    if headArea[i] < headAvg[i] * 0.85:
+                    if headArea[i] < headAvg[i] * 0.8:
                         headStatus[i] = 2
                     else:
                         headStatus[i] = 3
+
+                if EAR[i] is not None:
+                    earCurTime = time.time()
+                    if EAR[i] < EARAvg[i] * 0.925:
+                        if EARTime[i] is None:
+                            EARTime[i] = earCurTime
+                        else:
+                            if earCurTime - EARTime[i] > 3:#TIMETHRESHOLD
+                                EARStatus[i] = True
+                    else:
+                        #EARNOTDETECTEDTHISTIME
+                        EARStatus[i] = False
+                        EARTime[i] = None
         ### FOR YOLO ###
+
         
         global predEngage
+        local_prediction = list(range(peerNum))
         for i in range(0, peerNum):
-            predEngage[i] = int(daisee.prediction(sendedFrame[i]))
-
+            local_prediction[i] = int(daisee.prediction(sendedFrame[i]))
+            
         for i in range(0, peerNum):
-            if predEngage[i] is 0 or predEngage[i] is 1:
-                if CNNTime[i] is None:
-                    CNNTime[i] = time.time()
-                    frameTemp = frCnt
-                else:
-                    cnnCurTime = time.time()
-                    if cnnCurTime - CNNTime[i] > TIMETHRESHOLD:
-                        pass
+            if headStatus[i] is 1 or headStatus[i] is 2:
+                predEngage[i] = 0
+            elif EARStatus[i] is True:
+                predEngage[i] = 0
             else:
-                if CNNTime[i] is not None and time.time() - CNNTime[i] > TIMETHRESHOLD:
-                    pass #LOG남기는Action
-                CNNTime[i] = None
+                predEngage[i] = local_prediction[i]
+
+        
+
+        # for i in range(0, peerNum):
+        #     if predEngage[i] is 0 or predEngage[i] is 1:
+        #         if CNNTime[i] is None:
+        #             CNNTime[i] = time.time()
+        #             frameTemp = frCnt
+        #         else:
+        #             cnnCurTime = time.time()
+        #             if cnnCurTime - CNNTime[i] > TIMETHRESHOLD:
+        #                 pass
+        #     else:
+        #         if CNNTime[i] is not None and time.time() - CNNTime[i] > TIMETHRESHOLD:
+        #             pass #LOG남기는Action
+        #         CNNTime[i] = None
 
     #never reached 08/05
     global systemEnded
@@ -463,7 +515,10 @@ class Streaming:
             self.srcPath = 0
             self.cap = g_webcamVC
         else:
-            self.srcPath = f'./SamV{peer}.mp4'
+            self.srcFold = f'./selfTestVideos/{peer}/'
+            self.srcVideoText = open(f'./selfTestVideos/{peer}/videos.txt')
+
+            self.srcPath = self.srcFold + self.srcVideoText.readline()
             self.cap = cv2.VideoCapture(self.srcPath)
 
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
@@ -499,6 +554,7 @@ class Streaming:
                 if ret:
                     global predEngage
                     global headStatus
+                    global EARStatus
 
                     #print(f'peer:{peer - 1} and pred: {predEngage[peer - 1]}')
                     if predEngage[peer - 1] is -1: #undefined
@@ -506,60 +562,73 @@ class Streaming:
                     elif predEngage[peer - 1] is 0 or predEngage[peer - 1] is 1: #not engaged
                         l_frame = cv2.addWeighted(self.redImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 0, 255), 20)
-                        cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                                cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
+                        #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #         cv2.LINE_AA)
                         colorStatus[peer - 1] = 0
-                        
                     elif predEngage[peer - 1] is 2: #neutral
                         l_frame = cv2.addWeighted(self.neutralImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (160, 172, 203), 20)
-                        cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                                cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
+                        #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #         cv2.LINE_AA)
                         colorStatus[peer - 1] = 1
                     else: #highly engaged
                         l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 255, 0), 20)
-                        cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                            cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #     cv2.LINE_AA)
                         colorStatus[peer - 1] = 2
 
                     if headStatus[peer - 1] is None:
-                        cv2.putText(l_frame, f'HeadDt: Calibrationing...Do wait.', (10, 400),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                            cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'HeadDt: Calibrationing...Do wait.', (10, 400),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #     cv2.LINE_AA)
+                        pass
                     elif headStatus[peer - 1] is 1:
-                        cv2.putText(l_frame, f'HeadDt: Cannot Have Detected Face!', (10, 400),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                            cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'HeadDt: Cannot Have Detected Face!', (10, 400),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #     cv2.LINE_AA)
                         generalStatus[peer - 1][0] = True
                         generalStatus[peer - 1][1] = False
                     elif headStatus[peer - 1] is 2:
-                        cv2.putText(l_frame, f'HeadDt: Detected Decreased Face', (10, 400),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                            cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'HeadDt: Detected Decreased Face', (10, 400),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #     cv2.LINE_AA)
                         generalStatus[peer - 1][0] = False
                         generalStatus[peer - 1][1] = True
                     else:
-                        cv2.putText(l_frame, f'HeadDt: NORMAL!', (10, 400),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                            cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'HeadDt: NORMAL!', (10, 400),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #     cv2.LINE_AA)
                         generalStatus[peer - 1][0] = False
                         generalStatus[peer - 1][1] = False
+
+                    if EARStatus[peer - 1] is True:
+                        generalStatus[peer - 1][3] = True
+                    else:
+                        generalStatus[peer - 1][3] = False
 
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
                     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
                     isStartAudio=True
                 else:
-                    print('Everything has done successfully.')
-                    exit()
-                    break
+                    if peer is not 1:
+                        self.srcPath = self.srcVideoText.readline()
+                        
+                        print('Done?')
+                        if not self.srcPath:
+                            self.srcVideoText.seek(0)
+                            continue
+                        self.srcPath = self.srcFold + self.srcPath
+                        self.cap = cv2.VideoCapture(self.srcPath)
+                    else:
+                        print('webcam error.')
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(10) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(25) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
@@ -643,6 +712,7 @@ class Streaming_LabelBased:
                 if ret:
                     global predEngage
                     global headStatus
+                    global EARStatus
 
                     #print(f'peer:{peer - 1} and pred: {predEngage[peer - 1]}')
                     if predEngage[peer - 1] is -1: #undefined
@@ -650,52 +720,58 @@ class Streaming_LabelBased:
                     elif predEngage[peer - 1] is 0 or predEngage[peer - 1] is 1: #not engaged
                         l_frame = cv2.addWeighted(self.redImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 0, 255), 20)
-                        cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
-                                cv2.LINE_AA)
-                        cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                                cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
+                        #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
+                        #         cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
+                        #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #         cv2.LINE_AA)
                         colorStatus[peer - 1] = 0
                     elif predEngage[peer - 1] is 2: #neutral
                         l_frame = cv2.addWeighted(self.neutralImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (160, 172, 203), 20)
-                        cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
-                                cv2.LINE_AA)
-                        cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                                cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
+                        #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
+                        #         cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
+                        #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #         cv2.LINE_AA)
                         colorStatus[peer - 1] = 1
                     else: #highly engaged
                         l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 255, 0), 20)
-                        cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
-                                cv2.LINE_AA)
-                        cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
-                                cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
+                        #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
+                        #         cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
+                        #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
+                        #         cv2.LINE_AA)
                         colorStatus[peer - 1] = 2
 
                     if headStatus[peer - 1] is None:
-                        cv2.putText(l_frame, f'HeadDt: Calibrationing...Do wait.', (10, 400),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'HeadDt: Calibrationing...Do wait.', (10, 400),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                        pass
                     elif headStatus[peer - 1] is 1:
-                        cv2.putText(l_frame, f'HeadDt: Cannot Have Detected Face!', (10, 400),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'HeadDt: Cannot Have Detected Face!', (10, 400),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
                         generalStatus[peer - 1][0] = True
                         generalStatus[peer - 1][1] = False
                     elif headStatus[peer - 1] is 2:
-                        cv2.putText(l_frame, f'HeadDt: Detected Decreased Face', (10, 400),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'HeadDt: Detected Decreased Face', (10, 400),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
                         generalStatus[peer - 1][0] = False
                         generalStatus[peer - 1][1] = True    
                     else:
-                        cv2.putText(l_frame, f'HeadDt: NORMAL!', (10, 400),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                        # cv2.putText(l_frame, f'HeadDt: NORMAL!', (10, 400),
+                        #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
                         generalStatus[peer - 1][0] = False
                         generalStatus[peer - 1][1] = False
+                    
+                    if EARStatus[peer - 1] is True:
+                        generalStatus[peer - 1][3] = True
+                    else:
+                        generalStatus[peer - 1][3] = False
                     
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
@@ -781,7 +857,7 @@ def colorStat_feed():
 def generalStat_feed():
     global generalStatus
     peerNum = 4
-    returnVal = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    returnVal = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 
     for i in range(0, peerNum):
         if generalStatus[i][0] is True:
@@ -790,12 +866,26 @@ def generalStat_feed():
             returnVal[i][1] = 1
         if generalStatus[i][2] is True:
             returnVal[i][2] = 1
+        if generalStatus[i][3] is True:
+            returnVal[i][3] = 1
+
+    sc1 = single_live_vad.returnLiveSC()
+    sc2=sc3=sc4=0
+    scAVG = (sc1+sc2+sc3+sc4)/4
+    if(sc1<scAVG):
+        returnVal[0][2]=1
+    if(sc2<scAVG):
+        returnVal[1][2]=1
+    if(sc3<scAVG):
+        returnVal[2][2]=1
+    if(sc4<scAVG):
+        returnVal[3][2]=1
    
     return jsonify({
-        'stu1General': f'{returnVal[0][0]}{returnVal[0][1]}{returnVal[0][2]}',
-        'stu2General': f'{returnVal[1][0]}{returnVal[1][1]}{returnVal[1][2]}',
-        'stu3General': f'{returnVal[2][0]}{returnVal[2][1]}{returnVal[2][2]}',
-        'stu4General': f'{returnVal[3][0]}{returnVal[3][1]}{returnVal[3][2]}',
+        'stu1General': f'{returnVal[0][0]}{returnVal[0][1]}{returnVal[0][2]}{returnVal[0][3]}',
+        'stu2General': f'{returnVal[1][0]}{returnVal[1][1]}{returnVal[1][2]}{returnVal[1][3]}',
+        'stu3General': f'{returnVal[2][0]}{returnVal[2][1]}{returnVal[2][2]}{returnVal[2][3]}',
+        'stu4General': f'{returnVal[3][0]}{returnVal[3][1]}{returnVal[3][2]}{returnVal[3][3]}'
     })
 
 
@@ -807,7 +897,11 @@ def vad_feed():
     # sc2 = VoiceActivityDetection.setSC2()
     # sc3 = VoiceActivityDetection.setSC3()
     # sc4 = VoiceActivityDetection.setSC4()
-    sc1 = 0
+    # sc1 = 0
+    global sc1, sc2, sc3, sc4
+    sc1 = single_live_vad.returnLiveSC()
+
+    #print("\n\n이거가 라이브 횟수", sc1)
     sc2 = 0
     sc3 = 0
     sc4 = 0

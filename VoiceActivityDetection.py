@@ -123,18 +123,18 @@ def vadStart(wavPATH):
         # new_confidence = vad_outs[:, 1]
 
 
-        if new_confidence>0.5 and isAgain is False: #threshold 이상!
+        if new_confidence>0.1 and isAgain is False: #threshold 이상!
             isAgain = True
             checkTime = time.time()
 
         if isAgain is True:
             temp_confidence.append(new_confidence)
             nowTime=time.time()
-            if nowTime - checkTime > 2: #6초의 타임스팬에서
+            if nowTime - checkTime > 1: #6초의 타임스팬에서
                 temp_avg = sum(temp_confidence)/len(temp_confidence)
-                temp_spoken = sum(map(lambda x: x > 0.6, temp_confidence))
+                temp_spoken = sum(map(lambda x: x > 0.1, temp_confidence))
                 temp_spoken_ratio = temp_spoken/len(temp_confidence)
-                if temp_spoken_ratio>0.4: #말을 한 비율이 40%정도면 발표로 인식
+                if temp_spoken_ratio>0.2: #말을 한 비율이 40%정도면 발표로 인식
                     speechCount+=1
                     balpyo_time = nowTime-startTime
                     print("발표! {}분 {}초".format(int(balpyo_time/60), int(balpyo_time%60)))

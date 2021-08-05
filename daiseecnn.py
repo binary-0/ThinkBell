@@ -15,7 +15,7 @@ class DaiseeCNN:
         frame = frame / 255
 
         predictions = self.model.predict(frame)
-        print(predictions[1])
+        #print(predictions[1])
 
         # #Engagement Labeling 중 가장 높은 확률의 정도를 return
         # return np.argmax(predictions[1][0])
