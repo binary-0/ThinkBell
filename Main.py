@@ -734,31 +734,36 @@ def mfccend():
     # mfcc_ctrl()
     return render_template('temp.html', value=0)
 
-
-@app.route('/colorStat_feed/<peer>')
-def colorStat_feed(peer):
+@app.route('/colorStat_feed', methods=['POST'])
+def colorStat_feed():
     global colorStatus
 
     return jsonify({
-        'colorStatus': str(colorStatus[peer - 1])
+        'stu1Color': str(colorStatus[0]),
+        'stu2Color': str(colorStatus[1]),
+        'stu3Color': str(colorStatus[2]),
+        'stu4Color': str(colorStatus[3])
     })
 
-@app.route('/generalStat_feed/<peer>')
-def generalStat_feed(peer):
+@app.route('/generalStat_feed', methods=['POST'])
+def generalStat_feed():
     global generalStatus
+    peerNum = 4
+    returnVal = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
-    returnVal = [0, 0, 0]
-    if generalStatus[peer - 1][0] is True:
-        returnVal[0] = 1
-    if generalStatus[peer - 1][1] is True:
-        returnVal[1] = 1
-    if generalStatus[peer - 1][2] is True:
-        returnVal[2] = 1
-
+    for i in range(0, peerNum):
+        if generalStatus[i][0] is True:
+            returnVal[i][0] = 1
+        if generalStatus[i][1] is True:
+            returnVal[i][1] = 1
+        if generalStatus[i][2] is True:
+            returnVal[i][2] = 1
+   
     return jsonify({
-        'away': str(returnVal[0]),
-        'smallhead': str(returnVal[1]),
-        'silence': str(returnVal[2])
+        'stu1General': f'{returnVal[0][0]}{returnVal[0][1]}{returnVal[0][2]}',
+        'stu2General': f'{returnVal[1][0]}{returnVal[1][1]}{returnVal[1][2]}',
+        'stu3General': f'{returnVal[2][0]}{returnVal[2][1]}{returnVal[2][2]}',
+        'stu4General': f'{returnVal[3][0]}{returnVal[3][1]}{returnVal[3][2]}',
     })
 
 
