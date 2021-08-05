@@ -501,6 +501,7 @@ class Streaming:
         global frameReady
         # global loadingComplete
         global g_frame
+        global STD_HUMAN_LABEL
         self.peerNum = 4
 
         g_frame = list(range(self.peerNum))
@@ -519,9 +520,14 @@ class Streaming:
             self.srcPath = 0
             self.cap = g_webcamVC
         else:
-            self.srcFold = f'./selfTestVideos/{peer}/'
-            self.srcVideoText = open(f'./selfTestVideos/{peer}/videos.txt')
-            self.humanLabelText = open(f'./selfTestVideos/{peer}/humanMadeLabel.txt')
+            if STD_HUMAN_LABEL is 1:
+                self.srcFold = f'./selfTestVideos/{peer}/'
+                self.srcVideoText = open(f'./selfTestVideos/{peer}/videos.txt')
+                self.humanLabelText = open(f'./selfTestVideos/{peer}/humanMadeLabel.txt')
+            else:
+                self.srcFold = f'./selfTestVideos/daisee/{peer}/'
+                self.srcVideoText = open(f'./selfTestVideos/daisee/{peer}/videos.txt')
+                self.humanLabelText = open(f'./selfTestVideos/daisee/{peer}/humanMadeLabel.txt')
 
             self.srcPath = self.srcFold + self.srcVideoText.readline()
             self.humanLabel = self.humanLabelText.readline()
@@ -618,17 +624,11 @@ class Streaming:
                     
                     if peer is not 1:
                         if int(self.humanLabel) is 0:
-                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #red
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2,
-                                        cv2.LINE_AA)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 0, 255), -1)
                         elif int(self.humanLabel) is 1:
-                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #cream
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (160, 172, 203), 2,
-                                        cv2.LINE_AA)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (160, 172, 203), -1)
                         else:
-                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #green
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2,
-                                        cv2.LINE_AA)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 255, 0), -1)
 
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
@@ -658,9 +658,17 @@ class Streaming:
                     else:
                         print('webcam error.')
 
-                if isLiveLocal is 1:
-                    if cv2.waitKey(15) & 0xFF == ord('q'):  # press q to quit
-                        break
+                # if isLiveLocal is 1:
+                #     if cv2.waitKey(15) & 0xFF == ord('q'):  # press q to quit
+                #         break
+                if STD_HUMAN_LABEL is 1:
+                    if isLiveLocal is 1:
+                        if cv2.waitKey(15) & 0xFF == ord('q'):  # press q to quit
+                            break
+                else:
+                    if isLiveLocal is 1:
+                        if cv2.waitKey(7) & 0xFF == ord('q'):  # press q to quit
+                            break
 
         else:
             print('Cannot Open File ERR')
@@ -806,17 +814,11 @@ class Streaming_LabelBased:
 
                     if peer is not 1:
                         if int(LABEL_VAL) is 0 or int(LABEL_VAL) is 1:
-                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #red
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2,
-                                        cv2.LINE_AA)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 0, 255), -1)
                         elif int(LABEL_VAL) is 2:
-                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #cream
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (160, 172, 203), 2,
-                                        cv2.LINE_AA)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (160, 172, 203), -1)
                         else:
-                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #green
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2,
-                                        cv2.LINE_AA)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 255, 0), -1)
                     
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
@@ -870,14 +872,12 @@ def video_feed(peer):
     global LABEL_VAL
     #wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
     #cv2.waitKey(200)
-    if isRealDebug is 0 and STD_HUMAN_LABEL is 1:
+    if isRealDebug is 0:
         return Response(Streaming(peer).local_frames(peer),
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
-    elif isRealDebug is 0 and STD_HUMAN_LABEL is 2:
-        return Response(Streaming_LabelBased(peer, LABEL_VAL).local_frames(peer),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     else:
         pass
+
         # if frameReady[0] is True:
         #     return Response(frameSession1(),
         #                 mimetype='multipart/x-mixed-replace; boundary=frame')

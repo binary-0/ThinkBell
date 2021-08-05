@@ -1513,7 +1513,7 @@
                 student4.setAttribute("class", "block3");
                 student4_count[2]++;
               }
-              if (time_count >0 ) {
+              if (time_count % 5 === 0 ) {
                 var student1_max = Math.max(...student1_count);
                 var student2_max = Math.max(...student2_count);
                 var student3_max = Math.max(...student3_count);
