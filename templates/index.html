@@ -98,76 +98,18 @@
         left: 20%;
       }
 
-      #present1 {
-        position: absolute;
+      .present{
+        position: relative;
         border: 0;
         opacity: 0.7;
-        left: 20.7%;
-        top: 330px;
+        top: 5px;
+        left: 5px;
       }
-      #present2 {
-        position: absolute;
-        border: 0;
-        opacity: 0.7;
-        left: 52.2%;
-        top: 330px;
-      }
-      #present3 {
-        position: absolute;
-        border: 0;
-        opacity: 0.7;
-        left: 20.7%;
-        top: 725px;
-      }
-      #present4 {
-        position: absolute;
-        border: 0;
-        opacity: 0.7;
-        left: 52.2%;
-        top: 725px;
-      }
-      .prenum1 {
-        width: 1.5%;
+      .prenum {
         color: white;
-        background: black;
         position: absolute;
-        border-radius: 8px;
-        text-align: center;
-        left: 22.9%;
-        top: 328px;
-        font-size: 30px;
-      }
-      .prenum2 {
-        width: 1.5%;
-        color: white;
-        background: black;
-        position: absolute;
-        border-radius: 8px;
-        text-align: center;
-        left: 54.4%;
-        top: 328px;
-        font-size: 30px;
-      }
-      .prenum3 {
-        width: 1.5%;
-        color: white;
-        background: black;
-        position: absolute;
-        border-radius: 8px;
-        text-align: center;
-        left: 22.9%;
-        top: 723px;
-        font-size: 30px;
-      }
-      .prenum4 {
-        width: 1.5%;
-        color: white;
-        background: black;
-        position: absolute;
-        border-radius: 8px;
-        text-align: center;
-        left: 54.4%;
-        top: 723px;
+        right: 5px;
+        top: 0;
         font-size: 30px;
       }
       .name {
@@ -220,7 +162,7 @@
       }
       .agent_modal_bomb_text {
         position: absolute;
-        width: 510px;
+        width: 540px;
         height: 48px;
         left: 165px;
         top: 475px;
@@ -401,6 +343,32 @@
         font-size: 35px;
         line-height: 46px;
       }
+
+      .speechCount{
+        position: absolute;
+        width: 4%;
+        height: 5%;
+        border-radius: 8px;
+        background: black;
+        color: white;
+      }
+      #speechCount1{
+        top: 33%;
+        left: 20%;
+      }
+      #speechCount2{
+        top: 33%;
+        left: 51.5%;
+      }
+      #speechCount3{
+        top: 74%;
+        left: 20%;
+      }
+      #speechCount4{
+        top: 74%;
+        left: 51.5%;
+      }
+
     </style>
   </head>
   <body>
@@ -432,7 +400,7 @@
         class="agent_modal_bomb_picture"
         src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8"
       />
-      <div class="agent_modal_bomb_text">바른 자세로 수업을 들어주세요!</div>
+      <div class="agent_modal_bomb_text">졸지 말고 수업에 집중해 보아요!</div>
       <div id="modal_bomb_time" class="agent_modal_bomb_time">15초</div>
     </div>
 
@@ -502,13 +470,19 @@
               width="100%"
               height="325px"
             />
-            <img
+
+            <div class="speechCount" id="speechCount1">
+              <img class="present" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+              <div class="prenum" id="prenum1">0</div>
+            </div>
+
+            <!-- <img
               class="present"
               id="present1"
               width="40px"
               src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO"
             />
-            <div class="prenum1">0</div>
+            <div class="prenum1">0</div> -->
 
             <script type="text/javascript">
               var away;
@@ -910,13 +884,18 @@
               width="100%"
               height="325px"
             />
-            <img
+
+            <div class="speechCount" id="speechCount2">
+              <img class="present" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+              <div class="prenum" id="prenum2">0</div>
+            </div>
+            <!-- <img
               class="present"
               id="present2"
               width="40px"
               src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO"
             />
-            <div class="prenum2">0</div>
+            <div class="prenum2">0</div> -->
 
             <script type="text/javascript">
               function stu2img1() {
@@ -1060,13 +1039,18 @@
               width="100%"
               height="325px"
             />
-            <img
+
+            <div class="speechCount" id="speechCount3">
+              <img class="present" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+              <div class="prenum" id="prenum3">0</div>
+            </div>
+            <!-- <img
               class="present"
               id="present3"
               width="40px"
               src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO"
             />
-            <div class="prenum3">0</div>
+            <div class="prenum3">0</div> -->
 
             <script type="text/javascript">
               function stu3img1() {
@@ -1210,13 +1194,18 @@
               width="100%"
               height="325px"
             />
-            <img
+
+            <div class="speechCount" id="speechCount4">
+              <img class="present" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+              <div class="prenum" id="prenum4">0</div>
+            </div>
+            <!-- <img
               class="present"
               id="present4"
               width="40px"
               src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO"
             />
-            <div class="prenum4">0</div>
+            <div class="prenum4">0</div> -->
 
             <script type="text/javascript">
               function stu4img1() {
@@ -1433,10 +1422,10 @@
               console.log(response["SpeechCount3"]);
               console.log(response["SpeechCount4"]);
 
-              $(".prenum1").text(response["SpeechCount1"]);
-              $(".prenum2").text(response["SpeechCount2"]);
-              $(".prenum3").text(response["SpeechCount3"]);
-              $(".prenum4").text(response["SpeechCount4"]);
+              $("#prenum1").text(response["SpeechCount1"]);
+              $("#prenum2").text(response["SpeechCount2"]);
+              $("#prenum3").text(response["SpeechCount3"]);
+              $("#prenum4").text(response["SpeechCount4"]);
             },
             error: function (error) {
               console.log("vad feed err!!!");
@@ -1515,10 +1504,7 @@
                 student4_count[2]++;
               }
               if (time_count % 15 === 0) {
-                if(time_count > 15*17)
-                {
-                  continue;
-                }
+                
                 var student1_max = Math.max(...student1_count);
                 var student2_max = Math.max(...student2_count);
                 var student3_max = Math.max(...student3_count);
