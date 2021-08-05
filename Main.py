@@ -12,7 +12,7 @@ import microphone_checker_stream
 #from HeadPoseRevised import process_detection
 #from EAR import calculate_ear
 # import microphone_checker_stream
-import VoiceActivityDetection
+#import VoiceActivityDetection
 from waiting import wait
 import json
 from queue import Queue
@@ -102,12 +102,12 @@ def index():
     global logStudentName
 
     global colorStatus #0: Red / 1: Cream / 2: Green
-    colorStatus = [2, 2, 2, 2, 2]
+    colorStatus = [2, 2, 2, 2]
     global generalStatus # index 0: 자리비움 / 1: 면적 줄어듬 / 2: 발표안함
-    generalStatus = [[False, False, False], [False, False, False], [False, False, False], [False, False, False], [False, False, False]]
+    generalStatus = [[False, False, False], [False, False, False], [False, False, False], [False, False, False]]
 
     global predEngage
-    predEngage = [-1, -1, -1, -1, -1]
+    predEngage = [-1, -1, -1, -1]
 
     global isStartAudio
     isStartAudio=False
@@ -152,7 +152,7 @@ def index():
     isFrameReady = False
 
     global headStatus
-    headStatus = [None, None, None, None, None]
+    headStatus = [None, None, None, None]
     
     gen_frame_thread = threading.Thread(target=real_gen_frames)
     gen_frame_thread.start()
@@ -168,10 +168,10 @@ def index():
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
 
-    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
-    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
-    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
-    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
+    # threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
+    # threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
+    # threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
+    # threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
     # threading.Thread(target=getVADdata).start()
 
     global g_webcamVC
@@ -217,7 +217,8 @@ def real_gen_frames():
     loadingComplete = True
     global isLiveLocal
     global g_frame
-    peerNum = 5
+
+    peerNum = 4
     # 조건 검사를 위한 변수들
     frCnt = 0
 
@@ -230,10 +231,10 @@ def real_gen_frames():
     global LABEL_VAL
     global TIMETHRESHOLD
     print(str(LABEL_VAL - 0))
-    CNNTime = [None, None, None, None, None]
+    CNNTime = [None, None, None, None]
 
-    headSum = [0, 0, 0, 0, 0]
-    headAvg = [None, None, None, None, None]
+    headSum = [0, 0, 0, 0]
+    headAvg = [None, None, None, None]
 
     # log 남기기 위한 global vars
     global logStudentName
@@ -245,6 +246,7 @@ def real_gen_frames():
     logEndTime = 0
     logType = 0
 
+    # variables for frame control. never be used in live detection.
     frameTemp = 0
     frameCtrl = None
     frameBack = 0
@@ -252,9 +254,8 @@ def real_gen_frames():
 
     firstImg = cv2.imread('./FirstImage.jpg')
     global predOnce
-    time.sleep(3)
 
-    faceAddedTime = [0, 0, 0, 0, 0]
+    faceAddedTime = [0, 0, 0, 0]
     
     while True:
         curTime = time.time()
@@ -382,6 +383,7 @@ def real_gen_frames():
                     pass #LOG남기는Action
                 CNNTime[i] = None
 
+    #never reached 08/05
     global systemEnded
     systemEnded = True
 
@@ -443,7 +445,7 @@ class Streaming:
         global frameReady
         # global loadingComplete
         global g_frame
-        self.peerNum = 5
+        self.peerNum = 4
 
         g_frame = list(range(self.peerNum))
         frameReady = list(range(self.peerNum))
@@ -456,7 +458,7 @@ class Streaming:
 
         if isLiveLocal is 0:
             self.srcPath = 0
-        elif peer is 5:
+        elif peer is 1:
             global g_webcamVC
             self.srcPath = 0
             self.cap = g_webcamVC
@@ -575,7 +577,7 @@ class Streaming_LabelBased:
         global labelFile_2
         global labelFile_3
 
-        self.peerNum = 5
+        self.peerNum = 4
         self.engageLevel = level
 
         g_frame = list(range(self.peerNum))
@@ -589,7 +591,7 @@ class Streaming_LabelBased:
 
         if isLiveLocal is 0:
             self.srcPath = 0
-        elif peer is 5:
+        elif peer is 1:
             global g_webcamVC
             self.srcPath = 0
             self.cap = g_webcamVC
@@ -627,6 +629,9 @@ class Streaming_LabelBased:
         global LABEL_VAL
         global predOnce
 
+        global colorStatus
+        global generalStatus
+
         peer = int(peer)
         ret, g_frame[peer - 1] = self.cap.read()
 
@@ -637,6 +642,8 @@ class Streaming_LabelBased:
                 ret, g_frame[peer - 1] = self.cap.read()
                 if ret:
                     global predEngage
+                    global headStatus
+
                     #print(f'peer:{peer - 1} and pred: {predEngage[peer - 1]}')
                     if predEngage[peer - 1] is -1: #undefined
                         l_frame = g_frame[peer - 1]
@@ -649,6 +656,7 @@ class Streaming_LabelBased:
                         cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
+                        colorStatus[peer - 1] = 0
                     elif predEngage[peer - 1] is 2: #neutral
                         l_frame = cv2.addWeighted(self.neutralImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (160, 172, 203), 20)
@@ -658,6 +666,7 @@ class Streaming_LabelBased:
                         cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
+                        colorStatus[peer - 1] = 1
                     else: #highly engaged
                         l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 255, 0), 20)
@@ -667,29 +676,52 @@ class Streaming_LabelBased:
                         cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
+                        colorStatus[peer - 1] = 2
+
+                    if headStatus[peer - 1] is None:
+                        cv2.putText(l_frame, f'HeadDt: Calibrationing...Do wait.', (10, 400),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                    elif headStatus[peer - 1] is 1:
+                        cv2.putText(l_frame, f'HeadDt: Cannot Have Detected Face!', (10, 400),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                        generalStatus[peer - 1][0] = True
+                        generalStatus[peer - 1][1] = False
+                    elif headStatus[peer - 1] is 2:
+                        cv2.putText(l_frame, f'HeadDt: Detected Decreased Face', (10, 400),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                        generalStatus[peer - 1][0] = False
+                        generalStatus[peer - 1][1] = True    
+                    else:
+                        cv2.putText(l_frame, f'HeadDt: NORMAL!', (10, 400),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2, cv2.LINE_AA)
+                        generalStatus[peer - 1][0] = False
+                        generalStatus[peer - 1][1] = False
                     
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
                     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
                     isStartAudio=True
                 else:
-                    if self.engageLevel is 0:
-                        self.srcPath = labelFile_0.readline()
-                    elif self.engageLevel is 1:
-                        self.srcPath = labelFile_1.readline()
-                    elif self.engageLevel is 2:
-                        self.srcPath = labelFile_2.readline()
-                    elif self.engageLevel is 3:
-                        self.srcPath = labelFile_3.readline()
+                    if peer is not 1:
+                        if self.engageLevel is 0:
+                            self.srcPath = labelFile_0.readline()
+                        elif self.engageLevel is 1:
+                            self.srcPath = labelFile_1.readline()
+                        elif self.engageLevel is 2:
+                            self.srcPath = labelFile_2.readline()
+                        elif self.engageLevel is 3:
+                            self.srcPath = labelFile_3.readline()
 
-                    if not self.srcPath:
-                        print('Everything Has Done Successfully.')
-                        exit()
-                        break
+                        if not self.srcPath:
+                            print('Everything Has Done Successfully.')
+                            exit()
+                            break
 
-                    self.srcPath = './DAiSEE/DataSet/Test/' + self.srcPath[0:6] + '/' + self.srcPath[
-                                                                                        0:-4] + '/' + self.srcPath
-                    self.cap = cv2.VideoCapture(self.srcPath)
+                        self.srcPath = './DAiSEE/DataSet/Test/' + self.srcPath[0:6] + '/' + self.srcPath[
+                                                                                            0:-4] + '/' + self.srcPath
+                        self.cap = cv2.VideoCapture(self.srcPath)
+                    else:
+                        print('WebCam Reading Error. Skipping this frame')
 
                 if isLiveLocal is 1:
                     if cv2.waitKey(10) & 0xFF == ord('q'):  # press q to quit
@@ -771,10 +803,14 @@ def generalStat_feed():
 def vad_feed():
     # global silence
     # global size
-    sc1 = VoiceActivityDetection.setSC1()
-    sc2 = VoiceActivityDetection.setSC2()
-    sc3 = VoiceActivityDetection.setSC3()
-    sc4 = VoiceActivityDetection.setSC4()
+    # sc1 = VoiceActivityDetection.setSC1()
+    # sc2 = VoiceActivityDetection.setSC2()
+    # sc3 = VoiceActivityDetection.setSC3()
+    # sc4 = VoiceActivityDetection.setSC4()
+    sc1 = 0
+    sc2 = 0
+    sc3 = 0
+    sc4 = 0
     return jsonify({
         'SpeechCount1': str(sc1),
         'SpeechCount2': str(sc2),
