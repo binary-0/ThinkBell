@@ -81,16 +81,22 @@
           border:0;
         }
         #stu1_img1{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 46.5%;
           top:147px;
         }
         #stu1_img2{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 46.5%;
           top:210px;
         }
         #stu1_img3{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 46.5%;
           top:270px;
@@ -111,16 +117,22 @@
           top:270px;
         }
         #stu2_img1{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 78%;
           top:147px;
         }
         #stu2_img2{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 78%;
           top:210px;
         }
         #stu2_img3{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 78%;
           top:270px;
@@ -141,16 +153,22 @@
           top:270px;
         }
         #stu3_img1{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 46.5%;
           top:542px;
         }
         #stu3_img2{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 46.5%;
           top:605px;
         }
         #stu3_img3{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 46.5%;
           top:665px;
@@ -171,16 +189,22 @@
           top:665px;
         }
         #stu4_img1{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 78%;
           top:542px;
         }
         #stu4_img2{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 78%;
           top:605px;
         }
         #stu4_img3{
+          display: none;
+          z-index: 1;
           position: absolute;
           left: 78%;
           top:665px;
@@ -203,46 +227,54 @@
         #present1{
           position: absolute;
           border: 0;
+          opacity: 0.7;
           left: 20.7%;
           top: 330px;
         }
         #present2{
           position: absolute;
           border: 0;
+          opacity: 0.7;
           left: 52.2%;
           top: 330px;
         }
         #present3{
           position: absolute;
           border: 0;
+          opacity: 0.7;
           left: 20.7%;
           top: 725px;
         }
         #present4{
           position: absolute;
           border: 0;
+          opacity: 0.7;
           left: 52.2%;
           top: 725px;
         }
         .prenum1{
+          color: white;
           position: absolute;
           left: 23%;
           top: 330px;
           font-size: 30px;
         }
         .prenum2{
+          color: white;
           position: absolute;
           left: 54.5%;
           top: 330px;
           font-size: 30px;
         }
         .prenum3{
+          color: white;
           position: absolute;
           left: 23%;
           top: 725px;
           font-size: 30px;
         }
         .prenum4{
+          color: white;
           position: absolute;
           left: 54.5%;
           top: 725px;
@@ -272,9 +304,129 @@
           left: 51.3%;
           top: 48%;
         }
+        .agent_modal_bomb{
+        position: absolute;
+        display: none;
+        z-index: 2;
+        width: 812px;
+        height: 541px;
+        left: 29%;
+        top: 15%;
+        /*display: none;*/
+        border: 9px solid #000000;
+        box-sizing: border-box;
+        background: #FFFFFF;
+
+       }
+       .agent_modal_red{
+        position: absolute;
+        z-index: 3;
+        width: 812px;
+        height: 541px;
+        left: 29%;
+        top: 15%;
+        /*display: none;*/
+        border: 9px solid #FF7676;
+        box-sizing: border-box;
+        background: #FF8C8C;
+       }
+
+       .agent_modal_bomb_picture{
+        position: absolute;
+        width: 314px;
+        height: 407px;
+        left: 249px;
+        top: 32px;
+        cursor: pointer;
+       }
+       .agent_modal_bomb_text{
+        
+        position: absolute;
+        width: 510px;
+        height: 48px;
+        left: 165px;
+        top: 475px;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 35px;
+        line-height: 41px;
+
+        color: #000000;
+       }
+       .agent_modal_bomb_time{
+        position: absolute;
+        width: 132px;
+        height: 43px;
+        left: 634px;
+        top: 249px;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 60px;
+        line-height: 70px;
+
+        color: #FF0000;
+       }
+       .agent_modal_comeback{
+        position: absolute;
+        width: 412px;
+        height: 50px;
+        left: 200px;
+        top: 245px;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 40px;
+        line-height: 46px;
+
+        color: #000000;
+        cursor: pointer;
+      }
+      .agent_modal_speechless{
+        position: absolute;
+        width: 570px;
+        height: 300px;
+        left: 121px;
+        top: 120px;
+
+        cursor: pointer;
+      }
+      .agent_modal_speechless_text{
+        position: absolute;
+        width: 513px;
+        height: 91px;
+        left: 149px;
+        top: 420px;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 40px;
+        line-height: 46px;
+        color: #000000;
+      }
     </style>
   </head>
   <body>
+    <div id="modal_bomb" class="agent_modal_bomb">
+      <img id="bomb_picture" class="agent_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
+      <div class="agent_modal_bomb_text">바른 자세로 수업을 들어주세요!</div>
+      <div id="modal_bomb_time" class="agent_modal_bomb_time">15초</div>
+    </div>
+
+    <div id="modal_comeback_white" class="agent_modal_bomb">
+        <div id = "close_modal_comeback" class="agent_modal_comeback">자리로 돌아와 주세요!!</div>
+    </div>
+  
+    <div id="modal_speechless" class="agent_modal_bomb">
+        <img id="speechless_picture" class="agent_modal_speechless" src = "https://drive.google.com/uc?id=1xskKXqZNYdqyOY20efJN7vRFT23G-qjG">
+        <div class="agent_modal_speechless_text">
+            수업에 집중하고 있나요?
+          <br>
+          적극적으로 발표해보세요!
+        </div>
+    </div>
+
     <div class="wrapper">
       <!--(navbar)-->
       <div class="item">
@@ -374,13 +526,184 @@
           <img style="border-radius: 10px" src="/video_feed/1" width="100%" height="325px">
           <img class="present" id="present1" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
           <div class="prenum1">0</div>
-          
-          <button type="button" class="img_btn" id="stu1_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
+          <button type="button" class="img_btn" id="stu1_img1" onclick="stu1img1()"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
           <button type="button" class="img_btn" id="stu1_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
-          <button type="button" class="img_btn" id="stu1_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
+          <button type="button" class="img_btn" id="stu1_img2" onclick="stu1img2()"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
           <button type="button" class="img_btn" id="stu1_img2_black"><img src="https://drive.google.com/uc?id=1vtjEZnBETgcrwcoZ7VADakIj0cUol1Xf" width="40px"></button>
-          <button type="button" class="img_btn" id="stu1_img3"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
+          <button type="button" class="img_btn" id="stu1_img3" onclick="stu1img3()"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
           <button type="button" class="img_btn" id="stu1_img3_black"><img src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR" width="40px"></button>
+
+          <script type="text/javascript">
+          var away;
+          var smallhead;
+          var silence;
+          var bombaudio = new Audio("https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g");
+          let sirenaudio = new Audio("https://drive.google.com/uc?id=1j7vKTfqzoBVfvHUqgyHmq-GDniSrdzS4")
+          let bombtime=15;
+          let bombinterval;
+          const bombtimeHtml=document.getElementById("modal_bomb_time");
+          const modal_comeback_white = document.getElementById("modal_comeback_white");
+          const close_modal_comeback = document.getElementById("close_modal_comeback");
+          const modal_speechless = document.getElementById("modal_speechless");
+          
+
+
+          setInterval(function(){
+            $.ajax({
+              url : "/generalStat_feed",
+              type : "POST",
+              success : function(response){
+                // away = response['stu1General'][0];
+                // smallhead = response['stu1General'][1];
+                // silence = response['stu1General'][2];
+                stu1Str = response['stu1General'];
+                stu2Str = response['stu2General'];
+                stu3Str = response['stu3General'];
+                stu4Str = response['stu4General'];
+
+                away1 = stu1Str[0];
+                smallhead1 = stu1Str[1];
+                silence1 = stu1Str[2];
+                away2 = stu2Str[0];
+                smallhead2 = stu2Str[1];
+                silence2 = stu2Str[2];
+                away3 = stu3Str[0];
+                smallhead3 = stu3Str[1];
+                silence3 = stu3Str[2];
+                away4 = stu4Str[0];
+                smallhead4 = stu4Str[1];
+                silence4 = stu4Str[2];
+                
+
+                if(away1==='1'){
+                  document.getElementById("stu1_img1").style.display = "block";
+                }
+
+                if(smallhead1==='1'){
+                  document.getElementById("stu1_img2").style.display = "block";
+                }
+
+                if(silence1==='1'){
+                  document.getElementById("stu1_img3").style.display = "block";
+                }
+
+                if(away2==='1'){
+                  document.getElementById("stu2_img1").style.display = "block";
+                }
+
+                if(smallhead2==='1'){
+                  document.getElementById("stu2_img2").style.display = "block";
+                }
+
+                if(silence2==='1'){
+                  document.getElementById("stu2_img3").style.display = "block";
+                }
+
+                if(away3==='1'){
+                  document.getElementById("stu3_img1").style.display = "block";
+                }
+
+                if(smallhead3==='1'){
+                  document.getElementById("stu3_img2").style.display = "block";
+                }
+
+                if(silence3==='1'){
+                  document.getElementById("stu3_img3").style.display = "block";
+                }
+
+                if(away4==='1'){
+                  document.getElementById("stu4_img1").style.display = "block";
+                }
+
+                if(smallhead4==='1'){
+                  document.getElementById("stu4_img2").style.display = "block";
+                }
+
+                if(silence4==='1'){
+                  document.getElementById("stu4_img3").style.display = "block";
+                }
+
+
+              },
+              error : function(error){
+                console.log("signal_err");
+              },
+            });
+          },1000);
+
+            function stu1img1(){
+                document.getElementById("stu1_img1").style.display = "none";
+                sirenaudio.autoplay = true;
+                sirenaudio.volume=1.0;
+                sirenaudio.play();
+                document.getElementById("modal_comeback_white").style.display = "block";
+            }
+
+            function stu1img2(){
+
+                document.getElementById("stu1_img2").style.display = "none";
+                bombaudio.autoplay = true;
+                bombaudio.volume = 1.0;
+                bombaudio.play();
+                document.getElementById("modal_bomb").style.display = "block";
+                bombinterval=setInterval("decreaseBombtime()",1000);
+                
+            }
+
+            const modal_bomb = document.getElementById("modal_bomb");
+            const bomb_picture = document.getElementById("bomb_picture");
+
+            function decreaseBombtime(){
+                bombtime--;
+                bombtimeHtml.innerText = bombtime +"초";
+            }
+
+            bomb_picture.addEventListener("click",e=>{
+                bombaudio.pause();
+                bombaudio.currentTime = 0;
+                bombtime = 15;
+                modal_bomb.style.display= "none";
+                clearInterval(bombinterval)
+                bombtimeHtml.innerText = "15초";
+            })
+
+            close_modal_comeback.addEventListener("click",e=>{
+                modal_comeback_white.style.display= "none";
+                sirenaudio.pause();
+                sirenaudio.currentTime = 0;
+            })
+  
+            function stu1img3(){
+                document.getElementById("stu1_img3").style.display = "none";
+                document.getElementById("modal_speechless").style.display = "block";
+            }
+
+            const speechless_picture = document.getElementById("speechless_picture");
+            speechless_picture.addEventListener("click",e=>{
+                modal_speechless.style.display= "none";
+            })    
+
+            function turnmodalred(){
+                modal_comeback_white.style.background="#FF8C8C";
+                modal_comeback_white.style.border= "9px solid #FF7676";
+                close_modal_comeback.style.color = "#FFFFFF"
+            }
+
+            function turnmodalwhite(){
+                modal_comeback_white.style.background="#FFFFFF";
+                modal_comeback_white.style.border="9px solid #000000";
+                close_modal_comeback.style.color = "#000000"
+            }
+            
+            function cyclebackgroundcolor(){
+                turnmodalred();
+                setTimeout("turnmodalwhite()",1000);
+            }
+
+            
+            let cyclemodalbackground = setInterval("cyclebackgroundcolor()",2000);
+            
+            </script>
 
         </div>
 
@@ -427,13 +750,37 @@
           <img style="border-radius: 10px" src="/video_feed/2" width="100%" height="325px">
           <img class="present" id="present2" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
           <div class="prenum2">0</div>
-          
-          <button type="button" class="img_btn" id="stu2_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
+
+          <button type="button" class="img_btn" id="stu2_img1" onclick="stu2img1()"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
           <button type="button" class="img_btn" id="stu2_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
-          <button type="button" class="img_btn" id="stu2_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
+          <button type="button" class="img_btn" id="stu2_img2" onclick="stu2img2()"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
           <button type="button" class="img_btn" id="stu2_img2_black"><img src="https://drive.google.com/uc?id=1vtjEZnBETgcrwcoZ7VADakIj0cUol1Xf" width="40px"></button>
-          <button type="button" class="img_btn" id="stu2_img3"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
+          <button type="button" class="img_btn" id="stu2_img3" onclick="stu2img3()"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
           <button type="button" class="img_btn" id="stu2_img3_black"><img src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR" width="40px"></button>
+
+          <script type="text/javascript">
+            function stu2img1(){
+                document.getElementById("stu2_img1").style.display = "none";
+                sirenaudio.autoplay = true;
+                sirenaudio.volume=1.0;
+                sirenaudio.play();
+                document.getElementById("modal_comeback_white").style.display = "block";
+            }
+            function stu2img2(){
+                document.getElementById("stu2_img2").style.display = "none";
+                bombaudio.autoplay = true;
+                bombaudio.volume = 1.0;
+                bombaudio.play();
+                document.getElementById("modal_bomb").style.display = "block";
+                bombinterval=setInterval("decreaseBombtime()",1000);
+
+            }
+            function stu2img3(){
+                document.getElementById("stu2_img3").style.display = "none";
+                document.getElementById("modal_speechless").style.display = "block";
+            }
+            
+            </script>
 
         </div>
 
@@ -480,13 +827,36 @@
           <img style="border-radius: 10px" src="/video_feed/3" width="100%" height="325px">
           <img class="present" id="present3" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
           <div class="prenum3">0</div>
-          
-          <button type="button" class="img_btn" id="stu3_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
+
+          <button type="button" class="img_btn" id="stu3_img1" onclick="stu3img1()"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
           <button type="button" class="img_btn" id="stu3_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
-          <button type="button" class="img_btn" id="stu3_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
+          <button type="button" class="img_btn" id="stu3_img2" onclick="stu3img2()"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
           <button type="button" class="img_btn" id="stu3_img2_black"><img src="https://drive.google.com/uc?id=1vtjEZnBETgcrwcoZ7VADakIj0cUol1Xf" width="40px"></button>
-          <button type="button" class="img_btn" id="stu3_img3"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
+          <button type="button" class="img_btn" id="stu3_img3" onclick="stu3img3()"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
           <button type="button" class="img_btn" id="stu3_img3_black"><img src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR" width="40px"></button>
+
+          <script type="text/javascript">
+            function stu3img1(){
+                document.getElementById("stu3_img1").style.display = "none";
+                sirenaudio.autoplay = true;
+                sirenaudio.volume=1.0;
+                sirenaudio.play();
+                document.getElementById("modal_comeback_white").style.display = "block";
+            }
+            function stu3img2(){
+                document.getElementById("stu3_img2").style.display = "none";
+                bombaudio.autoplay = true;
+                bombaudio.volume = 1.0;
+                bombaudio.play();
+                document.getElementById("modal_bomb").style.display = "block";
+                bombinterval=setInterval("decreaseBombtime()",1000);
+            }
+            function stu3img3(){
+                document.getElementById("stu3_img3").style.display = "none";
+                document.getElementById("modal_speechless").style.display = "block";
+            }
+            
+            </script>
 
         </div>
 
@@ -496,7 +866,7 @@
 
         <script type="text/javascript">
         state=0;
-        function changeImg1(){
+        function changeImg3(){
           if(state==0){
             state=1;
             document.getElementById('base3').src = "http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/720f9d57039c1c9ef396f4d69449cc99_mp4.gif";
@@ -533,14 +903,43 @@
           <img style="border-radius: 10px" src="/video_feed/4" width="100%" height="325px">
           <img class="present" id="present4" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
           <div class="prenum4">0</div>
-          
-          <button type="button" class="img_btn" id="stu4_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
+
+          <button type="button" class="img_btn" id="stu4_img1" onclick="stu4img1()"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
           <button type="button" class="img_btn" id="stu4_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
-          <button type="button" class="img_btn" id="stu4_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
+          <button type="button" class="img_btn" id="stu4_img2" onclick="stu4img2()"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
           <button type="button" class="img_btn" id="stu4_img2_black"><img src="https://drive.google.com/uc?id=1vtjEZnBETgcrwcoZ7VADakIj0cUol1Xf" width="40px"></button>
-          <button type="button" class="img_btn" id="stu4_img3"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
+          <button type="button" class="img_btn" id="stu4_img3" onclick="stu4img3()"><img src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp" width="40px"></button>
           <button type="button" class="img_btn" id="stu4_img3_black"><img src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR" width="40px"></button>
 
+          <script type="text/javascript">
+            function stu4img1(){
+                document.getElementById("stu4_img1").style.display = "none";
+                sirenaudio.autoplay = true;
+                sirenaudio.volume=1.0;
+                sirenaudio.play();
+                document.getElementById("modal_comeback_white").style.display = "block";
+            }
+            function stu4img2(){
+                document.getElementById("stu4_img2").style.display = "none";
+                bombaudio.autoplay = true;
+                bombaudio.volume = 1.0;
+                bombaudio.play();
+                document.getElementById("modal_bomb").style.display = "block";
+                bombinterval=setInterval("decreaseBombtime()",1000);
+            }
+            function stu4img3(){
+                document.getElementById("stu4_img3").style.display = "none";
+                document.getElementById("modal_speechless").style.display = "block";
+            }
+            
+            </script>
+
+        </div>
+
+        <div style="width: 100%;">
+          <img style="border-radius: 10px" src="/video_feed/5" width="100%" height="325px">
+          <img class="present" id="present2" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+          <div class="prenum2">0</div>
         </div>
 
         <div style="margin-top: 7px; margin-right: 2%; float:right;">
@@ -568,7 +967,6 @@
       </div>
       </div>
 
-      
       <!--(menubar)-->
       <div class="item">
         <div class="container">
@@ -595,7 +993,7 @@
                 </svg>
                 &nbsp;Log
           </button>
-  
+
           <button class="box">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
                   <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"></path>
@@ -628,7 +1026,8 @@
             },
           });
         },1000); 
-    </script>
+      </script>
+
     </div>
   </body>
 </html>
