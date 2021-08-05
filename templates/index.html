@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <meta charset="utf-8" />
-    <title>THINKBIG</title>
+    <meta charset="utf-8">
+    <title>THINKBELL</title>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 
     <style>
       @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
@@ -33,8 +25,6 @@
         grid-column-end: 14;
         grid-row-start: 1;
         grid-row-end: 2;
-        background-color: #303234;
-        color: white;
       }
       .item:nth-child(2) {
         grid-column-start: 4;
@@ -70,10 +60,8 @@
         margin-left: 19%;
         height:82%;
         width:62%;
-        margin-top: 2.6%;
         float: left;
         text-align: center;
-        background: #303234;
         padding-left:12%;
       }
       .box {
@@ -85,7 +73,7 @@
         width: 13%;
         line-height: 45px;
         margin-left: 5%;
-        margin-top: 0.6%;
+        margin-top:1%;
         background: #dddddd;
         opacity: 0.9;
         border-radius: 20px;
@@ -94,151 +82,22 @@
       .img_btn {
         background-color: transparent;
         border: 0;
+        position: relative;
+        width: 80%;        
       }
-      #stu1_img1 {
+      .color_img{
+        position: absolute;
         display: none;
         z-index: 1;
-        position: absolute;
-        left: 46.5%;
-        top: 147px;
+        top: 0;
+        left: 20%;
       }
-      #stu1_img2 {
-        display: none;
-        z-index: 1;
+      .black_img{
         position: absolute;
-        left: 46.5%;
-        top: 210px;
+        top: 0;
+        left: 20%;
       }
-      #stu1_img3 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 46.5%;
-        top: 270px;
-      }
-      #stu1_img1_black {
-        position: absolute;
-        left: 46.5%;
-        top: 147px;
-      }
-      #stu1_img2_black {
-        position: absolute;
-        left: 46.5%;
-        top: 210px;
-      }
-      #stu1_img3_black {
-        position: absolute;
-        left: 46.5%;
-        top: 270px;
-      }
-      #stu2_img1 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 78%;
-        top: 147px;
-      }
-      #stu2_img2 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 78%;
-        top: 210px;
-      }
-      #stu2_img3 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 78%;
-        top: 270px;
-      }
-      #stu2_img1_black {
-        position: absolute;
-        left: 78%;
-        top: 147px;
-      }
-      #stu2_img2_black {
-        position: absolute;
-        left: 78%;
-        top: 210px;
-      }
-      #stu2_img3_black {
-        position: absolute;
-        left: 78%;
-        top: 270px;
-      }
-      #stu3_img1 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 46.5%;
-        top: 542px;
-      }
-      #stu3_img2 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 46.5%;
-        top: 605px;
-      }
-      #stu3_img3 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 46.5%;
-        top: 665px;
-      }
-      #stu3_img1_black {
-        position: absolute;
-        left: 46.5%;
-        top: 542px;
-      }
-      #stu3_img2_black {
-        position: absolute;
-        left: 46.5%;
-        top: 605px;
-      }
-      #stu3_img3_black {
-        position: absolute;
-        left: 46.5%;
-        top: 665px;
-      }
-      #stu4_img1 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 78%;
-        top: 542px;
-      }
-      #stu4_img2 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 78%;
-        top: 605px;
-      }
-      #stu4_img3 {
-        display: none;
-        z-index: 1;
-        position: absolute;
-        left: 78%;
-        top: 665px;
-      }
-      #stu4_img1_black {
-        position: absolute;
-        left: 78%;
-        top: 542px;
-      }
-      #stu4_img2_black {
-        position: absolute;
-        left: 78%;
-        top: 605px;
-      }
-      #stu4_img3_black {
-        position: absolute;
-        left: 78%;
-        top: 665px;
-      }
+
       #present1 {
         position: absolute;
         border: 0;
@@ -268,57 +127,63 @@
         top: 725px;
       }
       .prenum1 {
+        width: 1.5%;
         color: white;
+        background: black;
         position: absolute;
-        left: 23%;
-        top: 330px;
+        border-radius: 8px;
+        text-align: center;
+        left: 22.9%;
+        top: 328px;
         font-size: 30px;
       }
       .prenum2 {
+        width: 1.5%;
         color: white;
+        background: black;
         position: absolute;
-        left: 54.5%;
-        top: 330px;
+        border-radius: 8px;
+        text-align: center;
+        left: 54.4%;
+        top: 328px;
         font-size: 30px;
       }
       .prenum3 {
+        width: 1.5%;
         color: white;
+        background: black;
         position: absolute;
-        left: 23%;
-        top: 725px;
+        border-radius: 8px;
+        text-align: center;
+        left: 22.9%;
+        top: 723px;
         font-size: 30px;
       }
       .prenum4 {
+        width: 1.5%;
         color: white;
+        background: black;
         position: absolute;
-        left: 54.5%;
-        top: 725px;
+        border-radius: 8px;
+        text-align: center;
+        left: 54.4%;
+        top: 723px;
         font-size: 30px;
       }
       .name {
+        position: relative;
+        width: 100%;
+        height: 10%;
+        background: #efefef;
+        border-radius: 6px;
+        border-width: 5px;
+        color: black;
+        text-align: center;
+        line-height: 45px;
         font-size: 25px;
         font-family: "Jeju Gothic", sans-serif;
       }
-      #name1 {
-        position: absolute;
-        left: 19.8%;
-        top: 6.7%;
-      }
-      #name2 {
-        position: absolute;
-        left: 51.3%;
-        top: 6.7%;
-      }
-      #name3 {
-        position: absolute;
-        left: 19.8%;
-        top: 48%;
-      }
-      #name4 {
-        position: absolute;
-        left: 51.3%;
-        top: 48%;
-      }
+      
       .agent_modal_bomb {
         position: absolute;
         display: none;
@@ -445,9 +310,122 @@
         margin-top: 10px;
         margin-left: 2px;
       }
+      #live{
+        position: absolute;
+        z-index: 1;
+        left: 19%;
+        top: 5.8%;
+      }
+      .loader_modal{
+        display: none;
+        position: absolute;
+        z-index: 100;
+        width: 1300px;
+        height: 800px;
+        left: 19%;
+        top: 5%;
+
+        background: #FFFFFF;
+
+      }
+      .loader_inmodal{
+        position: absolute;
+        left:480px;
+        top:100px;
+
+      }
+      .loader{
+        position: absolute;
+        
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #FF9BAC;
+        width: 340px;
+        height: 340px;
+
+
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+
+      }
+      .loader_text{
+        position: absolute;
+        width: 163px;
+        height: 45px;
+        left: 580px;
+        top: 600px;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 35px;
+        line-height: 41px;
+        color: #000000;
+
+      }
+      .refresh_button{
+        position: absolute;
+        margin-top: 0.4%;
+        left: 78.7%;
+        cursor: pointer;
+      }
+
+      .posture_modal_picture{
+        position: absolute;
+        width: 296px;
+        height: 342px;
+        left: 258px;
+        top: 38px;
+        cursor: pointer;
+      }
+
+      .posture_modal_text{
+        position: absolute;
+        width: 566px;
+        height: 50px;
+        left: 115px;
+        top: 439px;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 35px;
+        line-height: 46px;
+      }
     </style>
   </head>
   <body>
+    <form action="/video_rewind" method="POST">
+      <div class="refresh_button">
+        <button id = "refresh_button" type="submit" style="background: white">
+          <img src = "https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS" style="width: 30px; height: 30px; border: 0px; ">
+        </button>
+      </div>
+      </form>
+  
+      <div id = "posture_modal" class="agent_modal_bomb">
+        <img id = "posture_modal_picture" class="posture_modal_picture" src="https://drive.google.com/uc?id=18ojtOa948gO5V1G58Y0OvkolKARcIMTI"/>
+        <div id = "posture_modal_text" class="posture_modal_text">바른 자세로 수업에 집중해 보아요!</div>
+      </div>
+  
+  
+      <div id = "loader_modal" class="loader_modal">
+        <div class="loader_inmodal">
+        <div class="loader"></div>
+        </div>
+        <div class="loader_text">Loading...</div>
+      </div>
+      <div class= "name_background"></div>
+
     <div id="modal_bomb" class="agent_modal_bomb">
       <img
         id="bomb_picture"
@@ -480,7 +458,7 @@
     <div class="wrapper">
       <!--(navbar)-->
       <div class="item">
-        <div style="text-align: left; margin-left: 45%">
+        <div style="text-align: left; margin-top: 1%">
           <img
             src="https://drive.google.com/uc?id=1pIGISXi-LwqThWN8oCki2kBtW8pU0pFC"
             alt=""
@@ -515,9 +493,9 @@
             margin-right: 35px;
           "
         >
-          <div class="name" id="name1">나</div>
+        <img id="live" width="70px" src="https://drive.google.com/uc?id=1krMwv_4b5fmHeW6ts2L-suUL0Ur47YKo">
 
-          <div style="width: 100%">
+          <div style="width: 80%; margin-bottom: 1.5%; float: left">
             <img
               style="border-radius: 10px"
               src="/video_feed/1"
@@ -531,62 +509,12 @@
               src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO"
             />
             <div class="prenum1">0</div>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu1_img1"
-              onclick="stu1img1()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m"
-                width="43px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu1_img1_black">
-              <img
-                src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_"
-                width="43px"
-              />
-            </button>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu1_img2"
-              onclick="stu1img2()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=12eP_qOZLyLYIreg7ErMSG6MOSqLLBvvj"
-                width="40px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu1_img2_black">
-              <img
-                src="https://drive.google.com/uc?id=1ug87xAARi4CJGTCvYkkiDU-yTXlPY47V"
-                width="40px"
-              />
-            </button>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu1_img3"
-              onclick="stu1img3()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp"
-                width="40px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu1_img3_black">
-              <img
-                src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR"
-                width="40px"
-              />
-            </button>
 
             <script type="text/javascript">
               var away;
               var smallhead;
               var silence;
+              var sleep;
               var bombaudio = new Audio(
                 "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
               );
@@ -618,77 +546,151 @@
                     stu3Str = response["stu3General"];
                     stu4Str = response["stu4General"];
 
+
                     away1 = stu1Str[0];
                     smallhead1 = stu1Str[1];
                     silence1 = stu1Str[2];
+                    sleep1 = stu1Str[3];
                     away2 = stu2Str[0];
                     smallhead2 = stu2Str[1];
                     silence2 = stu2Str[2];
+                    sleep2 = stu2Str[3];
                     away3 = stu3Str[0];
                     smallhead3 = stu3Str[1];
                     silence3 = stu3Str[2];
+                    sleep3 = stu3Str[3];
                     away4 = stu4Str[0];
                     smallhead4 = stu4Str[1];
                     silence4 = stu4Str[2];
+                    sleep4 = stu4Str[3];
+                    
 
                     if (away1 === "1") {
                       document.getElementById("stu1_img1").style.display =
                         "block";
+                    }
+                    else{
+                      document.getElementById("stu1_img1").style.display = "none";
                     }
 
                     if (smallhead1 === "1") {
                       document.getElementById("stu1_img2").style.display =
                         "block";
                     }
+                    else{
+                      document.getElementById("stu1_img2").style.display = "none";
+                    }
 
                     if (silence1 === "1") {
                       document.getElementById("stu1_img3").style.display =
                         "block";
+                    }
+                    else{
+                      document.getElementById("stu1_img3").style.display = "none";
+                    }
+
+                    if (sleep1 === "1") {
+                      document.getElementById("stu1_img4").style.display =
+                        "block";
+                    }
+                    else{
+                      document.getElementById("stu1_img4").style.display = "none";
                     }
 
                     if (away2 === "1") {
                       document.getElementById("stu2_img1").style.display =
                         "block";
                     }
+                    else{
+                      document.getElementById("stu2_img1").style.display = "none";
+                    }
 
                     if (smallhead2 === "1") {
                       document.getElementById("stu2_img2").style.display =
                         "block";
+                    }
+                    else{
+                      document.getElementById("stu2_img2").style.display = "none";
                     }
 
                     if (silence2 === "1") {
                       document.getElementById("stu2_img3").style.display =
                         "block";
                     }
+                    else{
+                      document.getElementById("stu2_img3").style.display = "none";
+                    }
+
+                    if (sleep2 === "1") {
+                      document.getElementById("stu2_img4").style.display =
+                        "block";
+                    }
+                    else{
+                      document.getElementById("stu2_img4").style.display = "none";
+                    }
 
                     if (away3 === "1") {
                       document.getElementById("stu3_img1").style.display =
                         "block";
+                    }
+                    else{
+                      document.getElementById("stu3_img1").style.display = "none";
                     }
 
                     if (smallhead3 === "1") {
                       document.getElementById("stu3_img2").style.display =
                         "block";
                     }
+                    else{
+                      document.getElementById("stu3_img2").style.display = "none";
+                    }
 
                     if (silence3 === "1") {
                       document.getElementById("stu3_img3").style.display =
                         "block";
+                    }
+                    else{
+                      document.getElementById("stu3_img3").style.display = "none";
+                    }
+
+                    if (sleep3 === "1") {
+                      document.getElementById("stu3_img4").style.display =
+                        "block";
+                    }
+                    else{
+                      document.getElementById("stu3_img4").style.display = "none";
                     }
 
                     if (away4 === "1") {
                       document.getElementById("stu4_img1").style.display =
                         "block";
                     }
+                    else{
+                      document.getElementById("stu4_img1").style.display = "none";
+                    }
 
                     if (smallhead4 === "1") {
                       document.getElementById("stu4_img2").style.display =
                         "block";
                     }
+                    else{
+                      document.getElementById("stu4_img2").style.display = "none";
+                    }
 
                     if (silence4 === "1") {
                       document.getElementById("stu4_img3").style.display =
                         "block";
+                    }
+                    else{
+                      document.getElementById("stu4_img3").style.display = "none";
+                    }
+
+                    if (sleep4 === "1") {
+                      document.getElementById("stu4_img4").style.display =
+                        "block";
+                    }
+                    else{
+                      document.getElementById("stu4_img4").style.display = "none";
                     }
                   },
                   error: function (error) {
@@ -708,18 +710,16 @@
 
               function stu1img2() {
                 document.getElementById("stu1_img2").style.display = "none";
-                bombaudio.autoplay = true;
-                bombaudio.volume = 1.0;
-                bombaudio.play();
-                document.getElementById("modal_bomb").style.display = "block";
-                bombinterval = setInterval("decreaseBombtime()", 1000);
+                document.getElementById("posture_modal").style.display = "block";
               }
 
               const modal_bomb = document.getElementById("modal_bomb");
               const bomb_picture = document.getElementById("bomb_picture");
 
               function decreaseBombtime() {
-                bombtime--;
+                if(bombtime!=0){
+                  bombtime--;
+                }
                 bombtimeHtml.innerText = bombtime + "초";
               }
 
@@ -742,6 +742,15 @@
                 document.getElementById("stu1_img3").style.display = "none";
                 document.getElementById("modal_speechless").style.display =
                   "block";
+              }
+
+              function stu1img4() {
+                document.getElementById("stu1_img4").style.display = "none";
+                bombaudio.autoplay = true;
+                bombaudio.volume = 1.0;
+                bombaudio.play();
+                document.getElementById("modal_bomb").style.display = "block";
+                bombinterval = setInterval("decreaseBombtime()", 1000);
               }
 
               const speechless_picture =
@@ -771,16 +780,77 @@
                 "cyclebackgroundcolor()",
                 2000
               );
+
+              /* loding modal 
+              const loader_modal = document.getElementById("loader_modal");
+              const refreshbutton = document.getElementById("refresh_button");
+              refreshbutton.addEventListener("click",(e)=>{
+                loader_modal.style.display="block";
+              })
+              */
+
+              const posture_modal = document.getElementById("posture_modal");
+              const posture_modal_picture = document.getElementById("posture_modal_picture");
+              posture_modal_picture.addEventListener("click",(e)=>{
+                posture_modal.style.display="none";
+              })
             </script>
           </div>
 
-          <div style="margin-top: 7px; margin-right: 2%; float: right">
-            <img
-              id="change1"
-              onclick="changeImg1()"
-              src="https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS"
-              width="40px"
-            />
+          <div style="width: 20%; height: 100%; border-radius: 10px; float: right;
+          border:3px solid black; background: white;">
+            <div class="name">나</div>
+            <div class="img_btn" style="margin-top: 10%;">
+              <button type="button" class="color_img" id="stu1_img1" onclick="stu1img1()">
+                <img title="자리비움 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1H9OlaQ0Y3-Dt02du4m_Xe3Vz4ZVuXlwu"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu1_img1_black">
+                <img title="자리비움 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1KgBCk-pccmqtNnoH-QI-lGLL1rnBcaCJ"
+                />
+              </button>
+            </div>
+            
+            <div class="img_btn" style="margin-top: 75%;">
+              <button type="button" class="color_img" id="stu1_img2" onclick="stu1img2()">
+                <img title="자세불량 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1k8iP5eBS45xROx6B3WRDiNI3D7YHI7b6"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu1_img2_black">
+                <img title="자세불량 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1DM8FXdsu5r3JZDUYm5Jp785OJzBl68Vy"
+                />
+              </button>
+            </div>
+
+            <div class="img_btn" style="margin-top: 140%;">
+              <button type="button" class="color_img" id="stu1_img3" onclick="stu1img3()">
+                <img title="발화유도 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1-pPMAuOWS64jd_wM_YWJDXWq4MKvv3oE"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu1_img3_black">
+                <img title="발화유도 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1j0WSvxV8rebsnckaa6epjT0MauPxOPGK"
+                />
+              </button>
+            </div>
+
+            <div class="img_btn" style="margin-top: 205%;">
+              <button type="button" class="color_img" id="stu1_img4" onclick="stu1img4()">
+                <img title="졸음감지 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1LjdzDlHgJFLkvmNWjNQN3M8WFTMS-16P"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu1_img4_black">
+                <img title="졸음감지 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=11dq_2qJrSu42Pl1feCaRbQUZSbykMMNN"
+                />
+              </button>
+            </div>
           </div>
 
           <script type="text/javascript">
@@ -832,9 +902,8 @@
             margin-right: 35px;
           "
         >
-          <div class="name" id="name2">이관우</div>
 
-          <div style="width: 100%">
+          <div style="width: 80%; margin-bottom: 1.5%; float: left">
             <img
               style="border-radius: 10px"
               src="/video_feed/2"
@@ -849,58 +918,6 @@
             />
             <div class="prenum2">0</div>
 
-            <button
-              type="button"
-              class="img_btn"
-              id="stu2_img1"
-              onclick="stu2img1()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m"
-                width="43px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu2_img1_black">
-              <img
-                src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_"
-                width="43px"
-              />
-            </button>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu2_img2"
-              onclick="stu2img2()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=12eP_qOZLyLYIreg7ErMSG6MOSqLLBvvj"
-                width="40px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu2_img2_black">
-              <img
-                src="https://drive.google.com/uc?id=1ug87xAARi4CJGTCvYkkiDU-yTXlPY47V"
-                width="40px"
-              />
-            </button>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu2_img3"
-              onclick="stu2img3()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp"
-                width="40px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu2_img3_black">
-              <img
-                src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR"
-                width="40px"
-              />
-            </button>
-
             <script type="text/javascript">
               function stu2img1() {
                 document.getElementById("stu2_img1").style.display = "none";
@@ -912,27 +929,78 @@
               }
               function stu2img2() {
                 document.getElementById("stu2_img2").style.display = "none";
-                bombaudio.autoplay = true;
-                bombaudio.volume = 1.0;
-                bombaudio.play();
-                document.getElementById("modal_bomb").style.display = "block";
-                bombinterval = setInterval("decreaseBombtime()", 1000);
+                document.getElementById("posture_modal").style.display = "block";
               }
               function stu2img3() {
                 document.getElementById("stu2_img3").style.display = "none";
                 document.getElementById("modal_speechless").style.display =
                   "block";
               }
+              function stu2img4() {
+                document.getElementById("stu2_img4").style.display = "none";
+                bombaudio.autoplay = true;
+                bombaudio.volume = 1.0;
+                bombaudio.play();
+                document.getElementById("modal_bomb").style.display = "block";
+                bombinterval = setInterval("decreaseBombtime()", 1000);
+              }
             </script>
           </div>
 
-          <div style="margin-top: 7px; margin-right: 2%; float: right">
-            <img
-              id="change2"
-              onclick="changeImg2()"
-              src="https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS"
-              width="40px"
-            />
+          <div style="width: 20%; height: 100%; border-radius: 10px; float: right;
+          border:3px solid black; background: white;">
+            <div class="name">성효제</div>
+            <div class="img_btn" style="margin-top: 10%;">
+              <button type="button" class="color_img" id="stu2_img1" onclick="stu2img1()">
+                <img title="자리비움 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1H9OlaQ0Y3-Dt02du4m_Xe3Vz4ZVuXlwu"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu2_img1_black">
+                <img title="자리비움 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1KgBCk-pccmqtNnoH-QI-lGLL1rnBcaCJ"
+                />
+              </button>
+            </div>
+            
+            <div class="img_btn" style="margin-top: 75%;">
+              <button type="button" class="color_img" id="stu2_img2" onclick="stu2img2()">
+                <img title="자세불량 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1k8iP5eBS45xROx6B3WRDiNI3D7YHI7b6"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu2_img2_black">
+                <img title="자세불량 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1DM8FXdsu5r3JZDUYm5Jp785OJzBl68Vy"
+                />
+              </button>
+            </div>
+
+            <div class="img_btn" style="margin-top: 140%;">
+              <button type="button" class="color_img" id="stu2_img3" onclick="stu2img3()">
+                <img title="발화유도 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1-pPMAuOWS64jd_wM_YWJDXWq4MKvv3oE"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu2_img3_black">
+                <img title="발화유도 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1j0WSvxV8rebsnckaa6epjT0MauPxOPGK"
+                />
+              </button>
+            </div>
+
+            <div class="img_btn" style="margin-top: 205%;">
+              <button type="button" class="color_img" id="stu2_img4" onclick="stu2img4()">
+                <img title="졸음감지 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1LjdzDlHgJFLkvmNWjNQN3M8WFTMS-16P"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu2_img4_black">
+                <img title="졸음감지 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=11dq_2qJrSu42Pl1feCaRbQUZSbykMMNN"
+                />
+              </button>
+            </div>
           </div>
 
           <script type="text/javascript">
@@ -984,9 +1052,8 @@
             margin-right: 35px;
           "
         >
-          <div class="name" id="name3">이진영</div>
 
-          <div style="width: 100%">
+          <div style="width: 80%; margin-bottom: 1.5%; float: left">
             <img
               style="border-radius: 10px"
               src="/video_feed/3"
@@ -1001,58 +1068,6 @@
             />
             <div class="prenum3">0</div>
 
-            <button
-              type="button"
-              class="img_btn"
-              id="stu3_img1"
-              onclick="stu3img1()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m"
-                width="43px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu3_img1_black">
-              <img
-                src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_"
-                width="43px"
-              />
-            </button>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu3_img2"
-              onclick="stu3img2()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=12eP_qOZLyLYIreg7ErMSG6MOSqLLBvvj"
-                width="40px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu3_img2_black">
-              <img
-                src="https://drive.google.com/uc?id=1ug87xAARi4CJGTCvYkkiDU-yTXlPY47V"
-                width="40px"
-              />
-            </button>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu3_img3"
-              onclick="stu3img3()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp"
-                width="40px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu3_img3_black">
-              <img
-                src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR"
-                width="40px"
-              />
-            </button>
-
             <script type="text/javascript">
               function stu3img1() {
                 document.getElementById("stu3_img1").style.display = "none";
@@ -1064,27 +1079,78 @@
               }
               function stu3img2() {
                 document.getElementById("stu3_img2").style.display = "none";
-                bombaudio.autoplay = true;
-                bombaudio.volume = 1.0;
-                bombaudio.play();
-                document.getElementById("modal_bomb").style.display = "block";
-                bombinterval = setInterval("decreaseBombtime()", 1000);
+                document.getElementById("posture_modal").style.display = "block";
               }
               function stu3img3() {
                 document.getElementById("stu3_img3").style.display = "none";
                 document.getElementById("modal_speechless").style.display =
                   "block";
               }
+              function stu3img4() {
+                document.getElementById("stu3_img4").style.display = "none";
+                bombaudio.autoplay = true;
+                bombaudio.volume = 1.0;
+                bombaudio.play();
+                document.getElementById("modal_bomb").style.display = "block";
+                bombinterval = setInterval("decreaseBombtime()", 1000);
+              }
             </script>
           </div>
 
-          <div style="margin-top: 7px; margin-right: 2%; float: right">
-            <img
-              id="change3"
-              onclick="changeImg3()"
-              src="https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS"
-              width="40px"
-            />
+          <div style="width: 20%; height: 100%; border-radius: 10px; float: right;
+          border:3px solid black; background: white;">
+            <div class="name">이진영</div>
+            <div class="img_btn" style="margin-top: 10%;">
+              <button type="button" class="color_img" id="stu3_img1" onclick="stu3img1()">
+                <img title="자리비움 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1H9OlaQ0Y3-Dt02du4m_Xe3Vz4ZVuXlwu"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu3_img1_black">
+                <img title="자리비움 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1KgBCk-pccmqtNnoH-QI-lGLL1rnBcaCJ"
+                />
+              </button>
+            </div>
+            
+            <div class="img_btn" style="margin-top: 75%;">
+              <button type="button" class="color_img" id="stu3_img2" onclick="stu3img2()">
+                <img title="자세불량 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1k8iP5eBS45xROx6B3WRDiNI3D7YHI7b6"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu3_img2_black">
+                <img title="자세불량 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1DM8FXdsu5r3JZDUYm5Jp785OJzBl68Vy"
+                />
+              </button>
+            </div>
+
+            <div class="img_btn" style="margin-top: 140%;">
+              <button type="button" class="color_img" id="stu3_img3" onclick="stu3img3()">
+                <img title="발화유도 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1-pPMAuOWS64jd_wM_YWJDXWq4MKvv3oE"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu3_img3_black">
+                <img title="발화유도 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1j0WSvxV8rebsnckaa6epjT0MauPxOPGK"
+                />
+              </button>
+            </div>
+
+            <div class="img_btn" style="margin-top: 205%;">
+              <button type="button" class="color_img" id="stu3_img4" onclick="stu3img4()">
+                <img title="졸음감지 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1LjdzDlHgJFLkvmNWjNQN3M8WFTMS-16P"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu3_img4_black">
+                <img title="졸음감지 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=11dq_2qJrSu42Pl1feCaRbQUZSbykMMNN"
+                />
+              </button>
+            </div>
           </div>
 
           <script type="text/javascript">
@@ -1136,9 +1202,8 @@
             margin-right: 35px;
           "
         >
-          <div class="name" id="name4">성효제</div>
 
-          <div style="width: 100%">
+          <div style="width: 80%; margin-bottom: 1.5%; float: left">
             <img
               style="border-radius: 10px"
               src="/video_feed/4"
@@ -1153,58 +1218,6 @@
             />
             <div class="prenum4">0</div>
 
-            <button
-              type="button"
-              class="img_btn"
-              id="stu4_img1"
-              onclick="stu4img1()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m"
-                width="43px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu4_img1_black">
-              <img
-                src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_"
-                width="43px"
-              />
-            </button>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu4_img2"
-              onclick="stu4img2()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=12eP_qOZLyLYIreg7ErMSG6MOSqLLBvvj"
-                width="40px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu4_img2_black">
-              <img
-                src="https://drive.google.com/uc?id=1ug87xAARi4CJGTCvYkkiDU-yTXlPY47V"
-                width="40px"
-              />
-            </button>
-            <button
-              type="button"
-              class="img_btn"
-              id="stu4_img3"
-              onclick="stu4img3()"
-            >
-              <img
-                src="https://drive.google.com/uc?id=1O25WWDPEyIb-uGeSbRwk2XBhmZsIvSAp"
-                width="40px"
-              />
-            </button>
-            <button type="button" class="img_btn" id="stu4_img3_black">
-              <img
-                src="https://drive.google.com/uc?id=1htbOrg6qd6kzwHAA1PZxbjp3w-iNIHoR"
-                width="40px"
-              />
-            </button>
-
             <script type="text/javascript">
               function stu4img1() {
                 document.getElementById("stu4_img1").style.display = "none";
@@ -1216,27 +1229,78 @@
               }
               function stu4img2() {
                 document.getElementById("stu4_img2").style.display = "none";
-                bombaudio.autoplay = true;
-                bombaudio.volume = 1.0;
-                bombaudio.play();
-                document.getElementById("modal_bomb").style.display = "block";
-                bombinterval = setInterval("decreaseBombtime()", 1000);
+                document.getElementById("posture_modal").style.display = "block";
               }
               function stu4img3() {
                 document.getElementById("stu4_img3").style.display = "none";
                 document.getElementById("modal_speechless").style.display =
                   "block";
               }
+              function stu4img4() {
+                document.getElementById("stu4_img4").style.display = "none";
+                bombaudio.autoplay = true;
+                bombaudio.volume = 1.0;
+                bombaudio.play();
+                document.getElementById("modal_bomb").style.display = "block";
+                bombinterval = setInterval("decreaseBombtime()", 1000);
+              }
             </script>
           </div>
 
-          <div style="margin-top: 7px; margin-right: 2%; float: right">
-            <img
-              id="change4"
-              onclick="changeImg4()"
-              src="https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS"
-              width="40px"
-            />
+          <div style="width: 20%; height: 100%; border-radius: 10px; float: right;
+          border:3px solid black; background: white;">
+            <div class="name">최시열</div>
+            <div class="img_btn" style="margin-top: 10%;">
+              <button type="button" class="color_img" id="stu4_img1" onclick="stu4img1()">
+                <img title="자리비움 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1H9OlaQ0Y3-Dt02du4m_Xe3Vz4ZVuXlwu"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu4_img1_black">
+                <img title="자리비움 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1KgBCk-pccmqtNnoH-QI-lGLL1rnBcaCJ"
+                />
+              </button>
+            </div>
+            
+            <div class="img_btn" style="margin-top: 75%;">
+              <button type="button" class="color_img" id="stu4_img2" onclick="stu4img2()">
+                <img title="자세불량 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1k8iP5eBS45xROx6B3WRDiNI3D7YHI7b6"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu4_img2_black">
+                <img title="자세불량 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1DM8FXdsu5r3JZDUYm5Jp785OJzBl68Vy"
+                />
+              </button>
+            </div>
+
+            <div class="img_btn" style="margin-top: 140%;">
+              <button type="button" class="color_img" id="stu4_img3" onclick="stu4img3()">
+                <img title="발화유도 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1-pPMAuOWS64jd_wM_YWJDXWq4MKvv3oE"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu4_img3_black">
+                <img title="발화유도 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=1j0WSvxV8rebsnckaa6epjT0MauPxOPGK"
+                />
+              </button>
+            </div>
+
+            <div class="img_btn" style="margin-top: 205%;">
+              <button type="button" class="color_img" id="stu4_img4" onclick="stu4img4()">
+                <img title="졸음감지 Agent 활성화됨" width="100%"
+                  src="https://drive.google.com/uc?id=1LjdzDlHgJFLkvmNWjNQN3M8WFTMS-16P"
+                />
+              </button>
+              <button type="button" class="black_img" id="stu4_img4_black">
+                <img title="졸음감지 Agent" width="100%"
+                  src="https://drive.google.com/uc?id=11dq_2qJrSu42Pl1feCaRbQUZSbykMMNN"
+                />
+              </button>
+            </div>
           </div>
 
           <script type="text/javascript">
@@ -1451,6 +1515,10 @@
                 student4_count[2]++;
               }
               if (time_count % 15 === 0) {
+                if(time_count > 15*17)
+                {
+                  continue;
+                }
                 var student1_max = Math.max(...student1_count);
                 var student2_max = Math.max(...student2_count);
                 var student3_max = Math.max(...student3_count);
