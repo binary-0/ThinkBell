@@ -374,27 +374,7 @@
           <img style="border-radius: 10px" src="/video_feed/1" width="100%" height="325px">
           <img class="present" id="present1" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
           <div class="prenum1">0</div>
-          <script type="text/javascript">
-          $(function() {
-		  var cnt0 = 0;
-
-		  counterFn();
-
-		  function counterFn() {
-
-		    id0 = setInterval(count0Fn, 4000);
-
-		    function count0Fn() {
-		      cnt0++;
-		      if (cnt0 > 20) {
-		        clearInterval(id0);
-		      } else {
-		        $(".prenum1").text(cnt0);
-		      }
-		    }
-		  }
-		});
-          </script>
+          
           <button type="button" class="img_btn" id="stu1_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
           <button type="button" class="img_btn" id="stu1_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
           <button type="button" class="img_btn" id="stu1_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
@@ -447,27 +427,7 @@
           <img style="border-radius: 10px" src="/video_feed/2" width="100%" height="325px">
           <img class="present" id="present2" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
           <div class="prenum2">0</div>
-          <script type="text/javascript">
-          $(function() {
-		  var cnt0 = 0;
-
-		  counterFn();
-
-		  function counterFn() {
-
-		    id0 = setInterval(count0Fn, 5000);
-
-		    function count0Fn() {
-		      cnt0++;
-		      if (cnt0 > 14) {
-		        clearInterval(id0);
-		      } else {
-		        $(".prenum2").text(cnt0);
-		      }
-		    }
-		  }
-		});
-          </script>
+          
           <button type="button" class="img_btn" id="stu2_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
           <button type="button" class="img_btn" id="stu2_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
           <button type="button" class="img_btn" id="stu2_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
@@ -520,27 +480,7 @@
           <img style="border-radius: 10px" src="/video_feed/3" width="100%" height="325px">
           <img class="present" id="present3" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
           <div class="prenum3">0</div>
-          <script type="text/javascript">
-          $(function() {
-		  var cnt0 = 0;
-
-		  counterFn();
-
-		  function counterFn() {
-
-		    id0 = setInterval(count0Fn, 2500);
-
-		    function count0Fn() {
-		      cnt0++;
-		      if (cnt0 > 33) {
-		        clearInterval(id0);
-		      } else {
-		        $(".prenum3").text(cnt0);
-		      }
-		    }
-		  }
-		});
-          </script>
+          
           <button type="button" class="img_btn" id="stu3_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
           <button type="button" class="img_btn" id="stu3_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
           <button type="button" class="img_btn" id="stu3_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
@@ -572,53 +512,6 @@
           <img id="base3" name="base3" style="border: 2px double black; border-radius: 10px; margin-left: 0.5%; padding: 2px;" src="http://file3.instiz.net/data/cached_img/upload/2018/09/15/3/df02e3d32cff9daa71b92e54cf8ee6c4_mp4.gif" width="90%" height="42px">
         </div>
 
-        <div
-          id="testimg"
-        >
-        </div>
-
-        <script type='text/javascript'>
-          var image = new Image(600,500);
-          var sb = document.getElementById("testimg");
-          setInterval(function(){
-            $.ajax({
-              url : "/vad_img_feed",
-              type : "POST",
-              success : function(response){
-                console.log("success!!")
-                image.src='{{url_for('vad_img_feed')}}';
-                console.log(response)
-                sb.appendChild(image);
-              },
-              error : function(error){
-                console.log("fig2 err!!!");
-              },
-            });
-          },1000); 
-      </script>
-          
-        
-
-      <script type='text/javascript'>
-        setInterval(function(){
-          $.ajax({
-            url : "/vad_feed",
-            type : "POST",
-            success : function(response){
-              console.log("success!!")
-          
-              console.log(response['SpeechCount1'])
-              console.log(response['SpeechCount2'])
-              console.log(response['SpeechCount3'])
-              console.log(response['SpeechCount4'])
-
-            },
-            error : function(error){
-              console.log("fig2 err!!!");
-            },
-          });
-        },1000); 
-    </script>
       </div>
       </div>
 
@@ -640,27 +533,7 @@
           <img style="border-radius: 10px" src="/video_feed/4" width="100%" height="325px">
           <img class="present" id="present4" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
           <div class="prenum4">0</div>
-          <script type="text/javascript">
-          $(function() {
-		  var cnt0 = 0;
-
-		  counterFn();
-
-		  function counterFn() {
-
-		    id0 = setInterval(count0Fn, 7000);
-
-		    function count0Fn() {
-		      cnt0++;
-		      if (cnt0 > 8) {
-		        clearInterval(id0);
-		      } else {
-		        $(".prenum4").text(cnt0);
-		      }
-		    }
-		  }
-		});
-          </script>
+          
           <button type="button" class="img_btn" id="stu4_img1"><img src="https://drive.google.com/uc?id=1Qs4u_20br4AwxSuMxwcOA7BclmxRKW3m" width="43px"></button>
           <button type="button" class="img_btn" id="stu4_img1_black"><img src="https://drive.google.com/uc?id=1Bxd72DufXTzTgZUDe84I2M6ofJ7UpGw_" width="43px"></button>
           <button type="button" class="img_btn" id="stu4_img2"><img src="https://drive.google.com/uc?id=1h0GkOGAMo1CZfBwpuBFV2OS0qkYZUW1o" width="40px"></button>
@@ -695,6 +568,12 @@
       </div>
       </div>
 
+      <div style="width: 100%;">
+        <img style="border-radius: 10px" src="/video_feed/5" width="100%" height="325px">
+        <img class="present" id="present4" width="40px" src="https://drive.google.com/uc?id=1S0dRFDShQN0Y221edlyJKSy52PrbZPoO">
+        <div class="prenum4">0</div>
+      </div>
+      
       <!--(menubar)-->
       <div class="item">
         <div class="container">
@@ -731,6 +610,30 @@
       </div>
       </div>
 
+      <script type='text/javascript'>
+        setInterval(function(){
+          $.ajax({
+            url : "/vad_feed",
+            type : "POST",
+            success : function(response){
+              console.log("vad feed success!!")
+          
+              console.log(response['SpeechCount1'])
+              console.log(response['SpeechCount2'])
+              console.log(response['SpeechCount3'])
+              console.log(response['SpeechCount4'])
+
+              $(".prenum1").text(response['SpeechCount1']);
+              $(".prenum2").text(response['SpeechCount2']);
+              $(".prenum3").text(response['SpeechCount3']);
+              $(".prenum4").text(response['SpeechCount4']);
+            },
+            error : function(error){
+              console.log("vad feed err!!!");
+            },
+          });
+        },1000); 
+    </script>
     </div>
   </body>
 </html>

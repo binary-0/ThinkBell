@@ -9,7 +9,7 @@ torchaudio.set_audio_backend("soundfile")
 import pyaudio
 import time
 from io import BytesIO
-import globalVAR
+# import globalVAR
 
 plt.rcParams["figure.figsize"]=(12,3)
 
@@ -123,14 +123,14 @@ def vadStart(wavPATH):
         # new_confidence = vad_outs[:, 1]
 
 
-        if new_confidence>0.7 and isAgain is False:
+        if new_confidence>0.5 and isAgain is False: #threshold 이상!
             isAgain = True
             checkTime = time.time()
 
         if isAgain is True:
             temp_confidence.append(new_confidence)
             nowTime=time.time()
-            if nowTime - checkTime > 6: #6초의 타임스팬에서
+            if nowTime - checkTime > 2: #6초의 타임스팬에서
                 temp_avg = sum(temp_confidence)/len(temp_confidence)
                 temp_spoken = sum(map(lambda x: x > 0.6, temp_confidence))
                 temp_spoken_ratio = temp_spoken/len(temp_confidence)

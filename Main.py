@@ -26,12 +26,8 @@ import YOLODetection
 from YOLO.yolo_postprocess import YOLO
 from tensorflow.python.framework.ops import disable_eager_execution
 from YOLODetection import process_detection
-import globalVAR
-import matplotlib.pylab as plt
-from io import BytesIO
 
-
-from multiprocessing import Process, Queue
+from multiprocessing import Process
 
 from flask import Flask, render_template, Response, jsonify, send_file, request
 
@@ -58,7 +54,6 @@ def preform():
     print('///1///')
     return render_template('preform.html', send=1)
 
-global plotImg
 
 @app.route('/', methods=['POST'])
 def index():
@@ -73,13 +68,17 @@ def index():
         'time': timeString
     }
 
-    global CALITIME
-    global TIMETHRESHOLD
+    global STD_HUMAN_LABEL
+    global LABEL_VAL
     result = request.form
-    CALITIME = int(result["calitime"])
-    TIMETHRESHOLD = int(result["logtime"])
+    STD_HUMAN_LABEL = int(result["calitime"])  # 사람별 or 라벨별 기준값
+    LABEL_VAL = int(result["logtime"]) # 라벨값
+
     global systemEnded
     systemEnded = False
+
+    global TIMETHRESHOLD
+    TIMETHRESHOLD = 3
 
     global createdTag
     createdTag = [[], [], [], []]
@@ -113,17 +112,24 @@ def index():
     global isStartAudio
     isStartAudio=False
 
-    # global globalVAR.vc1, globalVAR.vc2, globalVAR.vc3, globalVAR.vc4
-    
-    
+
     global logFile
     logFile = list(range(4))
     for i in range(0, 4):
         logFile[i] = open(f"evalLog{i + 1}.txt", "w")
 
-    global labels    
+    global labels
     labelFile = open('AllLabels.csv','r')
     labels = csv.reader(labelFile)
+
+    global labelFile_0
+    global labelFile_1
+    global labelFile_2
+    global labelFile_3
+    labelFile_0 = open('./labelZero.txt')
+    labelFile_1 = open('./labelOne.txt')
+    labelFile_2 = open('./labelTwo.txt')
+    labelFile_3 = open('./labelThree.txt')
 
     g_frame = None
 
@@ -162,69 +168,19 @@ def index():
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
     # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
 
+    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
+    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
+    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
+    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
+    # threading.Thread(target=getVADdata).start()
+
     global g_webcamVC
     g_webcamVC = cv2.VideoCapture(0)
     g_webcamVC.set(3, 640)
     g_webcamVC.set(4, 480)
     wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
 
-    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
-    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
-    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
-    threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()  
-    threading.Thread(target=getVADdata).start()
-
-    # while True:
-    #     print(vc1, vc2, vc3, vc4)
-    #     time.sleep(500)
     return render_template('index.html', **templateData)
-
-plt.rcParams["figure.figsize"]=(12,8)
-
-def getVADdata():
-    while True: 
-        global vc1, vc2, vc3, vc4
-        global sc1, sc2, sc3, sc4
-        vc1,sc1 = VoiceActivityDetection.setVADdata(1)
-        vc2,sc2 = VoiceActivityDetection.setVADdata(2)
-        vc3,sc3 = VoiceActivityDetection.setVADdata(3)
-        vc4,sc4 = VoiceActivityDetection.setVADdata(4)
-        
-        plt.ylim([0,1])
-        plt.xticks([])
-        plt.axhline(y=0.7, color='r')
-        fig, axs = plt.subplots(4)
-
-        axs[0].plot(vc1)
-        axs[0].set_ylim([0,0.7])
-        axs[0].axhline(y=0.5, color='r')
-        axs[1].plot(vc2)
-        axs[1].set_ylim([0,0.7])
-        axs[1].axhline(y=0.5, color='r')
-        axs[2].plot(vc3)
-        axs[2].set_ylim([0,0.7])
-        axs[2].axhline(y=0.5, color='r')
-        axs[3].plot(vc4)
-        axs[3].set_ylim([0,0.7])
-        axs[3].axhline(y=0.5, color='r')
-        imgBytes = BytesIO()
-        plt.savefig(imgBytes, format='png', bbox_inches='tight', dpi=200)
-        yield (b'--frame\r\n'b'Content-Type: image/png\r\n\r\n' + imgBytes.getvalue() + b'\r\n')
-        # global plotImg
-        # plotImg = imgBytes
-        # temp1 = VoiceActivityDetection.setVC1()
-        # temp2 = VoiceActivityDetection.setVC2()
-        # print(temp1)
-        # print("\n\n\n", temp2, "시발\n\n\n\n")
-        # time.sleep(1)
-        # plt.plot(vc1)
-        # plt.pause(0.000001)
-        # plt.clf()
-        # plt.clf()
-        # time.sleep(1)
-        # print(vc1[:5],vc2[:5],vc3[:5],vc4[:5],"\n\n\n\n")
-        
-
 
 def play_audio():
     global isStartAudio
@@ -250,7 +206,7 @@ def vad_ctrl():
     # SpeechCount2 = VoiceActivityDetection.getSC(2)
     # SpeechCount3 = VoiceActivityDetection.getSC(3)
     # SpeechCount4 = VoiceActivityDetection.getSC(4)
-    
+
     # print("\n\n\n디버기이잉", SpeechCount1, SpeechCount2, SpeechCount3, SpeechCount4)
 
 def real_gen_frames():
@@ -259,7 +215,6 @@ def real_gen_frames():
 
     global loadingComplete
     loadingComplete = True
-
     global isLiveLocal
     global g_frame
     peerNum = 5
@@ -271,7 +226,8 @@ def real_gen_frames():
 
     startTime = time.time()
     prevTime = startTime
-    global CALITIME
+    global STD_HUMAN_LABEL
+    global LABEL_VAL
     global TIMETHRESHOLD
     print(str(LABEL_VAL - 0))
     CNNTime = [None, None, None, None, None]
@@ -294,6 +250,8 @@ def real_gen_frames():
     frameBack = 0
     #dQ = [detectionQueue(), detectionQueue(), detectionQueue(), detectionQueue()]
 
+    firstImg = cv2.imread('./FirstImage.jpg')
+    global predOnce
     time.sleep(3)
 
     faceAddedTime = [0, 0, 0, 0, 0]
@@ -312,7 +270,7 @@ def real_gen_frames():
 
         if g_frame is None:
             continue
-
+        
         frCnt += 1
         try:
             print('FPS: ' + str(1 / (sec)))
@@ -345,8 +303,9 @@ def real_gen_frames():
             for i in range(0, peerNum):
                 rgbFrame[i] = cv2.cvtColor(sendedFrame[i], cv2.COLOR_BGR2RGB)
         except:
-            print("Video Ended.")
-            break
+            print("Couldn't grapped. Maybe video is changing..")
+            continue
+            #break
 
         ### FOR YOLO ###
         
@@ -444,6 +403,38 @@ def justWebCAM():
             myBytes = buffer.tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + myBytes + b'\r\n')
 
+class detectionQueue:
+    def __init__(self):
+        self.que = Queue()
+        self.size = 0
+        self.sum = 0
+        self.avg = 0
+
+        self.yelloThresh = 4
+        self.redThresh = 6
+        self.maxSize = 10
+
+    def detectionPush(self, data):
+        if self.size < self.maxSize:
+            self.que.put(data)
+            self.size += 1
+            self.sum += data
+            self.avg = self.sum / self.size
+
+            return 0
+        else:
+            deq = self.que.get()
+            self.que.put(data)
+            self.sum += data
+            self.sum -= deq
+            self.avg = self.sum / self.size
+
+            if self.avg > (self.redThresh / self.maxSize):
+                return 3
+            elif self.avg > (self.yelloThresh / self.maxSize):
+                return 2
+            else:
+                return 1
 
 class Streaming:
     def __init__(self, peer):
@@ -457,10 +448,11 @@ class Streaming:
         g_frame = list(range(self.peerNum))
         frameReady = list(range(self.peerNum))
 
-        self.redImg = np.full((720, 1280, 3), (0, 0, 255), dtype=np.uint8)
-        self.greenImg = np.full((720, 1280, 3), (0, 255, 0), dtype=np.uint8)
-        self.blueImg = np.full((720, 1280, 3), (255, 0, 0), dtype=np.uint8)
-        self.yelloImg = np.full((720, 1280, 3), (0, 255, 255), dtype=np.uint8)
+        self.redImg = np.full((480, 640, 3), (0, 0, 255), dtype=np.uint8)
+        self.greenImg = np.full((480, 640, 3), (0, 255, 0), dtype=np.uint8)
+        self.neutralImg = np.full((480, 640, 3), (160, 172, 203), dtype=np.uint8)
+        self.blueImg = np.full((480, 640, 3), (255, 0, 0), dtype=np.uint8)
+        self.yelloImg = np.full((480, 640, 3), (0, 255, 255), dtype=np.uint8)
 
         if isLiveLocal is 0:
             self.srcPath = 0
@@ -473,13 +465,13 @@ class Streaming:
             self.cap = cv2.VideoCapture(self.srcPath)
 
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
-        self.labeledEngagement = -1
+        # self.labeledEngagement = -1
 
-        global labels
-        for line in labels:
-            if line[0] == self.srcPath :
-                self.labeledEngagement = int(line[2])
-                break
+        # global labels
+        # for line in labels:
+        #     if line[0] == self.srcPath :
+        #         self.labeledEngagement = int(line[2])
+        #         break
 
         global mfccStartTime
         mfccStartTime = time.time()
@@ -515,7 +507,8 @@ class Streaming:
                         cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
-                        colorStatus[peer - 1] = 0                      
+                        colorStatus[peer - 1] = 0
+                        
                     elif predEngage[peer - 1] is 2: #neutral
                         l_frame = cv2.addWeighted(self.neutralImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (160, 172, 203), 20)
@@ -665,18 +658,38 @@ class Streaming_LabelBased:
                         cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
-                        else:
-                            cv2.putText(l_frame, f'Engagement: {predEngage[peer - 1]} / Cor: {self.labeledEngagement}', (10, 100),
+                    else: #highly engaged
+                        l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
+                        cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 255, 0), 20)
+                        cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
+                                cv2.LINE_AA)
+                        cv2.putText(l_frame, f'Prediction: {predEngage[peer - 1]}', (10, 100),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                                 cv2.LINE_AA)
-
-
+                    
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
                     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + l_frame + b'\r\n')
                     isStartAudio=True
                 else:
-                    break
+                    if self.engageLevel is 0:
+                        self.srcPath = labelFile_0.readline()
+                    elif self.engageLevel is 1:
+                        self.srcPath = labelFile_1.readline()
+                    elif self.engageLevel is 2:
+                        self.srcPath = labelFile_2.readline()
+                    elif self.engageLevel is 3:
+                        self.srcPath = labelFile_3.readline()
+
+                    if not self.srcPath:
+                        print('Everything Has Done Successfully.')
+                        exit()
+                        break
+
+                    self.srcPath = './DAiSEE/DataSet/Test/' + self.srcPath[0:6] + '/' + self.srcPath[
+                                                                                        0:-4] + '/' + self.srcPath
+                    self.cap = cv2.VideoCapture(self.srcPath)
 
                 if isLiveLocal is 1:
                     if cv2.waitKey(10) & 0xFF == ord('q'):  # press q to quit
@@ -692,10 +705,15 @@ def video_feed(peer):
     global isRealDebug
     global frameReady
     global loadingComplete
-    wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
-    cv2.waitKey(200)
-    if isRealDebug is 0:
+    global STD_HUMAN_LABEL
+    global LABEL_VAL
+    #wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
+    #cv2.waitKey(200)
+    if isRealDebug is 0 and STD_HUMAN_LABEL is 1:
         return Response(Streaming(peer).local_frames(peer),
+                        mimetype='multipart/x-mixed-replace; boundary=frame')
+    elif isRealDebug is 0 and STD_HUMAN_LABEL is 2:
+        return Response(Streaming_LabelBased(peer, LABEL_VAL).local_frames(peer),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     else:
         pass
@@ -706,8 +724,6 @@ def video_feed(peer):
 
 @app.route('/justWebCAM_feed')
 def justWebCAM_feed():
-    global loadingComplete
-    wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
     return Response(justWebCAM(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -750,80 +766,39 @@ def generalStat_feed(peer):
 def vad_feed():
     # global silence
     # global size
-    # global sc1
-    # global sc2
-    # global sc3
-    # global sc4
     sc1 = VoiceActivityDetection.setSC1()
     sc2 = VoiceActivityDetection.setSC2()
     sc3 = VoiceActivityDetection.setSC3()
     sc4 = VoiceActivityDetection.setSC4()
     return jsonify({
-        'SpeechCount1': int(sc1),
-        'SpeechCount2': int(sc2),
-        'SpeechCount3': int(sc3),
-        'SpeechCount4': int(sc4)
+        'SpeechCount1': str(sc1),
+        'SpeechCount2': str(sc2),
+        'SpeechCount3': str(sc3),
+        'SpeechCount4': str(sc4)
     })
-import base64
-@app.route('/vad_img_feed', methods=['POST'])
-# @app.route('/vad_img_feed')
-def vad_img_feed():
-    vc1,sc1 = VoiceActivityDetection.setVADdata(1)
-    vc2,sc2 = VoiceActivityDetection.setVADdata(2)
-    vc3,sc3 = VoiceActivityDetection.setVADdata(3)
-    vc4,sc4 = VoiceActivityDetection.setVADdata(4)
-    
-    # plt.ylim([0,1])
-    # plt.xticks([])
-    # plt.axhline(y=0.7, color='r')
-    fig, axs = plt.subplots(4)
 
-    axs[0].plot(vc1)
-    axs[0].set_ylim([0,0.7])
-    axs[0].axhline(y=0.5, color='r')
-    axs[1].plot(vc2)
-    axs[1].set_ylim([0,0.7])
-    axs[1].axhline(y=0.5, color='r')
-    axs[2].plot(vc3)
-    axs[2].set_ylim([0,0.7])
-    axs[2].axhline(y=0.5, color='r')
-    axs[3].plot(vc4)
-    axs[3].set_ylim([0,0.7])
-    axs[3].axhline(y=0.5, color='r')
-    imgByte = BytesIO()
-    # plt.show()
-
-    plt.savefig(imgByte, format='png', bbox_inches='tight', dpi=200)
-    # global plotImg
-    # plotImg = imgBytes
-    imgByte.seek(0)
-    # encoded_string = base64.b64encode(imgByte.read())
-
-    return send_file(imgByte, mimetype='image/png')
-    # return Response(getVADdata(),mimetype='image/png')
-
-# @app.route('/fig1')
+# @app.route('/fig1', methods=['POST'])
 # def fig1():
 #     global img1
-#     img1 = VoiceActivityDetection.getPlot(1)
+#     #img1 = VoiceActivityDetection.getPlot(1)
 #     return send_file(img1, mimetype='image/png')
 
-# @app.route('/fig2')
+# @app.route('/fig2', methods=['POST'])
 # def fig2():
 #     global img2
-#     img2 = VoiceActivityDetection.getPlot(2)
+#     #img2 = VoiceActivityDetection.getPlot(2)
 #     return send_file(img2, mimetype='image/png')
 
 # @app.route('/fig3')
 # def fig3():
 #     global img3
-#     img3 = VoiceActivityDetection.getPlot(3)
+#     #img3 = VoiceActivityDetection.getPlot(3)
 #     return send_file(img3, mimetype='image/png')
 
 # @app.route('/fig4')
 # def fig4():
 #     global img4
-#     img4 = VoiceActivityDetection.getPlot(4)
+#     #img4 = VoiceActivityDetection.getPlot(4)
 #     return send_file(img4, mimetype='image/png')
 
 
