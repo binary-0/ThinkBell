@@ -84,6 +84,9 @@ def index():
     global createdTag
     createdTag = [[], [], [], []]
 
+    global isVideoEnded
+    isVideoEnded = False
+
     global silence
     global size
     global logStartTime
@@ -104,6 +107,7 @@ def index():
 
     global colorStatus #0: Red / 1: Cream / 2: Green
     colorStatus = [2, 2, 2, 2]
+    
     global generalStatus # index 0: 자리비움 / 1: 면적 줄어듬 / 2: 발표안함
     generalStatus = [[False, False, False, False], [False, False, False, False], [False, False, False, False], [False, False, False, False]]
 
@@ -393,7 +397,7 @@ def real_gen_frames():
 
                 if EAR[i] is not None:
                     earCurTime = time.time()
-                    if EAR[i] < EARAvg[i] * 0.925:
+                    if EAR[i] < EARAvg[i] * 0.91:
                         if EARTime[i] is None:
                             EARTime[i] = earCurTime
                         else:
@@ -517,8 +521,10 @@ class Streaming:
         else:
             self.srcFold = f'./selfTestVideos/{peer}/'
             self.srcVideoText = open(f'./selfTestVideos/{peer}/videos.txt')
+            self.humanLabelText = open(f'./selfTestVideos/{peer}/humanMadeLabel.txt')
 
             self.srcPath = self.srcFold + self.srcVideoText.readline()
+            self.humanLabel = self.humanLabelText.readline()
             self.cap = cv2.VideoCapture(self.srcPath)
 
         # wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
@@ -609,6 +615,20 @@ class Streaming:
                         generalStatus[peer - 1][3] = True
                     else:
                         generalStatus[peer - 1][3] = False
+                    
+                    if peer is not 1:
+                        if int(self.humanLabel) is 0:
+                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #red
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2,
+                                        cv2.LINE_AA)
+                        elif int(self.humanLabel) is 1:
+                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #cream
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (160, 172, 203), 2,
+                                        cv2.LINE_AA)
+                        else:
+                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #green
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2,
+                                        cv2.LINE_AA)
 
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
@@ -617,10 +637,21 @@ class Streaming:
                 else:
                     if peer is not 1:
                         self.srcPath = self.srcVideoText.readline()
+                        self.humanLabel = self.humanLabelText.readline()
                         
                         print('Done?')
                         if not self.srcPath:
+                            colorStatus = [-1, -1, -1, -1]
+                            global isVideoEnded
+                            isVideoEnded = False
+                            
+                            wait(lambda: isVideoEnded, timeout_seconds=120, waiting_for="video rewind process")
+
+                            #REWIND
                             self.srcVideoText.seek(0)
+                            self.humanLabelText.seek(0)
+                            colorStatus = [2, 2, 2, 2]
+
                             continue
                         self.srcPath = self.srcFold + self.srcPath
                         self.cap = cv2.VideoCapture(self.srcPath)
@@ -628,7 +659,7 @@ class Streaming:
                         print('webcam error.')
 
                 if isLiveLocal is 1:
-                    if cv2.waitKey(25) & 0xFF == ord('q'):  # press q to quit
+                    if cv2.waitKey(15) & 0xFF == ord('q'):  # press q to quit
                         break
 
         else:
@@ -772,6 +803,20 @@ class Streaming_LabelBased:
                         generalStatus[peer - 1][3] = True
                     else:
                         generalStatus[peer - 1][3] = False
+
+                    if peer is not 1:
+                        if int(LABEL_VAL) is 0 or int(LABEL_VAL) is 1:
+                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #red
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2,
+                                        cv2.LINE_AA)
+                        elif int(LABEL_VAL) is 2:
+                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #cream
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (160, 172, 203), 2,
+                                        cv2.LINE_AA)
+                        else:
+                            cv2.putText(l_frame, f'<Answer Color>', (10, 50), #green
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2,
+                                        cv2.LINE_AA)
                     
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
@@ -789,9 +834,17 @@ class Streaming_LabelBased:
                             self.srcPath = labelFile_3.readline()
 
                         if not self.srcPath:
-                            print('Everything Has Done Successfully.')
-                            exit()
-                            break
+                            colorStatus = [-1, -1, -1, -1]
+
+                            global isVideoEnded
+                            isVideoEnded = False
+
+                            wait(lambda: loadingComplete, timeout_seconds=120, waiting_for="video process ready")
+                            #REWIND
+                            self.srcVideoText.seek(0)
+                            colorStatus = [2, 2, 2, 2]
+
+                            continue
 
                         self.srcPath = './DAiSEE/DataSet/Test/' + self.srcPath[0:6] + '/' + self.srcPath[
                                                                                             0:-4] + '/' + self.srcPath
@@ -834,6 +887,15 @@ def video_feed(peer):
 def justWebCAM_feed():
     return Response(justWebCAM(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/video_rewind')
+def video_rewind():
+    global isVideoEnded
+    global colorStatus #0: Red / 1: Cream / 2: Green
+    isVideoEnded = True
+    colorStatus = [2, 2, 2, 2]
+
+    return (''), 204
 
 
 @app.route('/mfccend', methods=['POST'])
