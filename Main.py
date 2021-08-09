@@ -27,7 +27,7 @@ from YOLO.yolo_postprocess import YOLO
 from tensorflow.python.framework.ops import disable_eager_execution
 from YOLODetection import process_detection
 # import single_live_vad
-from multiprocessing import Process
+from multiprocessing import Process, Value
 from EAR import calculate_ear
 
 from flask import Flask, render_template, Response, jsonify, send_file, request
@@ -971,6 +971,7 @@ def vad_feed():
     sc2 = rsc2.value
     sc3 = rsc3.value
     sc4 = rsc4.value
+    print(sc1, sc2, sc3, sc4, "vad성공wwwwww\n")
     return jsonify({
         'SpeechCount1': str(sc1),
         'SpeechCount2': str(sc2),
