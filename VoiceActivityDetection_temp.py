@@ -78,14 +78,15 @@ def stop():
 #     vadStart("SampleAudio3.wav")
 #     vadStart("SampleAudio4.wav")
 
-def vadStart(wavPATH, sCount):
-    audio = pyaudio.PyAudio()
-
+def vadStart(wavPATH):
+    # audio = pyaudio.PyAudio()
+    
     # wave.open(wavPATH, 'rb')
     with wave.open(wavPATH, 'rb') as f:
         width = f.getsampwidth()
         channels = f.getnchannels()
         rate = f.getframerate() 
+        frames = f.getnframes()
     
         # stream = audio.open(
         #     format=width,
@@ -94,7 +95,13 @@ def vadStart(wavPATH, sCount):
         #     frames_per_buffer=int(rate / 10),
         #     output = True
         # )
-
+        stream = pyaudio.PyAudio().open(
+            format = pyaudio.paInt16,
+            channels = 1,
+            rate = 16000,
+            frames_per_buffer = 1600,
+            output=True
+        )
         startTime=time.time()
         data = []
         voiced_confidences = [] #이게 문제가 될 수도?
@@ -110,20 +117,21 @@ def vadStart(wavPATH, sCount):
         temp_confidence = []
         speechCount = 0
         checkTime = 0
-        i=1
-        while continue_recording:
-            # audio_chunk = stream.read(int(SAMPLE_RATE * frame_duration_ms / 1000.0), exception_on_overflow=False)
-            audio_chunk = f.readframes(int(SAMPLE_RATE * frame_duration_ms / 1000.0))
-            # print(type(audio_chunk))
-            # print(int(SAMPLE_RATE * frame_duration_ms / 1000.0))
-            # data.append(audio_chunk)
 
+        read = f.readframes(int(SAMPLE_RATE * frame_duration_ms / 1000.0))
+
+    
+
+        while read:
+            stream.write(read)
+            audio_chunk = stream.read(int(SAMPLE_RATE * frame_duration_ms / 1000.0))
+            # audio_chunk = f.readframes(int(rate * (frames/rate) / 1000.0))
+
+            # audio_chunk = f.readframes(int(rate))
+            
             audio_int16 = np.frombuffer(audio_chunk, np.int16)
             audio_float32 = int2float(audio_int16)
-            
-            # if(int(time.time()-startTime)):
-            #     print(i, "초!")
-            #     i=i+1
+
             # get the confidences and add them to the list to plot them later
             vad_outs = validate(model, torch.from_numpy(audio_float32))
 
@@ -157,44 +165,46 @@ def vadStart(wavPATH, sCount):
             test_confidences.append(new_confidence)
 
             # print(wavPATH,"\t\t\t", voiced_confidences, "\n\n\n")
-            sCount.value = speechCount
 
             if wavPATH=='record1.wav':
                 global vc1, sc1
                 vc1 = voiced_confidences
                 sc1 = speechCount
-                # print(vc1, sc1)
+                print("나 1", sc1)
                 # que.put("1")
             elif wavPATH=='record2.wav':
                 global vc2, sc2
                 vc2 = voiced_confidences
                 sc2 = speechCount
-                # print(vc2, sc2)
+                print("나 2", sc2)
                 # que.put("2")
             elif wavPATH=='record3.wav':
                 global vc3, sc3
                 vc3 = voiced_confidences
                 sc3 = speechCount
-                # print(vc3, sc3)
+                print("나 3",sc3)
                 # globalVAR.vc3.append(voiced_confidences)
             elif wavPATH=='record4.wav':
                 global vc4, sc4
                 vc4 = voiced_confidences
                 sc4 = speechCount
-                # print(vc4, sc4)
+                print("나 4",sc4)
                 # globalVAR.vc4.append(voiced_confidences)
             # print(type(voiced_confidences))
 
             # pp.update(new_confidence)
 
             #여기가 플롯팅 파트인데 잠시
-            plt.switch_backend('agg')
-            plt.clf()
-            plt.ylim([0,1])
-            plt.xticks([])
-            plt.plot(voiced_confidences)
-            plt.axhline(y=0.7, color='r')
-            plt.pause(0.00001)
+            # plt.switch_backend('agg')
+            # plt.clf()
+            # plt.ylim([0,1])
+            # plt.xticks([])
+            # plt.plot(voiced_confidences)
+            # plt.axhline(y=0.7, color='r')
+            # plt.pause(0.00001)
+            # time.sleep(0.00001)
+            read = f.readframes(int(SAMPLE_RATE * frame_duration_ms / 1000.0))
+
 
 
     print("\n\n총 발표 횟수 : ",speechCount)
