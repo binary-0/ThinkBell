@@ -12,7 +12,7 @@ import microphone_checker_stream
 #from HeadPoseRevised import process_detection
 #from EAR import calculate_ear
 # import microphone_checker_stream
-# import VoiceActivityDetection
+import VoiceActivityDetection
 from waiting import wait
 import json
 from queue import Queue
@@ -26,7 +26,7 @@ import YOLODetection
 from YOLO.yolo_postprocess import YOLO
 from tensorflow.python.framework.ops import disable_eager_execution
 from YOLODetection import process_detection
-import single_live_vad
+# import single_live_vad
 from multiprocessing import Process
 from EAR import calculate_ear
 
@@ -171,17 +171,20 @@ def index():
     # audio_thread = threading.Thread(target=play_audio)
     # audio_thread.start()
 
-    # threading.Thread(target=vad_ctrl).start()
-    # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
-    # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
-    # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
-    # Process(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
+    global rsc1
+    global rsc2
+    global rsc3
+    global rsc4
 
-    # threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio1.wav",)).start()
-    # threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio2.wav",)).start()
-    # threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio3.wav",)).start()
-    # threading.Thread(target=VoiceActivityDetection.vadStart, args=("SampleAudio4.wav",)).start()
-    # threading.Thread(target=getVADdata).start()
+    rsc1 = Value('i', 0)
+    rsc2 = Value('i', 0)
+    rsc3 = Value('i', 0)
+    rsc4 = Value('i', 0)
+    
+    Process(target=VoiceActivityDetection.vadStart, args=("record1.wav",rsc1)).start()
+    Process(target=VoiceActivityDetection.vadStart, args=("record2.wav",rsc2)).start()
+    Process(target=VoiceActivityDetection.vadStart, args=("record3.wav",rsc3)).start()
+    Process(target=VoiceActivityDetection.vadStart, args=("record4.wav",rsc4)).start()
 
     global g_webcamVC
     g_webcamVC = cv2.VideoCapture(0)
@@ -189,7 +192,7 @@ def index():
     g_webcamVC.set(4, 480)
     wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
 
-    threading.Thread(target=single_live_vad.start_recording).start()
+    # threading.Thread(target=single_live_vad.start_recording).start()
 
     return render_template('index.html', **templateData)
 
@@ -202,11 +205,11 @@ def index():
 #             break
 #         time.sleep(0.1)
 
-def getLiveSC():
-    while True:
-        global liveSC
-        liveSC=single_live_vad.returnLiveSC()
-        time.sleep(0.5)
+# def getLiveSC():
+#     while True:
+#         global liveSC
+#         liveSC=single_live_vad.returnLiveSC()
+#         time.sleep(0.5)
     
 # @app.route('/mfccstart', methods=['POST'])
 # def mfccstart():
@@ -931,8 +934,11 @@ def generalStat_feed():
         if generalStatus[i][3] is True:
             returnVal[i][3] = 1
 
-    sc1 = single_live_vad.returnLiveSC()
-    sc2=sc3=sc4=0
+    global rsc1, rsc2, rsc3, rsc4
+    sc1 = rsc1.value
+    sc2 = rsc2.value
+    sc3 = rsc3.value
+    sc4 = rsc4.value
     scAVG = (sc1+sc2+sc3+sc4)/4
     if(sc1<scAVG):
         returnVal[0][2]=1
@@ -960,13 +966,11 @@ def vad_feed():
     # sc3 = VoiceActivityDetection.setSC3()
     # sc4 = VoiceActivityDetection.setSC4()
     # sc1 = 0
-    global sc1, sc2, sc3, sc4
-    sc1 = single_live_vad.returnLiveSC()
-
-    #print("\n\n이거가 라이브 횟수", sc1)
-    sc2 = 0
-    sc3 = 0
-    sc4 = 0
+    global rsc1, rsc2, rsc3, rsc4
+    sc1 = rsc1.value
+    sc2 = rsc2.value
+    sc3 = rsc3.value
+    sc4 = rsc4.value
     return jsonify({
         'SpeechCount1': str(sc1),
         'SpeechCount2': str(sc2),
