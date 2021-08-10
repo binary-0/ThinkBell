@@ -27,7 +27,7 @@ def mediapipe_process(rgb):
 
     rgb.flags.writeable = True
     if results.multi_face_landmarks:
-        print(f'LEN:{len(results.multi_face_landmarks)}')
+        #print(f'LEN:{len(results.multi_face_landmarks)}')
         if len(results.multi_face_landmarks) is None:
             return -1, -1
         
@@ -56,4 +56,5 @@ def mediapipe_process(rgb):
 
         return ((left_ear + right_ear) / 2), int((cx_max - cx_min)*(cy_max - cy_min))
     else:
+        #print('Couldn"t Grap.')
         return -1, -1

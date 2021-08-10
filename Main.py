@@ -393,13 +393,13 @@ def real_gen_frames():
         else: #caliEnd is True:
             for i in range(0, peerNum):
                 if EAR[i] is not -1 and headArea[i] is not -1:
-                    if headArea[i] < headAvg[i] * 0.8:
+                    if headArea[i] < headAvg[i] * 0.815:
                         headStatus[i] = 2
                     else:
                         headStatus[i] = 3
 
                     earCurTime = time.time()
-                    if EAR[i] < EARAvg[i] * 0.91:
+                    if EAR[i] < EARAvg[i] * 0.9:
                         if EARTime[i] is None:
                             EARTime[i] = earCurTime
                         else:
