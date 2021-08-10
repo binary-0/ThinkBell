@@ -17,7 +17,7 @@ def landmarks_to_np(landmarks):
     return np.array(landmarks)
 
 DRAWING_SPEC = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
-FACE_MESH = mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+FACE_MESH = mp_face_mesh.FaceMesh(static_image_mode=True, max_num_faces=1, min_detection_confidence=0.5, min_tracking_confidence=0.5)
 LEFT_EYE_INDICES = [466, 388, 387, 386, 385, 384, 398, 249, 390, 373, 374, 380, 381, 382, 263, 362]
 RIGHT_EYE_INDICES = [246, 161, 160, 159, 158, 157, 173, 7, 163, 144, 145, 153, 154, 155, 33, 133]
 
