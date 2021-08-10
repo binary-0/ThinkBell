@@ -181,10 +181,7 @@ def index():
     rsc3 = Value('i', 0)
     rsc4 = Value('i', 0)
     
-    Process(target=single_live_vad.start_recording, args=(rsc1,)).start()
-    Process(target=VoiceActivityDetection.vadStart, args=("record2.wav",rsc2)).start()
-    Process(target=VoiceActivityDetection.vadStart, args=("record3.wav",rsc3)).start()
-    Process(target=VoiceActivityDetection.vadStart, args=("record4.wav",rsc4)).start()
+    
 
     global g_webcamVC
     g_webcamVC = cv2.VideoCapture(0)
@@ -192,6 +189,12 @@ def index():
     g_webcamVC.set(4, 480)
     wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
 
+    Process(target=single_live_vad.start_recording, args=(rsc1,)).start()
+
+    if STD_HUMAN_LABEL is 1:
+        Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2)).start()
+        Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3)).start()
+        Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4)).start()
     # threading.Thread(target=single_live_vad.start_recording).start()
 
     return render_template('index.html', **templateData)
