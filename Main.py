@@ -269,6 +269,8 @@ def real_gen_frames():
     logEndTime = 0
     logType = 0
 
+    dQ = [detectionQueue(), detectionQueue(), detectionQueue(), detectionQueue()]
+
     # variables for frame control. never be used in live detection.
     frameTemp = 0
     frameCtrl = None
@@ -420,13 +422,12 @@ def real_gen_frames():
             
         for i in range(0, peerNum):
             if headStatus[i] is 1 or headStatus[i] is 2:
-                predEngage[i] = 0
+                local_prediction[i] = 0
             elif EARStatus[i] is True:
-                predEngage[i] = 0
-            else:
-                predEngage[i] = local_prediction[i]
+                local_prediction[i] = 0
 
-        
+        for i in range(0, peerNum):
+            predEngage[i] = dQ[i].detectionPush(local_prediction[i])
 
         # for i in range(0, peerNum):
         #     if predEngage[i] is 0 or predEngage[i] is 1:
@@ -471,31 +472,36 @@ class detectionQueue:
         self.sum = 0
         self.avg = 0
 
-        self.yelloThresh = 4
-        self.redThresh = 6
-        self.maxSize = 10
+        self.colorCnt = [0, 0, 0] #red, creem, green
+
+        self.maxSize = 5
 
     def detectionPush(self, data):
+        if data is 0 or data is 1:
+            self.colorCnt[0] += 1
+        elif data is 2:
+            self.colorCnt[1] += 1
+        else:
+            self.colorCnt[2] += 1
+
         if self.size < self.maxSize:
             self.que.put(data)
-            self.size += 1
-            self.sum += data
-            self.avg = self.sum / self.size
 
-            return 0
+            self.size += 1
+
+            return self.colorCnt.index(max(self.colorCnt))
         else:
             deq = self.que.get()
-            self.que.put(data)
-            self.sum += data
-            self.sum -= deq
-            self.avg = self.sum / self.size
-
-            if self.avg > (self.redThresh / self.maxSize):
-                return 3
-            elif self.avg > (self.yelloThresh / self.maxSize):
-                return 2
+            if deq is 0 or deq is 1:
+                self.colorCnt[0] -= 1
+            elif deq is 2:
+                self.colorCnt[1] -= 1
             else:
-                return 1
+                self.colorCnt[2] -= 1
+
+            self.que.put(data)
+
+            return self.colorCnt.index(max(self.colorCnt))
 
 class Streaming:
     def __init__(self, peer):
@@ -574,14 +580,14 @@ class Streaming:
                     #print(f'peer:{peer - 1} and pred: {predEngage[peer - 1]}')
                     if predEngage[peer - 1] is -1: #undefined
                         l_frame = g_frame[peer - 1]
-                    elif predEngage[peer - 1] is 0 or predEngage[peer - 1] is 1: #not engaged
+                    elif predEngage[peer - 1] is 0: #not engaged
                         l_frame = cv2.addWeighted(self.redImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 0, 255), 20)
                         # cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
                         #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                         #         cv2.LINE_AA)
                         colorStatus[peer - 1] = 0
-                    elif predEngage[peer - 1] is 2: #neutral
+                    elif predEngage[peer - 1] is 1: #neutral
                         l_frame = cv2.addWeighted(self.neutralImg, 0.1, g_frame[peer - 1], 0.9, 0)
                         cv2.rectangle(l_frame, (0, 0), (640, 480), (160, 172, 203), 20)
                         # cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
