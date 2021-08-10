@@ -1,4 +1,3 @@
-import cv2
 import mediapipe as mp
 import numpy as np
 
@@ -22,12 +21,16 @@ FACE_MESH = mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_con
 LEFT_EYE_INDICES = [466, 388, 387, 386, 385, 384, 398, 249, 390, 373, 374, 380, 381, 382, 263, 362]
 RIGHT_EYE_INDICES = [246, 161, 160, 159, 158, 157, 173, 7, 163, 144, 145, 153, 154, 155, 33, 133]
 
-def calculate_ear(rgb, draw=None):
+def mediapipe_process(rgb):
     rgb.flags.writeable = False
     results = FACE_MESH.process(rgb)
 
     rgb.flags.writeable = True
     if results.multi_face_landmarks:
+        print(f'LEN:{len(results.multi_face_landmarks)}')
+        if len(results.multi_face_landmarks) is None:
+            return -1, -1
+        
         face_landmarks = results.multi_face_landmarks[0]
         left_eye_landmarks_np = landmarks_to_np([face_landmarks.landmark[i] for i in LEFT_EYE_INDICES])
         left_ear = calculate_single_ear(left_eye_landmarks_np)
@@ -35,21 +38,22 @@ def calculate_ear(rgb, draw=None):
         right_eye_landmarks_np = landmarks_to_np([face_landmarks.landmark[i] for i in RIGHT_EYE_INDICES])
         right_ear = calculate_single_ear(right_eye_landmarks_np)
 
-        if draw is not None:
-            mp_drawing.draw_landmarks(
-                image=draw,
-                landmark_list=face_landmarks,
-                connections=mp_face_mesh.FACE_CONNECTIONS,
-                landmark_drawing_spec=DRAWING_SPEC,
-                connection_drawing_spec=DRAWING_SPEC
-            )
+        h, w, c = rgb.shape
+        cx_min=  w
+        cy_min = h
+        cx_max= cy_max= 0
 
-            height, width, _ = draw.shape
-            for i in LEFT_EYE_INDICES:
-                cv2.circle(draw, (int(face_landmarks.landmark[i].x * width), int(face_landmarks.landmark[i].y * height)), 2, (0, 0, 255), -1)
-            for i in RIGHT_EYE_INDICES:
-                cv2.circle(draw, (int(face_landmarks.landmark[i].x * width), int(face_landmarks.landmark[i].y * height)), 2, (0, 0, 255), -1)
+        for id, lm in enumerate(face_landmarks.landmark):
+            cx, cy = int(lm.x * w), int(lm.y * h)
+            if cx<cx_min:
+                cx_min=cx
+            if cy<cy_min:
+                cy_min=cy
+            if cx>cx_max:
+                cx_max=cx
+            if cy>cy_max:
+                cy_max=cy
 
-        return (left_ear + right_ear) / 2
+        return ((left_ear + right_ear) / 2), int((cx_max - cx_min)*(cy_max - cy_min))
     else:
-        return None
+        return -1, -1

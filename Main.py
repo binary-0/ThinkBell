@@ -22,13 +22,13 @@ import daiseecnn
 import csv
 import torch
 import glob
-import YOLODetection
-from YOLO.yolo_postprocess import YOLO
-from tensorflow.python.framework.ops import disable_eager_execution
-from YOLODetection import process_detection
+# import YOLODetection
+# from YOLO.yolo_postprocess import YOLO
+# from tensorflow.python.framework.ops import disable_eager_execution
+# from YOLODetection import process_detection
 import single_live_vad
 from multiprocessing import Process, Value
-from EAR import calculate_ear
+from MediaPipeProcess import mediapipe_process
 
 from flask import Flask, render_template, Response, jsonify, send_file, request
 
@@ -61,7 +61,7 @@ def index():
     """Video streaming home page."""
     print('///2///')
     
-    disable_eager_execution()
+    #disable_eager_execution()
     now = datetime.datetime.now()
     timeString = now.strftime("%Y-%m-%d %H:%M")
     templateData = {
@@ -230,7 +230,7 @@ def vad_ctrl():
 
 def real_gen_frames():
     daisee = daiseecnn.DaiseeCNN()
-    yolo = YOLO()
+    #yolo = YOLO()
 
     global loadingComplete
     loadingComplete = True
@@ -343,31 +343,32 @@ def real_gen_frames():
         # 2: face detected is too smaller than avg
         # 3: normal!
 
-        img_pil = list(range(peerNum))
-        for i in range(0, peerNum):
-            img_pil[i] = Image.fromarray(rgbFrame[i])
+        # img_pil = list(range(peerNum))
+        # for i in range(0, peerNum):
+        #     img_pil[i] = Image.fromarray(rgbFrame[i])
 
-        bboxes = list(range(peerNum))
-        scores = list(range(peerNum))
-        classes = list(range(peerNum))
-        for i in range(0, peerNum):
-            bboxes[i], scores[i], classes[i] = yolo.YOLO_DetectProcess(img_pil[i])
+        # bboxes = list(range(peerNum))
+        # scores = list(range(peerNum))
+        # classes = list(range(peerNum))
+        # for i in range(0, peerNum):
+        #     bboxes[i], scores[i], classes[i] = yolo.YOLO_DetectProcess(img_pil[i])
 
-        headArea = list(range(peerNum))
-        faceDetected = list(range(peerNum))
-        for i in range(0, peerNum):
-            faceDetected[i] = True
-            if len(bboxes[i]) is 0:
-                faceDetected[i] = False
-            else:
-                headArea[i] = process_detection(sendedFrame[i], bboxes[i][0])# reason of referencing index 0 in bboxes:
-                #print(f'area:{headArea[i]}')
-                #print(f'{i+1}: {headArea[i]}')
-        print()
+        # headArea = list(range(peerNum))
+        # faceDetected = list(range(peerNum))
+        # for i in range(0, peerNum):
+        #     faceDetected[i] = True
+        #     if len(bboxes[i]) is 0:
+        #         faceDetected[i] = False
+        #     else:
+        #         headArea[i] = process_detection(sendedFrame[i], bboxes[i][0])# reason of referencing index 0 in bboxes:
+        #         #print(f'area:{headArea[i]}')
+        #         #print(f'{i+1}: {headArea[i]}')
+        # print()
 
         EAR = list(range(peerNum))
+        headArea = list(range(peerNum))
         for i in range(0, peerNum):
-            EAR[i] = calculate_ear(rgbFrame[i])
+            EAR[i], headArea[i] = mediapipe_process(rgbFrame[i])
 
         if caliEnd is False:
             if time.time() - startTime > CALITIME: # CALIBRATION DONE
@@ -382,23 +383,19 @@ def real_gen_frames():
                 caliEnd = True
             else:
                 for i in range(0, peerNum):
-                    if faceDetected[i] is True:
+                    if EAR[i] is not -1 and headArea[i] is not -1:
                         headSum[i] += headArea[i]
                         faceAddedTime[i] += 1
-                    if EAR[i] is not None:
                         EARSum[i] += EAR[i]
                         EARAddedTime[i] += 1
         else: #caliEnd is True:
             for i in range(0, peerNum):
-                if faceDetected[i] is False:
-                    headStatus[i] = 1
-                else:
+                if EAR[i] is not -1 and headArea[i] is not -1:
                     if headArea[i] < headAvg[i] * 0.8:
                         headStatus[i] = 2
                     else:
                         headStatus[i] = 3
 
-                if EAR[i] is not None:
                     earCurTime = time.time()
                     if EAR[i] < EARAvg[i] * 0.91:
                         if EARTime[i] is None:
@@ -410,6 +407,9 @@ def real_gen_frames():
                         #EARNOTDETECTEDTHISTIME
                         EARStatus[i] = False
                         EARTime[i] = None
+                else:
+                    headStatus[i] = 1
+                    EARStatus[i] = False #Controversial!!!
         ### FOR YOLO ###
 
         
@@ -666,11 +666,11 @@ class Streaming:
                 #         break
                 if STD_HUMAN_LABEL is 1:
                     if isLiveLocal is 1:
-                        if cv2.waitKey(15) & 0xFF == ord('q'):  # press q to quit
+                        if cv2.waitKey(25) & 0xFF == ord('q'):  # press q to quit
                             break
                 else:
                     if isLiveLocal is 1:
-                        if cv2.waitKey(7) & 0xFF == ord('q'):  # press q to quit
+                        if cv2.waitKey(13) & 0xFF == ord('q'):  # press q to quit
                             break
 
         else:
