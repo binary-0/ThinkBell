@@ -139,7 +139,7 @@ def vadStart(wavPATH, sCount):
             if isAgain is True:
                 temp_confidence.append(new_confidence)
                 nowTime=time.time()
-                if nowTime - checkTime > 1: #6초의 타임스팬에서
+                if nowTime - checkTime > 4: #6초의 타임스팬에서
                     temp_avg = sum(temp_confidence)/len(temp_confidence)
                     temp_spoken = sum(map(lambda x: x > 0.1, temp_confidence))
                     temp_spoken_ratio = temp_spoken/len(temp_confidence)

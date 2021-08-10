@@ -70,7 +70,7 @@ def stop():
     global continue_recording
     continue_recording = False
 
-def start_recording():
+def start_recording(micSC):
     stream = audio.open(format=FORMAT,
                         channels=CHANNELS,
                         rate=SAMPLE_RATE,
@@ -86,15 +86,11 @@ def start_recording():
 
     # pp = ProgressPlot(plot_names=["Silero VAD"], line_names=["speech probabilities"], x_label="audio chunks")
 
-
-    stop_listener = threading.Thread(target=stop)
-    stop_listener.start()
-
     isAgain = False
     temp_confidence = []
     speechCount = 0
     checkTime = 0
-    while continue_recording:
+    while True:
         audio_chunk = stream.read(int(SAMPLE_RATE * frame_duration_ms / 1000.0))
 
         # in case you want to save the audio later
@@ -151,8 +147,8 @@ def start_recording():
             del voiced_confidences[0]
         voiced_confidences.append(new_confidence)
         test_confidences.append(new_confidence)
-        global liveSC
-        liveSC = speechCount
+        
+        micSC.value = speechCount
 
         # print(type(voiced_confidences))
 

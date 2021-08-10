@@ -8,7 +8,7 @@ import os
 from math import cos, sin
 from PIL import Image
 import time
-import microphone_checker_stream
+# import microphone_checker_stream
 #from HeadPoseRevised import process_detection
 #from EAR import calculate_ear
 # import microphone_checker_stream
@@ -26,7 +26,7 @@ import YOLODetection
 from YOLO.yolo_postprocess import YOLO
 from tensorflow.python.framework.ops import disable_eager_execution
 from YOLODetection import process_detection
-# import single_live_vad
+import single_live_vad
 from multiprocessing import Process, Value
 from EAR import calculate_ear
 
@@ -181,7 +181,7 @@ def index():
     rsc3 = Value('i', 0)
     rsc4 = Value('i', 0)
     
-    Process(target=VoiceActivityDetection.vadStart, args=("record1.wav",rsc1)).start()
+    Process(target=single_live_vad.start_recording, args=(rsc1,)).start()
     Process(target=VoiceActivityDetection.vadStart, args=("record2.wav",rsc2)).start()
     Process(target=VoiceActivityDetection.vadStart, args=("record3.wav",rsc3)).start()
     Process(target=VoiceActivityDetection.vadStart, args=("record4.wav",rsc4)).start()
