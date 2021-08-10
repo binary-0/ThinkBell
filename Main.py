@@ -191,22 +191,25 @@ def index():
 
     Process(target=single_live_vad.start_recording, args=(rsc1,)).start()
 
-    if STD_HUMAN_LABEL is 1:
+    if STD_HUMAN_LABEL == 1:
         Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2)).start()
         Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3)).start()
         Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4)).start()
     # threading.Thread(target=single_live_vad.start_recording).start()
 
+    audio_thread = threading.Thread(target=play_audio)
+    audio_thread.start()
+
     return render_template('index.html', **templateData)
 
-# def play_audio():
-#     global isStartAudio
-#     while True:
-#         if isStartAudio is True:
-#             print("hello")
-#             playsound('SampleAudioAll.wav')
-#             break
-#         time.sleep(0.1)
+def play_audio():
+    global isStartAudio
+    while True:
+        if isStartAudio is True:
+            # print("hello")
+            playsound('testAudioAll.wav')
+            break
+        time.sleep(0.1)
 
 # def getLiveSC():
 #     while True:
