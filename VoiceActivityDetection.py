@@ -188,7 +188,7 @@ def vadStart(wavPATH, sCount):
             # pp.update(new_confidence)
 
             #여기가 플롯팅 파트인데 잠시
-            # plt.switch_backend('agg')
+            plt.switch_backend('agg')
             plt.clf()
             plt.ylim([0,1])
             plt.xticks([])

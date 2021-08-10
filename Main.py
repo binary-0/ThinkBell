@@ -17,7 +17,8 @@ from waiting import wait
 import json
 from queue import Queue
 import datetime
-from playsound import playsound
+# from playsound import playsound
+import winsound
 import daiseecnn
 import csv
 import torch
@@ -189,27 +190,41 @@ def index():
     g_webcamVC.set(4, 480)
     wait(lambda: predOnce, timeout_seconds=120, waiting_for="Prediction Process id At Least")
 
-    Process(target=single_live_vad.start_recording, args=(rsc1,)).start()
+    global p1, p2, p3, p4
 
+    p1 = Process(target=single_live_vad.start_recording, args=(rsc1,))
+    p1.start()
+    p2 = Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2))
+    p3 = Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3))
+    p4 = Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4))
     if STD_HUMAN_LABEL == 1:
-        Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2)).start()
-        Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3)).start()
-        Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4)).start()
+        p2.start()
+        p3.start()
+        p4.start()
     # threading.Thread(target=single_live_vad.start_recording).start()
 
-    audio_thread = threading.Thread(target=play_audio)
-    audio_thread.start()
-
+    play_audio()
+    # global soundOn
+    # soundOn = Process(target=play_audio)
+    # soundOn.start()
     return render_template('index.html', **templateData)
 
+def vad_process():
+    pass
+
+# def play_audio():
+#     global isStartAudio
+#     while True:
+#         if isStartAudio is True:
+#             # print("hello")
+#             playsound('testAudioAll.wav')
+#             break
+#         time.sleep(0.1)
+
 def play_audio():
-    global isStartAudio
-    while True:
-        if isStartAudio is True:
-            # print("hello")
-            playsound('testAudioAll.wav')
-            break
-        time.sleep(0.1)
+    time.sleep(2.4)
+    winsound.PlaySound("testAudioAll.wav",winsound.SND_ASYNC)
+
 
 # def getLiveSC():
 #     while True:
@@ -910,6 +925,26 @@ def video_rewind():
     isVideoEnded = True
     colorStatus = [2, 2, 2, 2]
 
+    global p1,p2,p3,p4
+    p1.terminate()
+    p1 = Process(target=single_live_vad.start_recording, args=(rsc1,))
+    p1.start()
+
+    global STD_HUMAN_LABEL
+    if STD_HUMAN_LABEL == 1:
+        p2.terminate()
+        p3.terminate()
+        p4.terminate()
+        p2 = Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2))
+        p3 = Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3))
+        p4 = Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4))
+        p2.start()
+        p3.start()
+        p4.start()
+    play_audio()
+
+    
+    
     return (''), 204
 
 
