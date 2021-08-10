@@ -374,18 +374,359 @@
       .block_bar::-webkit-scrollbar {
         display: none;
       }
+      .result_overlay{
+        background: rgba(0,0,0,.7);
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 900;
+      }
+      .result_full{
+        position: absolute;
+        width: 1100px;
+        height: 840px;
+        left: 20%;
+        top: 6%;
+        box-sizing: border-box;
+        background: transparent;
+      }
+
+      .tabmenu{
+        font-family: "Jeju Gothic", sans-serif;
+        font-weight: bold;
+        width: 120px;
+        height: 210px;
+        position: absolute;
+        left: 4%;
+        top: 2%;
+        border: 5px solid black;
+        border-radius: 8px;
+      }
+      .tabmenu ul{
+        padding-left: 0;
+      }
+      .tabmenu ul li{
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: #f9f9f9;
+        line-height: 40px;
+      }
+      .tabmenu label{
+        display: block;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+      }
+      .tabmenu input{display: none;}
+      .tabCon{
+        display: none;
+        position: absolute;
+        float: right;
+        width: 920px;
+        left: 107%;
+        top: -5%;
+        border: 5px solid black;
+        padding: 20px;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background: #ffffff;
+      }
+      .tabmenu input:checked ~ label{
+        background: #C5DAEE;
+      }
+      .tabmenu input:checked ~ .tabCon{
+        display: block;
+      }
+
+      /*성효제 고침*/
+      .std1_modal{
+        position: absolute;
+        display: none;
+        z-index: 10;
+        width: 420px;
+        height: 280px;
+        top:8%;
+        left: 21%;
+        background: #FFFFFF;
+        border: 3px solid #000000;
+        box-sizing: border-box;
+      }
+      .std2_modal{
+        position: absolute;
+        z-index: 10;
+        width: 420px;
+        height: 280px;
+        top:8%;
+        left: 52.5%;
+        background: #FFFFFF;
+        border: 3px solid #000000;
+        box-sizing: border-box;
+      }
+      .std3_modal{
+        position: absolute;
+        z-index: 10;
+        width: 420px;
+        height: 280px;
+        top:48%;
+        left: 21%;
+        background: #FFFFFF;
+        border: 3px solid #000000;
+        box-sizing: border-box;
+      }
+      .std4_modal{
+        position: absolute;
+        z-index: 10;
+        width: 420px;
+        height: 280px;
+        top:48%;
+        left: 52.5%;
+        background: #FFFFFF;
+        border: 3px solid #000000;
+        box-sizing: border-box;
+      }
+      .std_modal_bomb_picture{
+        position: absolute;
+        width: 120px;
+        height: 155px;
+        left: 150px;
+        top: 34px;
+        cursor: pointer;
+      }
+      .std_modal_bomb_text{
+        position: absolute;
+        width: 240px;
+        height: 25px;
+        left: 90px;
+        top: 222px;
+
+        font-style: normal;
+        font-weight: bold;
+        font-family: Roboto;
+        font-size: 18px;
+        line-height: 23px;
+        color: #000000;
+      }
+      .std_modal_bomb_redtext{
+        position: absolute;
+        width: 55px;
+        height: 23px;
+        left: 330px;
+        top: 122px;
+
+        font-style: normal;
+        font-weight: bold;
+        font-size: 25px;
+        line-height: 29px;
+
+        color: #FF0000;
+      }
+      .std_modal_thief{
+        position: absolute;
+        width: 362px;
+        height: 126px;
+        left: 29px;
+        top: 77px;
+      }
+      .std_modal_thief_text{
+        position: absolute;
+        width: 290px;
+        height: 25px;
+        left: 62px;
+        top: 224px;
+
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 21px;
+      }
+      .std_modal_speech_text{
+      position: absolute;
+      z-index: 5;
+      width: 285px;
+      height: 30px;
+      left: 68px;
+      top: 227px;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bolder;
+      font-size: 23px;
+      line-height: 29px;
+      color: #9C70AD;
+      }
+      .std_modal_speech_box{
+        position: absolute;
+        z-index: 4;
+        width: 336px;
+        height: 57px;
+        left: 42px;
+        top: 212px;
+
+        background: #FFFFFF;
+        border: 5px solid #944EAE;
+        box-sizing: border-box;
+        border-radius: 15px;
+
+      }
+      .std_modal_speech{
+
+      position: absolute;
+      width: 410px;
+      height: 270.36px;
+      left: 2px;
+      top: 2px;
+
+      }
+      .std_modal_posture_text{
+      position: absolute;
+      z-index: 5;
+      width: 390px;
+      height: 30px;
+      left: 29px;
+      top: 227px;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bolder;
+      font-size: 23px;
+      line-height: 29px;
+      color: #2E9F95;
+      }
+      .std_modal_posture_box{
+      position: absolute;
+      z-index: 4;
+      width: 402px;
+      height: 57px;
+      left: 9px;
+      top: 212px;
+      background: #FFFFFF;
+      border: 5px solid #2E9F95;
+      box-sizing: border-box;
+      border-radius: 15px;
+
+      }
 
     </style>
   </head>
   <body>
-    <form action="/video_rewind" method="POST">
+    <form action="/video_rewind">
       <div class="refresh_button">
         <button id = "refresh_button" type="submit" style="background: white">
           <img src = "https://drive.google.com/uc?id=13EzdA1pjApCRI8YfQUSg9Vcn6d-J8EBS" style="width: 30px; height: 30px; border: 0px; ">
         </button>
       </div>
       </form>
+
+      <!--bomb 카운트 떨어지는것 넣기-->
+      <div id = "std1_modal_bomb" class="std1_modal" style="display: none;">
+        <img id = "close_bomb_std1" class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
+        <div class = "std_modal_bomb_text">폭탄이 터지는걸 막아주세요!</div>
+        <!-- <div class = "std_modal_bomb_redtext">15초</div> -->
+      </div>
+
+      <div id = "std2_modal_bomb" class="std2_modal"style="display: none;">
+        <img id = "close_bomb_std2"class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
+        <div class = "std_modal_bomb_text">폭탄이 터지는걸 막아주세요!</div>
+        <!-- <div class = "std_modal_bomb_redtext">15초</div> -->
+      </div>
+      <div id = "std3_modal_bomb" class="std3_modal"style="display: none;">
+        <img id = "close_bomb_std3"class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
+        <div class = "std_modal_bomb_text">폭탄이 터지는걸 막아주세요!</div>
+        <!-- <div class = "std_modal_bomb_redtext">15초</div> -->
+      </div>
+      <div id = "std4_modal_bomb" class="std4_modal"style="display: none;">
+        <img id = "close_bomb_std4"class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
+        <div class = "std_modal_bomb_text">폭탄이 터지는걸 막아주세요!</div>
+        <!-- <div class = "std_modal_bomb_redtext">15초</div> -->
+      </div>
+
+
+      <div id = "std1_modal_thief" class="std1_modal" style="display: none;">
+        <img class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
+        <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
+      </div>
+      <div id = "std2_modal_thief" class="std2_modal" style="display: none;">
+        <img class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
+        <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
+      </div>
+      <div id = "std3_modal_thief" class="std3_modal" style="display: none;">
+        <img class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
+        <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
+      </div>
+      <div id = "std4_modal_thief" class="std4_modal" style="display: none;">
+        <img class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
+        <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
+      </div>
+
+      <div id = "std1_modal_speech"class="std1_modal" style="display: none;">
+        <div class="std_modal_speech_box"></div>
+        <div class="std_modal_speech_text">적극적으로 발표해 보아요!</div>
+        <img id="close_speech_stu1" class="std_modal_speech" src="https://drive.google.com/uc?id=1pz-mUFR7Xwq6SSxzTE-MZZAITjvLlKgD">
+      </div>
+
+      <div id = "std2_modal_speech"class="std2_modal" style="display: none;">
+        <div class="std_modal_speech_box"></div>
+        <div class="std_modal_speech_text">적극적으로 발표해 보아요!</div>
+        <img id="close_speech_stu2" class="std_modal_speech" src="https://drive.google.com/uc?id=1pz-mUFR7Xwq6SSxzTE-MZZAITjvLlKgD">
+      </div>
+
+      <div id = "std3_modal_speech"class="std3_modal" style="display: none;">
+        <div class="std_modal_speech_box"></div>
+        <div class="std_modal_speech_text">적극적으로 발표해 보아요!</div>
+        <img id="close_speech_stu3" class="std_modal_speech" src="https://drive.google.com/uc?id=1pz-mUFR7Xwq6SSxzTE-MZZAITjvLlKgD">
+      </div>
+
+      <div id = "std4_modal_speech"class="std4_modal" style="display: none;">
+        <div class="std_modal_speech_box"></div>
+        <div class="std_modal_speech_text">적극적으로 발표해 보아요!</div>
+        <img id="close_speech_stu4" class="std_modal_speech" src="https://drive.google.com/uc?id=1pz-mUFR7Xwq6SSxzTE-MZZAITjvLlKgD">
+      </div>
+
+      <div id = "std1_modal_posture" class="std1_modal" style="display: none;">
+        <div class="std_modal_posture_box"></div>
+        <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
+        <img class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+      </div>
+      
+      <div id = "std2_modal_posture" class="std2_modal" style="display: none;">
+        <div class="std_modal_posture_box"></div>
+        <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
+        <img class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+      </div>
+      
+      <div id = "std3_modal_posture" class="std3_modal" style="display: none;">
+        <div class="std_modal_posture_box"></div>
+        <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
+        <img class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+      </div>
+
+      <div id = "std4_modal_posture" class="std4_modal" style="display: none;">
+        <div class="std_modal_posture_box"></div>
+        <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
+        <img class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+      </div>
+
+      <div id = "std1_modal_alarm" class="std1_modal" style="display: none;">
+        <img id="close_alarm_stu1" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
+      </div>
+      
+      <div id = "std2_modal_alarm" class="std2_modal" style="display: none;">
+        <img id="close_alarm_stu2" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
+      </div>
+      
+      <div id = "std3_modal_alarm" class="std3_modal" style="display: none;">
+        <img id="close_alarm_stu3" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
+      </div>
+
+      <div id = "std4_modal_alarm" class="std4_modal" style="display: none;">
+        <img id="close_alarm_stu4" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
+      </div>
   
+      <!-- 아래안씀 -->
       <div id = "posture_modal" class="agent_modal_bomb">
         <img id = "posture_modal_picture" class="posture_modal_picture" src="https://drive.google.com/uc?id=18ojtOa948gO5V1G58Y0OvkolKARcIMTI"/>
         <div id = "posture_modal_text" class="posture_modal_text">바른 자세로 수업에 집중해 보아요!</div>
@@ -426,6 +767,99 @@
         수업에 집중하고 있나요?
         <br />
         적극적으로 발표해보세요!
+      </div>
+    </div>
+
+
+    <div id="modal" class="result_overlay">
+      <div class="result_full" id="result_full">
+
+        <div class="tabmenu">
+          <ul>
+            <li id="tab1" class="btnCon"> <input type="radio" checked name="tabmenu" id="tabmenu1">
+              <label for="tabmenu1">전체</label>
+              <div class="tabCon" >
+                <span style="font-family: Jeju Gothic, sans-serif; font-size: 20px; font-weight: bold">학생 몰입도 점수</span>
+                <table width="100%" height="26%" align="center">
+              
+                  <tbody><tr height="60%" align="center">
+                <td width="20%"><img src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj" border="0" height="100%" width="100%"></td>
+                <td width="20%"><img src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj" border="0" height="100%" width="100%"></td>
+                <td width="20%"><img src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj" border="0" height="100%" width="100%"></td>
+                <td width="20%"><img src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj" border="0" height="100%" width="100%"></td>
+                <td width="20%"><img src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj" border="0" height="100%" width="100%"></td>
+                  </tr>
+                  <tr height="20%" align="center">
+                    
+                    <td width="20%">평균</td>
+                    <td width="20%">나</td>
+                    <td width="20%">박성완</td>
+                    <td width="20%">이진영</td>
+                    <td width="20%">최시열</td>
+                  </tr>
+                  
+              </tbody></table>
+              <br>
+              <span style="font-family: Jeju Gothic, sans-serif; font-size: 20px; font-weight: bold">Agent 발생 횟수</span>
+              <table width="100%" height="50%" align="center">
+                    
+                <tbody><tr height="10%" align="center">
+              <td width="10%">평균</td>
+              <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
+                </tr>
+                <tr height="10%" align="center">
+                  <td width="10%">나</td>
+                  <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
+                </tr>
+                <tr height="10%" align="center">
+                  <td width="10%">박성완</td>
+                  <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
+                </tr>
+                <tr height="10%" align="center">
+                  <td width="10%">이진영</td>
+                  <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
+                </tr>
+                <tr height="10%" align="center">
+                  <td width="10%">최시열</td>
+                  <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
+                </tr>
+                
+            </tbody></table>
+              </div>
+              
+            </li>
+  
+            <li id="tab2" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu2">
+              <label for="tabmenu2">나</label>
+              <div class="tabCon" >
+                <img src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC" width="100%">
+              </div>
+            </li>    
+  
+            <li id="tab3" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu3">
+              <label for="tabmenu3">박성완</label>
+              <div class="tabCon" >
+                <img src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC" width="100%">
+              </div>
+            </li>
+  
+            <li id="tab4" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu4">
+              <label for="tabmenu4">이진영</label>
+              <div class="tabCon" >
+                <img src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC" width="100%">
+              </div>
+            </li>    
+  
+            <li id="tab5" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu5">
+              <label for="tabmenu5">최시열</label>
+              <div class="tabCon" >
+                <img src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC" width="100%">
+              </div>
+            </li>
+  
+          </ul>
+        </div>
+  
       </div>
     </div>
 
@@ -471,6 +905,7 @@
 
           <div style="width: 80%; margin-bottom: 1.5%; float: left">
             <img
+              id="cam1"
               style="border-radius: 10px"
               src="/video_feed/1"
               width="100%"
@@ -512,6 +947,23 @@
               var small4Count = 0;
               var sil4Count = 0;
               var sleep4Count = 0;
+              
+              let temp11 = 0;
+              let temp12 = 0;
+              let temp13 = 0;
+              let temp14 = 0;
+              let temp21 = 0;
+              let temp22 = 0;
+              let temp23 = 0;
+              let temp24 = 0;
+              let temp31 = 0;
+              let temp32 = 0;
+              let temp33 = 0;
+              let temp34 = 0;
+              let temp41 = 0;
+              let temp42 = 0;
+              let temp43 = 0;
+              let temp44 = 0;
 
               var bombaudio = new Audio(
                 "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
@@ -564,8 +1016,6 @@
                     
 
                     if (away1 === "1") {
-                      document.getElementById("stu1_img1").style.display =
-                        "block";
                         away1Count++;
                     }
                     else{
@@ -574,8 +1024,6 @@
                     }
 
                     if (smallhead1 === "1") {
-                      document.getElementById("stu1_img2").style.display =
-                        "block";
                         small1Count++;
                     }
                     else{
@@ -584,8 +1032,6 @@
                     }
 
                     if (silence1 === "1") {
-                      document.getElementById("stu1_img3").style.display =
-                        "block";
                         sil1Count++;
                     }
                     else{
@@ -594,8 +1040,6 @@
                     }
 
                     if (sleep1 === "1") {
-                      document.getElementById("stu1_img4").style.display =
-                        "block";
                         sleep1Count++;
                     }
                     else{
@@ -604,8 +1048,6 @@
                     }
 
                     if (away2 === "1") {
-                      document.getElementById("stu2_img1").style.display =
-                        "block";
                         away2Count++;
                     }
                     else{
@@ -614,8 +1056,6 @@
                     }
 
                     if (smallhead2 === "1") {
-                      document.getElementById("stu2_img2").style.display =
-                        "block";
                         small2Count++;
                     }
                     else{
@@ -624,8 +1064,6 @@
                     }
 
                     if (silence2 === "1") {
-                      document.getElementById("stu2_img3").style.display =
-                        "block";
                         sil2Count++;
                     }
                     else{
@@ -634,8 +1072,6 @@
                     }
 
                     if (sleep2 === "1") {
-                      document.getElementById("stu2_img4").style.display =
-                        "block";
                         sleep2Count++;
                     }
                     else{
@@ -644,8 +1080,6 @@
                     }
 
                     if (away3 === "1") {
-                      document.getElementById("stu3_img1").style.display =
-                        "block";
                         away3Count++;
                     }
                     else{
@@ -654,8 +1088,6 @@
                     }
 
                     if (smallhead3 === "1") {
-                      document.getElementById("stu3_img2").style.display =
-                        "block";
                         small3Count++;
                     }
                     else{
@@ -664,8 +1096,6 @@
                     }
 
                     if (silence3 === "1") {
-                      document.getElementById("stu3_img3").style.display =
-                        "block";
                         sil3Count++;
                     }
                     else{
@@ -674,8 +1104,6 @@
                     }
 
                     if (sleep3 === "1") {
-                      document.getElementById("stu3_img4").style.display =
-                        "block";
                         sleep3Count++;
                     }
                     else{
@@ -684,8 +1112,6 @@
                     }
 
                     if (away4 === "1") {
-                      document.getElementById("stu4_img1").style.display =
-                        "block";
                         away4Count++;
                     }
                     else{
@@ -694,8 +1120,6 @@
                     }
 
                     if (smallhead4 === "1") {
-                      document.getElementById("stu4_img2").style.display =
-                        "block";
                         small4Count++;
                     }
                     else{
@@ -704,8 +1128,6 @@
                     }
 
                     if (silence4 === "1") {
-                      document.getElementById("stu4_img3").style.display =
-                        "block";
                         sil4Count++;
                     }
                     else{
@@ -714,8 +1136,6 @@
                     }
 
                     if (sleep4 === "1") {
-                      document.getElementById("stu4_img4").style.display =
-                        "block";
                         sleep4Count++;
                     }
                     else{
@@ -723,12 +1143,183 @@
                       sleep4Count = 0;
                     }
 
-                    // if(away1Count > 3){
-                    //   document.getElementById("modal_comeback_white").style.display = "block";
-                    // }
-                    // else{
-                    //   document.getElementById("modal_comeback_white").style.display = "none";
-                    // }
+                    if(away1Count > 5){
+                      document.getElementById("stu1_img1").style.display = "block";
+                      stu1img1();
+                    }
+                    else{
+                      document.getElementById("std1_modal_thief").style.display = "none";
+                      if(temp11 ===1) {
+                        away1Count=0;
+                        temp11 =0;
+                      }
+                    }
+                    if(small1Count > 5){
+                      document.getElementById("stu1_img2").style.display = "block";
+                      stu1img2();
+                    }
+                    else{
+                      document.getElementById("std1_modal_posture").style.display = "none";
+                      if(temp12 ===1) {
+                        small1Count=0;
+                        temp12 =0;
+                      }
+                    }
+                    if(sil1Count > 5){
+                      document.getElementById("stu1_img3").style.display = "block";
+                    }
+                    else{
+                      document.getElementById("std1_modal_speech").style.display = "none";
+                      if(temp13 ===1) {
+                        sil1Count=0;
+                        temp13 =0;
+                      }
+                    }
+                    if(sleep1Count > 5){
+                      document.getElementById("stu1_img4").style.display = "block";
+                      stu1img4();
+                    }
+                    else{
+                      document.getElementById("std1_modal_bomb").style.display = "none";
+                      if(temp14 ===1) {
+                        sleep1Count=0;
+                        temp14 =0;
+                      }
+                    }
+
+                    if(away2Count > 5){
+                      document.getElementById("stu2_img1").style.display = "block";
+                      stu2img1();
+                    }
+                    else{
+                      document.getElementById("std2_modal_thief").style.display = "none";
+                      if(temp21 ===1) {
+                        away2Count=0;
+                        temp21 =0;
+                      }
+                    }
+                    if(small2Count > 5){
+                      document.getElementById("stu2_img2").style.display = "block";
+                      stu2img2();
+                    }
+                    else{
+                      document.getElementById("std2_modal_posture").style.display = "none";
+                      if(temp22 ===1) {
+                        small2Count=0;
+                        temp22 =0;
+                      }
+                    }
+                    if(sil2Count > 5){
+                      document.getElementById("stu2_img3").style.display = "block";
+                    }
+                    else{
+                      document.getElementById("std2_modal_speech").style.display = "none";
+                      if(temp23 ===1) {
+                        sil2Count=0;
+                        temp23 =0;
+                      }
+                    }
+                    if(sleep2Count > 5){
+                      document.getElementById("stu2_img4").style.display = "block";
+                      stu2img4();
+                    }
+                    else{
+                      document.getElementById("std2_modal_bomb").style.display = "none";
+                      if(temp24 ===1) {
+                        sleep2Count=0;
+                        temp24 =0;
+                      }
+                    }
+
+                    if(away3Count > 5){
+                      document.getElementById("stu3_img1").style.display = "block";
+                      stu3img1();
+                    }
+                    else{
+                      document.getElementById("std3_modal_thief").style.display = "none";
+                      if(temp31 ===1) {
+                        away3Count=0;
+                        temp31 =0;
+                      }
+                    }
+                    if(small3Count > 5){
+                      document.getElementById("stu3_img2").style.display = "block";
+                      stu3img2();
+                    }
+                    else{
+                      document.getElementById("std3_modal_posture").style.display = "none";
+                      if(temp32 ===1) {
+                        small3Count=0;
+                        temp32 =0;
+                      }
+                    }
+                    if(sil3Count > 5){
+                      document.getElementById("stu3_img3").style.display = "block";
+                    }
+                    else{
+                      document.getElementById("std3_modal_speech").style.display = "none";
+                      if(temp33 ===1) {
+                        sil3Count=0;
+                        temp33 =0;
+                      }
+                    }
+                    if(sleep3Count > 5){
+                      document.getElementById("stu3_img4").style.display = "block";
+                      stu3img4();
+                    }
+                    else{
+                      document.getElementById("std3_modal_bomb").style.display = "none";
+                      if(temp34 ===1) {
+                        sleep3Count=0;
+                        temp34 =0;
+                      }
+                    }
+
+                    if(away4Count > 5){
+                      document.getElementById("stu4_img1").style.display = "block";
+                      stu4img1();
+                    }
+                    else{
+                      document.getElementById("std4_modal_thief").style.display = "none";
+                      if(temp41 ===1) {
+                        away4Count=0;
+                        temp41 =0;
+                      }
+                    }
+                    if(small4Count > 5){
+                      document.getElementById("stu4_img2").style.display = "block";
+                      stu4img2();
+                    }
+                    else{
+                      document.getElementById("std4_modal_posture").style.display = "none";
+                      if(temp42 ===1) {
+                        small4Count=0;
+                        temp42 =0;
+                      }
+                    }
+                    if(sil4Count > 5){
+                      document.getElementById("stu4_img3").style.display = "block";
+                    }
+                    else{
+                      document.getElementById("std4_modal_speech").style.display = "none";
+                      if(temp43 ===1) {
+                        sil4Count=0;
+                        temp43 =0;
+                      }
+                    }
+                    if(sleep4Count > 5){
+                      document.getElementById("stu4_img4").style.display = "block";
+                      stu4img4();
+                    }
+                    else{
+                      document.getElementById("std4_modal_bomb").style.display = "none";
+                      if(temp44 ===1) {
+                        sleep4Count=0;
+                        temp44 =0;
+                      }
+                    }
+
+
                   },
                   error: function (error) {
                     console.log("signal_err");
@@ -736,18 +1327,78 @@
                 });
               }, 1000);
 
+              const std1_modal_bomb=document.getElementById("std1_modal_bomb")
+              const close_bomb_std1= document.getElementById("close_bomb_std1")
+              close_bomb_std1.addEventListener("click", (e) => {
+                std1_modal_bomb.style.display="none";  
+              });
+      
+              const close_bomb_modal2= document.getElementById("close_bomb_std2")
+              const std2_bomb_modal= document.getElementById("std2_modal_bomb")
+              close_bomb_modal2.addEventListener("click", (e) => {
+                std2_bomb_modal.style.display = "none";
+              })
+              const close_bomb_modal3= document.getElementById("close_bomb_std3")
+              const std3_bomb_modal= document.getElementById("std3_modal_bomb")
+              close_bomb_modal3.addEventListener("click", (e) => {
+                std3_bomb_modal.style.display = "none";
+              })
+              const close_bomb_modal4= document.getElementById("close_bomb_std4")
+              const std4_bomb_modal= document.getElementById("std4_modal_bomb")
+              close_bomb_modal4.addEventListener("click", (e) => {
+                std4_bomb_modal.style.display = "none";
+              })
+
+              const std1_modal_speech = document.getElementById("std1_modal_speech")
+              const close_speech_stu1 = document.getElementById("close_speech_stu1")
+              close_speech_stu1.addEventListener("click", (e) => {
+                std1_modal_speech.style.display="none";
+              })
+              const std2_modal_speech = document.getElementById("std2_modal_speech")
+              const close_speech_stu2 = document.getElementById("close_speech_stu2")
+              close_speech_stu2.addEventListener("click", (e) => {
+                std2_modal_speech.style.display="none";
+              })
+              const std3_modal_speech = document.getElementById("std3_modal_speech")
+              const close_speech_stu3 = document.getElementById("close_speech_stu3")
+              close_speech_stu3.addEventListener("click", (e) => {
+                std3_modal_speech.style.display="none";
+              })
+              const std4_modal_speech = document.getElementById("std4_modal_speech")
+              const close_speech_stu4 = document.getElementById("close_speech_stu4")
+              close_speech_stu4.addEventListener("click", (e) => {
+                std4_modal_speech.style.display="none";
+              })
+
+              const std1_modal_alarm = document.getElementById("std1_modal_alarm")
+              const close_alarm_stu1 = document.getElementById("close_alarm_stu1")
+              close_alarm_stu1.addEventListener("click", (e) => {
+                std1_modal_alarm.style.display="none";
+              })
+              const std2_modal_alarm = document.getElementById("std2_modal_alarm")
+              const close_alarm_stu2 = document.getElementById("close_alarm_stu2")
+              close_alarm_stu2.addEventListener("click", (e) => {
+                std2_modal_alarm.style.display="none";
+              })
+              const std3_modal_alarm = document.getElementById("std3_modal_alarm")
+              const close_alarm_stu3 = document.getElementById("close_alarm_stu3")
+              close_alarm_stu3.addEventListener("click", (e) => {
+                std3_modal_alarm.style.display="none";
+              })
+              const std4_modal_alarm = document.getElementById("std4_modal_alarm")
+              const close_alarm_stu4 = document.getElementById("close_alarm_stu4")
+              close_alarm_stu4.addEventListener("click", (e) => {
+                std4_modal_alarm.style.display="none";
+              })
+
               function stu1img1() {
-                document.getElementById("stu1_img1").style.display = "none";
-                sirenaudio.autoplay = true;
-                sirenaudio.volume = 1.0;
-                sirenaudio.play();
-                document.getElementById("modal_comeback_white").style.display =
-                  "block";
+                document.getElementById("std1_modal_thief").style.display = "block";
+                temp11 = 1;
               }
 
               function stu1img2() {
-                document.getElementById("stu1_img2").style.display = "none";
-                document.getElementById("posture_modal").style.display = "block";
+                document.getElementById("std1_modal_posture").style.display = "block";
+                temp12 = 1;
               }
 
               const modal_bomb = document.getElementById("modal_bomb");
@@ -776,18 +1427,13 @@
               });
 
               function stu1img3() {
-                document.getElementById("stu1_img3").style.display = "none";
-                document.getElementById("modal_speechless").style.display =
-                  "block";
+                document.getElementById("std1_modal_speech").style.display = "block";
+                temp13 = 1;
               }
 
               function stu1img4() {
-                document.getElementById("stu1_img4").style.display = "none";
-                bombaudio.autoplay = true;
-                bombaudio.volume = 1.0;
-                bombaudio.play();
-                document.getElementById("modal_bomb").style.display = "block";
-                bombinterval = setInterval("decreaseBombtime()", 1000);
+                document.getElementById("std1_modal_bomb").style.display = "block";
+                temp14 = 1;
               }
 
               const speechless_picture =
@@ -950,36 +1596,30 @@
             <script type="text/javascript">
               
               function stu2img1() {
-                document.getElementById("stu2_img1").style.display = "none";
-                sirenaudio.autoplay = true;
-                sirenaudio.volume = 1.0;
-                sirenaudio.play();
-                document.getElementById("modal_comeback_white").style.display =
-                  "block";
+                document.getElementById("std2_modal_thief").style.display = "block";
+                temp21 = 1;
               }
+
               function stu2img2() {
-                document.getElementById("stu2_img2").style.display = "none";
-                document.getElementById("posture_modal").style.display = "block";
+                document.getElementById("std2_modal_posture").style.display = "block";
+                temp22 = 1;
               }
               function stu2img3() {
-                document.getElementById("stu2_img3").style.display = "none";
-                document.getElementById("modal_speechless").style.display =
-                  "block";
+                document.getElementById("std2_modal_speech").style.display = "block";
+                temp23 = 1;
               }
+
               function stu2img4() {
-                document.getElementById("stu2_img4").style.display = "none";
-                bombaudio.autoplay = true;
-                bombaudio.volume = 1.0;
-                bombaudio.play();
-                document.getElementById("modal_bomb").style.display = "block";
-                bombinterval = setInterval("decreaseBombtime()", 1000);
+                document.getElementById("std2_modal_bomb").style.display = "block";
+                temp24 = 1;
               }
+
             </script>
           </div>
 
           <div style="width: 20%; height: 100%; border-radius: 10px; float: right;
           border:3px solid black; background: white;">
-            <div class="name">성효제</div>
+            <div class="name">박성완</div>
             <div class="img_btn" style="margin-top: 10%;">
               <button type="button" class="color_img" id="stu2_img1" onclick="stu2img1()">
                 <img title="자리비움 Agent 활성화됨" width="100%"
@@ -1091,30 +1731,24 @@
 
             <script type="text/javascript">
               function stu3img1() {
-                document.getElementById("stu3_img1").style.display = "none";
-                sirenaudio.autoplay = true;
-                sirenaudio.volume = 1.0;
-                sirenaudio.play();
-                document.getElementById("modal_comeback_white").style.display =
-                  "block";
+                document.getElementById("std3_modal_thief").style.display = "block";
+                temp31 = 1;
               }
+
               function stu3img2() {
-                document.getElementById("stu3_img2").style.display = "none";
-                document.getElementById("posture_modal").style.display = "block";
+                document.getElementById("std3_modal_posture").style.display = "block";
+                temp32 = 1;
               }
               function stu3img3() {
-                document.getElementById("stu3_img3").style.display = "none";
-                document.getElementById("modal_speechless").style.display =
-                  "block";
+                document.getElementById("std3_modal_speech").style.display = "block";
+                temp33 = 1;
               }
+
               function stu3img4() {
-                document.getElementById("stu3_img4").style.display = "none";
-                bombaudio.autoplay = true;
-                bombaudio.volume = 1.0;
-                bombaudio.play();
-                document.getElementById("modal_bomb").style.display = "block";
-                bombinterval = setInterval("decreaseBombtime()", 1000);
+                document.getElementById("std3_modal_bomb").style.display = "block";
+                temp34 = 1;
               }
+              
             </script>
           </div>
 
@@ -1232,30 +1866,25 @@
 
             <script type="text/javascript">
               function stu4img1() {
-                document.getElementById("stu4_img1").style.display = "none";
-                sirenaudio.autoplay = true;
-                sirenaudio.volume = 1.0;
-                sirenaudio.play();
-                document.getElementById("modal_comeback_white").style.display =
-                  "block";
+                document.getElementById("std4_modal_thief").style.display = "block";
+                temp41 = 1;
               }
+
               function stu4img2() {
-                document.getElementById("stu4_img2").style.display = "none";
-                document.getElementById("posture_modal").style.display = "block";
+                document.getElementById("std4_modal_posture").style.display = "block";
+                temp42 = 1;
               }
+
               function stu4img3() {
-                document.getElementById("stu4_img3").style.display = "none";
-                document.getElementById("modal_speechless").style.display =
-                  "block";
+                document.getElementById("std4_modal_speech").style.display = "block";
+                temp43 = 1;
               }
+              
               function stu4img4() {
-                document.getElementById("stu4_img4").style.display = "none";
-                bombaudio.autoplay = true;
-                bombaudio.volume = 1.0;
-                bombaudio.play();
-                document.getElementById("modal_bomb").style.display = "block";
-                bombinterval = setInterval("decreaseBombtime()", 1000);
+                document.getElementById("std4_modal_bomb").style.display = "block";
+                temp44 = 1;
               }
+
             </script>
           </div>
 
@@ -1342,7 +1971,7 @@
       <!--(menubar)-->
       <div class="item">
         <div class="container">
-          <button class="box">
+          <button class="box" id="cam1onoff" onclick="cam1onoff()">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -1378,7 +2007,7 @@
             &nbsp;Mic
           </button>
 
-          <button class="box">
+          <button class="box" id="resulton" onclick="resultOn()">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -1400,7 +2029,7 @@
             &nbsp;Log
           </button>
 
-          <button class="box">
+          <button class="box" id="allAlarm" onclick="allAlarm()">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -1419,6 +2048,40 @@
       </div>
 
       <script type="text/javascript">
+        camon = 1;
+        function cam1onoff() {
+          if (camon == 1) {
+            camon = 0;
+            document.getElementById("cam1").src =
+              "http://www.palnews.co.kr/news/photo/201801/92969_25283_5321.jpg";
+          } else {
+            camon = 1;
+            document.getElementById("cam1").src = "/video_feed/1"
+          }
+        }
+
+        function allAlarm() {
+          document.getElementById("std1_modal_alarm").style.display = "block";
+          document.getElementById("std2_modal_alarm").style.display = "block";
+          document.getElementById("std3_modal_alarm").style.display = "block";
+          document.getElementById("std4_modal_alarm").style.display = "block";
+        }
+        
+
+        const modal = document.getElementById("modal");
+        function resultOn() {
+    modal.style.display = "block"
+}
+function modalOff() {
+    modal.style.display = "none"
+}
+        modal.addEventListener("click", e => {
+    const evTarget = e.target
+    if(evTarget.classList.contains("result_overlay")) {
+        modalOff()
+    }
+})
+
         setInterval(function () {
           $.ajax({
             url: "/vad_feed",
@@ -1444,6 +2107,31 @@
       </script>
       
       <script type="text/javascript">
+        setInterval(function () {
+          $.ajax({
+            url: "/vad_feed",
+            type: "POST",
+            success: function (response) {
+              console.log("vad feed success!!");
+
+              console.log(response["SpeechCount1"]);
+              console.log(response["SpeechCount2"]);
+              console.log(response["SpeechCount3"]);
+              console.log(response["SpeechCount4"]);
+
+              $("#prenum1").text(response["SpeechCount1"]);
+              $("#prenum2").text(response["SpeechCount2"]);
+              $("#prenum3").text(response["SpeechCount3"]);
+              $("#prenum4").text(response["SpeechCount4"]);
+            },
+            error: function (error) {
+              console.log("vad feed err!!!");
+            },
+          });
+        }, 1000);
+      </script>
+
+      <script type="text/javascript">
         var board1 = document.getElementById("block_1");
         var board2 = document.getElementById("block_2");
         var board3 = document.getElementById("block_3");
@@ -1455,12 +2143,16 @@
         var student3_count = [0, 0, 0];
         var student4_count = [0, 0, 0];
         var time_count = 0;
+        var reset_off = 0;
+        var reset_on = 0;
         setInterval(function () {
           $.ajax({
             url: "/colorStat_feed",
             type: "POST",
             success: function (response) {
-              time_count++;
+              if (reset_off === 0) {
+                time_count++;
+              }
               //학생 1 타임스탬프
               var student1 = document.createElement("div");
               console.log("student1 : " + response["stu1Color"]);
@@ -1513,7 +2205,9 @@
                 student4.setAttribute("class", "block3");
                 student4_count[2]++;
               }
-              if (time_count % 5 === 0 ) {
+
+              //2초에 한번 씩 생성
+              if (time_count % 2 === 0) {
                 var student1_max = Math.max(...student1_count);
                 var student2_max = Math.max(...student2_count);
                 var student3_max = Math.max(...student3_count);
@@ -1588,21 +2282,41 @@
                   student4.setAttribute("class", "block3");
                 }
 
-                board1.appendChild(student1);
-                board2.appendChild(student2);
-                board3.appendChild(student3);
-                board4.appendChild(student4);
+                if (response["stu2Color"] !== "-1" && reset_off === 0) {
+                  board1.appendChild(student1);
+                  board2.appendChild(student2);
+                  board3.appendChild(student3);
+                  board4.appendChild(student4);
+                }
+                if (response["stu2Color"] === "-1" && reset_off === 0) {
+                  reset_off = 1;
+                }
+                if (response["stu2Color"] !== "-1" && reset_off === 1) {
+                  reset_on = 1;
+                  reset_off = 0;
+                }
+                if (reset_on === 1) {
+                  for (var i = time_count / 2 - 2; i >= 0; i--) {
+                    console.log("time_count : " + (time_count / 2 - 1));
+                    board1.removeChild(board1.childNodes[i]);
+                    board2.removeChild(board2.childNodes[i]);
+                    board3.removeChild(board3.childNodes[i]);
+                    board4.removeChild(board4.childNodes[i]);
+                  }
+                  reset_on = 0;
+                  time_count = 0;
+                }
 
                 student1_count.fill(0);
                 student2_count.fill(0);
                 student3_count.fill(0);
                 student4_count.fill(0);
                 console.log("student clear!\n" + student1_count);
-                
-                board1.scrollLeft=board1.scrollWidth;
-                board2.scrollLeft=board2.scrollWidth;
-                board3.scrollLeft=board3.scrollWidth;
-                board4.scrollLeft=board4.scrollWidth;
+
+                board1.scrollLeft = board1.scrollWidth;
+                board2.scrollLeft = board2.scrollWidth;
+                board3.scrollLeft = board3.scrollWidth;
+                board4.scrollLeft = board4.scrollWidth;
               }
             },
             error: function (error) {
@@ -1611,7 +2325,6 @@
           });
         }, 1000);
       </script>
-
 
     </div>
   </body>
