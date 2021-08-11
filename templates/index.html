@@ -445,9 +445,56 @@
       }
 
       /*성효제 고침*/
+      .std1tempmodal{
+        position: absolute;
+        z-index: 10;
+        width: 199px;
+        height: 132px;
+        top:6%;
+        left: 33%;
+        background: #FFFFFF;
+        border: 3px solid #FF9D2B;
+        box-sizing: border-box;
+        border-radius: 15px;
+      }
+      .std2tempmodal{
+        position: absolute;
+        z-index: 10;
+        width: 199px;
+        height: 132px;
+        top:6%;
+        left: 64.5%;
+        background: #FFFFFF;
+        border: 3px solid #FF9D2B;
+        box-sizing: border-box;
+        border-radius: 15px;
+      }
+      .std3tempmodal{
+        position: absolute;
+        z-index: 10;
+        width: 199px;
+        height: 132px;
+        top:47%;
+        left: 33%;
+        background: #FFFFFF;
+        border: 3px solid #FF9D2B;
+        box-sizing: border-box;
+        border-radius: 15px;
+      }
+      .std4tempmodal{
+        position: absolute;
+        z-index: 10;
+        width: 199px;
+        height: 132px;
+        top:47%;
+        left: 64.5%;
+        background: #FFFFFF;
+        border: 3px solid #FF9D2B;
+        box-sizing: border-box;
+        border-radius: 15px;
+      }
       .std1_modal{
         position: absolute;
-        display: none;
         z-index: 10;
         width: 420px;
         height: 280px;
@@ -492,25 +539,31 @@
       }
       .std_modal_bomb_picture{
         position: absolute;
-        width: 120px;
-        height: 155px;
-        left: 150px;
-        top: 34px;
+        width: 71px;
+        height: 91px;
+        left: 64px;
+        top: 11px;
         cursor: pointer;
       }
       .std_modal_bomb_text{
-        position: absolute;
-        width: 240px;
-        height: 25px;
-        left: 90px;
-        top: 222px;
+      position: absolute;
+      width: 152px;
+      height: 22px;
+      left: 24px;
+      top: 102px;
 
-        font-style: normal;
-        font-weight: bold;
-        font-family: Roboto;
-        font-size: 18px;
-        line-height: 23px;
-        color: #000000;
+      background: #FFFFFF;
+      border: 2px solid #FF9D2B;
+      box-sizing: border-box;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 15px;
+
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 8px;
+      line-height: 9px;
+
       }
       .std_modal_bomb_redtext{
         position: absolute;
@@ -532,6 +585,7 @@
         height: 126px;
         left: 29px;
         top: 77px;
+        cursor: pointer;
       }
       .std_modal_thief_text{
         position: absolute;
@@ -607,7 +661,19 @@
       border: 5px solid #2E9F95;
       box-sizing: border-box;
       border-radius: 15px;
-
+      }
+      .finish{
+        position: fixed;
+        display: none;
+        z-index: 20;
+        top: 2%;
+        left: 37%;
+        width: 200fx;
+        height: 100fx;
+        background-color: skyblue;
+        font-family: "Jeju Gothic", sans-serif;
+        font-weight: bold;
+        padding: 20px;
       }
 
     </style>
@@ -621,6 +687,13 @@
       </div>
       </form>
 
+      <div id="finishAlarm" class="finish">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stop-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.5 5A1.5 1.5 0 0 0 5 6.5v3A1.5 1.5 0 0 0 6.5 11h3A1.5 1.5 0 0 0 11 9.5v-3A1.5 1.5 0 0 0 9.5 5h-3z"/>
+        </svg>
+
+        영상이 종료되었습니다. 새로고침 버튼을 눌러 다시 시작하세요.
+      </div>
       <!--bomb 카운트 떨어지는것 넣기-->
       <div id = "std1_modal_bomb" class="std1_modal" style="display: none;">
         <img id = "close_bomb_std1" class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
@@ -646,19 +719,19 @@
 
 
       <div id = "std1_modal_thief" class="std1_modal" style="display: none;">
-        <img class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
+        <img id = "colse_thief_std1" class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
         <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
       </div>
       <div id = "std2_modal_thief" class="std2_modal" style="display: none;">
-        <img class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
+        <img id = "colse_thief_std2" class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
         <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
       </div>
       <div id = "std3_modal_thief" class="std3_modal" style="display: none;">
-        <img class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
+        <img id = "colse_thief_std3" class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
         <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
       </div>
       <div id = "std4_modal_thief" class="std4_modal" style="display: none;">
-        <img class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
+        <img id = "colse_thief_std4" class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
         <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
       </div>
 
@@ -689,27 +762,26 @@
       <div id = "std1_modal_posture" class="std1_modal" style="display: none;">
         <div class="std_modal_posture_box"></div>
         <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
-        <img class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+        <img id= "close_posture_std1"class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
       </div>
       
       <div id = "std2_modal_posture" class="std2_modal" style="display: none;">
         <div class="std_modal_posture_box"></div>
         <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
-        <img class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+        <img id= "close_posture_std2"class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
       </div>
       
       <div id = "std3_modal_posture" class="std3_modal" style="display: none;">
         <div class="std_modal_posture_box"></div>
         <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
-        <img class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+        <img id= "close_posture_std3"class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
       </div>
 
       <div id = "std4_modal_posture" class="std4_modal" style="display: none;">
         <div class="std_modal_posture_box"></div>
         <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
-        <img class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+        <img id= "close_posture_std4"class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
       </div>
-
       <div id = "std1_modal_alarm" class="std1_modal" style="display: none;">
         <img id="close_alarm_stu1" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
       </div>
@@ -967,8 +1039,39 @@
 
               var bombaudio = new Audio(
                 "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
+                
               );
+
+              var bombaudio1 = new Audio(
+                "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
+                
+              );
+              var bombaudio2 = new Audio(
+                "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
+                
+              );
+              var bombaudio3 = new Audio(
+                "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
+                
+              );
+              var bombaudio4 = new Audio(
+                "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
+                
+              );
+
               let sirenaudio = new Audio(
+                "https://drive.google.com/uc?id=1j7vKTfqzoBVfvHUqgyHmq-GDniSrdzS4"
+              );
+              let sirenaudio1 = new Audio(
+                "https://drive.google.com/uc?id=1j7vKTfqzoBVfvHUqgyHmq-GDniSrdzS4"
+              );
+              let sirenaudio2 = new Audio(
+                "https://drive.google.com/uc?id=1j7vKTfqzoBVfvHUqgyHmq-GDniSrdzS4"
+              );
+              let sirenaudio3 = new Audio(
+                "https://drive.google.com/uc?id=1j7vKTfqzoBVfvHUqgyHmq-GDniSrdzS4"
+              );
+              let sirenaudio4 = new Audio(
                 "https://drive.google.com/uc?id=1j7vKTfqzoBVfvHUqgyHmq-GDniSrdzS4"
               );
               let bombtime = 15;
@@ -1150,6 +1253,8 @@
                     else{
                       document.getElementById("std1_modal_thief").style.display = "none";
                       if(temp11 ===1) {
+                        sirenaudio1.pause();
+                        sirenaudio1.currentTime = 0;
                         away1Count=0;
                         temp11 =0;
                       }
@@ -1181,9 +1286,12 @@
                     }
                     else{
                       document.getElementById("std1_modal_bomb").style.display = "none";
+
                       if(temp14 ===1) {
                         sleep1Count=0;
                         temp14 =0;
+                        bombaudio1.pause();
+                        bombaudio1.currentTime = 0;
                       }
                     }
 
@@ -1193,9 +1301,12 @@
                     }
                     else{
                       document.getElementById("std2_modal_thief").style.display = "none";
+
                       if(temp21 ===1) {
                         away2Count=0;
                         temp21 =0;
+                        sirenaudio2.pause();
+                        sirenaudio2.currentTime = 0;
                       }
                     }
                     if(small2Count > 5){
@@ -1226,6 +1337,8 @@
                     else{
                       document.getElementById("std2_modal_bomb").style.display = "none";
                       if(temp24 ===1) {
+                        bombaudio2.pause();
+                        bombaudio2.currentTime = 0;
                         sleep2Count=0;
                         temp24 =0;
                       }
@@ -1238,6 +1351,8 @@
                     else{
                       document.getElementById("std3_modal_thief").style.display = "none";
                       if(temp31 ===1) {
+                        sirenaudio3.pause();
+                        sirenaudio3.currentTime = 0;
                         away3Count=0;
                         temp31 =0;
                       }
@@ -1270,6 +1385,8 @@
                     else{
                       document.getElementById("std3_modal_bomb").style.display = "none";
                       if(temp34 ===1) {
+                        bombaudio3.pause();
+                        bombaudio3.currentTime = 0;
                         sleep3Count=0;
                         temp34 =0;
                       }
@@ -1282,6 +1399,8 @@
                     else{
                       document.getElementById("std4_modal_thief").style.display = "none";
                       if(temp41 ===1) {
+                        sirenaudio4.pause();
+                        sirenaudio4.currentTime = 0;
                         away4Count=0;
                         temp41 =0;
                       }
@@ -1314,6 +1433,8 @@
                     else{
                       document.getElementById("std4_modal_bomb").style.display = "none";
                       if(temp44 ===1) {
+                        bombaudio4.pause();
+                        bombaudio4.currentTime = 0;
                         sleep4Count=0;
                         temp44 =0;
                       }
@@ -1327,47 +1448,146 @@
                 });
               }, 1000);
 
+              //bomb
               const std1_modal_bomb=document.getElementById("std1_modal_bomb")
               const close_bomb_std1= document.getElementById("close_bomb_std1")
               close_bomb_std1.addEventListener("click", (e) => {
+                bombaudio1.pause();
+                bombaudio1.currentTime = 0;
+                sleep1Count=0;
+                temp14 =0;
                 std1_modal_bomb.style.display="none";  
               });
       
               const close_bomb_modal2= document.getElementById("close_bomb_std2")
               const std2_bomb_modal= document.getElementById("std2_modal_bomb")
               close_bomb_modal2.addEventListener("click", (e) => {
+                bombaudio2.pause();
+                bombaudio2.currentTime = 0;
+                sleep2Count=0;
+                temp24 =0;
                 std2_bomb_modal.style.display = "none";
               })
               const close_bomb_modal3= document.getElementById("close_bomb_std3")
               const std3_bomb_modal= document.getElementById("std3_modal_bomb")
               close_bomb_modal3.addEventListener("click", (e) => {
+                bombaudio3.pause();
+                bombaudio3.currentTime = 0;
+                sleep3Count=0;
+                temp34 =0;
                 std3_bomb_modal.style.display = "none";
               })
               const close_bomb_modal4= document.getElementById("close_bomb_std4")
               const std4_bomb_modal= document.getElementById("std4_modal_bomb")
               close_bomb_modal4.addEventListener("click", (e) => {
+                bombaudio4.pause();
+                bombaudio4.currentTime = 0;
+                sleep4Count=0;
+                temp44 =0;
                 std4_bomb_modal.style.display = "none";
+              })
+              // theif
+              const colse_thief_std1= document.getElementById("colse_thief_std1")
+              const std1_modal_thief= document.getElementById("std1_modal_thief")
+              colse_thief_std1.addEventListener("click", (e) => {
+                sirenaudio1.pause();
+                sirenaudio1.currentTime = 0;
+                away1Count=0;
+                temp11 =0;
+                std1_modal_thief.style.display = "none";
+              })
+              const colse_thief_std2= document.getElementById("colse_thief_std2")
+              const std2_modal_thief= document.getElementById("std2_modal_thief")
+              colse_thief_std2.addEventListener("click", (e) => {
+                sirenaudio2.pause();
+                sirenaudio2.currentTime = 0;
+                away2Count=0;
+                temp21 =0;
+                std2_modal_thief.style.display = "none";
+              })
+              const colse_thief_std3= document.getElementById("colse_thief_std3")
+              const std3_modal_thief= document.getElementById("std3_modal_thief")
+              colse_thief_std3.addEventListener("click", (e) => {
+                sirenaudio3.pause();
+                sirenaudio3.currentTime = 0;
+                away3Count=0;
+                temp21 =0;
+                std3_modal_thief.style.display = "none";
+              })
+              const colse_thief_std4= document.getElementById("colse_thief_std4")
+              const std4_modal_thief= document.getElementById("std4_modal_thief")
+              colse_thief_std4.addEventListener("click", (e) => {
+                sirenaudio4.pause();
+                sirenaudio4.currentTime = 0;
+                away4Count=0;
+                temp21 =0;
+                std4_modal_thief.style.display = "none";
+              })
+              
+              // posture
+
+              const close_posture_std1= document.getElementById("close_posture_std1")
+              const std1_modal_posture= document.getElementById("std1_modal_posture")
+              close_posture_std1.addEventListener("click", (e) => {
+                std1_modal_posture.style.display = "none";
+                temp12 =0;
+                small1Count=0;
+              })
+
+              const close_posture_std2= document.getElementById("close_posture_std2")
+              const std2_modal_posture= document.getElementById("std2_modal_posture")
+              close_posture_std2.addEventListener("click", (e) => {
+                std2_modal_posture.style.display = "none";
+                temp22 =0;
+                
+                small2Count=0;
+              })
+
+              const close_posture_std3= document.getElementById("close_posture_std3")
+              const std3_modal_posture= document.getElementById("std3_modal_posture")
+              close_posture_std3.addEventListener("click", (e) => {
+                std3_modal_posture.style.display = "none";
+                temp32 =0;
+                
+                small3Count=0;
+              })
+
+              const close_posture_std4= document.getElementById("close_posture_std4")
+              const std4_modal_posture= document.getElementById("std4_modal_posture")
+              close_posture_std4.addEventListener("click", (e) => {
+                std4_modal_posture.style.display = "none";
+                temp42 =0;
+                
+                small4Count=0;
               })
 
               const std1_modal_speech = document.getElementById("std1_modal_speech")
               const close_speech_stu1 = document.getElementById("close_speech_stu1")
               close_speech_stu1.addEventListener("click", (e) => {
                 std1_modal_speech.style.display="none";
+                temp13 =0;
+                sil1Count=0;
               })
               const std2_modal_speech = document.getElementById("std2_modal_speech")
               const close_speech_stu2 = document.getElementById("close_speech_stu2")
               close_speech_stu2.addEventListener("click", (e) => {
                 std2_modal_speech.style.display="none";
+                temp23 =0;
+                sil2Count=0;
               })
               const std3_modal_speech = document.getElementById("std3_modal_speech")
               const close_speech_stu3 = document.getElementById("close_speech_stu3")
               close_speech_stu3.addEventListener("click", (e) => {
                 std3_modal_speech.style.display="none";
+                temp33 =0;
+                sil3Count=0;
               })
               const std4_modal_speech = document.getElementById("std4_modal_speech")
               const close_speech_stu4 = document.getElementById("close_speech_stu4")
               close_speech_stu4.addEventListener("click", (e) => {
                 std4_modal_speech.style.display="none";
+                temp43 =0;
+                sil4Count=0;
               })
 
               const std1_modal_alarm = document.getElementById("std1_modal_alarm")
@@ -1393,6 +1613,7 @@
 
               function stu1img1() {
                 document.getElementById("std1_modal_thief").style.display = "block";
+                sirenaudio1.play();
                 temp11 = 1;
               }
 
@@ -1433,6 +1654,7 @@
 
               function stu1img4() {
                 document.getElementById("std1_modal_bomb").style.display = "block";
+                bombaudio1.play();
                 temp14 = 1;
               }
 
@@ -1597,6 +1819,7 @@
               
               function stu2img1() {
                 document.getElementById("std2_modal_thief").style.display = "block";
+                sirenaudio2.play();
                 temp21 = 1;
               }
 
@@ -1611,6 +1834,7 @@
 
               function stu2img4() {
                 document.getElementById("std2_modal_bomb").style.display = "block";
+                bombaudio2.play();
                 temp24 = 1;
               }
 
@@ -1732,6 +1956,7 @@
             <script type="text/javascript">
               function stu3img1() {
                 document.getElementById("std3_modal_thief").style.display = "block";
+                sirenaudio3.play();
                 temp31 = 1;
               }
 
@@ -1746,6 +1971,7 @@
 
               function stu3img4() {
                 document.getElementById("std3_modal_bomb").style.display = "block";
+                bombaudio3.play();
                 temp34 = 1;
               }
               
@@ -1867,6 +2093,7 @@
             <script type="text/javascript">
               function stu4img1() {
                 document.getElementById("std4_modal_thief").style.display = "block";
+                sirenaudio4.play();
                 temp41 = 1;
               }
 
@@ -1882,6 +2109,7 @@
               
               function stu4img4() {
                 document.getElementById("std4_modal_bomb").style.display = "block";
+                bombaudio4.play();
                 temp44 = 1;
               }
 
@@ -2066,6 +2294,49 @@
           document.getElementById("std3_modal_alarm").style.display = "block";
           document.getElementById("std4_modal_alarm").style.display = "block";
         }
+
+        function allModalOff(){
+          away1Count = 0; small1Count = 0; sil1Count = 0; sleep1Count = 0;
+          away2Count = 0; small2Count = 0; sil2Count = 0; sleep2Count = 0;
+          away3Count = 0; small3Count = 0; sil3Count = 0; sleep3Count = 0;
+          away4Count = 0; small4Count = 0; sil4Count = 0; sleep4Count = 0;
+          document.getElementById("std1_modal_thief").style.display = "none";
+          document.getElementById("std1_modal_bomb").style.display = "none";
+          document.getElementById("std1_modal_posture").style.display = "none";
+          document.getElementById("std1_modal_speech").style.display = "none";
+          document.getElementById("std2_modal_thief").style.display = "none";
+          document.getElementById("std2_modal_bomb").style.display = "none";
+          document.getElementById("std2_modal_posture").style.display = "none";
+          document.getElementById("std2_modal_speech").style.display = "none";
+          document.getElementById("std3_modal_thief").style.display = "none";
+          document.getElementById("std3_modal_bomb").style.display = "none";
+          document.getElementById("std3_modal_posture").style.display = "none";
+          document.getElementById("std3_modal_speech").style.display = "none";
+          document.getElementById("std4_modal_thief").style.display = "none";
+          document.getElementById("std4_modal_bomb").style.display = "none";
+          document.getElementById("std4_modal_posture").style.display = "none";
+          document.getElementById("std4_modal_speech").style.display = "none";
+          document.getElementById("std1_modal_alarm").style.display = "none";
+          document.getElementById("std2_modal_alarm").style.display = "none";
+          document.getElementById("std3_modal_alarm").style.display = "none";
+          document.getElementById("std4_modal_alarm").style.display = "none";
+          document.getElementById("stu1_img1").style.display = "none";
+          document.getElementById("stu1_img2").style.display = "none";
+          document.getElementById("stu1_img3").style.display = "none";
+          document.getElementById("stu1_img4").style.display = "none";
+          document.getElementById("stu2_img1").style.display = "none";
+          document.getElementById("stu2_img2").style.display = "none";
+          document.getElementById("stu2_img3").style.display = "none";
+          document.getElementById("stu2_img4").style.display = "none";
+          document.getElementById("stu3_img1").style.display = "none";
+          document.getElementById("stu3_img2").style.display = "none";
+          document.getElementById("stu3_img3").style.display = "none";
+          document.getElementById("stu3_img4").style.display = "none";
+          document.getElementById("stu4_img1").style.display = "none";
+          document.getElementById("stu4_img2").style.display = "none";
+          document.getElementById("stu4_img3").style.display = "none";
+          document.getElementById("stu4_img4").style.display = "none";
+        }
         
 
         const modal = document.getElementById("modal");
@@ -2082,28 +2353,6 @@ function modalOff() {
     }
 })
 
-        setInterval(function () {
-          $.ajax({
-            url: "/vad_feed",
-            type: "POST",
-            success: function (response) {
-              console.log("vad feed success!!");
-
-              console.log(response["SpeechCount1"]);
-              console.log(response["SpeechCount2"]);
-              console.log(response["SpeechCount3"]);
-              console.log(response["SpeechCount4"]);
-
-              $("#prenum1").text(response["SpeechCount1"]);
-              $("#prenum2").text(response["SpeechCount2"]);
-              $("#prenum3").text(response["SpeechCount3"]);
-              $("#prenum4").text(response["SpeechCount4"]);
-            },
-            error: function (error) {
-              console.log("vad feed err!!!");
-            },
-          });
-        }, 1000);
       </script>
       
       <script type="text/javascript">
@@ -2289,6 +2538,8 @@ function modalOff() {
                   board4.appendChild(student4);
                 }
                 if (response["stu2Color"] === "-1" && reset_off === 0) {
+                  setInterval("allModalOff()", 1000);
+                  document.getElementById("finishAlarm").style.display="block";
                   reset_off = 1;
                 }
                 if (response["stu2Color"] !== "-1" && reset_off === 1) {
@@ -2305,6 +2556,7 @@ function modalOff() {
                   }
                   reset_on = 0;
                   time_count = 0;
+                  document.getElementById("finishAlarm").style.display="none";
                 }
 
                 student1_count.fill(0);
