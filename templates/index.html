@@ -238,7 +238,7 @@
       .block2 {
         width: 26px;
         height: 14px;
-        background: #fa8b24;
+        background: rgb(203, 172, 160);
         float: left;
         border-radius: 5px;
         margin-top: 10px;
@@ -372,7 +372,17 @@
         left: 51.5%;
       }
       .block_bar::-webkit-scrollbar {
-        display: none;
+        height: 8px;
+      }
+      .block_bar::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: white;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+      }
+      .block_bar::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background-color: lightgray;
       }
       .result_overlay{
         background: rgba(0,0,0,.7);
@@ -444,8 +454,8 @@
         display: block;
       }
 
-      /*성효제 고침*/
-      .std1tempmodal{
+            /*성효제 고침*/
+    .std1_modal{
         position: absolute;
         z-index: 10;
         width: 199px;
@@ -453,11 +463,11 @@
         top:6%;
         left: 33%;
         background: #FFFFFF;
-        border: 3px solid #FF9D2B;
+        border: 3px solid #000000;
         box-sizing: border-box;
         border-radius: 15px;
       }
-      .std2tempmodal{
+      .std2_modal{
         position: absolute;
         z-index: 10;
         width: 199px;
@@ -465,11 +475,11 @@
         top:6%;
         left: 64.5%;
         background: #FFFFFF;
-        border: 3px solid #FF9D2B;
+        border: 3px solid #000000;
         box-sizing: border-box;
         border-radius: 15px;
       }
-      .std3tempmodal{
+      .std3_modal{
         position: absolute;
         z-index: 10;
         width: 199px;
@@ -477,11 +487,11 @@
         top:47%;
         left: 33%;
         background: #FFFFFF;
-        border: 3px solid #FF9D2B;
+        border: 3px solid #000000;
         box-sizing: border-box;
         border-radius: 15px;
       }
-      .std4tempmodal{
+      .std4_modal{
         position: absolute;
         z-index: 10;
         width: 199px;
@@ -489,11 +499,11 @@
         top:47%;
         left: 64.5%;
         background: #FFFFFF;
-        border: 3px solid #FF9D2B;
+        border: 3px solid #000000;
         box-sizing: border-box;
         border-radius: 15px;
       }
-      .std1_modal{
+      .temp_std1_modal{
         position: absolute;
         z-index: 10;
         width: 420px;
@@ -504,7 +514,7 @@
         border: 3px solid #000000;
         box-sizing: border-box;
       }
-      .std2_modal{
+      .temp_std2_modal{
         position: absolute;
         z-index: 10;
         width: 420px;
@@ -515,7 +525,7 @@
         border: 3px solid #000000;
         box-sizing: border-box;
       }
-      .std3_modal{
+      .temp_std3_modal{
         position: absolute;
         z-index: 10;
         width: 420px;
@@ -526,7 +536,7 @@
         border: 3px solid #000000;
         box-sizing: border-box;
       }
-      .std4_modal{
+      .temp_std4_modal{
         position: absolute;
         z-index: 10;
         width: 420px;
@@ -546,23 +556,24 @@
         cursor: pointer;
       }
       .std_modal_bomb_text{
-      position: absolute;
-      width: 152px;
-      height: 22px;
-      left: 24px;
-      top: 102px;
+        position: absolute;
+        width: 152px;
+        height: 22px;
+        left: 24px;
+        top: 102px;
 
-      background: #FFFFFF;
-      border: 2px solid #FF9D2B;
-      box-sizing: border-box;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      border-radius: 15px;
+        background: #FFFFFF;
+        border: 2px solid #FF9D2B;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
 
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 8px;
-      line-height: 9px;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 8px;
+        line-height: 16px;
+        color: #E80F0F;
 
       }
       .std_modal_bomb_redtext{
@@ -581,41 +592,57 @@
       }
       .std_modal_thief{
         position: absolute;
-        width: 362px;
-        height: 126px;
-        left: 29px;
-        top: 77px;
+        width: 176px;
+        height: 61px;
+        left: 12px;
+        top: 27px;
         cursor: pointer;
       }
       .std_modal_thief_text{
         position: absolute;
-        width: 290px;
-        height: 25px;
-        left: 62px;
-        top: 224px;
+        width: 174px;
+        height: 22px;
+        left: 14px;
+        top: 102px;
 
+        background: #FFFFFF;
+        border: 2px solid #E52622;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+
+        font-family: Roboto;
         font-style: normal;
         font-weight: bold;
-        font-size: 18px;
-        line-height: 21px;
+        font-size: 10.5px;
+        line-height: 16px;
+        color: #4D4640;
       }
-      .std_modal_speech_text{
-      position: absolute;
-      z-index: 5;
-      width: 285px;
-      height: 30px;
-      left: 68px;
-      top: 227px;
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: bolder;
-      font-size: 23px;
-      line-height: 29px;
-      color: #9C70AD;
-      }
-      .std_modal_speech_box{
+
+      .std_modal_posture_text{
         position: absolute;
-        z-index: 4;
+        z-index: 11;
+        width: 178px;
+        height: 22px;
+        left: 10px;
+        top: 102px;
+
+        background: #FFFFFF;
+        border: 2px solid #2E9F95;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 10.5px;
+        line-height: 16px;
+        color: #2E9F95;
+        }
+      .std_modal_posture_box{
+        position: absolute;
+        display: none;
         width: 336px;
         height: 57px;
         left: 42px;
@@ -628,40 +655,37 @@
 
       }
       .std_modal_speech{
-
       position: absolute;
-      width: 410px;
-      height: 270.36px;
-      left: 2px;
-      top: 2px;
-
-      }
-      .std_modal_posture_text{
-      position: absolute;
-      z-index: 5;
-      width: 390px;
-      height: 30px;
-      left: 29px;
-      top: 227px;
-      font-family: Roboto;
-      font-style: normal;
-      font-weight: bolder;
-      font-size: 23px;
-      line-height: 29px;
-      color: #2E9F95;
-      }
-      .std_modal_posture_box{
-      position: absolute;
-      z-index: 4;
-      width: 402px;
-      height: 57px;
-      left: 9px;
-      top: 212px;
-      background: #FFFFFF;
-      border: 5px solid #2E9F95;
-      box-sizing: border-box;
+      width: 100%;
       border-radius: 15px;
       }
+      .std_modal_speech_text{
+        position: absolute;
+        z-index: 11;
+        width: 155px;
+        height: 22px;
+        left: 24px;
+        top: 102px;
+
+        background: #FFFFFF;
+        border: 2px solid #9C70AD;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 10.5px;
+        line-height: 16px;
+        color: #9C70AD;
+      }
+      .std_modal_speech_box{
+        position: absolute;
+        display: none;
+
+      }
+
       .finish{
         position: fixed;
         display: none;
@@ -674,6 +698,26 @@
         font-family: "Jeju Gothic", sans-serif;
         font-weight: bold;
         padding: 20px;
+      }
+      .std_modal_alarm_text{
+        position: absolute;
+        width: 170px;
+        height: 22px;
+        left: 14px;
+        top: 102px;
+
+        background: #FFFFFF;
+        border: 2px solid #000000;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 10.5px;
+        line-height: 16px;
+        color: #F0064F;
       }
 
     </style>
@@ -694,108 +738,112 @@
 
         영상이 종료되었습니다. 새로고침 버튼을 눌러 다시 시작하세요.
       </div>
-      <!--bomb 카운트 떨어지는것 넣기-->
-      <div id = "std1_modal_bomb" class="std1_modal" style="display: none;">
+     <!--bomb 카운트 떨어지는것 넣기-->
+     <div id = "std1_modal_bomb" class="std1_modal" style="display: none; border: 3px solid #FF9D2B;">
         <img id = "close_bomb_std1" class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
-        <div class = "std_modal_bomb_text">폭탄이 터지는걸 막아주세요!</div>
+        <div class = "std_modal_bomb_text">&nbsp;&nbsp;&nbsp;폭탄이 터지는걸 막아주세요!</div>
         <!-- <div class = "std_modal_bomb_redtext">15초</div> -->
       </div>
 
-      <div id = "std2_modal_bomb" class="std2_modal"style="display: none;">
+      <div id = "std2_modal_bomb" class="std2_modal"style="display: none; border: 3px solid #FF9D2B;">
         <img id = "close_bomb_std2"class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
-        <div class = "std_modal_bomb_text">폭탄이 터지는걸 막아주세요!</div>
+        <div class = "std_modal_bomb_text">&nbsp;&nbsp;&nbsp;폭탄이 터지는걸 막아주세요!</div>
         <!-- <div class = "std_modal_bomb_redtext">15초</div> -->
       </div>
-      <div id = "std3_modal_bomb" class="std3_modal"style="display: none;">
+      <div id = "std3_modal_bomb" class="std3_modal"style="display: none; border: 3px solid #FF9D2B;">
         <img id = "close_bomb_std3"class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
-        <div class = "std_modal_bomb_text">폭탄이 터지는걸 막아주세요!</div>
+        <div class = "std_modal_bomb_text">&nbsp;&nbsp;&nbsp;폭탄이 터지는걸 막아주세요!</div>
         <!-- <div class = "std_modal_bomb_redtext">15초</div> -->
       </div>
-      <div id = "std4_modal_bomb" class="std4_modal"style="display: none;">
+      <div id = "std4_modal_bomb" class="std4_modal"style="display: none; border: 3px solid #FF9D2B;">
         <img id = "close_bomb_std4"class="std_modal_bomb_picture" src="https://drive.google.com/uc?id=1GuZWaZNCnpw0KvtlMun6EQ2Zkq0b3p_8">
-        <div class = "std_modal_bomb_text">폭탄이 터지는걸 막아주세요!</div>
+        <div class = "std_modal_bomb_text">&nbsp;&nbsp;&nbsp;폭탄이 터지는걸 막아주세요!</div>
         <!-- <div class = "std_modal_bomb_redtext">15초</div> -->
       </div>
 
 
-      <div id = "std1_modal_thief" class="std1_modal" style="display: none;">
+      <div id = "std1_modal_thief" class="std1_modal" style="display: none; border: 3px solid #E52622;">
         <img id = "colse_thief_std1" class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
         <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
       </div>
-      <div id = "std2_modal_thief" class="std2_modal" style="display: none;">
+      <div id = "std2_modal_thief" class="std2_modal" style="display: none; border: 3px solid #E52622;">
         <img id = "colse_thief_std2" class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
         <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
       </div>
-      <div id = "std3_modal_thief" class="std3_modal" style="display: none;">
+      <div id = "std3_modal_thief" class="std3_modal" style="display: none; border: 3px solid #E52622;">
         <img id = "colse_thief_std3" class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
         <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
       </div>
-      <div id = "std4_modal_thief" class="std4_modal" style="display: none;">
+      <div id = "std4_modal_thief" class="std4_modal" style="display: none; border: 3px solid #E52622;">
         <img id = "colse_thief_std4" class="std_modal_thief" src="https://drive.google.com/uc?id=1DFZf5XYsZZsH3c-tFVF0SUzHg8IaZLIw">
         <div class = "std_modal_thief_text">도둑을 클릭해 보물을 지켜주세요!</div>
       </div>
 
       <div id = "std1_modal_speech"class="std1_modal" style="display: none;">
         <div class="std_modal_speech_box"></div>
-        <div class="std_modal_speech_text">적극적으로 발표해 보아요!</div>
-        <img id="close_speech_stu1" class="std_modal_speech" src="https://drive.google.com/uc?id=1pz-mUFR7Xwq6SSxzTE-MZZAITjvLlKgD">
+        <div class="std_modal_speech_text">&nbsp;&nbsp;&nbsp;적극적으로 발표해 보아요!</div>
+        <img id="close_speech_stu1" class="std_modal_speech" src="https://drive.google.com/uc?id=1AkaFtPofzu35z03enhZKZ6Sg4qk2EnLX">
       </div>
 
       <div id = "std2_modal_speech"class="std2_modal" style="display: none;">
         <div class="std_modal_speech_box"></div>
-        <div class="std_modal_speech_text">적극적으로 발표해 보아요!</div>
-        <img id="close_speech_stu2" class="std_modal_speech" src="https://drive.google.com/uc?id=1pz-mUFR7Xwq6SSxzTE-MZZAITjvLlKgD">
+        <div class="std_modal_speech_text">&nbsp;&nbsp;&nbsp;적극적으로 발표해 보아요!</div>
+        <img id="close_speech_stu2" class="std_modal_speech" src="https://drive.google.com/uc?id=1AkaFtPofzu35z03enhZKZ6Sg4qk2EnLX">
       </div>
 
       <div id = "std3_modal_speech"class="std3_modal" style="display: none;">
         <div class="std_modal_speech_box"></div>
-        <div class="std_modal_speech_text">적극적으로 발표해 보아요!</div>
-        <img id="close_speech_stu3" class="std_modal_speech" src="https://drive.google.com/uc?id=1pz-mUFR7Xwq6SSxzTE-MZZAITjvLlKgD">
+        <div class="std_modal_speech_text">&nbsp;&nbsp;&nbsp;적극적으로 발표해 보아요!</div>
+        <img id="close_speech_stu3" class="std_modal_speech" src="https://drive.google.com/uc?id=1AkaFtPofzu35z03enhZKZ6Sg4qk2EnLX">
       </div>
 
       <div id = "std4_modal_speech"class="std4_modal" style="display: none;">
         <div class="std_modal_speech_box"></div>
-        <div class="std_modal_speech_text">적극적으로 발표해 보아요!</div>
-        <img id="close_speech_stu4" class="std_modal_speech" src="https://drive.google.com/uc?id=1pz-mUFR7Xwq6SSxzTE-MZZAITjvLlKgD">
+        <div class="std_modal_speech_text">&nbsp;&nbsp;&nbsp;적극적으로 발표해 보아요!</div>
+        <img id="close_speech_stu4" class="std_modal_speech" src="https://drive.google.com/uc?id=1AkaFtPofzu35z03enhZKZ6Sg4qk2EnLX">
       </div>
 
       <div id = "std1_modal_posture" class="std1_modal" style="display: none;">
         <div class="std_modal_posture_box"></div>
-        <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
-        <img id= "close_posture_std1"class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+        <div class="std_modal_posture_text">&nbsp;바른 자세로 수업에 집중해 보아요!</div>
+        <img id= "close_posture_std1"class="std_modal_speech" src="https://drive.google.com/uc?id=1KDuI3dFyD9mG0Qre9bNDIN6CjBa9PPiP">
       </div>
       
       <div id = "std2_modal_posture" class="std2_modal" style="display: none;">
         <div class="std_modal_posture_box"></div>
-        <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
-        <img id= "close_posture_std2"class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+        <div class="std_modal_posture_text">&nbsp;바른 자세로 수업에 집중해 보아요!</div>
+        <img id= "close_posture_std2"class="std_modal_speech" src="https://drive.google.com/uc?id=1KDuI3dFyD9mG0Qre9bNDIN6CjBa9PPiP">
       </div>
       
       <div id = "std3_modal_posture" class="std3_modal" style="display: none;">
         <div class="std_modal_posture_box"></div>
-        <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
-        <img id= "close_posture_std3"class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+        <div class="std_modal_posture_text">&nbsp;바른 자세로 수업에 집중해 보아요!</div>
+        <img id= "close_posture_std3"class="std_modal_speech" src="https://drive.google.com/uc?id=1KDuI3dFyD9mG0Qre9bNDIN6CjBa9PPiP">
       </div>
 
       <div id = "std4_modal_posture" class="std4_modal" style="display: none;">
         <div class="std_modal_posture_box"></div>
-        <div class="std_modal_posture_text">바른 자세로 수업에 집중해 보아요!</div>
-        <img id= "close_posture_std4"class="std_modal_speech" src="https://drive.google.com/uc?id=1ygMpzZqsuEnp8xs7zBLLzX0DmDoKjiU7">
+        <div class="std_modal_posture_text">&nbsp;바른 자세로 수업에 집중해 보아요!</div>
+        <img id= "close_posture_std4"class="std_modal_speech" src="https://drive.google.com/uc?id=1KDuI3dFyD9mG0Qre9bNDIN6CjBa9PPiP">
       </div>
       <div id = "std1_modal_alarm" class="std1_modal" style="display: none;">
-        <img id="close_alarm_stu1" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
+        <img id="close_alarm_stu1" style="width: 100%; border-radius: 15px;" src="https://drive.google.com/uc?id=1Eva5Gsm7usV4DJlMKDPQJk4NJNT31Dm_">
+        <div class="std_modal_alarm_text">&nbsp;&nbsp;주목! 선생님에게 집중해 보아요!</div>
       </div>
       
       <div id = "std2_modal_alarm" class="std2_modal" style="display: none;">
-        <img id="close_alarm_stu2" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
+        <img id="close_alarm_stu2" style="width: 100%; border-radius: 15px;" src="https://drive.google.com/uc?id=1Eva5Gsm7usV4DJlMKDPQJk4NJNT31Dm_">
+        <div class="std_modal_alarm_text">&nbsp;&nbsp;주목! 선생님에게 집중해 보아요!</div>
       </div>
       
       <div id = "std3_modal_alarm" class="std3_modal" style="display: none;">
-        <img id="close_alarm_stu3" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
+        <img id="close_alarm_stu3" style="width: 100%; border-radius: 15px;" src="https://drive.google.com/uc?id=1Eva5Gsm7usV4DJlMKDPQJk4NJNT31Dm_">
+        <div class="std_modal_alarm_text">&nbsp;&nbsp;주목! 선생님에게 집중해 보아요!</div>
       </div>
 
       <div id = "std4_modal_alarm" class="std4_modal" style="display: none;">
-        <img id="close_alarm_stu4" style="width: 100%" src="https://drive.google.com/uc?id=1off8uQve-g4WLIivUJb87TXwNRXGGzWI">
+        <img id="close_alarm_stu4" style="width: 100%; border-radius: 15px;" src="https://drive.google.com/uc?id=1Eva5Gsm7usV4DJlMKDPQJk4NJNT31Dm_">
+        <div class="std_modal_alarm_text">&nbsp;&nbsp;주목! 선생님에게 집중해 보아요!</div>
       </div>
   
       <!-- 아래안씀 -->
@@ -865,9 +913,9 @@
                     
                     <td width="20%">평균</td>
                     <td width="20%">나</td>
-                    <td width="20%">박성완</td>
-                    <td width="20%">이진영</td>
-                    <td width="20%">최시열</td>
+                    <td width="20%">학생1</td>
+                    <td width="20%">학생2</td>
+                    <td width="20%">학생3</td>
                   </tr>
                   
               </tbody></table>
@@ -884,15 +932,15 @@
                   <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
                 </tr>
                 <tr height="10%" align="center">
-                  <td width="10%">박성완</td>
+                  <td width="10%">학생1</td>
                   <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
                 </tr>
                 <tr height="10%" align="center">
-                  <td width="10%">이진영</td>
+                  <td width="10%">학생2</td>
                   <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
                 </tr>
                 <tr height="10%" align="center">
-                  <td width="10%">최시열</td>
+                  <td width="10%">학생3</td>
                   <td width="90%"><img src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD" border="0" width="100%"></td>
                 </tr>
                 
@@ -909,21 +957,21 @@
             </li>    
   
             <li id="tab3" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu3">
-              <label for="tabmenu3">박성완</label>
+              <label for="tabmenu3">학생1</label>
               <div class="tabCon" >
                 <img src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC" width="100%">
               </div>
             </li>
   
             <li id="tab4" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu4">
-              <label for="tabmenu4">이진영</label>
+              <label for="tabmenu4">학생2</label>
               <div class="tabCon" >
                 <img src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC" width="100%">
               </div>
             </li>    
   
             <li id="tab5" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu5">
-              <label for="tabmenu5">최시열</label>
+              <label for="tabmenu5">학생3</label>
               <div class="tabCon" >
                 <img src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC" width="100%">
               </div>
@@ -961,7 +1009,7 @@
         </div>
       </div>
 
-      <!--첫번째 칸(최시열)-->
+      <!--첫번째 칸(학생1)-->
       <div class="item">
         <div
           style="
@@ -1037,6 +1085,9 @@
               let temp43 = 0;
               let temp44 = 0;
 
+              var alarmaudio = new Audio(
+                "https://drive.google.com/uc?id=15wahiayrur6SaxASPRSHLtnYezOmpJKT"
+              )
               var bombaudio = new Audio(
                 "https://drive.google.com/uc?id=1I7TQstLvbdfaAqp27jB44e1801b1An0g"
                 
@@ -1782,7 +1833,7 @@
         </div>
       </div>
 
-      <!--두번째 칸(이관우)-->
+      <!--두번째 칸(학생2)-->
       <div class="item">
         <div
           style="
@@ -1843,7 +1894,7 @@
 
           <div style="width: 20%; height: 100%; border-radius: 10px; float: right;
           border:3px solid black; background: white;">
-            <div class="name">박성완</div>
+            <div class="name">학생1</div>
             <div class="img_btn" style="margin-top: 10%;">
               <button type="button" class="color_img" id="stu2_img1" onclick="stu2img1()">
                 <img title="자리비움 Agent 활성화됨" width="100%"
@@ -1920,7 +1971,7 @@
         </div>
       </div>
 
-      <!--세번째 칸(이진영)-->
+      <!--세번째 칸(학생2)-->
       <div class="item">
         <div
           style="
@@ -1980,7 +2031,7 @@
 
           <div style="width: 20%; height: 100%; border-radius: 10px; float: right;
           border:3px solid black; background: white;">
-            <div class="name">이진영</div>
+            <div class="name">학생2</div>
             <div class="img_btn" style="margin-top: 10%;">
               <button type="button" class="color_img" id="stu3_img1" onclick="stu3img1()">
                 <img title="자리비움 Agent 활성화됨" width="100%"
@@ -2118,7 +2169,7 @@
 
           <div style="width: 20%; height: 100%; border-radius: 10px; float: right;
           border:3px solid black; background: white;">
-            <div class="name">최시열</div>
+            <div class="name">학생3</div>
             <div class="img_btn" style="margin-top: 10%;">
               <button type="button" class="color_img" id="stu4_img1" onclick="stu4img1()">
                 <img title="자리비움 Agent 활성화됨" width="100%"
@@ -2289,10 +2340,19 @@
         }
 
         function allAlarm() {
+          alarmaudio.currentTime = 0;
+          alarmaudio.play();
           document.getElementById("std1_modal_alarm").style.display = "block";
           document.getElementById("std2_modal_alarm").style.display = "block";
           document.getElementById("std3_modal_alarm").style.display = "block";
           document.getElementById("std4_modal_alarm").style.display = "block";
+
+          setTimeout(function(){
+            document.getElementById("std1_modal_alarm").style.display = "none";
+            document.getElementById("std2_modal_alarm").style.display = "none";
+            document.getElementById("std3_modal_alarm").style.display = "none";
+            document.getElementById("std4_modal_alarm").style.display = "none";
+          },5000);
         }
 
         function allModalOff(){
