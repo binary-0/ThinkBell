@@ -192,16 +192,16 @@ def index():
 
     p1 = Process(target=single_live_vad.start_recording, args=(rsc1,))
     p1.start()
-    p2 = Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2))
-    p3 = Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3))
-    p4 = Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4))
-    if STD_HUMAN_LABEL == 1:
-        p2.start()
-        p3.start()
-        p4.start()
+    # p2 = Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2))
+    # p3 = Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3))
+    # p4 = Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4))
+    # if STD_HUMAN_LABEL == 1:
+    #     p2.start()
+    #     p3.start()
+    #     p4.start()
     # threading.Thread(target=single_live_vad.start_recording).start()
 
-    play_audio()
+    # play_audio()
     # global soundOn
     # soundOn = Process(target=play_audio)
     # soundOn.start()
@@ -928,18 +928,18 @@ def video_rewind():
     p1 = Process(target=single_live_vad.start_recording, args=(rsc1,))
     p1.start()
 
-    global STD_HUMAN_LABEL
-    if STD_HUMAN_LABEL == 1:
-        p2.terminate()
-        p3.terminate()
-        p4.terminate()
-        p2 = Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2))
-        p3 = Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3))
-        p4 = Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4))
-        p2.start()
-        p3.start()
-        p4.start()
-    play_audio()
+    # global STD_HUMAN_LABEL
+    # if STD_HUMAN_LABEL == 1:
+    #     p2.terminate()
+    #     p3.terminate()
+    #     p4.terminate()
+    #     p2 = Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2))
+    #     p3 = Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3))
+    #     p4 = Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4))
+    #     p2.start()
+    #     p3.start()
+    #     p4.start()
+    # play_audio()
 
     
     
