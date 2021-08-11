@@ -181,8 +181,6 @@ def index():
     rsc2 = Value('i', 0)
     rsc3 = Value('i', 0)
     rsc4 = Value('i', 0)
-    
-    
 
     global g_webcamVC
     g_webcamVC = cv2.VideoCapture(0)
@@ -414,13 +412,13 @@ def real_gen_frames():
         else: #caliEnd is True:
             for i in range(0, peerNum):
                 if EAR[i] is not -1 and headArea[i] is not -1:
-                    if headArea[i] < headAvg[i] * 0.815:
+                    if headArea[i] < headAvg[i] * 0.75:
                         headStatus[i] = 2
                     else:
                         headStatus[i] = 3
 
                     earCurTime = time.time()
-                    if EAR[i] < EARAvg[i] * 0.9:
+                    if EAR[i] < EARAvg[i] * 0.875:
                         if EARTime[i] is None:
                             EARTime[i] = earCurTime
                         else:
@@ -652,7 +650,7 @@ class Streaming:
                     else:
                         generalStatus[peer - 1][3] = False
                     
-                    if peer is not 1:
+                    if peer is not 1 and STD_HUMAN_LABEL is not 1:
                         if int(self.humanLabel) is 0:
                             cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 0, 255), -1)
                         elif int(self.humanLabel) is 1:
@@ -693,11 +691,11 @@ class Streaming:
                 #         break
                 if STD_HUMAN_LABEL is 1:
                     if isLiveLocal is 1:
-                        if cv2.waitKey(25) & 0xFF == ord('q'):  # press q to quit
+                        if cv2.waitKey(40) & 0xFF == ord('q'):  # press q to quit
                             break
                 else:
                     if isLiveLocal is 1:
-                        if cv2.waitKey(13) & 0xFF == ord('q'):  # press q to quit
+                        if cv2.waitKey(20) & 0xFF == ord('q'):  # press q to quit
                             break
 
         else:
