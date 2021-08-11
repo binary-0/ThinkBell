@@ -12,7 +12,7 @@ import time
 #from HeadPoseRevised import process_detection
 #from EAR import calculate_ear
 # import microphone_checker_stream
-#import VoiceActivityDetection
+import VoiceActivityDetection
 from waiting import wait
 import json
 from queue import Queue
@@ -27,7 +27,7 @@ import glob
 # from YOLO.yolo_postprocess import YOLO
 # from tensorflow.python.framework.ops import disable_eager_execution
 # from YOLODetection import process_detection
-#import single_live_vad
+import single_live_vad
 from multiprocessing import Process, Value
 from MediaPipeProcess import mediapipe_process
 
@@ -193,8 +193,8 @@ def index():
 
     global p1, p2, p3, p4
 
-    #p1 = Process(target=single_live_vad.start_recording, args=(rsc1,))
-    #p1.start()
+    p1 = Process(target=single_live_vad.start_recording, args=(rsc1,))
+    p1.start()
     # p2 = Process(target=VoiceActivityDetection.vadStart, args=("seongwan_audio.wav",rsc2))
     # p3 = Process(target=VoiceActivityDetection.vadStart, args=("jinyoung_audio.wav",rsc3))
     # p4 = Process(target=VoiceActivityDetection.vadStart, args=("siyeol_audio.wav",rsc4))
@@ -927,9 +927,9 @@ def video_rewind():
     colorStatus = [2, 2, 2, 2]
 
     global p1,p2,p3,p4
-    # p1.terminate()
-    # p1 = Process(target=single_live_vad.start_recording, args=(rsc1,))
-    # p1.start()
+    p1.terminate()
+    p1 = Process(target=single_live_vad.start_recording, args=(rsc1,))
+    p1.start()
 
     # global STD_HUMAN_LABEL
     # if STD_HUMAN_LABEL == 1:
