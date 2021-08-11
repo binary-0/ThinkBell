@@ -5,15 +5,27 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body> 
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
        <style>
       * {
          margin: 0px; 
          padding: 0px; 
          box-sizing: border-box;
+         transition: all 0.5s ease-in-out;
+      }
+      
+      body {
+         margin: 0;
+         background-image: url("https://i.ibb.co/wWSdJTt/selfTest.jpg");
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+         height: 100vh;
       }
 
-      body, html {
+      html {
          height: 100%;
          font-family: Manrope;
       }
@@ -37,8 +49,63 @@
          text-decoration: none;
       color: #232527;
       }
+      
+      h1 {
+         color: #232527;
+         text-align: center;
+         font-size: 3em;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+            "Segoe UI Symbol";
+         font-weight: 200;
+      }
+      .slider {
+         width: 110px;
+         height: 50px;
+         background: #eff0d8;
+         position: relative;
+         border-radius: 50px;
+         padding: 0 10px;
+         margin:0 auto;
+      }
 
-      h1,h2,h3,h4,h5,h6 {
+      .ball {
+         width: 45px;
+         height: 45px;
+         border-radius: 50px;
+         background: #e73b3b;
+         position: absolute;
+         top: 50%;
+         margin-top: -22px;
+         margin-left: 3px;
+         transition: all 0.7s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+         left: 0;
+         cursor: pointer;
+         z-index: 2;
+      }
+
+      .right {
+         left: 79px;
+         background: #608c60;
+      }
+
+      .naughty {
+         color: #e73b3b;
+      }
+      .nice {
+         color: #608c60;
+      }
+
+      .active {
+         transition: all 0.6s ease-in-out;
+         font-size: 1.5em;
+         font-weight: bold;
+      }
+      .green {
+         background-image: url("https://i.ibb.co/0Q3MRH1/daisee.jpg");
+      }
+
+      h2,h3,h4,h5,h6 {
          margin: 0px;
       }
 
@@ -135,7 +202,7 @@
 
       .container-login100 {
       width: 100%;  
-      min-height: 100vh;
+      min-height: 20vh;
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -150,7 +217,7 @@
       }
 
       .wrap-login100 {
-      width: 500px;
+      width: 750px;
       background: #fff;
       border-radius: 20px;
       overflow: hidden;
@@ -332,9 +399,7 @@
       .m-b-50{
          margin-bottom: 50px;
       }
-      .m-l-loader{
-         margin-left: 160px;
-      }
+      
       .loader {
          display: none;
          border: 16px solid #f3f3f3;
@@ -342,6 +407,7 @@
          border-top: 16px solid #FF9BAC;
          width: 60px;
          height: 60px;
+         margin:0 auto;
          
          -webkit-animation: spin 2s linear infinite; /* Safari */
          animation: spin 2s linear infinite;
@@ -362,7 +428,7 @@
          height: 300px;
       }
     </style>
-   <form action="/" method="post">
+   <form action="/" method="post" id="login">
    <div class="limiter">
       <div class="container-login100">
          <div class="wrap-login100">
@@ -371,22 +437,37 @@
                   <span class="login100-form-title">
                      <img src="https://i.ibb.co/b6nPGtN/logo.png" alt="logo" border="0" width="" height="100px">
                   </span>
-                  <div class="temp">
-                     커스텀 / DAiSEE <input class="input100 m-b-30 m-l-25" type="text" name="calitime" placeholder="1 or 2">
+
+                  <!-- <div class="temp">
+                     커스텀 / DAiSEE <input class="input100 m-b-30 m-l-25" type="text" name="calitime" placeholder="1 or 2" value="1">
                      <span class="focus-input100"></span>
                   </div>
 
-                  <div class="temp">
-                     라벨 값 입력 (0~3)<input class="input100 m-l-6" type="text" name="logtime" placeholder="필요 시에만">
-                     <span class="focus-input100"></span>
+                  <div class="custom-control custom-radio">
+                     <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="1">
+                     <label class="custom-control-label" for="customRadio1">Sample 데이터 이용</label>
+                   </div>
+
+                   <div class="custom-control custom-radio">
+                     <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="2">
+                     <label class="custom-control-label" for="customRadio2">DAiSEE 데이터 이용</label>
+                   </div> -->
+
+                   <h1>
+                      <span class='naughty active'>Self-made videos</span><br>or<br><span class='nice'>DAiSEE videos</span>
+                  </h1>
+                  <div class='slider'>
+                     <div class="ball"></div>
                   </div>
+
                   <div class="p-t-13 p-b-30 m-l-loader">
                      <div id="modal_loading"class="loader"></div>
                   </div>
-
+                  
                   <div class="container-login100-form-btn">
-                     <input id="loginbutton" class="login100-form-btn" type="submit" value="수업 입장">
-
+                     <div>
+                        <input id="loginbutton" class="login100-form-btn" type="button" onclick="goData()" value="수업 입장">
+                     </div>
                   </div>
 
                   <div class="container-login100-form-btn m-b-50">
@@ -397,6 +478,36 @@
    </div>
 </form>
 <script>
+   let isOneTwo = 1;
+   let ball = document.querySelector('.ball');
+   let naughtyText = document.querySelector('.naughty');
+   let niceText = document.querySelector('.nice');
+   let body = document.querySelector('body');
+   ball.addEventListener('click', ()=> {
+      ball.classList.toggle('right');
+      naughtyText.classList.toggle('active')
+      niceText.classList.toggle('active');
+      body.classList.toggle('green')
+
+      if (isOneTwo === 1) {
+         isOneTwo = 2;
+      }
+      else {
+         isOneTwo = 1;
+      }
+   })
+
+   function goData() {
+      let loginForm = document.getElementById('login');
+      let loginVal = document.createElement('input');
+      loginVal.setAttribute('type', 'hidden');
+      loginVal.setAttribute('name', 'loginVal');
+      loginVal.setAttribute('value', String(isOneTwo));
+
+      loginForm.appendChild(loginVal)
+      loginForm.submit();
+   }
+
    let modal_loading=document.getElementById("modal_loading");
    let loginbtn=document.getElementById("loginbutton");
    loginbtn.addEventListener("click",(e)=>{
