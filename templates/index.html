@@ -17,6 +17,7 @@
       crossorigin="anonymous"
     />
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='scoring_circular_bar.css') }}">
 
     <style>
       @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
@@ -650,7 +651,7 @@
         top: 102px;
 
         background: #ffffff;
-        border: 2px solid #2e9f95;
+        border: 2px solid #FFB600;
         box-sizing: border-box;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 15px;
@@ -660,7 +661,7 @@
         font-weight: bold;
         font-size: 10.5px;
         line-height: 16px;
-        color: #2e9f95;
+        color: #ff6a00;
       }
       .std_modal_posture_box {
         position: absolute;
@@ -746,6 +747,29 @@
         width: 100%;
         height: 100%;
       }
+      .explain_to_teacher{
+        position: absolute;
+        z-index: 20;
+        width: 42px;
+        height: 42px;
+        left: 151px;
+        top: 1px;
+
+        background: #FFFFFF;
+        border: 2px solid #FF2D2D;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 14.5px;
+        line-height: 19px;
+
+        color: #FF4242;
+
+      }
 
     </style>
   </head>
@@ -797,6 +821,7 @@
       class="std1_modal"
       style="display: none; border: 3px solid #ff9d2b"
     >
+      <div class="explain_to_teacher"><center>졸음 방지</center></div>
       <img
         id="close_bomb_std1"
         class="std_modal_bomb_picture"
@@ -813,6 +838,7 @@
       class="std2_modal"
       style="display: none; border: 3px solid #ff9d2b"
     >
+      <div class="explain_to_teacher"><center>졸음 방지</center></div>
       <img
         id="close_bomb_std2"
         class="std_modal_bomb_picture"
@@ -828,6 +854,7 @@
       class="std3_modal"
       style="display: none; border: 3px solid #ff9d2b"
     >
+      <div class="explain_to_teacher"><center>졸음 방지</center></div>
       <img
         id="close_bomb_std3"
         class="std_modal_bomb_picture"
@@ -843,6 +870,7 @@
       class="std4_modal"
       style="display: none; border: 3px solid #ff9d2b"
     >
+    <div class="explain_to_teacher"><center>졸음 방지</center></div>
       <img
         id="close_bomb_std4"
         class="std_modal_bomb_picture"
@@ -859,6 +887,7 @@
       class="std1_modal"
       style="display: none; border: 3px solid #e52622"
     >
+      <div class="explain_to_teacher"><center>자리 비움</center></div>
       <img
         id="colse_thief_std1"
         class="std_modal_thief"
@@ -871,6 +900,7 @@
       class="std2_modal"
       style="display: none; border: 3px solid #e52622"
     >
+      <div class="explain_to_teacher"><center>자리 비움</center></div>
       <img
         id="colse_thief_std2"
         class="std_modal_thief"
@@ -883,6 +913,7 @@
       class="std3_modal"
       style="display: none; border: 3px solid #e52622"
     >
+      <div class="explain_to_teacher"><center>자리 비움</center></div>
       <img
         id="colse_thief_std3"
         class="std_modal_thief"
@@ -895,6 +926,7 @@
       class="std4_modal"
       style="display: none; border: 3px solid #e52622"
     >
+      <div class="explain_to_teacher"><center>자리 비움</center></div>
       <img
         id="colse_thief_std4"
         class="std_modal_thief"
@@ -908,6 +940,7 @@
       <div class="std_modal_speech_text">
         &nbsp;&nbsp;&nbsp;적극적으로 발표해 보아요!
       </div>
+      <div class="explain_to_teacher"><center>발화 독려</center></div>
       <img
         id="close_speech_stu1"
         class="std_modal_speech"
@@ -920,6 +953,7 @@
       <div class="std_modal_speech_text">
         &nbsp;&nbsp;&nbsp;적극적으로 발표해 보아요!
       </div>
+      <div class="explain_to_teacher"><center>발화 독려</center></div>
       <img
         id="close_speech_stu2"
         class="std_modal_speech"
@@ -932,6 +966,7 @@
       <div class="std_modal_speech_text">
         &nbsp;&nbsp;&nbsp;적극적으로 발표해 보아요!
       </div>
+      <div class="explain_to_teacher"><center>발화 독려</center></div>
       <img
         id="close_speech_stu3"
         class="std_modal_speech"
@@ -944,6 +979,7 @@
       <div class="std_modal_speech_text">
         &nbsp;&nbsp;&nbsp;적극적으로 발표해 보아요!
       </div>
+      <div class="explain_to_teacher"><center>발화 독려</center></div>
       <img
         id="close_speech_stu4"
         class="std_modal_speech"
@@ -956,10 +992,11 @@
       <div class="std_modal_posture_text">
         &nbsp;바른 자세로 수업에 집중해 보아요!
       </div>
+      <div class="explain_to_teacher"><center>자세 교정</center></div>
       <img
         id="close_posture_std1"
         class="std_modal_speech"
-        src="https://drive.google.com/uc?id=1KDuI3dFyD9mG0Qre9bNDIN6CjBa9PPiP"
+        src="http://drive.google.com/uc?export=view&id=1LWpNJ7eSiKre3P7Y5aPANmNZqnOxJ4qU"
       />
     </div>
 
@@ -968,10 +1005,11 @@
       <div class="std_modal_posture_text">
         &nbsp;바른 자세로 수업에 집중해 보아요!
       </div>
+      <div class="explain_to_teacher"><center>자세 교정</center></div>
       <img
         id="close_posture_std2"
         class="std_modal_speech"
-        src="https://drive.google.com/uc?id=1KDuI3dFyD9mG0Qre9bNDIN6CjBa9PPiP"
+        src="http://drive.google.com/uc?export=view&id=1LWpNJ7eSiKre3P7Y5aPANmNZqnOxJ4qU"
       />
     </div>
 
@@ -980,10 +1018,11 @@
       <div class="std_modal_posture_text">
         &nbsp;바른 자세로 수업에 집중해 보아요!
       </div>
+      <div class="explain_to_teacher"><center>자세 교정</center></div>
       <img
         id="close_posture_std3"
         class="std_modal_speech"
-        src="https://drive.google.com/uc?id=1KDuI3dFyD9mG0Qre9bNDIN6CjBa9PPiP"
+        src="http://drive.google.com/uc?export=view&id=1LWpNJ7eSiKre3P7Y5aPANmNZqnOxJ4qU"
       />
     </div>
 
@@ -992,10 +1031,11 @@
       <div class="std_modal_posture_text">
         &nbsp;바른 자세로 수업에 집중해 보아요!
       </div>
+      <div class="explain_to_teacher"><center>자세 교정</center></div>
       <img
         id="close_posture_std4"
         class="std_modal_speech"
-        src="https://drive.google.com/uc?id=1KDuI3dFyD9mG0Qre9bNDIN6CjBa9PPiP"
+        src="http://drive.google.com/uc?export=view&id=1LWpNJ7eSiKre3P7Y5aPANmNZqnOxJ4qU"
       />
     </div>
     <div id="std1_modal_alarm" class="std1_modal" style="display: none">
@@ -1091,6 +1131,144 @@
       </div>
     </div>
 
+    <script type="text/javascript">
+
+  var stu1stamp = [0, 0, 0];
+  var stu2stamp = [0, 0, 0];
+  var stu3stamp = [0, 0, 0];
+  var stu4stamp = [0, 0, 0];
+  var totalStamp = 0;
+
+  var avgScore = 0;
+  var stu1Score = 0;
+  var stu2Score = 0;
+  var stu3Score = 0;
+  var stu4Score = 0;
+
+
+  setInterval(function () {
+      console.log("stu1 1 2 3 : " + stu1stamp[2] + " " + stu1stamp[1] + " " + stu1stamp[0]);
+      console.log("stu2 1 2 3 : " + stu2stamp[2] + " " + stu2stamp[1] + " " + stu2stamp[0]);
+      console.log("stu3 1 2 3 : " + stu3stamp[2] + " " + stu3stamp[1] + " " + stu3stamp[0]);
+      console.log("stu4 1 2 3 : " + stu4stamp[2] + " " + stu4stamp[1] + " " + stu4stamp[0]);
+      console.log("totalstamp: " + totalStamp);
+      console.log("stu1Score: " + stu1Score);
+      console.log("stu2Score: " + stu2Score);
+      console.log("stu3Score: " + stu3Score);
+      console.log("stu4Score: " + stu4Score);
+      console.log("avgScore: " + avgScore);
+
+      $("#avgScore").text(avgScore + "%");
+      $("#stu1Score").text(stu1Score + "%");
+      $("#stu2Score").text(stu2Score + "%");
+      $("#stu3Score").text(stu3Score + "%");
+      $("#stu4Score").text(stu4Score + "%");
+      if(avgScore<30){
+        $("#avgScoreGraph").attr('class', 'progress-circle p' + String(avgScore));
+        $("#avgf50").css('background-color', '#ff4343');
+        $("#avgbar").css('border-color', '#ff4343');
+      }
+      else if(avgScore<51){
+        $("#avgScoreGraph").attr('class', 'progress-circle p' + String(avgScore));
+        $("#avgf50").css('background-color', '#ff9d2b');
+        $("#avgbar").css('border-color', '#ff9d2b');
+      }
+      else if(avgScore<70){
+        $("#avgScoreGraph").attr('class', 'progress-circle over50 p' + String(avgScore));
+        $("#avgf50").css('background-color', '#ff9d2b');
+        $("#avgbar").css('border-color', '#ff9d2b');
+      }
+      else{
+        $("#avgScoreGraph").attr('class', 'progress-circle over50 p' + String(avgScore));
+        $("#avgf50").css('background-color', '#18ef14');
+        $("#avgbar").css('border-color', '#18ef14');
+      }
+      if(stu1Score<30){
+        $("#stu1ScoreGraph").attr('class', 'progress-circle p' + String(stu1Score));
+        $("#stu1f50").css('background-color', '#ff4343');
+        $("#stu1bar").css('border-color', '#ff4343');
+      }
+      else if(stu1Score<51){
+        $("#stu1ScoreGraph").attr('class', 'progress-circle p' + String(stu1Score));
+        $("#stu1f50").css('background-color', '#ff9d2b');
+        $("#stu1bar").css('border-color', '#ff9d2b');
+      }
+      else if(stu1Score<70){
+        $("#stu1ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu1Score));
+        $("#stu1f50").css('background-color', '#ff9d2b');
+        $("#stu1bar").css('border-color', '#ff9d2b');
+      }
+      else{
+        $("#stu1ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu1Score));
+        $("#stu1f50").css('background-color', '#18ef14');
+        $("#stu1bar").css('border-color', '#18ef14');
+      }
+      if(stu2Score<30){
+        $("#stu2ScoreGraph").attr('class', 'progress-circle p' + String(stu2Score));
+        $("#stu2f50").css('background-color', '#ff4343');
+        $("#stu2bar").css('border-color', '#ff4343');
+      }
+      else if(stu2Score<51){
+        $("#stu2ScoreGraph").attr('class', 'progress-circle p' + String(stu2Score));
+        $("#stu2f50").css('background-color', '#ff9d2b');
+        $("#stu2bar").css('border-color', '#ff9d2b');
+      }
+      else if(stu2Score<70){
+        $("#stu2ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu2Score));
+        $("#stu2f50").css('background-color', '#ff9d2b');
+        $("#stu2bar").css('border-color', '#ff9d2b');
+      }
+      else{
+        $("#stu2ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu2Score));
+        $("#stu2f50").css('background-color', '#18ef14');
+        $("#stu2bar").css('border-color', '#18ef14');
+      }
+      if(stu3Score<30){
+        $("#stu3ScoreGraph").attr('class', 'progress-circle p' + String(stu3Score));
+        $("#stu3f50").css('background-color', '#ff4343');
+        $("#stu3bar").css('border-color', '#ff4343');
+      }
+      else if(stu3Score<51){
+        $("#stu3ScoreGraph").attr('class', 'progress-circle p' + String(stu3Score));
+        $("#stu3f50").css('background-color', '#ff9d2b');
+        $("#stu3bar").css('border-color', '#ff9d2b');
+      }
+      else if(stu3Score<70){
+        $("#stu3ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu3Score));
+        $("#stu3f50").css('background-color', '#ff9d2b');
+        $("#stu3bar").css('border-color', '#ff9d2b');
+      }
+      else{
+        $("#stu3ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu3Score));
+        $("#stu3f50").css('background-color', '#18ef14');
+        $("#stu3bar").css('border-color', '#18ef14');
+      }
+      if(stu4Score<30){
+        $("#stu4ScoreGraph").attr('class', 'progress-circle p' + String(stu4Score));
+        $("#stu4f50").css('background-color', '#ff4343');
+        $("#stu4bar").css('border-color', '#ff4343');
+      }
+      else if(stu4Score<51){
+        $("#stu4ScoreGraph").attr('class', 'progress-circle p' + String(stu4Score));
+        $("#stu4f50").css('background-color', '#ff9d2b');
+        $("#stu4bar").css('border-color', '#ff9d2b');
+      }
+      else if(stu4Score<70){
+        $("#stu4ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu4Score));
+        $("#stu4f50").css('background-color', '#ff9d2b');
+        $("#stu4bar").css('border-color', '#ff9d2b');
+      }
+      else{
+        $("#stu4ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu4Score));
+        $("#stu4f50").css('background-color', '#18ef14');
+        $("#stu4bar").css('border-color', '#18ef14');
+      }
+      
+      
+    }, 1000);
+
+    </script>
+
     <div id="modal" class="result_overlay">
       <div class="result_full" id="result_full">
         <div class="tabmenu">
@@ -1107,56 +1285,61 @@
                   "
                   >학생 몰입도 점수</span
                 >
+
                 <table width="100%" height="26%" align="center">
                   <tbody>
                     <tr height="60%" align="center">
                       <td width="20%">
-                        <img
-                          src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj"
-                          border="0"
-                          height="100%"
-                          width="100%"
-                        />
+                        <div class="progress-circle p0" id="avgScoreGraph">
+                          <span id="avgScore">0%</span>
+                          <div class="left-half-clipper">
+                             <div class="first50-bar" id="avgf50"></div>
+                             <div class="value-bar" id="avgbar"></div>
+                          </div>
+                       </div>
                       </td>
                       <td width="20%">
-                        <img
-                          src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj"
-                          border="0"
-                          height="100%"
-                          width="100%"
-                        />
+                        <div class="progress-circle p0" id="stu1ScoreGraph">
+                          <span id="stu1Score">0%</span>
+                          <div class="left-half-clipper">
+                             <div class="first50-bar" id="stu1f50"></div>
+                             <div class="value-bar" id="stu1bar"></div>
+                          </div>
+                       </div>
+                      <td width="20%">
+                        <div class="progress-circle p0" id="stu2ScoreGraph">
+                          <span id="stu2Score">0%</span>
+                          <div class="left-half-clipper">
+                             <div class="first50-bar" id="stu2f50"></div>
+                             <div class="value-bar" id="stu2bar"></div>
+                          </div>
+                       </div>
                       </td>
                       <td width="20%">
-                        <img
-                          src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj"
-                          border="0"
-                          height="100%"
-                          width="100%"
-                        />
+                        <div class="progress-circle p0" id="stu3ScoreGraph">
+                          <span id="stu3Score">0%</span>
+                          <div class="left-half-clipper">
+                             <div class="first50-bar" id="stu3f50"></div>
+                             <div class="value-bar" id="stu3bar"></div>
+                          </div>
+                       </div>
                       </td>
                       <td width="20%">
-                        <img
-                          src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj"
-                          border="0"
-                          height="100%"
-                          width="100%"
-                        />
-                      </td>
-                      <td width="20%">
-                        <img
-                          src="https://drive.google.com/uc?id=1lXCg3qGia7iI74Wx1-MfH9RBc0U3OREj"
-                          border="0"
-                          height="100%"
-                          width="100%"
-                        />
+                        <div class="progress-circle p0" id="stu4ScoreGraph">
+                          <span id="stu4Score">0%</span>
+                          <div class="left-half-clipper">
+                             <div class="first50-bar" id="stu4f50"></div>
+                             <div class="value-bar" id="stu4bar"></div>
+                          </div>
+                       </div>
                       </td>
                     </tr>
                     <tr height="20%" align="center">
                       <td width="20%">평균</td>
-                      <td width="20%">나</td>
-                      <td width="20%">학생1</td>
-                      <td width="20%">학생2</td>
-                      <td width="20%">학생3</td>
+                      <td width="20%">이관우</td>
+                      <td width="20%">안서정</td>
+                      <td width="20%">성태훈</td>
+                      <td width="20%">조예림</td>
                     </tr>
                   </tbody>
                 </table>
@@ -1171,6 +1354,9 @@
                 >
                 <table width="100%" height="50%" align="center">
                   <tbody>
+                    <tr height="50%">
+                    <td width ="100%"><img style="width: 854px; height: 388px;"src="http://drive.google.com/uc?export=view&id=11auA69H9TSXmcFCOfgeK23tp-f9oEapa"></td>
+                      <!--
                     <tr height="10%" align="center">
                       <td width="10%">평균</td>
                       <td width="90%">
@@ -1182,7 +1368,7 @@
                       </td>
                     </tr>
                     <tr height="10%" align="center">
-                      <td width="10%">나</td>
+                      <td width="10%">이관우</td>
                       <td width="90%">
                         <img
                           src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD"
@@ -1192,7 +1378,7 @@
                       </td>
                     </tr>
                     <tr height="10%" align="center">
-                      <td width="10%">학생1</td>
+                      <td width="10%">안서정</td>
                       <td width="90%">
                         <img
                           src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD"
@@ -1202,7 +1388,7 @@
                       </td>
                     </tr>
                     <tr height="10%" align="center">
-                      <td width="10%">학생2</td>
+                      <td width="10%">성태훈</td>
                       <td width="90%">
                         <img
                           src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD"
@@ -1212,14 +1398,14 @@
                       </td>
                     </tr>
                     <tr height="10%" align="center">
-                      <td width="10%">학생3</td>
+                      <td width="10%">조예림</td>
                       <td width="90%">
                         <img
                           src="https://drive.google.com/uc?id=1DwptjqoX728DkrhYgDm59Tw2-5NS0-fD"
                           border="0"
                           width="100%"
                         />
-                      </td>
+                      </td>-->
                     </tr>
                   </tbody>
                 </table>
@@ -1228,7 +1414,7 @@
 
             <li id="tab2" class="btnCon">
               <input type="radio" name="tabmenu" id="tabmenu2" />
-              <label for="tabmenu2">나</label>
+              <label for="tabmenu2">이관우</label>
               <div class="tabCon">
                 <img
                   src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC"
@@ -1239,7 +1425,7 @@
 
             <li id="tab3" class="btnCon">
               <input type="radio" name="tabmenu" id="tabmenu3" />
-              <label for="tabmenu3">학생1</label>
+              <label for="tabmenu3">안서정</label>
               <div class="tabCon">
                 <img
                   src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC"
@@ -1250,7 +1436,7 @@
 
             <li id="tab4" class="btnCon">
               <input type="radio" name="tabmenu" id="tabmenu4" />
-              <label for="tabmenu4">학생2</label>
+              <label for="tabmenu4">성태훈</label>
               <div class="tabCon">
                 <img
                   src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC"
@@ -1261,7 +1447,7 @@
 
             <li id="tab5" class="btnCon">
               <input type="radio" name="tabmenu" id="tabmenu5" />
-              <label for="tabmenu5">학생3</label>
+              <label for="tabmenu5">조예림</label>
               <div class="tabCon">
                 <img
                   src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC"
@@ -2126,7 +2312,7 @@
               background: white;
             "
           >
-            <div class="name">나</div>
+            <div class="name">이관우</div>
             <div class="img_btn" style="margin-top: 10%">
               <button
                 type="button"
@@ -2254,7 +2440,7 @@
         </div>
       </div>
 
-      <!--두번째 칸(학생2)-->
+      <!--두번째 칸(학생1)-->
       <div class="item">
         <div
           style="
@@ -2328,7 +2514,7 @@
               background: white;
             "
           >
-            <div class="name">학생1</div>
+            <div class="name">안서정</div>
             <div class="img_btn" style="margin-top: 10%">
               <button
                 type="button"
@@ -2529,7 +2715,7 @@
               background: white;
             "
           >
-            <div class="name">학생2</div>
+            <div class="name">성태훈</div>
             <div class="img_btn" style="margin-top: 10%">
               <button
                 type="button"
@@ -2731,7 +2917,7 @@
               background: white;
             "
           >
-            <div class="name">학생3</div>
+            <div class="name">조예림</div>
             <div class="img_btn" style="margin-top: 10%">
               <button
                 type="button"
@@ -3061,288 +3247,271 @@
         }, 1000);
       </script>
 
-      <script type="text/javascript">
-        var board1 = document.getElementById("block_1");
-        var board2 = document.getElementById("block_2");
-        var board3 = document.getElementById("block_3");
-        var board4 = document.getElementById("block_4");
+<script type="text/javascript">
+  var board1 = document.getElementById("block_1");
+  var board2 = document.getElementById("block_2");
+  var board3 = document.getElementById("block_3");
+  var board4 = document.getElementById("block_4");
 
-        //board1.scrollLeft=board1.scrollWidth;
-        var student1_count = [0, 0, 0];
-        var student2_count = [0, 0, 0];
-        var student3_count = [0, 0, 0];
-        var student4_count = [0, 0, 0];
-        var time_count = 0;
-        var reset_off = 0;
-        var reset_on = 0;
-        //덮어쓸 타임스탬트의 인덱스 결정 카운트
-        var time_stamp_count = 0;
-        //타임스탬프가 찍히는 시간
-        var stamp_create_interval = 2;
-        //초기화 할때 지워야 할 블록의 갯수
-        var block_clear = 16;
-        setInterval(function () {
-          $.ajax({
-            url: "/colorStat_feed",
-            type: "POST",
-            success: function (response) {
-              if (reset_off === 0) {
-                time_count++;
-              }
-              //학생 1 타임스탬프
-              var student1 = document.createElement("div");
-              console.log("student1 : " + response["stu1Color"]);
-              if (response["stu1Color"] === "0") {
-                student1.setAttribute("class", "block1");
-                student1_count[0]++;
-              } else if (response["stu1Color"] === "1") {
-                student1.setAttribute("class", "block2");
-                student1_count[1]++;
-              } else {
-                student1.setAttribute("class", "block3");
-                student1_count[2]++;
-              }
-              //학생 2 타임스탬프
-              var student2 = document.createElement("div");
-              console.log("student2 : " + response["stu2Color"]);
-              if (response["stu2Color"] === "0") {
-                student2.setAttribute("class", "block1");
-                student2_count[0]++;
-              } else if (response["stu2Color"] === "1") {
-                student2.setAttribute("class", "block2");
-                student2_count[1]++;
-              } else {
-                student2.setAttribute("class", "block3");
-                student2_count[2]++;
-              }
-              //학생 3 타임스탬프
-              var student3 = document.createElement("div");
-              console.log("student3 : " + response["stu3Color"]);
-              if (response["stu3Color"] === "0") {
-                student3.setAttribute("class", "block1");
-                student3_count[0]++;
-              } else if (response["stu3Color"] === "1") {
-                student3.setAttribute("class", "block2");
-                student3_count[1]++;
-              } else {
-                student3.setAttribute("class", "block3");
-                student3_count[2]++;
-              }
-              //학생 4 타임스탬프
-              var student4 = document.createElement("div");
-              console.log("student4 : " + response["stu4Color"]);
-              if (response["stu4Color"] === "0") {
-                student4.setAttribute("class", "block1");
-                student4_count[0]++;
-              } else if (response["stu4Color"] === "1") {
-                student4.setAttribute("class", "block2");
-                student4_count[1]++;
-              } else {
-                student4.setAttribute("class", "block3");
-                student4_count[2]++;
-              }
+  //학생들의 집중도 평균값을 구하기 위한 변수
+  var student1_count = [0, 0, 0];
+  var student2_count = [0, 0, 0];
+  var student3_count = [0, 0, 0];
+  var student4_count = [0, 0, 0];
+  //학생들 마다 발생한 스탬프 갯수 0->빨,1->노,2->초
 
-              //2초에 한번 씩 생성
-              if (time_count % 2 === 0) {
-                var student1_max = Math.max(...student1_count);
-                var student2_max = Math.max(...student2_count);
-                var student3_max = Math.max(...student3_count);
-                var student4_max = Math.max(...student4_count);
+  var scoreTemp1 = 0;
+  var scoreTemp2 = 0;
+  var scoreTemp3 = 0;
+  var scoreTemp4 = 0;
+  var scoreTemp5 = 0;
+  
 
-                console.log("studnet1_max : " + student1_max);
-                console.log("studnet2_max : " + student2_max);
-                console.log("studnet3_max : " + student3_max);
-                console.log("studnet4_max : " + student4_max);
+  //시간 계산
+  var time_count = 0;
+  //동영상이 재생중일때 0, 재생이 끝나면 1
+  var video_off = 0;
+  //리셋 버튼이 눌리면 1 아니면 0
+  var reset_on = 0;
+  //덮어쓸 타임스탬트의 인덱스 결정 카운트
+  var time_stamp_count = 0;
+  //타임스탬프가 찍히는 시간 간격(초 단위)
+  var stamp_create_interval = 2;
+  //초기화 할때 지워야 할 블록의 갯수
+  var block_clear = 0;
+  
+  setInterval(function () {
+    $.ajax({
+      url: "/colorStat_feed",
+      type: "POST",
+      success: function (response) {
+        //아직 영상이 재생중일경우
+        if (video_off === 0) {
+          time_count++;
+        }
+        //학생 1 실시간 집중도 저장
+        if (response["stu1Color"] === "0") {
+          student1_count[0]++;
+        } else if (response["stu1Color"] === "1") {
+          student1_count[1]++;
+        } else {
+          student1_count[2]++;
+        }
+        //학생 2 실시간 집중도 저장
+        if (response["stu2Color"] === "0") {
+          student2_count[0]++;
+        } else if (response["stu2Color"] === "1") {
+          student2_count[1]++;
+        } else {
+          student2_count[2]++;
+        }
+        //학생 3 실시간 집중도 저장
+        if (response["stu3Color"] === "0") {
+          student3_count[0]++;
+        } else if (response["stu3Color"] === "1") {
+          student3_count[1]++;
+        } else {
+          student3_count[2]++;
+        }
+        //학생 4 실시간 집중도 저장
+        if (response["stu4Color"] === "0") {
+          student4_count[0]++;
+        } else if (response["stu4Color"] === "1") {
+          student4_count[1]++;
+        } else {
+          student4_count[2]++;
+        }
+        //투명한 블록 생성
+        if (
+          time_count === 1 ||
+          (time_count % (16 * stamp_create_interval) === 0 &&
+            video_off === 0 &&
+            reset_on !== 1)
+        ) {
+          if (time_count === 1) {
+            time_stamp_count = 1;
+          } else {
+            time_stamp_count = time_count / stamp_create_interval;
+          }
+          block_clear += 16;
+          for (var i = 0; i < 16; i++) {
+            var student1 = document.createElement("div");
+            var student2 = document.createElement("div");
+            var student3 = document.createElement("div");
+            var student4 = document.createElement("div");
+            student1.setAttribute("class", "block4");
+            student2.setAttribute("class", "block4");
+            student3.setAttribute("class", "block4");
+            student4.setAttribute("class", "block4");
+            board1.appendChild(student1);
+            board2.appendChild(student2);
+            board3.appendChild(student3);
+            board4.appendChild(student4);
+            board1.scrollLeft = board1.scrollWidth;
+            board2.scrollLeft = board2.scrollWidth;
+            board3.scrollLeft = board3.scrollWidth;
+            board4.scrollLeft = board4.scrollWidth;
+          }
+        }
 
-                for (var i = 0; i < 3; i++) {
-                  if (student1_count[i] === student1_max) {
-                    student1_max = i;
-                    console.log("index1 : " + student1_max);
-                    break;
-                  }
-                }
-                for (var i = 0; i < 3; i++) {
-                  if (student2_count[i] === student2_max) {
-                    student2_max = i;
-                    console.log("index2 : " + student2_max);
-                    break;
-                  }
-                }
+        //stamp_create_interval 간격으로 스탬프 생성
+        if (time_count % stamp_create_interval === 0) {
+          //가장 많이 발생한 집중도 단계 저장
+          var student1_max = Math.max(...student1_count);
+          var student2_max = Math.max(...student2_count);
+          var student3_max = Math.max(...student3_count);
+          var student4_max = Math.max(...student4_count);
 
-                for (var i = 0; i < 3; i++) {
-                  if (student3_count[i] === student3_max) {
-                    student3_max = i;
-                    console.log("index3 : " + student3_max);
-                    break;
-                  }
-                }
+          //가장 많이 발생한 집중도 배열에서의 위치 파악
+          for (var i = 0; i < 3; i++) {
+            if (student1_count[i] === student1_max) {
+              student1_max = i;
+              break;
+            }
+          }
+          for (var i = 0; i < 3; i++) {
+            if (student2_count[i] === student2_max) {
+              student2_max = i;
+              break;
+            }
+          }
+          for (var i = 0; i < 3; i++) {
+            if (student3_count[i] === student3_max) {
+              student3_max = i;
+              break;
+            }
+          }
+          for (var i = 0; i < 3; i++) {
+            if (student4_count[i] === student4_max) {
+              student4_max = i;
+              break;
+            }
+          }
 
-                for (var i = 0; i < 3; i++) {
-                  if (student4_count[i] === student4_max) {
-                    student4_max = i;
-                    console.log("index4 : " + student4_max);
-                    break;
-                  }
-                }
+          if (response["stu2Color"] === "-1" && video_off === 0) {
+            setInterval("allModalOff()", 1000);
+            document.getElementById("finishAlarm").style.display =
+              "block";
+            video_off = 1;
+          }
+          if (response["stu2Color"] !== "-1" && video_off === 1) {
+            reset_on = 1;
+            video_off = 0;
+          }
 
-                //맨 처음 16개 생성
-                if (time_count <= 16 * stamp_create_interval) {
-                  //학생 1 타임스탬프
-                  if (student1_max === 0) {
-                    student1.setAttribute("class", "block1");
-                  } else if (student1_max === 1) {
-                    student1.setAttribute("class", "block2");
-                  } else {
-                    student1.setAttribute("class", "block3");
-                  }
-                  //학생 2 타임스탬프
-                  if (student2_max === 0) {
-                    student2.setAttribute("class", "block1");
-                  } else if (student2_max === 1) {
-                    student2.setAttribute("class", "block2");
-                  } else {
-                    student2.setAttribute("class", "block3");
-                  }
-                  //학생 3 타임스탬프
-                  if (student3_max === 0) {
-                    student3.setAttribute("class", "block1");
-                  } else if (student3_max === 1) {
-                    student3.setAttribute("class", "block2");
-                  } else {
-                    student3.setAttribute("class", "block3");
-                  }
-                  //학생 4 타임스탬프
-                  if (student4_max === 0) {
-                    student4.setAttribute("class", "block1");
-                  } else if (student4_max === 1) {
-                    student4.setAttribute("class", "block2");
-                  } else {
-                    student4.setAttribute("class", "block3");
-                  }
-                }
-                //16개 이후
-                else {
-                  if (reset_off === 0) {
-                    student1 = board1.childNodes[time_stamp_count];
-                    student2 = board2.childNodes[time_stamp_count];
-                    student3 = board3.childNodes[time_stamp_count];
-                    student4 = board4.childNodes[time_stamp_count];
-                    console.log("time_stamp_count : " + time_stamp_count);
-                    time_stamp_count++;
-                    //학생 1 타임스탬프
-                    if (student1_max === 0) {
-                      student1.setAttribute("class", "block1");
-                    } else if (student1_max === 1) {
-                      student1.setAttribute("class", "block2");
-                    } else {
-                      student1.setAttribute("class", "block3");
-                    }
-                    //학생 2 타임스탬프
-                    if (student2_max === 0) {
-                      student2.setAttribute("class", "block1");
-                    } else if (student2_max === 1) {
-                      student2.setAttribute("class", "block2");
-                    } else {
-                      student2.setAttribute("class", "block3");
-                    }
-                    //학생 3 타임스탬프
-                    if (student3_max === 0) {
-                      student3.setAttribute("class", "block1");
-                    } else if (student3_max === 1) {
-                      student3.setAttribute("class", "block2");
-                    } else {
-                      student3.setAttribute("class", "block3");
-                    }
-                    //학생 4 타임스탬프
-                    if (student4_max === 0) {
-                      student4.setAttribute("class", "block1");
-                    } else if (student4_max === 1) {
-                      student4.setAttribute("class", "block2");
-                    } else {
-                      student4.setAttribute("class", "block3");
-                    }
-                  }
-                }
+          if (video_off === 0) {
+            student1 = board1.childNodes[time_stamp_count];
+            student2 = board2.childNodes[time_stamp_count];
+            student3 = board3.childNodes[time_stamp_count];
+            student4 = board4.childNodes[time_stamp_count];
+            time_stamp_count++;
+            //학생 1 타임스탬프 결정
+            if (student1_max === 0) {
+              student1.setAttribute("class", "block1");
+              stu1stamp[0]++;
+            } else if (student1_max === 1) {
+              student1.setAttribute("class", "block2");
+              stu1stamp[1]++;
+            } else {
+              student1.setAttribute("class", "block3");
+              stu1stamp[2]++;
+            }
 
-                if (response["stu2Color"] !== "-1" && reset_off === 0) {
-                  if (time_count <= 16 * stamp_create_interval) {
-                    board1.appendChild(student1);
-                    board2.appendChild(student2);
-                    board3.appendChild(student3);
-                    board4.appendChild(student4);
-                  }
-                }
-                if (response["stu2Color"] === "-1" && reset_off === 0) {
-                  setInterval("allModalOff()", 1000);
-                  document.getElementById("finishAlarm").style.display =
-                    "block";
-                  reset_off = 1;
-                }
-                if (response["stu2Color"] !== "-1" && reset_off === 1) {
-                  reset_on = 1;
-                  reset_off = 0;
-                }
+            //학생 2 타임스탬프 결정
+            if (student2_max === 0) {
+              student2.setAttribute("class", "block1");
+              stu2stamp[0]++;
+            } else if (student2_max === 1) {
+              student2.setAttribute("class", "block2");
+              stu2stamp[1]++;
+            } else {
+              student2.setAttribute("class", "block3");
+              stu2stamp[2]++;
+            }
+            //학생 3 타임스탬프 결정
+            if (student3_max === 0) {
+              student3.setAttribute("class", "block1");
+              stu3stamp[0]++;
+            } else if (student3_max === 1) {
+              student3.setAttribute("class", "block2");
+              stu3stamp[1]++;
+            } else {
+              student3.setAttribute("class", "block3");
+              stu3stamp[2]++;
+            }
+            //학생 4 타임스탬프 결정
+            if (student4_max === 0) {
+              student4.setAttribute("class", "block1");
+              stu4stamp[0]++;
+            } else if (student4_max === 1) {
+              student4.setAttribute("class", "block2");
+              stu4stamp[1]++;
+            } else {
+              student4.setAttribute("class", "block3");
+              stu4stamp[2]++;
+            }
+          }
 
-                student1_count.fill(0);
-                student2_count.fill(0);
-                student3_count.fill(0);
-                student4_count.fill(0);
-                console.log("student clear!\n" + student1_count);
+          student1_count.fill(0);
+          student2_count.fill(0);
+          student3_count.fill(0);
+          student4_count.fill(0);
 
-                //타임스탬프가 찍히는 시간 * 16로 계산해서 16개가 채워질때마다 옆으로 미루기
-                if (
-                  time_count % (16 * stamp_create_interval) === 0 &&
-                  reset_off === 0 &&
-                  reset_on !== 1
-                ) {
-                  time_stamp_count = time_count / stamp_create_interval;
-                  block_clear = block_clear + 16;
-                  for (var i = 0; i < 16; i++) {
-                    var student1 = document.createElement("div");
-                    var student2 = document.createElement("div");
-                    var student3 = document.createElement("div");
-                    var student4 = document.createElement("div");
-                    student1.setAttribute("class", "block4");
-                    student2.setAttribute("class", "block4");
-                    student3.setAttribute("class", "block4");
-                    student4.setAttribute("class", "block4");
-                    board1.appendChild(student1);
-                    board2.appendChild(student2);
-                    board3.appendChild(student3);
-                    board4.appendChild(student4);
-                    board1.scrollLeft = board1.scrollWidth;
-                    board2.scrollLeft = board2.scrollWidth;
-                    board3.scrollLeft = board3.scrollWidth;
-                    board4.scrollLeft = board4.scrollWidth;
-                    console.log("empty space!");
-                  }
-                }
-                if (reset_on === 1) {
-                  for (var i = block_clear - 1; i >= 0; i--) {
-                    console.log("time_count : " + (time_count / 2 - 1));
-                    board1.removeChild(board1.childNodes[i]);
-                    board2.removeChild(board2.childNodes[i]);
-                    board3.removeChild(board3.childNodes[i]);
-                    board4.removeChild(board4.childNodes[i]);
-                  }
-                  reset_on = 0;
-                  time_count = 0;
-                  time_stamp_count = 0;
-                  block_clear = 16;
-                }
+          totalStamp++;
 
-                board1.scrollLeft = board1.scrollWidth;
-                board2.scrollLeft = board2.scrollWidth;
-                board3.scrollLeft = board3.scrollWidth;
-                board4.scrollLeft = board4.scrollWidth;
-              }
-            },
-            error: function (error) {
-              console.log("error_color");
-            },
-          });
-        }, 1000);
-      </script>
+          scoreTemp1 = (((stu1stamp[2] / totalStamp) * 5 / 3) + ((stu1stamp[1] / totalStamp) * 2 / 3)) * (1 - ((stu1stamp[0] / totalStamp) / 2)) * 100;
+          scoreTemp2 = (((stu2stamp[2] / totalStamp) * 5 / 3) + ((stu2stamp[1] / totalStamp) * 2 / 3)) * (1 - ((stu2stamp[0] / totalStamp) / 2)) * 100;
+          scoreTemp3 = (((stu3stamp[2] / totalStamp) * 5 / 3) + ((stu3stamp[1] / totalStamp) * 2 / 3)) * (1 - ((stu3stamp[0] / totalStamp) / 2)) * 100;
+          scoreTemp4 = (((stu4stamp[2] / totalStamp) * 5 / 3) + ((stu4stamp[1] / totalStamp) * 2 / 3)) * (1 - ((stu4stamp[0] / totalStamp) / 2)) * 100;
+          stu1Score = Math.round(scoreTemp1);
+          stu2Score = Math.round(scoreTemp2);
+          stu3Score = Math.round(scoreTemp3);
+          stu4Score = Math.round(scoreTemp4);
+          if(stu1Score > 100){
+            stu1Score = 100;
+          }
+          if(stu2Score > 100){
+            stu2Score = 100;
+          }
+          if(stu3Score > 100){
+            stu3Score = 100;
+          }
+          if(stu4Score > 100){
+            stu4Score = 100;
+          }
+          scoreTemp5 = (stu1Score + stu2Score + stu3Score + stu4Score) / 4;
+          avgScore = Math.round(scoreTemp5);
+
+          if (reset_on === 1) {
+            for (var i = block_clear - 1; i >= 0; i--) {
+              board1.removeChild(board1.childNodes[i]);
+              board2.removeChild(board2.childNodes[i]);
+              board3.removeChild(board3.childNodes[i]);
+              board4.removeChild(board4.childNodes[i]);
+            }
+            reset_on = 0;
+            time_count = 0;
+            time_stamp_count = 0;
+            block_clear = 16;
+            document.getElementById("finishAlarm").style.display = "none";
+            for (var i = 0; i < 3; i++) {
+              stu1stamp[i] = 0;
+              stu2stamp[i] = 0;
+              stu3stamp[i] = 0;
+            }
+          }
+        }
+        board1.scrollLeft = board1.scrollWidth;
+        board2.scrollLeft = board2.scrollWidth;
+        board3.scrollLeft = board3.scrollWidth;
+        board4.scrollLeft = board4.scrollWidth;
+      },
+      error: function (error) {
+        console.log("error!");
+      },
+    });
+  }, 1000);
+</script>
     </div>
   </body>
 </html>
