@@ -3052,7 +3052,22 @@
                         agent_occur_sum4 +
                         agent_occur_sum3) /
                       4;
-                    if (progress_average > 0) {
+                    if(progress_average === 0)
+                    {
+                      $("#progress-average").attr(
+                        "style",
+                        "width : " +
+                          "2%;" +
+                          "background-color: " +
+                          "#8aecf2;" +
+                          "border-top-right-radius: " +
+                          "15px;" +
+                          "border-bottom-right-radius:" +
+                          " 15px;"
+                      );
+                      $("#progress-average-text").text("");
+                    }
+                    else if (progress_average > 0) {
                       progress_average =
                         Math.ceil(progress_average * 100) / 100;
                       if (progress_average < 0.5) {
@@ -4591,11 +4606,18 @@
                   block_clear = 16;
                   progress_average = 0;
                   document.getElementById("finishAlarm").style.display = "none";
+                  avgScore = 0;
+                  stu1Score = 0;
+                  stu2Score = 0;
+                  stu3Score = 0;
+                  stu4Score = 0;
+                  totalStamp = 0;
 
                   for (var i = 0; i < 3; i++) {
                     stu1stamp[i] = 0;
                     stu2stamp[i] = 0;
                     stu3stamp[i] = 0;
+                    stu4stamp[i] = 0;
                     agent_occur_count1[i] = 0;
                     agent_occur_count2[i] = 0;
                     agent_occur_count3[i] = 0;
@@ -4671,6 +4693,15 @@
                   );
                   $("#progress-color4_2").attr("style", "width : " + "0%;");
                   $("#progress-color4_3").attr("style", "width : " + "0%;");
+                  //원형 그래프 초기화
+                  $("#stu1ScoreGraph").attr("class", "progress-circle p0");
+                  $("#stu1Score").text("0%");
+                  $("#stu2ScoreGraph").attr("class", "progress-circle p0");
+                  $("#stu2Score").text("0%");
+                  $("#stu3ScoreGraph").attr("class", "progress-circle p0");
+                  $("#stu3Score").text("0%");
+                  $("#stu4ScoreGraph").attr("class", "progress-circle p0");
+                  $("#stu4Score").text("0%");
                 }
               }
               board1.scrollLeft = board1.scrollWidth;
