@@ -2651,15 +2651,17 @@
                             "background-color: " +
                             "#fbd9f7;"
                         );
-                      } else {
+                      } else if (agent_occur_count1[0] > 0) {
                         $("#progress-color1_1").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#fbd9f7;"
                         );
                       }
-                      $("#progress-text1_1").text(
-                        String(agent_occur_count1[0]) + "회"
-                      );
+                      if (agent_occur_count1[0] > 0) {
+                        $("#progress-text1_1").text(
+                          String(agent_occur_count1[0]) + "회"
+                        );
+                      }
                       if (agent_occur_adjusted1[1] > 0.5) {
                         $("#progress-color1_2").attr(
                           "style",
@@ -2669,15 +2671,17 @@
                             "background-color: " +
                             "#ff8ddf;"
                         );
-                      } else {
+                      } else if (agent_occur_count1[1] > 0) {
                         $("#progress-color1_2").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#fbd9f7;"
                         );
                       }
-                      $("#progress-text1_2").text(
-                        String(agent_occur_count1[1]) + "회"
-                      );
+                      if (agent_occur_count1[1] > 0) {
+                        $("#progress-text1_2").text(
+                          String(agent_occur_count1[1]) + "회"
+                        );
+                      }
                       if (agent_occur_adjusted1[2] > 0.5) {
                         $("#progress-color1_3").attr(
                           "style",
@@ -2687,15 +2691,17 @@
                             "background-color: " +
                             "#ff6a8e;"
                         );
-                      } else {
+                      } else if (agent_occur_count1[2] > 0) {
                         $("#progress-color1_3").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#fbd9f7;"
                         );
                       }
-                      $("#progress-text1_3").text(
-                        String(agent_occur_count1[2]) + "회"
-                      );
+                      if (agnet_occur_count1[2] > 0) {
+                        $("#progress-text1_3").text(
+                          String(agent_occur_count1[2]) + "회"
+                        );
+                      }
                     }
 
                     //학생2 그래프 생성
@@ -2767,16 +2773,19 @@
                             "background-color: " +
                             "#fbd9f7;"
                         );
-                      } else {
+                      } else if (agent_occur_count2[0] > 0) {
                         $("#progress-color2_1").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#fbd9f7;"
                         );
                       }
-                      $("#progress-text2_1").text(
-                        String(agent_occur_count2[0]) + "회"
-                      );
-                      if (agent_occur_adjusted2[0] > 0.5) {
+                      if (agent_occur_count2[0] > 0) {
+                        $("#progress-text2_1").text(
+                          String(agent_occur_count2[0]) + "회"
+                        );
+                      }
+
+                      if (agent_occur_adjusted2[1] > 0.5) {
                         $("#progress-color2_2").attr(
                           "style",
                           "width : " +
@@ -2785,16 +2794,19 @@
                             "background-color: " +
                             "#ff8ddf;"
                         );
-                      } else {
+                      } else if (agent_occur_count2[1] > 0) {
                         $("#progress-color2_2").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#ff8ddf;"
                         );
                       }
-                      $("#progress-text2_2").text(
-                        String(agent_occur_count2[1]) + "회"
-                      );
-                      if (agent_occur_adjusted2[0] > 0.5) {
+                      if (agent_occur_count2[1] > 0) {
+                        $("#progress-text2_2").text(
+                          String(agent_occur_count2[1]) + "회"
+                        );
+                      }
+
+                      if (agent_occur_adjusted2[2] > 0.5) {
                         $("#progress-color2_3").attr(
                           "style",
                           "width : " +
@@ -2803,15 +2815,17 @@
                             "background-color: " +
                             "#ff6a8e;"
                         );
-                      } else {
+                      } else if (agent_occur_count2[2] > 0) {
                         $("#progress-color2_3").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#ff8ddf;"
                         );
                       }
-                      $("#progress-text2_3").text(
-                        String(agent_occur_count2[2]) + "회"
-                      );
+                      if (agent_occur_count2[2] > 0) {
+                        $("#progress-text2_3").text(
+                          String(agent_occur_count2[2]) + "회"
+                        );
+                      }
                     }
 
                     //학생3 그래프 생성
@@ -2883,15 +2897,17 @@
                             "background-color: " +
                             "#fbd9f7;"
                         );
-                      } else {
+                      } else if (agent_occur_count3[0] > 0) {
                         $("#progress-color3_1").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#fbd9f7;"
                         );
                       }
-                      $("#progress-text3_1").text(
-                        String(agent_occur_count3[0]) + "회"
-                      );
+                      if (agent_occur_count3[0] > 0) {
+                        $("#progress-text3_1").text(
+                          String(agent_occur_count3[0]) + "회"
+                        );
+                      }
                       if (agent_occur_adjusted3[1] > 0.5) {
                         $("#progress-color3_2").attr(
                           "style",
@@ -2901,15 +2917,17 @@
                             "background-color: " +
                             "#ff8ddf;"
                         );
-                      } else {
+                      } else if (agent_occur_count3[1] > 0) {
                         $("#progress-color3_2").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#fbd9f7;"
                         );
                       }
-                      $("#progress-text3_2").text(
-                        String(agent_occur_count3[1]) + "회"
-                      );
+                      if (agent_occur_count3[1] > 0) {
+                        $("#progress-text3_2").text(
+                          String(agent_occur_count3[1]) + "회"
+                        );
+                      }
                       if (agent_occur_adjusted3[2] > 0.5) {
                         $("#progress-color3_3").attr(
                           "style",
@@ -2919,15 +2937,17 @@
                             "background-color: " +
                             "#ff6a8e;"
                         );
-                      } else {
+                      } else if (agent_occur_count3[2] > 0) {
                         $("#progress-color3_3").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#fbd9f7;"
                         );
                       }
-                      $("#progress-text3_3").text(
-                        String(agent_occur_count3[2]) + "회"
-                      );
+                      if (agent_occur_count3[2] > 0) {
+                        $("#progress-text3_3").text(
+                          String(agent_occur_count3[2]) + "회"
+                        );
+                      }
                     }
 
                     //학생4 그래프 생성
@@ -2999,15 +3019,17 @@
                             "background-color: " +
                             "#fbd9f7;"
                         );
-                      } else {
+                      } else if (agent_occur_count4[0] > 0) {
                         $("#progress-color4_1").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#fbd9f7;"
                         );
                       }
-                      $("#progress-text4_1").text(
-                        String(agent_occur_count4[0]) + "회"
-                      );
+                      if (agent_occur_count4[0] > 0) {
+                        $("#progress-text4_1").text(
+                          String(agent_occur_count4[0]) + "회"
+                        );
+                      }
                       if (agent_occur_adjusted4[1] > 0.5) {
                         $("#progress-color4_2").attr(
                           "style",
@@ -3017,15 +3039,17 @@
                             "background-color: " +
                             "#ff8ddf;"
                         );
-                      } else {
+                      } else if (agent_occur_count4[1] > 0) {
                         $("#progress-color4_2").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#ff8ddf;"
                         );
                       }
-                      $("#progress-text4_2").text(
-                        String(agent_occur_count4[1]) + "회"
-                      );
+                      if (agent_occur_count4[1] > 0) {
+                        $("#progress-text4_2").text(
+                          String(agent_occur_count4[1]) + "회"
+                        );
+                      }
                       if (agent_occur_adjusted4[2] > 0.5) {
                         $("#progress-color4_3").attr(
                           "style",
@@ -3035,15 +3059,17 @@
                             "background-color: " +
                             "#ff6a8e;"
                         );
-                      } else {
+                      } else if (agent_occur_count4[2] > 0) {
                         $("#progress-color4_3").attr(
                           "style",
                           "width : " + "5%;" + "background-color: " + "#ff8ddf;"
                         );
                       }
-                      $("#progress-text4_3").text(
-                        String(agent_occur_count4[2]) + "회"
-                      );
+                      if (agent_occur_count4[2] > 0) {
+                        $("#progress-text4_3").text(
+                          String(agent_occur_count4[2]) + "회"
+                        );
+                      }
                     }
                     //평균 그래프 생성
                     var progress_average =
@@ -3052,8 +3078,7 @@
                         agent_occur_sum4 +
                         agent_occur_sum3) /
                       4;
-                    if(progress_average === 0)
-                    {
+                    if (progress_average === 0) {
                       $("#progress-average").attr(
                         "style",
                         "width : " +
@@ -3066,8 +3091,7 @@
                           " 15px;"
                       );
                       $("#progress-average-text").text("");
-                    }
-                    else if (progress_average > 0) {
+                    } else if (progress_average > 0) {
                       progress_average =
                         Math.ceil(progress_average * 100) / 100;
                       if (progress_average < 0.5) {
