@@ -43,7 +43,17 @@
         line-height: 0;
         font-size: 0.75rem;
         background-color: #fff;
+        border-radius: 0.35rem;        
+      }
+      .progress-border {
+        display: flex;
+        height: 3rem;
+        overflow: hidden;
+        line-height: 0;
+        font-size: 0.75rem;
+        background-color: #fff;
         border-radius: 0.35rem;
+        border: solid #000000;
       }
       .mb-4,
       .my-4 {
@@ -543,7 +553,7 @@
         left: 107%;
         top: -5%;
         border: 5px solid black;
-        padding: 20px;
+        padding: 10px;
         border-radius: 8px;
         box-sizing: border-box;
         background: #ffffff;
@@ -1915,12 +1925,52 @@
 
             <li id="tab2" class="btnCon">
               <input type="radio" name="tabmenu" id="tabmenu2" />
-              <label for="tabmenu2">이관우</label>
+              <label for="tabmenu2">성효제</label>
               <div class="tabCon">
-                <img
-                  src="https://drive.google.com/uc?id=1F59gOHnHI5mDTD44uXrieY9c8BHwCzrC"
-                  width="100%"
-                />
+
+                <div class="card shadow">
+                  <div class="card-header py-3">
+                    <h2 class="font-weight-bold" style = "text-align: center;">성효제 AI-agent 발생 로그</h2s>
+                  </div>
+                  <div class="card-body">
+                    <h4 class="small font-weight-bold" style = "font-size: 18px;">
+                      자리비움 <span id = "stu1_away"class="float-right"></span>
+                    </h4>
+
+                    <div id = 'stu1_bar' class="progress-border">   </div>
+                    <h4 class="small font-weight-bold mb-4">|----------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+                      <span style="float : left;">0초 </span>
+                      <span style="margin-left: 45%;">1분</span>
+                      <span class ="float-right">2분</span></h4>
+
+
+                    <h4 class="small font-weight-bold" style = "font-size: 18px;">
+                      자세불량 <span id = "stu1_small" class="float-right"></span>
+                    </h4>   
+                    <div id = 'stu2_bar' class="progress-border">    </div>
+                    <h4 class="small font-weight-bold mb-4">|----------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+                      <span style="float : left;">0초 </span>
+                      <span style="margin-left: 45%;">1분</span>
+                      <span class ="float-right">2분</span></h4>
+
+                    <h4 class="small font-weight-bold" style = "font-size: 18px;">
+                       졸음감지<span id = "stu1_sleep" class="float-right"></span>
+                    </h4>  
+                    <div id = 'stu3_bar' class="progress-border">  </div>
+                    <h4 class="small font-weight-bold mb-4">|----------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+                      <span style="float : left;">0초 </span>
+                      <span style="margin-left: 45%;">1분</span>
+                      <span class ="float-right">2분</span></h4>
+
+                    <h4 class="small font-weight-bold" style = "font-size: 18px;">
+                      발표부족 <span id = "stu1_sli" class="float-right"></span>
+                    </h4>    
+                    <div id = 'stu4_bar' class="progress-border">  </div>    
+                    <h4 class="small font-weight-bold mb-4">|----------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+                      <span style="float : left;">0초 </span>
+                      <span style="margin-left: 45%;">1분</span>
+                      <span class ="float-right">2분</span></h4>                   
+                </div>
               </div>
             </li>
 
@@ -2125,6 +2175,11 @@
               var agent3_on = [0, 0, 0];
               var agent_occur_count4 = [0, 0, 0];
               var agent4_on = [0, 0, 0];
+              //agent 로그 기록보드
+              var bar_board = document.getElementById('stu1_bar');   
+              var bar_board2 = document.getElementById('stu2_bar');   
+              var bar_board3 = document.getElementById('stu3_bar');   
+              var bar_board4 = document.getElementById('stu4_bar');               
               setInterval(function () {
                 $.ajax({
                   url: "/generalStat_feed",
@@ -2282,7 +2337,7 @@
                         "none";
                       sleep4Count = 0;
                     }
-
+                    if(video_off === 0){
                     //자리비움
                     if (away1Count > 5) {
                       document.getElementById("stu1_img1").style.display =
@@ -2292,6 +2347,12 @@
                         agent_occur_count1[0]++;
                         agent1_on[0] = 1;
                       }
+                       //agent 발생 그래프 생성                               
+                       let st1_progress = document.createElement('div');
+                       st1_progress.className = 'progress-bar';
+                       st1_progress.style.width = '0.5%';
+                       st1_progress.style.backgroundColor = '#3772E4';                                             
+                       bar_board.appendChild(st1_progress);
                     } else {
                       agent1_on[0] = 0;
                       document.getElementById(
@@ -2299,10 +2360,16 @@
                       ).style.display = "none";
                       if (temp11 === 1) {
                         sirenaudio1.pause();
-                        sirenaudio1.currentTime = 0;
-                        away1Count = 0;
-                        temp11 = 0;
-                      }
+                        sirenaudio1.currentTime = 0;                        
+                        temp11 = 0;                       
+                      }     
+                      //흰색 공간 생성                                   
+                      let st1_progress = document.createElement('div');
+                      st1_progress.className = 'progress-bar';
+                      st1_progress.style.width = '0.5%';
+                      st1_progress.style.backgroundColor = '#fff';
+                      
+                      bar_board.appendChild(st1_progress);
                     }
                     //자세불량
 
@@ -2315,6 +2382,12 @@
                         agent_occur_count1[1]++;
                         agent1_on[1] = 1;
                       }
+                       //agent 발생 그래프 생성                      
+                       let st1_progress = document.createElement('div');
+                       st1_progress.className = 'progress-bar';
+                       st1_progress.style.width = '0.5%';
+                       st1_progress.style.backgroundColor = '#66CCDD';                                             
+                       bar_board2.appendChild(st1_progress);
                     } else {
                       agent1_on[1] = 0;
                       document.getElementById(
@@ -2324,10 +2397,24 @@
                         small1Count = 0;
                         temp12 = 0;
                       }
+                      //흰색 공간 생성                     
+                       let st1_progress = document.createElement('div');
+                       st1_progress.className = 'progress-bar';
+                       st1_progress.style.width = '0.5%';
+                       st1_progress.style.backgroundColor = '#fff';
+                       bar_board2.appendChild(st1_progress);
                     }
                     if (sil1Count > 5) {
                       document.getElementById("stu1_img3").style.display =
                         "block";
+                        //agent 발생 그래프 생성                     
+                       let st1_progress = document.createElement('div');
+                       st1_progress.className = 'progress-bar';
+                       st1_progress.style.width = '0.5%';
+                       st1_progress.style.backgroundColor = '#C9559A';                       
+                      
+                       bar_board4.appendChild(st1_progress);
+
                     } else {
                       document.getElementById(
                         "std1_modal_speech"
@@ -2335,7 +2422,12 @@
                       if (temp13 === 1) {
                         sil1Count = 0;
                         temp13 = 0;
-                      }
+                      }                     
+                       let st1_progress = document.createElement('div');
+                       st1_progress.className = 'progress-bar';
+                       st1_progress.style.width = '0.5%';
+                       st1_progress.style.backgroundColor = '#fff';
+                       bar_board4.appendChild(st1_progress);
                     }
                     //졸음감지
                     if (sleep1Count > 5) {
@@ -2346,6 +2438,12 @@
                         agent_occur_count1[2]++;
                         agent1_on[2] = 1;
                       }
+                      //agent 발생 그래프 생성                      
+                       let st1_progress = document.createElement('div');
+                       st1_progress.className = 'progress-bar';
+                       st1_progress.style.width = '0.5%';
+                       st1_progress.style.backgroundColor = '#FF6A8E';                                              
+                       bar_board3.appendChild(st1_progress);
                     } else {
                       agent1_on[2] = 0;
                       document.getElementById("std1_modal_bomb").style.display =
@@ -2356,7 +2454,12 @@
                         temp14 = 0;
                         bombaudio1.pause();
                         bombaudio1.currentTime = 0;
-                      }
+                      }                                            
+                       let st1_progress = document.createElement('div');
+                       st1_progress.className = 'progress-bar';
+                       st1_progress.style.width = '0.5%';
+                       st1_progress.style.backgroundColor = '#fff';
+                       bar_board3.appendChild(st1_progress);
                     }
 
                     //자리비움
@@ -2379,6 +2482,7 @@
                         sirenaudio2.pause();
                         sirenaudio2.currentTime = 0;
                       }
+                    }
                     }
                     //자세불량
                     if (small2Count > 5) {
@@ -2576,8 +2680,14 @@
                         temp44 = 0;
                       }
                     }
-
-                    //학생1 그래프생성
+                    /*
+                    $("#stu1_away").text(
+                      String(agent_occur_count1[0]) + "회");
+                    $("#stu1_small").text(
+                      String(agent_occur_count1[1]) + "회");
+                    $("#stu1_sleep").text(
+                      String(agent_occur_count1[2]) + "회");
+                    */
                     var agent_occur_sum1 =
                       agent_occur_count1[0] +
                       agent_occur_count1[1] +
@@ -3112,7 +3222,8 @@
                       $("#progress-average-text").text(
                         String(progress_average) + "회"
                       );
-                    }
+                    }                   
+                  
                   },
                   error: function (error) {
                     console.log("signal_err");
@@ -4637,6 +4748,18 @@
                   stu4Score = 0;
                   totalStamp = 0;
 
+                  while(bar_board.firstChild){
+                    bar_board.removeChild(bar_board.firstChild);
+                  }
+                  while(bar_board2.firstChild){
+                    bar_board2.removeChild(bar_board2.firstChild);
+                  }
+                  while(bar_board3.firstChild){
+                    bar_board3.removeChild(bar_board3.firstChild);
+                  }
+                  while(bar_board4.firstChild){
+                    bar_board4.removeChild(bar_board4.firstChild);
+                  }
                   for (var i = 0; i < 3; i++) {
                     stu1stamp[i] = 0;
                     stu2stamp[i] = 0;
@@ -4651,6 +4774,7 @@
                     agent3_on[i] = 0;
                     agent4_on[i] = 0;
                   }
+
                   $("#progress-average").attr(
                     "style",
                     "width : " +
