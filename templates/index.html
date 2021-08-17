@@ -17,11 +17,88 @@
       crossorigin="anonymous"
     />
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='scoring_circular_bar.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='scoring_circular_bar.css') }}"
+    />
 
     <style>
       @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
       @import url("https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap");
+      .progress-bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #4e73df;
+        transition: width 0.6s ease;
+      }
+      .progress {
+        display: flex;
+        height: 3rem;
+        overflow: hidden;
+        line-height: 0;
+        font-size: 0.75rem;
+        background-color: #fff;
+        border-radius: 0.35rem;
+      }
+      .mb-4,
+      .my-4 {
+        margin-bottom: 1.5rem !important;
+      }
+      .shadow {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+      }
+      .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #fff;
+        border-radius: 0.35rem;
+      }
+      .card-header:first-child {
+        border-radius: calc(0.35rem - 1px) calc(0.35rem - 1px) 0 0;
+      }
+
+      .pb-3,
+      .py-3 {
+        padding-bottom: 1rem !important;
+      }
+      .pt-3,
+      .py-3 {
+        padding-top: 1rem !important;
+      }
+      .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #fff;
+        border-bottom: 1px solid #fff;
+      }
+      .card-body {
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+      }
+      .font-weight-bold {
+        font-weight: 700 !important;
+        text-align: left;
+      }
+
+      .small,
+      small {
+        font-size: 80%;
+        font-weight: 400;
+      }
+      .float-right {
+        float: right !important;
+      }
       .wrapper {
         display: grid;
         grid-template-columns: repeat(16, 1fr);
@@ -651,7 +728,7 @@
         top: 102px;
 
         background: #ffffff;
-        border: 2px solid #FFB600;
+        border: 2px solid #ffb600;
         box-sizing: border-box;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 15px;
@@ -740,14 +817,14 @@
         line-height: 16px;
         color: #f0064f;
       }
-      .loading{
+      .loading {
         position: fixed;
         background: white;
         z-index: 400;
         width: 100%;
         height: 100%;
       }
-      .explain_to_teacher{
+      .explain_to_teacher {
         position: absolute;
         z-index: 20;
         width: 42px;
@@ -755,8 +832,8 @@
         left: 151px;
         top: 1px;
 
-        background: #FFFFFF;
-        border: 2px solid #FF2D2D;
+        background: #ffffff;
+        border: 2px solid #ff2d2d;
         box-sizing: border-box;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 15px;
@@ -767,10 +844,8 @@
         font-size: 14.5px;
         line-height: 19px;
 
-        color: #FF4242;
-
+        color: #ff4242;
       }
-
     </style>
   </head>
   <body>
@@ -789,13 +864,13 @@
       <script>
         const loadScreen = document.getElementById("loading");
         const clickLoad = document.getElementById("loading");
-              clickLoad.addEventListener("click", (e) => {
-                loadScreen.style.display = "none";
-              });
+        clickLoad.addEventListener("click", (e) => {
+          loadScreen.style.display = "none";
+        });
 
         setTimeout(function () {
-            document.getElementById("loading").style.display = "none";
-          }, 5000);
+          document.getElementById("loading").style.display = "none";
+        }, 5000);
       </script>
     </div>
 
@@ -870,7 +945,7 @@
       class="std4_modal"
       style="display: none; border: 3px solid #ff9d2b"
     >
-    <div class="explain_to_teacher"><center>졸음 방지</center></div>
+      <div class="explain_to_teacher"><center>졸음 방지</center></div>
       <img
         id="close_bomb_std4"
         class="std_modal_bomb_picture"
@@ -1132,141 +1207,209 @@
     </div>
 
     <script type="text/javascript">
+      var stu1stamp = [0, 0, 0];
+      var stu2stamp = [0, 0, 0];
+      var stu3stamp = [0, 0, 0];
+      var stu4stamp = [0, 0, 0];
+      var totalStamp = 0;
 
-  var stu1stamp = [0, 0, 0];
-  var stu2stamp = [0, 0, 0];
-  var stu3stamp = [0, 0, 0];
-  var stu4stamp = [0, 0, 0];
-  var totalStamp = 0;
+      var avgScore = 0;
+      var stu1Score = 0;
+      var stu2Score = 0;
+      var stu3Score = 0;
+      var stu4Score = 0;
 
-  var avgScore = 0;
-  var stu1Score = 0;
-  var stu2Score = 0;
-  var stu3Score = 0;
-  var stu4Score = 0;
+      setInterval(function () {
+        console.log(
+          "stu1 1 2 3 : " +
+            stu1stamp[2] +
+            " " +
+            stu1stamp[1] +
+            " " +
+            stu1stamp[0]
+        );
+        console.log(
+          "stu2 1 2 3 : " +
+            stu2stamp[2] +
+            " " +
+            stu2stamp[1] +
+            " " +
+            stu2stamp[0]
+        );
+        console.log(
+          "stu3 1 2 3 : " +
+            stu3stamp[2] +
+            " " +
+            stu3stamp[1] +
+            " " +
+            stu3stamp[0]
+        );
+        console.log(
+          "stu4 1 2 3 : " +
+            stu4stamp[2] +
+            " " +
+            stu4stamp[1] +
+            " " +
+            stu4stamp[0]
+        );
+        console.log("totalstamp: " + totalStamp);
+        console.log("stu1Score: " + stu1Score);
+        console.log("stu2Score: " + stu2Score);
+        console.log("stu3Score: " + stu3Score);
+        console.log("stu4Score: " + stu4Score);
+        console.log("avgScore: " + avgScore);
 
-
-  setInterval(function () {
-      console.log("stu1 1 2 3 : " + stu1stamp[2] + " " + stu1stamp[1] + " " + stu1stamp[0]);
-      console.log("stu2 1 2 3 : " + stu2stamp[2] + " " + stu2stamp[1] + " " + stu2stamp[0]);
-      console.log("stu3 1 2 3 : " + stu3stamp[2] + " " + stu3stamp[1] + " " + stu3stamp[0]);
-      console.log("stu4 1 2 3 : " + stu4stamp[2] + " " + stu4stamp[1] + " " + stu4stamp[0]);
-      console.log("totalstamp: " + totalStamp);
-      console.log("stu1Score: " + stu1Score);
-      console.log("stu2Score: " + stu2Score);
-      console.log("stu3Score: " + stu3Score);
-      console.log("stu4Score: " + stu4Score);
-      console.log("avgScore: " + avgScore);
-
-      $("#avgScore").text(avgScore + "%");
-      $("#stu1Score").text(stu1Score + "%");
-      $("#stu2Score").text(stu2Score + "%");
-      $("#stu3Score").text(stu3Score + "%");
-      $("#stu4Score").text(stu4Score + "%");
-      if(avgScore<30){
-        $("#avgScoreGraph").attr('class', 'progress-circle p' + String(avgScore));
-        $("#avgf50").css('background-color', '#ff4343');
-        $("#avgbar").css('border-color', '#ff4343');
-      }
-      else if(avgScore<51){
-        $("#avgScoreGraph").attr('class', 'progress-circle p' + String(avgScore));
-        $("#avgf50").css('background-color', '#ff9d2b');
-        $("#avgbar").css('border-color', '#ff9d2b');
-      }
-      else if(avgScore<70){
-        $("#avgScoreGraph").attr('class', 'progress-circle over50 p' + String(avgScore));
-        $("#avgf50").css('background-color', '#ff9d2b');
-        $("#avgbar").css('border-color', '#ff9d2b');
-      }
-      else{
-        $("#avgScoreGraph").attr('class', 'progress-circle over50 p' + String(avgScore));
-        $("#avgf50").css('background-color', '#18ef14');
-        $("#avgbar").css('border-color', '#18ef14');
-      }
-      if(stu1Score<30){
-        $("#stu1ScoreGraph").attr('class', 'progress-circle p' + String(stu1Score));
-        $("#stu1f50").css('background-color', '#ff4343');
-        $("#stu1bar").css('border-color', '#ff4343');
-      }
-      else if(stu1Score<51){
-        $("#stu1ScoreGraph").attr('class', 'progress-circle p' + String(stu1Score));
-        $("#stu1f50").css('background-color', '#ff9d2b');
-        $("#stu1bar").css('border-color', '#ff9d2b');
-      }
-      else if(stu1Score<70){
-        $("#stu1ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu1Score));
-        $("#stu1f50").css('background-color', '#ff9d2b');
-        $("#stu1bar").css('border-color', '#ff9d2b');
-      }
-      else{
-        $("#stu1ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu1Score));
-        $("#stu1f50").css('background-color', '#18ef14');
-        $("#stu1bar").css('border-color', '#18ef14');
-      }
-      if(stu2Score<30){
-        $("#stu2ScoreGraph").attr('class', 'progress-circle p' + String(stu2Score));
-        $("#stu2f50").css('background-color', '#ff4343');
-        $("#stu2bar").css('border-color', '#ff4343');
-      }
-      else if(stu2Score<51){
-        $("#stu2ScoreGraph").attr('class', 'progress-circle p' + String(stu2Score));
-        $("#stu2f50").css('background-color', '#ff9d2b');
-        $("#stu2bar").css('border-color', '#ff9d2b');
-      }
-      else if(stu2Score<70){
-        $("#stu2ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu2Score));
-        $("#stu2f50").css('background-color', '#ff9d2b');
-        $("#stu2bar").css('border-color', '#ff9d2b');
-      }
-      else{
-        $("#stu2ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu2Score));
-        $("#stu2f50").css('background-color', '#18ef14');
-        $("#stu2bar").css('border-color', '#18ef14');
-      }
-      if(stu3Score<30){
-        $("#stu3ScoreGraph").attr('class', 'progress-circle p' + String(stu3Score));
-        $("#stu3f50").css('background-color', '#ff4343');
-        $("#stu3bar").css('border-color', '#ff4343');
-      }
-      else if(stu3Score<51){
-        $("#stu3ScoreGraph").attr('class', 'progress-circle p' + String(stu3Score));
-        $("#stu3f50").css('background-color', '#ff9d2b');
-        $("#stu3bar").css('border-color', '#ff9d2b');
-      }
-      else if(stu3Score<70){
-        $("#stu3ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu3Score));
-        $("#stu3f50").css('background-color', '#ff9d2b');
-        $("#stu3bar").css('border-color', '#ff9d2b');
-      }
-      else{
-        $("#stu3ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu3Score));
-        $("#stu3f50").css('background-color', '#18ef14');
-        $("#stu3bar").css('border-color', '#18ef14');
-      }
-      if(stu4Score<30){
-        $("#stu4ScoreGraph").attr('class', 'progress-circle p' + String(stu4Score));
-        $("#stu4f50").css('background-color', '#ff4343');
-        $("#stu4bar").css('border-color', '#ff4343');
-      }
-      else if(stu4Score<51){
-        $("#stu4ScoreGraph").attr('class', 'progress-circle p' + String(stu4Score));
-        $("#stu4f50").css('background-color', '#ff9d2b');
-        $("#stu4bar").css('border-color', '#ff9d2b');
-      }
-      else if(stu4Score<70){
-        $("#stu4ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu4Score));
-        $("#stu4f50").css('background-color', '#ff9d2b');
-        $("#stu4bar").css('border-color', '#ff9d2b');
-      }
-      else{
-        $("#stu4ScoreGraph").attr('class', 'progress-circle over50 p' + String(stu4Score));
-        $("#stu4f50").css('background-color', '#18ef14');
-        $("#stu4bar").css('border-color', '#18ef14');
-      }
-      
-      
-    }, 1000);
-
+        $("#avgScore").text(avgScore + "%");
+        $("#stu1Score").text(stu1Score + "%");
+        $("#stu2Score").text(stu2Score + "%");
+        $("#stu3Score").text(stu3Score + "%");
+        $("#stu4Score").text(stu4Score + "%");
+        if (avgScore < 30) {
+          $("#avgScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(avgScore)
+          );
+          $("#avgf50").css("background-color", "#ff4343");
+          $("#avgbar").css("border-color", "#ff4343");
+        } else if (avgScore < 51) {
+          $("#avgScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(avgScore)
+          );
+          $("#avgf50").css("background-color", "#ff9d2b");
+          $("#avgbar").css("border-color", "#ff9d2b");
+        } else if (avgScore < 70) {
+          $("#avgScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(avgScore)
+          );
+          $("#avgf50").css("background-color", "#ff9d2b");
+          $("#avgbar").css("border-color", "#ff9d2b");
+        } else {
+          $("#avgScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(avgScore)
+          );
+          $("#avgf50").css("background-color", "#18ef14");
+          $("#avgbar").css("border-color", "#18ef14");
+        }
+        if (stu1Score < 30) {
+          $("#stu1ScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(stu1Score)
+          );
+          $("#stu1f50").css("background-color", "#ff4343");
+          $("#stu1bar").css("border-color", "#ff4343");
+        } else if (stu1Score < 51) {
+          $("#stu1ScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(stu1Score)
+          );
+          $("#stu1f50").css("background-color", "#ff9d2b");
+          $("#stu1bar").css("border-color", "#ff9d2b");
+        } else if (stu1Score < 70) {
+          $("#stu1ScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(stu1Score)
+          );
+          $("#stu1f50").css("background-color", "#ff9d2b");
+          $("#stu1bar").css("border-color", "#ff9d2b");
+        } else {
+          $("#stu1ScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(stu1Score)
+          );
+          $("#stu1f50").css("background-color", "#18ef14");
+          $("#stu1bar").css("border-color", "#18ef14");
+        }
+        if (stu2Score < 30) {
+          $("#stu2ScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(stu2Score)
+          );
+          $("#stu2f50").css("background-color", "#ff4343");
+          $("#stu2bar").css("border-color", "#ff4343");
+        } else if (stu2Score < 51) {
+          $("#stu2ScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(stu2Score)
+          );
+          $("#stu2f50").css("background-color", "#ff9d2b");
+          $("#stu2bar").css("border-color", "#ff9d2b");
+        } else if (stu2Score < 70) {
+          $("#stu2ScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(stu2Score)
+          );
+          $("#stu2f50").css("background-color", "#ff9d2b");
+          $("#stu2bar").css("border-color", "#ff9d2b");
+        } else {
+          $("#stu2ScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(stu2Score)
+          );
+          $("#stu2f50").css("background-color", "#18ef14");
+          $("#stu2bar").css("border-color", "#18ef14");
+        }
+        if (stu3Score < 30) {
+          $("#stu3ScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(stu3Score)
+          );
+          $("#stu3f50").css("background-color", "#ff4343");
+          $("#stu3bar").css("border-color", "#ff4343");
+        } else if (stu3Score < 51) {
+          $("#stu3ScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(stu3Score)
+          );
+          $("#stu3f50").css("background-color", "#ff9d2b");
+          $("#stu3bar").css("border-color", "#ff9d2b");
+        } else if (stu3Score < 70) {
+          $("#stu3ScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(stu3Score)
+          );
+          $("#stu3f50").css("background-color", "#ff9d2b");
+          $("#stu3bar").css("border-color", "#ff9d2b");
+        } else {
+          $("#stu3ScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(stu3Score)
+          );
+          $("#stu3f50").css("background-color", "#18ef14");
+          $("#stu3bar").css("border-color", "#18ef14");
+        }
+        if (stu4Score < 30) {
+          $("#stu4ScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(stu4Score)
+          );
+          $("#stu4f50").css("background-color", "#ff4343");
+          $("#stu4bar").css("border-color", "#ff4343");
+        } else if (stu4Score < 51) {
+          $("#stu4ScoreGraph").attr(
+            "class",
+            "progress-circle p" + String(stu4Score)
+          );
+          $("#stu4f50").css("background-color", "#ff9d2b");
+          $("#stu4bar").css("border-color", "#ff9d2b");
+        } else if (stu4Score < 70) {
+          $("#stu4ScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(stu4Score)
+          );
+          $("#stu4f50").css("background-color", "#ff9d2b");
+          $("#stu4bar").css("border-color", "#ff9d2b");
+        } else {
+          $("#stu4ScoreGraph").attr(
+            "class",
+            "progress-circle over50 p" + String(stu4Score)
+          );
+          $("#stu4f50").css("background-color", "#18ef14");
+          $("#stu4bar").css("border-color", "#18ef14");
+        }
+      }, 1000);
     </script>
 
     <div id="modal" class="result_overlay">
@@ -1293,45 +1436,47 @@
                         <div class="progress-circle p0" id="avgScoreGraph">
                           <span id="avgScore">0%</span>
                           <div class="left-half-clipper">
-                             <div class="first50-bar" id="avgf50"></div>
-                             <div class="value-bar" id="avgbar"></div>
+                            <div class="first50-bar" id="avgf50"></div>
+                            <div class="value-bar" id="avgbar"></div>
                           </div>
-                       </div>
+                        </div>
                       </td>
                       <td width="20%">
                         <div class="progress-circle p0" id="stu1ScoreGraph">
                           <span id="stu1Score">0%</span>
                           <div class="left-half-clipper">
-                             <div class="first50-bar" id="stu1f50"></div>
-                             <div class="value-bar" id="stu1bar"></div>
+                            <div class="first50-bar" id="stu1f50"></div>
+                            <div class="value-bar" id="stu1bar"></div>
                           </div>
-                       </div>
+                        </div>
+                      </td>
+
                       <td width="20%">
                         <div class="progress-circle p0" id="stu2ScoreGraph">
                           <span id="stu2Score">0%</span>
                           <div class="left-half-clipper">
-                             <div class="first50-bar" id="stu2f50"></div>
-                             <div class="value-bar" id="stu2bar"></div>
+                            <div class="first50-bar" id="stu2f50"></div>
+                            <div class="value-bar" id="stu2bar"></div>
                           </div>
-                       </div>
+                        </div>
                       </td>
                       <td width="20%">
                         <div class="progress-circle p0" id="stu3ScoreGraph">
                           <span id="stu3Score">0%</span>
                           <div class="left-half-clipper">
-                             <div class="first50-bar" id="stu3f50"></div>
-                             <div class="value-bar" id="stu3bar"></div>
+                            <div class="first50-bar" id="stu3f50"></div>
+                            <div class="value-bar" id="stu3bar"></div>
                           </div>
-                       </div>
+                        </div>
                       </td>
                       <td width="20%">
                         <div class="progress-circle p0" id="stu4ScoreGraph">
                           <span id="stu4Score">0%</span>
                           <div class="left-half-clipper">
-                             <div class="first50-bar" id="stu4f50"></div>
-                             <div class="value-bar" id="stu4bar"></div>
+                            <div class="first50-bar" id="stu4f50"></div>
+                            <div class="value-bar" id="stu4bar"></div>
                           </div>
-                       </div>
+                        </div>
                       </td>
                     </tr>
                     <tr height="20%" align="center">
@@ -1344,18 +1489,374 @@
                   </tbody>
                 </table>
                 <br />
-                <span
-                  style="
-                    font-family: Jeju Gothic, sans-serif;
-                    font-size: 20px;
-                    font-weight: bold;
-                  "
-                  >Agent 발생 횟수</span
-                >
                 <table width="100%" height="50%" align="center">
                   <tbody>
                     <tr height="50%">
-                    <td width ="100%"><img style="width: 854px; height: 388px;"src="http://drive.google.com/uc?export=view&id=11auA69H9TSXmcFCOfgeK23tp-f9oEapa"></td>
+                      <td width="100%">
+                        <!--Agent 발생 로그 기록-->
+                        <div class="card">
+                          <div class="card-header py-3">
+                            <span
+                              style="
+                                font-family: Jeju Gothic, sans-serif;
+                                font-size: 20px;
+                                font-weight: bold;
+                              "
+                              >Agent 발생 횟수</span
+                            >
+                          </div>
+                          <div
+                            style="display: flex; flex-direction: row-reverse"
+                          >
+                            <div
+                              style="
+                                float: right;
+                                font-family: Roboto;
+                                font-style: normal;
+                                font-weight: bold;
+                                font-size: 15px;
+                                line-height: 18px;
+                                margin-right: 10px;
+                              "
+                            >
+                              자리비움
+                            </div>
+                            <div
+                              style="
+                                float: right;
+                                width: 15px;
+                                height: 15px;
+                                margin-right: 5px;
+                                background: #fbd9f7;
+                              "
+                            ></div>
+                            <div
+                              style="
+                                float: right;
+                                font-family: Roboto;
+                                font-style: normal;
+                                font-weight: bold;
+                                font-size: 15px;
+                                line-height: 18px;
+                                margin-right: 10px;
+                              "
+                            >
+                              자세불량
+                            </div>
+                            <div
+                              style="
+                                float: right;
+                                width: 15px;
+                                height: 15px;
+                                margin-right: 5px;
+                                background: #ff8ddf;
+                              "
+                            ></div>
+
+                            <div
+                              style="
+                                float: right;
+                                font-family: Roboto;
+                                font-style: normal;
+                                font-weight: bold;
+                                font-size: 15px;
+                                line-height: 18px;
+                                margin-right: 10px;
+                              "
+                            >
+                              졸음감지
+                            </div>
+                            <div
+                              style="
+                                float: right;
+                                width: 15px;
+                                height: 15px;
+                                margin-right: 5px;
+                                background: #ff6a8e;
+                              "
+                            ></div>
+                          </div>
+
+                          <div class="card-body">
+                            <div class="progress mb-4">
+                              <span
+                                style="
+                                  font-family: KoreanTITGD2R;
+                                  font-style: normal;
+                                  font-weight: bold;
+                                  font-size: 20px;
+                                  line-height: 35px;
+                                  margin-right: 36px;
+                                "
+                                >평균
+                              </span>
+                              <div
+                                id="progress-average"
+                                class="progress-bar;"
+                                role="progressbar"
+                                style="
+                                  width: 2%;
+                                  background-color: #8aecf2;
+                                  border-top-right-radius: 15px;
+                                  border-bottom-right-radius: 15px; ;
+                                "
+                                aria-valuenow="20"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-average-text"
+                                  style="
+                                    line-height: 45px;
+                                    text-align: center;
+                                    color: #000000;
+                                  "
+                                ></span>
+                              </div>
+                            </div>
+
+                            <div class="progress mb-4">
+                              <span
+                                style="
+                                  font-family: KoreanTITGD2R;
+                                  font-style: normal;
+                                  font-weight: bold;
+                                  font-size: 20px;
+                                  line-height: 35px;
+                                  margin-right: 15px;
+                                "
+                                >이관우</span
+                              >
+                              <div
+                                id="progress-color1_1"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #fbd9f7"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text1_1"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+
+                              <div
+                                id="progress-color1_2"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #ff8ddf"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text1_2"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+                              <div
+                                id="progress-color1_3"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #ff6a8e"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text1_3"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+                            </div>
+
+                            <div class="progress mb-4">
+                              <span
+                                style="
+                                  font-family: KoreanTITGD2R;
+                                  font-style: normal;
+                                  font-weight: bold;
+                                  font-size: 20px;
+                                  line-height: 35px;
+                                  margin-right: 15px;
+                                "
+                                >안서정
+                              </span>
+                              <div
+                                id="progress-color2_1"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #fbd9f7"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text2_1"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+
+                              <div
+                                id="progress-color2_2"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #ff8ddf"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text2_2"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+                              <div
+                                id="progress-color2_3"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #ff6a8e"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text2_3"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+                            </div>
+
+                            <div class="progress mb-4">
+                              <span
+                                style="
+                                  font-family: KoreanTITGD2R;
+                                  font-style: normal;
+                                  font-weight: bold;
+                                  font-size: 20px;
+                                  line-height: 35px;
+                                  margin-right: 15px;
+                                "
+                                >성태훈
+                              </span>
+                              <div
+                                id="progress-color3_1"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #fbd9f7"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text3_1"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+
+                              <div
+                                id="progress-color3_2"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #ff8ddf"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text3_2"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+                              <div
+                                id="progress-color3_3"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #ff6a8e"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text3_3"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+                            </div>
+
+                            <div class="progress">
+                              <span
+                                style="
+                                  font-family: KoreanTITGD2R;
+                                  font-style: normal;
+                                  font-weight: bold;
+                                  font-size: 20px;
+                                  line-height: 35px;
+                                  margin-right: 15px;
+                                "
+                                >조예림
+                              </span>
+                              <div
+                                id="progress-color4_1"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #fbd9f7"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text4_1"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+
+                              <div
+                                id="progress-color4_2"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #ff8ddf"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text4_2"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+                              <div
+                                id="progress-color4_3"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-color: #ff6a8e"
+                                aria-valuenow="40"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              >
+                                <span
+                                  id="progress-text4_3"
+                                  style="text-align: center; color: #000000"
+                                  >0회</span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
                       <!--
                     <tr height="10%" align="center">
                       <td width="10%">평균</td>
@@ -1459,7 +1960,6 @@
         </div>
       </div>
     </div>
-
     <div class="wrapper">
       <!--(navbar)-->
       <div class="item">
@@ -1615,7 +2115,16 @@
               );
               const modal_speechless =
                 document.getElementById("modal_speechless");
-
+              //학생1의 agent 발생 횟수 파악
+              var agent_occur_count1 = [0, 0, 0];
+              //학생1의 agent가 켜졌을때 1로 변경
+              var agent1_on = [0, 0, 0];
+              var agent_occur_count2 = [0, 0, 0];
+              var agent2_on = [0, 0, 0];
+              var agent_occur_count3 = [0, 0, 0];
+              var agent3_on = [0, 0, 0];
+              var agent_occur_count4 = [0, 0, 0];
+              var agent4_on = [0, 0, 0];
               setInterval(function () {
                 $.ajax({
                   url: "/generalStat_feed",
@@ -1774,11 +2283,17 @@
                       sleep4Count = 0;
                     }
 
+                    //자리비움
                     if (away1Count > 5) {
                       document.getElementById("stu1_img1").style.display =
                         "block";
                       stu1img1();
+                      if (agent1_on[0] === 0) {
+                        agent_occur_count1[0]++;
+                        agent1_on[0] = 1;
+                      }
                     } else {
+                      agent1_on[0] = 0;
                       document.getElementById(
                         "std1_modal_thief"
                       ).style.display = "none";
@@ -1789,11 +2304,19 @@
                         temp11 = 0;
                       }
                     }
+                    //자세불량
+
                     if (small1Count > 5) {
                       document.getElementById("stu1_img2").style.display =
                         "block";
                       stu1img2();
+
+                      if (agent1_on[1] === 0) {
+                        agent_occur_count1[1]++;
+                        agent1_on[1] = 1;
+                      }
                     } else {
+                      agent1_on[1] = 0;
                       document.getElementById(
                         "std1_modal_posture"
                       ).style.display = "none";
@@ -1814,11 +2337,17 @@
                         temp13 = 0;
                       }
                     }
+                    //졸음감지
                     if (sleep1Count > 5) {
                       document.getElementById("stu1_img4").style.display =
                         "block";
                       stu1img4();
+                      if (agent1_on[2] === 0) {
+                        agent_occur_count1[2]++;
+                        agent1_on[2] = 1;
+                      }
                     } else {
+                      agent1_on[2] = 0;
                       document.getElementById("std1_modal_bomb").style.display =
                         "none";
 
@@ -1830,15 +2359,20 @@
                       }
                     }
 
+                    //자리비움
                     if (away2Count > 5) {
                       document.getElementById("stu2_img1").style.display =
                         "block";
                       stu2img1();
+                      if (agent2_on[0] === 0) {
+                        agent_occur_count2[0]++;
+                        agent2_on[0] = 1;
+                      }
                     } else {
+                      agent2_on[0] = 0;
                       document.getElementById(
                         "std2_modal_thief"
                       ).style.display = "none";
-
                       if (temp21 === 1) {
                         away2Count = 0;
                         temp21 = 0;
@@ -1846,11 +2380,17 @@
                         sirenaudio2.currentTime = 0;
                       }
                     }
+                    //자세불량
                     if (small2Count > 5) {
                       document.getElementById("stu2_img2").style.display =
                         "block";
                       stu2img2();
+                      if (agent2_on[1] === 0) {
+                        agent_occur_count2[1]++;
+                        agent2_on[1] = 1;
+                      }
                     } else {
+                      agent2_on[1] = 0;
                       document.getElementById(
                         "std2_modal_posture"
                       ).style.display = "none";
@@ -1859,6 +2399,7 @@
                         temp22 = 0;
                       }
                     }
+
                     if (sil2Count > 5) {
                       document.getElementById("stu2_img3").style.display =
                         "block";
@@ -1871,11 +2412,17 @@
                         temp23 = 0;
                       }
                     }
+                    //졸음감지
                     if (sleep2Count > 5) {
                       document.getElementById("stu2_img4").style.display =
                         "block";
                       stu2img4();
+                      if (agent2_on[2] === 0) {
+                        agent_occur_count2[2]++;
+                        agent2_on[2] = 1;
+                      }
                     } else {
+                      agent2_on[2] = 0;
                       document.getElementById("std2_modal_bomb").style.display =
                         "none";
                       if (temp24 === 1) {
@@ -1885,12 +2432,17 @@
                         temp24 = 0;
                       }
                     }
-
+                    //자리비움
                     if (away3Count > 5) {
                       document.getElementById("stu3_img1").style.display =
                         "block";
                       stu3img1();
+                      if (agent3_on[0] === 0) {
+                        agent_occur_count3[0]++;
+                        agent3_on[0] = 1;
+                      }
                     } else {
+                      agent3_on[0] = 0;
                       document.getElementById(
                         "std3_modal_thief"
                       ).style.display = "none";
@@ -1901,11 +2453,17 @@
                         temp31 = 0;
                       }
                     }
+                    //자세불량
                     if (small3Count > 5) {
                       document.getElementById("stu3_img2").style.display =
                         "block";
                       stu3img2();
+                      if (agent3_on[1] === 0) {
+                        agent_occur_count3[1]++;
+                        agent3_on[1] = 1;
+                      }
                     } else {
+                      agent3_on[1] = 0;
                       document.getElementById(
                         "std3_modal_posture"
                       ).style.display = "none";
@@ -1926,11 +2484,17 @@
                         temp33 = 0;
                       }
                     }
+                    //졸음감지
                     if (sleep3Count > 5) {
                       document.getElementById("stu3_img4").style.display =
                         "block";
                       stu3img4();
+                      if (agent3_on[2] === 0) {
+                        agent_occur_count3[2]++;
+                        agent3_on[2] = 1;
+                      }
                     } else {
+                      agent3_on[2] = 0;
                       document.getElementById("std3_modal_bomb").style.display =
                         "none";
                       if (temp34 === 1) {
@@ -1940,12 +2504,17 @@
                         temp34 = 0;
                       }
                     }
-
+                    //자리비움
                     if (away4Count > 5) {
                       document.getElementById("stu4_img1").style.display =
                         "block";
                       stu4img1();
+                      if (agent4_on[0] === 0) {
+                        agent_occur_count4[0]++;
+                        agent4_on[0] = 1;
+                      }
                     } else {
+                      agent4_on[0] = 0;
                       document.getElementById(
                         "std4_modal_thief"
                       ).style.display = "none";
@@ -1956,11 +2525,17 @@
                         temp41 = 0;
                       }
                     }
+                    //자세불량
                     if (small4Count > 5) {
                       document.getElementById("stu4_img2").style.display =
                         "block";
                       stu4img2();
+                      if (agent4_on[1] === 0) {
+                        agent_occur_count4[1]++;
+                        agent4_on[1] = 1;
+                      }
                     } else {
+                      agent4_on[1] = 0;
                       document.getElementById(
                         "std4_modal_posture"
                       ).style.display = "none";
@@ -1981,11 +2556,17 @@
                         temp43 = 0;
                       }
                     }
+                    //졸음감지
                     if (sleep4Count > 5) {
                       document.getElementById("stu4_img4").style.display =
                         "block";
                       stu4img4();
+                      if (agent4_on[2] === 0) {
+                        agent_occur_count4[2]++;
+                        agent4_on[2] = 1;
+                      }
                     } else {
+                      agent4_on[2] = 0;
                       document.getElementById("std4_modal_bomb").style.display =
                         "none";
                       if (temp44 === 1) {
@@ -1994,6 +2575,543 @@
                         sleep4Count = 0;
                         temp44 = 0;
                       }
+                    }
+
+                    //학생1 그래프생성
+                    var agent_occur_sum1 =
+                      agent_occur_count1[0] +
+                      agent_occur_count1[1] +
+                      agent_occur_count1[2];
+                    //agent가 발생 안했을 때
+                    if (agent_occur_sum1 === 0) {
+                      $("#progress-color1_1").attr(
+                        "style",
+                        "width : " +
+                          "2%;" +
+                          "background-color: " +
+                          "#ff6a8e;" +
+                          "border-top-right-radius: " +
+                          "15px;" +
+                          "border-bottom-right-radius:" +
+                          " 15px;"
+                      );
+                      $("#progress-text1_1").text("");
+                    }
+                    //agent가 10번 아래로 발생 했을 때
+                    else if (agent_occur_sum1 < 10) {
+                      $("#progress-color1_1").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count1[0] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#fbd9f7;"
+                      );
+                      $("#progress-text1_1").text(
+                        String(agent_occur_count1[0]) + "회"
+                      );
+
+                      $("#progress-color1_2").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count1[1] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#ff8ddf;"
+                      );
+                      $("#progress-text1_2").text(
+                        String(agent_occur_count1[1]) + "회"
+                      );
+
+                      $("#progress-color1_3").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count1[2] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#ff6a8e;"
+                      );
+                      $("#progress-text1_3").text(
+                        String(agent_occur_count1[2]) + "회"
+                      );
+                    }
+                    //agent가 10번 이상 발생 했을 경우 --> 화면에 full로 적용된 그래프에서 비율 조절
+                    else {
+                      var agent_occur_adjusted1 = [0, 0, 0];
+                      for (var i = 0; i < 3; i++) {
+                        agent_occur_adjusted1[i] =
+                          agent_occur_count1[i] * (9 / agent_occur_sum1);
+                      }
+                      if (agent_occur_adjusted1[0] > 0.5) {
+                        $("#progress-color1_1").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted1[0] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#fbd9f7;"
+                        );
+                      } else if (agent_occur_count1[0] > 0) {
+                        $("#progress-color1_1").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#fbd9f7;"
+                        );
+                      }
+                      if (agent_occur_count1[0] > 0) {
+                        $("#progress-text1_1").text(
+                          String(agent_occur_count1[0]) + "회"
+                        );
+                      }
+                      if (agent_occur_adjusted1[1] > 0.5) {
+                        $("#progress-color1_2").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted1[1] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#ff8ddf;"
+                        );
+                      } else if (agent_occur_count1[1] > 0) {
+                        $("#progress-color1_2").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#fbd9f7;"
+                        );
+                      }
+                      if (agent_occur_count1[1] > 0) {
+                        $("#progress-text1_2").text(
+                          String(agent_occur_count1[1]) + "회"
+                        );
+                      }
+                      if (agent_occur_adjusted1[2] > 0.5) {
+                        $("#progress-color1_3").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted1[2] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#ff6a8e;"
+                        );
+                      } else if (agent_occur_count1[2] > 0) {
+                        $("#progress-color1_3").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#fbd9f7;"
+                        );
+                      }
+                      if (agnet_occur_count1[2] > 0) {
+                        $("#progress-text1_3").text(
+                          String(agent_occur_count1[2]) + "회"
+                        );
+                      }
+                    }
+
+                    //학생2 그래프 생성
+                    var agent_occur_sum2 =
+                      agent_occur_count2[0] +
+                      agent_occur_count2[1] +
+                      agent_occur_count2[2];
+                    if (agent_occur_sum2 === 0) {
+                      $("#progress-color2_1").attr(
+                        "style",
+                        "width : " +
+                          "2%;" +
+                          "background-color: " +
+                          "#ff6a8e;" +
+                          "border-top-right-radius: " +
+                          "15px;" +
+                          "border-bottom-right-radius:" +
+                          " 15px;"
+                      );
+                      $("#progress-text2_1").text("");
+                    } else if (agent_occur_sum2 < 10) {
+                      $("#progress-color2_1").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count2[0] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#fbd9f7;"
+                      );
+                      $("#progress-text2_1").text(
+                        String(agent_occur_count2[0]) + "회"
+                      );
+
+                      $("#progress-color2_2").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count2[1] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#ff8ddf;"
+                      );
+                      $("#progress-text2_2").text(
+                        String(agent_occur_count2[1]) + "회"
+                      );
+
+                      $("#progress-color2_3").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count2[2] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#ff6a8e;"
+                      );
+                      $("#progress-text2_3").text(
+                        String(agent_occur_count2[2]) + "회"
+                      );
+                    } else {
+                      var agent_occur_adjusted2 = [0, 0, 0];
+                      for (var i = 0; i < 3; i++) {
+                        agent_occur_adjusted2[i] =
+                          agent_occur_count2[i] * (9 / agent_occur_sum2);
+                      }
+                      if (agent_occur_adjusted2[0] > 0.5) {
+                        $("#progress-color2_1").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted2[0] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#fbd9f7;"
+                        );
+                      } else if (agent_occur_count2[0] > 0) {
+                        $("#progress-color2_1").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#fbd9f7;"
+                        );
+                      }
+                      if (agent_occur_count2[0] > 0) {
+                        $("#progress-text2_1").text(
+                          String(agent_occur_count2[0]) + "회"
+                        );
+                      }
+
+                      if (agent_occur_adjusted2[1] > 0.5) {
+                        $("#progress-color2_2").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted2[1] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#ff8ddf;"
+                        );
+                      } else if (agent_occur_count2[1] > 0) {
+                        $("#progress-color2_2").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#ff8ddf;"
+                        );
+                      }
+                      if (agent_occur_count2[1] > 0) {
+                        $("#progress-text2_2").text(
+                          String(agent_occur_count2[1]) + "회"
+                        );
+                      }
+
+                      if (agent_occur_adjusted2[2] > 0.5) {
+                        $("#progress-color2_3").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted2[2] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#ff6a8e;"
+                        );
+                      } else if (agent_occur_count2[2] > 0) {
+                        $("#progress-color2_3").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#ff8ddf;"
+                        );
+                      }
+                      if (agent_occur_count2[2] > 0) {
+                        $("#progress-text2_3").text(
+                          String(agent_occur_count2[2]) + "회"
+                        );
+                      }
+                    }
+
+                    //학생3 그래프 생성
+                    var agent_occur_sum3 =
+                      agent_occur_count3[0] +
+                      agent_occur_count3[1] +
+                      agent_occur_count3[2];
+                    if (agent_occur_sum3 === 0) {
+                      $("#progress-color3_1").attr(
+                        "style",
+                        "width : " +
+                          "2%;" +
+                          "background-color: " +
+                          "#ff6a8e;" +
+                          "border-top-right-radius: " +
+                          "15px;" +
+                          "border-bottom-right-radius:" +
+                          " 15px;"
+                      );
+                      $("#progress-text3_1").text("");
+                    } else if (agent_occur_sum3 < 10) {
+                      $("#progress-color3_1").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count3[0] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#fbd9f7;"
+                      );
+                      $("#progress-text3_1").text(
+                        String(agent_occur_count3[0]) + "회"
+                      );
+
+                      $("#progress-color3_2").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count3[1] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#ff8ddf;"
+                      );
+                      $("#progress-text3_2").text(
+                        String(agent_occur_count3[1]) + "회"
+                      );
+
+                      $("#progress-color3_3").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count3[2] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#ff6a8e;"
+                      );
+                      $("#progress-text3_3").text(
+                        String(agent_occur_count3[2]) + "회"
+                      );
+                    } else {
+                      var agent_occur_adjusted3 = [0, 0, 0];
+                      for (var i = 0; i < 3; i++) {
+                        agent_occur_adjusted3[i] =
+                          agent_occur_count3[i] * (9 / agent_occur_sum3);
+                      }
+                      if (agent_occur_adjusted3[0] > 0.5) {
+                        $("#progress-color3_1").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted3[0] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#fbd9f7;"
+                        );
+                      } else if (agent_occur_count3[0] > 0) {
+                        $("#progress-color3_1").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#fbd9f7;"
+                        );
+                      }
+                      if (agent_occur_count3[0] > 0) {
+                        $("#progress-text3_1").text(
+                          String(agent_occur_count3[0]) + "회"
+                        );
+                      }
+                      if (agent_occur_adjusted3[1] > 0.5) {
+                        $("#progress-color3_2").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted3[1] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#ff8ddf;"
+                        );
+                      } else if (agent_occur_count3[1] > 0) {
+                        $("#progress-color3_2").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#fbd9f7;"
+                        );
+                      }
+                      if (agent_occur_count3[1] > 0) {
+                        $("#progress-text3_2").text(
+                          String(agent_occur_count3[1]) + "회"
+                        );
+                      }
+                      if (agent_occur_adjusted3[2] > 0.5) {
+                        $("#progress-color3_3").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted3[2] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#ff6a8e;"
+                        );
+                      } else if (agent_occur_count3[2] > 0) {
+                        $("#progress-color3_3").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#fbd9f7;"
+                        );
+                      }
+                      if (agent_occur_count3[2] > 0) {
+                        $("#progress-text3_3").text(
+                          String(agent_occur_count3[2]) + "회"
+                        );
+                      }
+                    }
+
+                    //학생4 그래프 생성
+                    var agent_occur_sum4 =
+                      agent_occur_count4[0] +
+                      agent_occur_count4[1] +
+                      agent_occur_count4[2];
+                    if (agent_occur_sum4 === 0) {
+                      $("#progress-color4_1").attr(
+                        "style",
+                        "width : " +
+                          "2%;" +
+                          "background-color: " +
+                          "#ff6a8e;" +
+                          "border-top-right-radius: " +
+                          "15px;" +
+                          "border-bottom-right-radius:" +
+                          " 15px;"
+                      );
+                      $("#progress-text4_1").text("");
+                    } else if (agent_occur_sum4 < 10) {
+                      $("#progress-color4_1").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count4[0] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#fbd9f7;"
+                      );
+                      $("#progress-text4_1").text(
+                        String(agent_occur_count4[0]) + "회"
+                      );
+
+                      $("#progress-color4_2").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count4[1] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#ff8ddf;"
+                      );
+                      $("#progress-text4_2").text(
+                        String(agent_occur_count4[1]) + "회"
+                      );
+
+                      $("#progress-color4_3").attr(
+                        "style",
+                        "width : " +
+                          String(agent_occur_count4[2] * 10) +
+                          "%;" +
+                          "background-color: " +
+                          "#ff6a8e;"
+                      );
+                      $("#progress-text4_3").text(
+                        String(agent_occur_count4[2]) + "회"
+                      );
+                    } else {
+                      var agent_occur_adjusted4 = [0, 0, 0];
+                      for (var i = 0; i < 3; i++) {
+                        agent_occur_adjusted4[i] =
+                          agent_occur_count4[i] * (9 / agent_occur_sum4);
+                      }
+                      if (agent_occur_adjusted4[0] > 0.5) {
+                        $("#progress-color4_1").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted4[0] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#fbd9f7;"
+                        );
+                      } else if (agent_occur_count4[0] > 0) {
+                        $("#progress-color4_1").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#fbd9f7;"
+                        );
+                      }
+                      if (agent_occur_count4[0] > 0) {
+                        $("#progress-text4_1").text(
+                          String(agent_occur_count4[0]) + "회"
+                        );
+                      }
+                      if (agent_occur_adjusted4[1] > 0.5) {
+                        $("#progress-color4_2").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted4[1] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#ff8ddf;"
+                        );
+                      } else if (agent_occur_count4[1] > 0) {
+                        $("#progress-color4_2").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#ff8ddf;"
+                        );
+                      }
+                      if (agent_occur_count4[1] > 0) {
+                        $("#progress-text4_2").text(
+                          String(agent_occur_count4[1]) + "회"
+                        );
+                      }
+                      if (agent_occur_adjusted4[2] > 0.5) {
+                        $("#progress-color4_3").attr(
+                          "style",
+                          "width : " +
+                            String(agent_occur_adjusted4[2] * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#ff6a8e;"
+                        );
+                      } else if (agent_occur_count4[2] > 0) {
+                        $("#progress-color4_3").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#ff8ddf;"
+                        );
+                      }
+                      if (agent_occur_count4[2] > 0) {
+                        $("#progress-text4_3").text(
+                          String(agent_occur_count4[2]) + "회"
+                        );
+                      }
+                    }
+                    //평균 그래프 생성
+                    var progress_average =
+                      (agent_occur_sum1 +
+                        agent_occur_sum2 +
+                        agent_occur_sum4 +
+                        agent_occur_sum3) /
+                      4;
+                    if (progress_average === 0) {
+                      $("#progress-average").attr(
+                        "style",
+                        "width : " +
+                          "2%;" +
+                          "background-color: " +
+                          "#8aecf2;" +
+                          "border-top-right-radius: " +
+                          "15px;" +
+                          "border-bottom-right-radius:" +
+                          " 15px;"
+                      );
+                      $("#progress-average-text").text("");
+                    } else if (progress_average > 0) {
+                      progress_average =
+                        Math.ceil(progress_average * 100) / 100;
+                      if (progress_average < 0.5) {
+                        $("#progress-average").attr(
+                          "style",
+                          "width : " + "5%;" + "background-color: " + "#8aecf2;"
+                        );
+                      } else {
+                        $("#progress-average").attr(
+                          "style",
+                          "width : " +
+                            String(progress_average * 10) +
+                            "%;" +
+                            "background-color: " +
+                            "#8aecf2;"
+                        );
+                      }
+                      $("#progress-average-text").text(
+                        String(progress_average) + "회"
+                      );
                     }
                   },
                   error: function (error) {
@@ -3247,271 +4365,380 @@
         }, 1000);
       </script>
 
-<script type="text/javascript">
-  var board1 = document.getElementById("block_1");
-  var board2 = document.getElementById("block_2");
-  var board3 = document.getElementById("block_3");
-  var board4 = document.getElementById("block_4");
+      <script type="text/javascript">
+        var board1 = document.getElementById("block_1");
+        var board2 = document.getElementById("block_2");
+        var board3 = document.getElementById("block_3");
+        var board4 = document.getElementById("block_4");
 
-  //학생들의 집중도 평균값을 구하기 위한 변수
-  var student1_count = [0, 0, 0];
-  var student2_count = [0, 0, 0];
-  var student3_count = [0, 0, 0];
-  var student4_count = [0, 0, 0];
-  //학생들 마다 발생한 스탬프 갯수 0->빨,1->노,2->초
+        //학생들의 집중도 평균값을 구하기 위한 변수
+        var student1_count = [0, 0, 0];
+        var student2_count = [0, 0, 0];
+        var student3_count = [0, 0, 0];
+        var student4_count = [0, 0, 0];
+        //학생들 마다 발생한 스탬프 갯수 0->빨,1->노,2->초
 
-  var scoreTemp1 = 0;
-  var scoreTemp2 = 0;
-  var scoreTemp3 = 0;
-  var scoreTemp4 = 0;
-  var scoreTemp5 = 0;
-  
+        var scoreTemp1 = 0;
+        var scoreTemp2 = 0;
+        var scoreTemp3 = 0;
+        var scoreTemp4 = 0;
+        var scoreTemp5 = 0;
 
-  //시간 계산
-  var time_count = 0;
-  //동영상이 재생중일때 0, 재생이 끝나면 1
-  var video_off = 0;
-  //리셋 버튼이 눌리면 1 아니면 0
-  var reset_on = 0;
-  //덮어쓸 타임스탬트의 인덱스 결정 카운트
-  var time_stamp_count = 0;
-  //타임스탬프가 찍히는 시간 간격(초 단위)
-  var stamp_create_interval = 2;
-  //초기화 할때 지워야 할 블록의 갯수
-  var block_clear = 0;
-  
-  setInterval(function () {
-    $.ajax({
-      url: "/colorStat_feed",
-      type: "POST",
-      success: function (response) {
-        //아직 영상이 재생중일경우
-        if (video_off === 0) {
-          time_count++;
-        }
-        //학생 1 실시간 집중도 저장
-        if (response["stu1Color"] === "0") {
-          student1_count[0]++;
-        } else if (response["stu1Color"] === "1") {
-          student1_count[1]++;
-        } else {
-          student1_count[2]++;
-        }
-        //학생 2 실시간 집중도 저장
-        if (response["stu2Color"] === "0") {
-          student2_count[0]++;
-        } else if (response["stu2Color"] === "1") {
-          student2_count[1]++;
-        } else {
-          student2_count[2]++;
-        }
-        //학생 3 실시간 집중도 저장
-        if (response["stu3Color"] === "0") {
-          student3_count[0]++;
-        } else if (response["stu3Color"] === "1") {
-          student3_count[1]++;
-        } else {
-          student3_count[2]++;
-        }
-        //학생 4 실시간 집중도 저장
-        if (response["stu4Color"] === "0") {
-          student4_count[0]++;
-        } else if (response["stu4Color"] === "1") {
-          student4_count[1]++;
-        } else {
-          student4_count[2]++;
-        }
-        //투명한 블록 생성
-        if (
-          time_count === 1 ||
-          (time_count % (16 * stamp_create_interval) === 0 &&
-            video_off === 0 &&
-            reset_on !== 1)
-        ) {
-          if (time_count === 1) {
-            time_stamp_count = 1;
-          } else {
-            time_stamp_count = time_count / stamp_create_interval;
-          }
-          block_clear += 16;
-          for (var i = 0; i < 16; i++) {
-            var student1 = document.createElement("div");
-            var student2 = document.createElement("div");
-            var student3 = document.createElement("div");
-            var student4 = document.createElement("div");
-            student1.setAttribute("class", "block4");
-            student2.setAttribute("class", "block4");
-            student3.setAttribute("class", "block4");
-            student4.setAttribute("class", "block4");
-            board1.appendChild(student1);
-            board2.appendChild(student2);
-            board3.appendChild(student3);
-            board4.appendChild(student4);
-            board1.scrollLeft = board1.scrollWidth;
-            board2.scrollLeft = board2.scrollWidth;
-            board3.scrollLeft = board3.scrollWidth;
-            board4.scrollLeft = board4.scrollWidth;
-          }
-        }
+        //시간 계산
+        var time_count = 0;
+        //동영상이 재생중일때 0, 재생이 끝나면 1
+        var video_off = 0;
+        //리셋 버튼이 눌리면 1 아니면 0
+        var reset_on = 0;
+        //덮어쓸 타임스탬트의 인덱스 결정 카운트
+        var time_stamp_count = 0;
+        //타임스탬프가 찍히는 시간 간격(초 단위)
+        var stamp_create_interval = 2;
+        //초기화 할때 지워야 할 블록의 갯수
+        var block_clear = 0;
 
-        //stamp_create_interval 간격으로 스탬프 생성
-        if (time_count % stamp_create_interval === 0) {
-          //가장 많이 발생한 집중도 단계 저장
-          var student1_max = Math.max(...student1_count);
-          var student2_max = Math.max(...student2_count);
-          var student3_max = Math.max(...student3_count);
-          var student4_max = Math.max(...student4_count);
+        setInterval(function () {
+          $.ajax({
+            url: "/colorStat_feed",
+            type: "POST",
+            success: function (response) {
+              //아직 영상이 재생중일경우
+              if (video_off === 0) {
+                time_count++;
+              }
+              //학생 1 실시간 집중도 저장
+              if (response["stu1Color"] === "0") {
+                student1_count[0]++;
+              } else if (response["stu1Color"] === "1") {
+                student1_count[1]++;
+              } else {
+                student1_count[2]++;
+              }
+              //학생 2 실시간 집중도 저장
+              if (response["stu2Color"] === "0") {
+                student2_count[0]++;
+              } else if (response["stu2Color"] === "1") {
+                student2_count[1]++;
+              } else {
+                student2_count[2]++;
+              }
+              //학생 3 실시간 집중도 저장
+              if (response["stu3Color"] === "0") {
+                student3_count[0]++;
+              } else if (response["stu3Color"] === "1") {
+                student3_count[1]++;
+              } else {
+                student3_count[2]++;
+              }
+              //학생 4 실시간 집중도 저장
+              if (response["stu4Color"] === "0") {
+                student4_count[0]++;
+              } else if (response["stu4Color"] === "1") {
+                student4_count[1]++;
+              } else {
+                student4_count[2]++;
+              }
+              //투명한 블록 생성
+              if (
+                time_count === 1 ||
+                (time_count % (16 * stamp_create_interval) === 0 &&
+                  video_off === 0 &&
+                  reset_on !== 1)
+              ) {
+                if (time_count === 1) {
+                  time_stamp_count = 1;
+                } else {
+                  time_stamp_count = time_count / stamp_create_interval;
+                }
+                block_clear += 16;
+                for (var i = 0; i < 16; i++) {
+                  var student1 = document.createElement("div");
+                  var student2 = document.createElement("div");
+                  var student3 = document.createElement("div");
+                  var student4 = document.createElement("div");
+                  student1.setAttribute("class", "block4");
+                  student2.setAttribute("class", "block4");
+                  student3.setAttribute("class", "block4");
+                  student4.setAttribute("class", "block4");
+                  board1.appendChild(student1);
+                  board2.appendChild(student2);
+                  board3.appendChild(student3);
+                  board4.appendChild(student4);
+                  board1.scrollLeft = board1.scrollWidth;
+                  board2.scrollLeft = board2.scrollWidth;
+                  board3.scrollLeft = board3.scrollWidth;
+                  board4.scrollLeft = board4.scrollWidth;
+                }
+              }
 
-          //가장 많이 발생한 집중도 배열에서의 위치 파악
-          for (var i = 0; i < 3; i++) {
-            if (student1_count[i] === student1_max) {
-              student1_max = i;
-              break;
-            }
-          }
-          for (var i = 0; i < 3; i++) {
-            if (student2_count[i] === student2_max) {
-              student2_max = i;
-              break;
-            }
-          }
-          for (var i = 0; i < 3; i++) {
-            if (student3_count[i] === student3_max) {
-              student3_max = i;
-              break;
-            }
-          }
-          for (var i = 0; i < 3; i++) {
-            if (student4_count[i] === student4_max) {
-              student4_max = i;
-              break;
-            }
-          }
+              //stamp_create_interval 간격으로 스탬프 생성
+              if (time_count % stamp_create_interval === 0) {
+                //가장 많이 발생한 집중도 단계 저장
+                var student1_max = Math.max(...student1_count);
+                var student2_max = Math.max(...student2_count);
+                var student3_max = Math.max(...student3_count);
+                var student4_max = Math.max(...student4_count);
 
-          if (response["stu2Color"] === "-1" && video_off === 0) {
-            setInterval("allModalOff()", 1000);
-            document.getElementById("finishAlarm").style.display =
-              "block";
-            video_off = 1;
-          }
-          if (response["stu2Color"] !== "-1" && video_off === 1) {
-            reset_on = 1;
-            video_off = 0;
-          }
+                //가장 많이 발생한 집중도 배열에서의 위치 파악
+                for (var i = 0; i < 3; i++) {
+                  if (student1_count[i] === student1_max) {
+                    student1_max = i;
+                    break;
+                  }
+                }
+                for (var i = 0; i < 3; i++) {
+                  if (student2_count[i] === student2_max) {
+                    student2_max = i;
+                    break;
+                  }
+                }
+                for (var i = 0; i < 3; i++) {
+                  if (student3_count[i] === student3_max) {
+                    student3_max = i;
+                    break;
+                  }
+                }
+                for (var i = 0; i < 3; i++) {
+                  if (student4_count[i] === student4_max) {
+                    student4_max = i;
+                    break;
+                  }
+                }
 
-          if (video_off === 0) {
-            student1 = board1.childNodes[time_stamp_count];
-            student2 = board2.childNodes[time_stamp_count];
-            student3 = board3.childNodes[time_stamp_count];
-            student4 = board4.childNodes[time_stamp_count];
-            time_stamp_count++;
-            //학생 1 타임스탬프 결정
-            if (student1_max === 0) {
-              student1.setAttribute("class", "block1");
-              stu1stamp[0]++;
-            } else if (student1_max === 1) {
-              student1.setAttribute("class", "block2");
-              stu1stamp[1]++;
-            } else {
-              student1.setAttribute("class", "block3");
-              stu1stamp[2]++;
-            }
+                if (response["stu2Color"] === "-1" && video_off === 0) {
+                  setInterval("allModalOff()", 1000);
+                  document.getElementById("finishAlarm").style.display =
+                    "block";
+                  video_off = 1;
+                }
+                if (response["stu2Color"] !== "-1" && video_off === 1) {
+                  reset_on = 1;
+                  video_off = 0;
+                }
 
-            //학생 2 타임스탬프 결정
-            if (student2_max === 0) {
-              student2.setAttribute("class", "block1");
-              stu2stamp[0]++;
-            } else if (student2_max === 1) {
-              student2.setAttribute("class", "block2");
-              stu2stamp[1]++;
-            } else {
-              student2.setAttribute("class", "block3");
-              stu2stamp[2]++;
-            }
-            //학생 3 타임스탬프 결정
-            if (student3_max === 0) {
-              student3.setAttribute("class", "block1");
-              stu3stamp[0]++;
-            } else if (student3_max === 1) {
-              student3.setAttribute("class", "block2");
-              stu3stamp[1]++;
-            } else {
-              student3.setAttribute("class", "block3");
-              stu3stamp[2]++;
-            }
-            //학생 4 타임스탬프 결정
-            if (student4_max === 0) {
-              student4.setAttribute("class", "block1");
-              stu4stamp[0]++;
-            } else if (student4_max === 1) {
-              student4.setAttribute("class", "block2");
-              stu4stamp[1]++;
-            } else {
-              student4.setAttribute("class", "block3");
-              stu4stamp[2]++;
-            }
-          }
+                if (video_off === 0) {
+                  student1 = board1.childNodes[time_stamp_count];
+                  student2 = board2.childNodes[time_stamp_count];
+                  student3 = board3.childNodes[time_stamp_count];
+                  student4 = board4.childNodes[time_stamp_count];
+                  time_stamp_count++;
+                  //학생 1 타임스탬프 결정
+                  if (student1_max === 0) {
+                    student1.setAttribute("class", "block1");
+                    stu1stamp[0]++;
+                  } else if (student1_max === 1) {
+                    student1.setAttribute("class", "block2");
+                    stu1stamp[1]++;
+                  } else {
+                    student1.setAttribute("class", "block3");
+                    stu1stamp[2]++;
+                  }
 
-          student1_count.fill(0);
-          student2_count.fill(0);
-          student3_count.fill(0);
-          student4_count.fill(0);
+                  //학생 2 타임스탬프 결정
+                  if (student2_max === 0) {
+                    student2.setAttribute("class", "block1");
+                    stu2stamp[0]++;
+                  } else if (student2_max === 1) {
+                    student2.setAttribute("class", "block2");
+                    stu2stamp[1]++;
+                  } else {
+                    student2.setAttribute("class", "block3");
+                    stu2stamp[2]++;
+                  }
+                  //학생 3 타임스탬프 결정
+                  if (student3_max === 0) {
+                    student3.setAttribute("class", "block1");
+                    stu3stamp[0]++;
+                  } else if (student3_max === 1) {
+                    student3.setAttribute("class", "block2");
+                    stu3stamp[1]++;
+                  } else {
+                    student3.setAttribute("class", "block3");
+                    stu3stamp[2]++;
+                  }
+                  //학생 4 타임스탬프 결정
+                  if (student4_max === 0) {
+                    student4.setAttribute("class", "block1");
+                    stu4stamp[0]++;
+                  } else if (student4_max === 1) {
+                    student4.setAttribute("class", "block2");
+                    stu4stamp[1]++;
+                  } else {
+                    student4.setAttribute("class", "block3");
+                    stu4stamp[2]++;
+                  }
+                }
 
-          totalStamp++;
+                student1_count.fill(0);
+                student2_count.fill(0);
+                student3_count.fill(0);
+                student4_count.fill(0);
 
-          scoreTemp1 = (((stu1stamp[2] / totalStamp) * 5 / 3) + ((stu1stamp[1] / totalStamp) * 2 / 3)) * (1 - ((stu1stamp[0] / totalStamp) / 2)) * 100;
-          scoreTemp2 = (((stu2stamp[2] / totalStamp) * 5 / 3) + ((stu2stamp[1] / totalStamp) * 2 / 3)) * (1 - ((stu2stamp[0] / totalStamp) / 2)) * 100;
-          scoreTemp3 = (((stu3stamp[2] / totalStamp) * 5 / 3) + ((stu3stamp[1] / totalStamp) * 2 / 3)) * (1 - ((stu3stamp[0] / totalStamp) / 2)) * 100;
-          scoreTemp4 = (((stu4stamp[2] / totalStamp) * 5 / 3) + ((stu4stamp[1] / totalStamp) * 2 / 3)) * (1 - ((stu4stamp[0] / totalStamp) / 2)) * 100;
-          stu1Score = Math.round(scoreTemp1);
-          stu2Score = Math.round(scoreTemp2);
-          stu3Score = Math.round(scoreTemp3);
-          stu4Score = Math.round(scoreTemp4);
-          if(stu1Score > 100){
-            stu1Score = 100;
-          }
-          if(stu2Score > 100){
-            stu2Score = 100;
-          }
-          if(stu3Score > 100){
-            stu3Score = 100;
-          }
-          if(stu4Score > 100){
-            stu4Score = 100;
-          }
-          scoreTemp5 = (stu1Score + stu2Score + stu3Score + stu4Score) / 4;
-          avgScore = Math.round(scoreTemp5);
+                totalStamp++;
 
-          if (reset_on === 1) {
-            for (var i = block_clear - 1; i >= 0; i--) {
-              board1.removeChild(board1.childNodes[i]);
-              board2.removeChild(board2.childNodes[i]);
-              board3.removeChild(board3.childNodes[i]);
-              board4.removeChild(board4.childNodes[i]);
-            }
-            reset_on = 0;
-            time_count = 0;
-            time_stamp_count = 0;
-            block_clear = 16;
-            document.getElementById("finishAlarm").style.display = "none";
-            for (var i = 0; i < 3; i++) {
-              stu1stamp[i] = 0;
-              stu2stamp[i] = 0;
-              stu3stamp[i] = 0;
-            }
-          }
-        }
-        board1.scrollLeft = board1.scrollWidth;
-        board2.scrollLeft = board2.scrollWidth;
-        board3.scrollLeft = board3.scrollWidth;
-        board4.scrollLeft = board4.scrollWidth;
-      },
-      error: function (error) {
-        console.log("error!");
-      },
-    });
-  }, 1000);
-</script>
+                scoreTemp1 =
+                  (((stu1stamp[2] / totalStamp) * 5) / 3 +
+                    ((stu1stamp[1] / totalStamp) * 2) / 3) *
+                  (1 - stu1stamp[0] / totalStamp / 2) *
+                  100;
+                scoreTemp2 =
+                  (((stu2stamp[2] / totalStamp) * 5) / 3 +
+                    ((stu2stamp[1] / totalStamp) * 2) / 3) *
+                  (1 - stu2stamp[0] / totalStamp / 2) *
+                  100;
+                scoreTemp3 =
+                  (((stu3stamp[2] / totalStamp) * 5) / 3 +
+                    ((stu3stamp[1] / totalStamp) * 2) / 3) *
+                  (1 - stu3stamp[0] / totalStamp / 2) *
+                  100;
+                scoreTemp4 =
+                  (((stu4stamp[2] / totalStamp) * 5) / 3 +
+                    ((stu4stamp[1] / totalStamp) * 2) / 3) *
+                  (1 - stu4stamp[0] / totalStamp / 2) *
+                  100;
+                stu1Score = Math.round(scoreTemp1);
+                stu2Score = Math.round(scoreTemp2);
+                stu3Score = Math.round(scoreTemp3);
+                stu4Score = Math.round(scoreTemp4);
+                if (stu1Score > 100) {
+                  stu1Score = 100;
+                }
+                if (stu2Score > 100) {
+                  stu2Score = 100;
+                }
+                if (stu3Score > 100) {
+                  stu3Score = 100;
+                }
+                if (stu4Score > 100) {
+                  stu4Score = 100;
+                }
+                scoreTemp5 =
+                  (stu1Score + stu2Score + stu3Score + stu4Score) / 4;
+                avgScore = Math.round(scoreTemp5);
+
+                //리셋 버튼을 눌렀을 때  --> 모든 변수 초기화
+                if (reset_on === 1) {
+                  for (var i = block_clear - 1; i >= 0; i--) {
+                    board1.removeChild(board1.childNodes[i]);
+                    board2.removeChild(board2.childNodes[i]);
+                    board3.removeChild(board3.childNodes[i]);
+                    board4.removeChild(board4.childNodes[i]);
+                  }
+                  reset_on = 0;
+                  time_count = 0;
+                  time_stamp_count = 0;
+                  block_clear = 16;
+                  progress_average = 0;
+                  document.getElementById("finishAlarm").style.display = "none";
+                  avgScore = 0;
+                  stu1Score = 0;
+                  stu2Score = 0;
+                  stu3Score = 0;
+                  stu4Score = 0;
+                  totalStamp = 0;
+
+                  for (var i = 0; i < 3; i++) {
+                    stu1stamp[i] = 0;
+                    stu2stamp[i] = 0;
+                    stu3stamp[i] = 0;
+                    stu4stamp[i] = 0;
+                    agent_occur_count1[i] = 0;
+                    agent_occur_count2[i] = 0;
+                    agent_occur_count3[i] = 0;
+                    agent_occur_count4[i] = 0;
+                    agent1_on[i] = 0;
+                    agent2_on[i] = 0;
+                    agent3_on[i] = 0;
+                    agent4_on[i] = 0;
+                  }
+                  $("#progress-average").attr(
+                    "style",
+                    "width : " +
+                      "2%;" +
+                      "background-color: " +
+                      "#8aecf2;" +
+                      "border-top-right-radius: " +
+                      "15px;" +
+                      "border-bottom-right-radius:" +
+                      " 15px;"
+                  );
+                  $("#progress-color1_1").attr(
+                    "style",
+                    "width : " +
+                      "2%;" +
+                      "background-color: " +
+                      "#ff6a8e;" +
+                      "border-top-right-radius: " +
+                      "15px;" +
+                      "border-bottom-right-radius:" +
+                      " 15px;"
+                  );
+                  $("#progress-color1_2").attr("style", "width : " + "0%;");
+                  $("#progress-color1_3").attr("style", "width : " + "0%;");
+
+                  $("#progress-color2_1").attr(
+                    "style",
+                    "width : " +
+                      "2%;" +
+                      "background-color: " +
+                      "#ff6a8e;" +
+                      "border-top-right-radius: " +
+                      "15px;" +
+                      "border-bottom-right-radius:" +
+                      " 15px;"
+                  );
+                  $("#progress-color2_2").attr("style", "width : " + "0%;");
+                  $("#progress-color2_3").attr("style", "width : " + "0%;");
+
+                  $("#progress-color3_1").attr(
+                    "style",
+                    "width : " +
+                      "2%;" +
+                      "background-color: " +
+                      "#ff6a8e;" +
+                      "border-top-right-radius: " +
+                      "15px;" +
+                      "border-bottom-right-radius:" +
+                      " 15px;"
+                  );
+                  $("#progress-color3_2").attr("style", "width : " + "0%;");
+                  $("#progress-color3_3").attr("style", "width : " + "0%;");
+
+                  $("#progress-color4_1").attr(
+                    "style",
+                    "width : " +
+                      "2%;" +
+                      "background-color: " +
+                      "#ff6a8e;" +
+                      "border-top-right-radius: " +
+                      "15px;" +
+                      "border-bottom-right-radius:" +
+                      " 15px;"
+                  );
+                  $("#progress-color4_2").attr("style", "width : " + "0%;");
+                  $("#progress-color4_3").attr("style", "width : " + "0%;");
+                  //원형 그래프 초기화
+                  $("#stu1ScoreGraph").attr("class", "progress-circle p0");
+                  $("#stu1Score").text("0%");
+                  $("#stu2ScoreGraph").attr("class", "progress-circle p0");
+                  $("#stu2Score").text("0%");
+                  $("#stu3ScoreGraph").attr("class", "progress-circle p0");
+                  $("#stu3Score").text("0%");
+                  $("#stu4ScoreGraph").attr("class", "progress-circle p0");
+                  $("#stu4Score").text("0%");
+                }
+              }
+              board1.scrollLeft = board1.scrollWidth;
+              board2.scrollLeft = board2.scrollWidth;
+              board3.scrollLeft = board3.scrollWidth;
+              board4.scrollLeft = board4.scrollWidth;
+            },
+            error: function (error) {
+              console.log("error!");
+            },
+          });
+        }, 1000);
+      </script>
     </div>
   </body>
 </html>
