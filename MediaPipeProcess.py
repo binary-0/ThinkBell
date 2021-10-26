@@ -110,11 +110,11 @@ class HandDetector():
                 ret, results, neighbours, dist = self.knn.findNearest(data, 3)
                 idx = int(results[0][0])
 
-                # Draw gesture result
-                if idx in gesture.keys():
-                    #org = (int(res.landmark[0].x * img.shape[1]), int(res.landmark[0].y * img.shape[0]))
-                    print(gesture[idx].upper())
-                    # cv2.putText(img, text=gesture[idx].upper(), org=(org[0], org[1] + 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)                
+                # # Draw gesture result
+                # if idx in gesture.keys():
+                #     #org = (int(res.landmark[0].x * img.shape[1]), int(res.landmark[0].y * img.shape[0]))
+                #     print(gesture[idx].upper())
+                #     # cv2.putText(img, text=gesture[idx].upper(), org=(org[0], org[1] + 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)                
 
         return lmlist, idx
 ###Different Playground###
@@ -230,12 +230,7 @@ def mediapipe_process(rgb, oriImg, TPImg):
         #0: forward
         #1: horizontal movement
         #2: vertical(upper) movement
-        if x < -15 or x > 15:
-            ret_HeadPose = 1
-        elif y > 15:
-            ret_HeadPose = 2
-        else:
-            ret_HeadPose = 0
+        ret_HeadPose = [x, y]
     try:
         ret_pose = poseDetector.getPosition(TPImg)
     except:
@@ -251,5 +246,10 @@ def mediapipe_process(rgb, oriImg, TPImg):
             handGesIdx1 = handGesIdx2
     except:
         ret_hand[1] = []
+
+    if handGesIdx1 is 2:
+        handGesIdx1 = 9
+    elif handGesIdx1 is 0 or handGesIdx1 is 7:
+        handGesIdx1 = 5
 
     return ret_EAR, ret_Area, ret_HeadPose, ret_hand, ret_pose, handGesIdx1
