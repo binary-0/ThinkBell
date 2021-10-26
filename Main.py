@@ -23,6 +23,7 @@ import daiseecnn
 import csv
 import torch
 import glob
+
 # import YOLODetection
 # from YOLO.yolo_postprocess import YOLO
 # from tensorflow.python.framework.ops import disable_eager_execution
@@ -120,9 +121,15 @@ def index():
     
     global headStatus
     headStatus = [None, None, None, None]
+    
+    global headPoseStatus
+    headPoseStatus = [None, None, None, None]
 
     global EARStatus
     EARStatus = [False, False, False, False]
+
+    global handGestureStatus
+    handGestureStatus = [-1, -1, -1, -1]
 
     global isStartAudio
     isStartAudio=False
@@ -254,6 +261,13 @@ def real_gen_frames():
     daisee = daiseecnn.DaiseeCNN()
     #yolo = YOLO()
 
+    gesture = {
+        0:'fist', 1:'one', 2:'two', 3:'three', 4:'four', 5:'five',
+        6:'six', 7:'rock', 8:'spiderman', 9:'yeah', 10:'ok',
+    }
+
+    prevGestureIdx = [-1, -1, -1, -1]
+
     global loadingComplete
     loadingComplete = True
     global isLiveLocal
@@ -276,6 +290,9 @@ def real_gen_frames():
 
     headSum = [0, 0, 0, 0]
     headAvg = [None, None, None, None]
+
+    headPoseSum = [[0, 0], [0, 0], [0, 0], [0, 0]]
+    headPoseAvg = [[None, None], [None, None], [None, None], [None, None]]
     
     EARSum = [0, 0, 0, 0]
     EARAvg = [None, None, None, None]
@@ -361,6 +378,7 @@ def real_gen_frames():
         ### FOR YOLO ###
         
         global headStatus
+        global headPoseStatus
         # !설명 headStatus:
         # None: Calibationing
         # 1: cannot recognize face
@@ -388,11 +406,34 @@ def real_gen_frames():
         #         #print(f'area:{headArea[i]}')
         #         #print(f'{i+1}: {headArea[i]}')
         # print()
+        global handGestureStatus
 
         EAR = list(range(peerNum))
         headArea = list(range(peerNum))
+        handLM = list(range(peerNum))
+
+        headPose = list(range(peerNum))#
+        handGesIdx = list(range(peerNum))#
+        handGestureTemp = -1
+
+        poseLM = list(range(peerNum))
         for i in range(0, peerNum):
-            EAR[i], headArea[i] = mediapipe_process(rgbFrame[i])
+            EAR[i], headArea[i], headPose[i], handLM[i], poseLM[i], handGesIdx[i] = mediapipe_process(rgbFrame[i], rgbFrame[i], rgbFrame[i])
+
+        for i in range(0, peerNum):
+            handGestureTemp = handGesIdx[i]
+            #print(f'prev:{prevGestureIdx[i]} and cur:{handGestureTemp}')
+            if handGestureTemp is not -1 and prevGestureIdx[i] == handGestureTemp:
+                #print(f'//////////haittaa with {handGestureTemp}')
+                if handGestureTemp == 5 or handGestureTemp == 9 or handGestureTemp == 10:
+                    handGestureStatus[i] = handGestureTemp
+                    # print('///////////////////////')
+                    # print(f'Gesture Detected: {handGestureTemp} peer:{i+1}')
+                    # print('///////////////////////')
+                prevGestureIdx[i] = handGestureTemp
+            else:
+                handGestureStatus[i] = -1
+                prevGestureIdx[i] = handGestureTemp
 
         if caliEnd is False:
             if time.time() - startTime > CALITIME: # CALIBRATION DONE
@@ -403,12 +444,16 @@ def real_gen_frames():
                 for i in range(0, peerNum):
                     headAvg[i] = headSum[i] / faceAddedTime[i]
                     EARAvg[i] = EARSum[i] / EARAddedTime[i]
+                    headPoseAvg[i][0] = headPoseSum[i][0] / faceAddedTime[i]
+                    headPoseAvg[i][1] = headPoseSum[i][1] / faceAddedTime[i]
                     #print(f'AVG: {headAvg[i]}')
                 caliEnd = True
             else:
                 for i in range(0, peerNum):
                     if EAR[i] is not -1 and headArea[i] is not -1:
                         headSum[i] += headArea[i]
+                        headPoseSum[i][0] += headPose[i][0]
+                        headPoseSum[i][1] += headPose[i][1]
                         faceAddedTime[i] += 1
                         EARSum[i] += EAR[i]
                         EARAddedTime[i] += 1
@@ -419,6 +464,16 @@ def real_gen_frames():
                         headStatus[i] = 2
                     else:
                         headStatus[i] = 3
+
+                    #0: forward
+                    #1: horizontal movement
+                    #2: vertical(upper) movement
+                    if headPose[i][0] < headPoseAvg[i][0]-7 or headPose[i][0] > headPoseAvg[i][0]+7:
+                        headPoseStatus[i] = 1
+                    elif headPose[i][1] > headPoseAvg[i][1]+7:
+                        headPoseStatus[i] = 2
+                    else:
+                        headPoseStatus[i] = 0
 
                     earCurTime = time.time()
                     if EAR[i] < EARAvg[i] * 0.875:
@@ -443,7 +498,7 @@ def real_gen_frames():
             local_prediction[i] = int(daisee.prediction(sendedFrame[i]))
             
         for i in range(0, peerNum):
-            if headStatus[i] is 1 or headStatus[i] is 2:
+            if headStatus[i] is 1 or headStatus[i] is 2 or headPoseStatus[i] is 1 or headPoseStatus[i] is 2:
                 local_prediction[i] = 0
             elif EARStatus[i] is True:
                 local_prediction[i] = 0
@@ -647,6 +702,16 @@ class Streaming:
                         #     cv2.LINE_AA)
                         generalStatus[peer - 1][0] = False
                         generalStatus[peer - 1][1] = False
+
+                    if headStatus[peer - 1] is not 1 and generalStatus[peer - 1][1] is False: #When face is detected
+                        if headPoseStatus[peer - 1] is None:
+                            pass
+                        elif headPoseStatus[peer - 1] is 1:
+                            generalStatus[peer - 1][1] = True
+                        elif headPoseStatus[peer - 1] is 2:
+                            generalStatus[peer - 1][1] = True
+                        else:
+                            generalStatus[peer - 1][1] = False
 
                     if EARStatus[peer - 1] is True:
                         generalStatus[peer - 1][3] = True
@@ -969,6 +1034,7 @@ def colorStat_feed():
 @app.route('/generalStat_feed', methods=['POST'])
 def generalStat_feed():
     global generalStatus
+    global handGestureStatus
     peerNum = 4
     returnVal = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 
@@ -1001,7 +1067,11 @@ def generalStat_feed():
         'stu1General': f'{returnVal[0][0]}{returnVal[0][1]}{returnVal[0][2]}{returnVal[0][3]}',
         'stu2General': f'{returnVal[1][0]}{returnVal[1][1]}{returnVal[1][2]}{returnVal[1][3]}',
         'stu3General': f'{returnVal[2][0]}{returnVal[2][1]}{returnVal[2][2]}{returnVal[2][3]}',
-        'stu4General': f'{returnVal[3][0]}{returnVal[3][1]}{returnVal[3][2]}{returnVal[3][3]}'
+        'stu4General': f'{returnVal[3][0]}{returnVal[3][1]}{returnVal[3][2]}{returnVal[3][3]}',
+        'stu1Hand': f'{handGestureStatus[0]}',
+        'stu2Hand': f'{handGestureStatus[1]}',
+        'stu3Hand': f'{handGestureStatus[2]}',
+        'stu4Hand': f'{handGestureStatus[3]}'
     })
 
 
