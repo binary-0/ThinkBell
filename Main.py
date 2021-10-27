@@ -759,11 +759,11 @@ class Streaming:
                 #         break
                 if STD_HUMAN_LABEL is 1:
                     if isLiveLocal is 1:
-                        if cv2.waitKey(40) & 0xFF == ord('q'):  # press q to quit
+                        if cv2.waitKey(15) & 0xFF == ord('q'):  # press q to quit
                             break
                 else:
                     if isLiveLocal is 1:
-                        if cv2.waitKey(20) & 0xFF == ord('q'):  # press q to quit
+                        if cv2.waitKey(15) & 0xFF == ord('q'):  # press q to quit
                             break
 
         else:
