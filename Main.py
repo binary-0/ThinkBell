@@ -659,21 +659,21 @@ class Streaming:
                         l_frame = g_frame[peer - 1]
                     elif predEngage[peer - 1] is 0: #not engaged
                         l_frame = cv2.addWeighted(self.redImg, 0.1, g_frame[peer - 1], 0.9, 0)
-                        cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 0, 255), 20)
+                        cv2.rectangle(l_frame, (0, 0), (640, 480), (50, 80, 255), 20)
                         # cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
                         #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                         #         cv2.LINE_AA)
                         colorStatus[peer - 1] = 0
                     elif predEngage[peer - 1] is 1: #neutral
                         l_frame = cv2.addWeighted(self.neutralImg, 0.1, g_frame[peer - 1], 0.9, 0)
-                        cv2.rectangle(l_frame, (0, 0), (640, 480), (160, 172, 203), 20)
+                        cv2.rectangle(l_frame, (0, 0), (640, 480), (81, 209, 255), 20)
                         # cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
                         #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                         #         cv2.LINE_AA)
                         colorStatus[peer - 1] = 1
                     else: #highly engaged
                         l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
-                        cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 255, 0), 20)
+                        cv2.rectangle(l_frame, (0, 0), (640, 480), (48, 204, 64), 20)
                         # cv2.putText(l_frame, f'Predict: {predEngage[peer - 1]}', (10, 100),
                         #     cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 255), 2,
                         #     cv2.LINE_AA)
@@ -720,11 +720,11 @@ class Streaming:
                     
                     if peer is not 1 and STD_HUMAN_LABEL is not 1:
                         if int(self.humanLabel) is 0:
-                            cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 0, 255), -1)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (50, 80, 255), -1)
                         elif int(self.humanLabel) is 1:
-                            cv2.rectangle(l_frame, (11, 11), (30, 30), (160, 172, 203), -1)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (81, 209, 255), -1)
                         else:
-                            cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 255, 0), -1)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (48, 204, 64), -1)
 
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
@@ -787,9 +787,9 @@ class Streaming_LabelBased:
         g_frame = list(range(self.peerNum))
         frameReady = list(range(self.peerNum))
 
-        self.redImg = np.full((480, 640, 3), (0, 0, 255), dtype=np.uint8)
-        self.greenImg = np.full((480, 640, 3), (0, 255, 0), dtype=np.uint8)
-        self.neutralImg = np.full((480, 640, 3), (160, 172, 203), dtype=np.uint8)
+        self.redImg = np.full((480, 640, 3), (50, 80, 255), dtype=np.uint8)
+        self.greenImg = np.full((480, 640, 3), (48, 204, 64), dtype=np.uint8)
+        self.neutralImg = np.full((480, 640, 3), (81, 172, 255), dtype=np.uint8)
         self.blueImg = np.full((480, 640, 3), (255, 0, 0), dtype=np.uint8)
         self.yelloImg = np.full((480, 640, 3), (0, 255, 255), dtype=np.uint8)
 
@@ -864,7 +864,7 @@ class Streaming_LabelBased:
                         colorStatus[peer - 1] = 0
                     elif predEngage[peer - 1] is 2: #neutral
                         l_frame = cv2.addWeighted(self.neutralImg, 0.1, g_frame[peer - 1], 0.9, 0)
-                        cv2.rectangle(l_frame, (0, 0), (640, 480), (160, 172, 203), 20)
+                        cv2.rectangle(l_frame, (0, 0), (640, 480), (81, 209, 255), 20)
                         # cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
                         #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
                         #         cv2.LINE_AA)
@@ -874,7 +874,7 @@ class Streaming_LabelBased:
                         colorStatus[peer - 1] = 1
                     else: #highly engaged
                         l_frame = cv2.addWeighted(self.greenImg, 0.1, g_frame[peer - 1], 0.9, 0)
-                        cv2.rectangle(l_frame, (0, 0), (640, 480), (0, 255, 0), 20)
+                        cv2.rectangle(l_frame, (0, 0), (640, 480), (48, 204, 64), 20)
                         # cv2.putText(l_frame, f'Engagement: {LABEL_VAL}', (10, 50),
                         #         cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 0, 0), 2,
                         #         cv2.LINE_AA)
@@ -910,11 +910,11 @@ class Streaming_LabelBased:
 
                     if peer is not 1:
                         if int(LABEL_VAL) is 0 or int(LABEL_VAL) is 1:
-                            cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 0, 255), -1)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (50, 80, 255), -1)
                         elif int(LABEL_VAL) is 2:
-                            cv2.rectangle(l_frame, (11, 11), (30, 30), (160, 172, 203), -1)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (81, 209, 255), -1)
                         else:
-                            cv2.rectangle(l_frame, (11, 11), (30, 30), (0, 255, 0), -1)
+                            cv2.rectangle(l_frame, (11, 11), (30, 30), (48, 204, 64), -1)
                     
                     ret, buffer = cv2.imencode('.jpg', l_frame)
                     l_frame = buffer.tobytes()
