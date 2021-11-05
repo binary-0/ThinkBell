@@ -1,0 +1,11 @@
+webrtc/public/ 부분이 브라우저에서 구동이 되는파트이고 그중에서 js/objDetect.js 이부분이 프레임을 추출해서 보내는 파트 입니다
+
+그중에서도 webRTC/public/js/objDetect.js의 postFile 부분이 이제 http://127.0.0.1:5000/image로 jpeg 이미지를 쏘는거에요
+
+맥미니에서는 70fps, 효제컴에선 15fps정도
+
+그러면 이제 /flask/server.py에서 플라스크를 구동을 하고 있는데 거기에서 Post method요청이 오면 
+
+object_detection_api.py에 해당 이미지를 받은 뒤 object_detection_api.py에서 prediction과 같은 처리를 한뒤 
+
+그걸 다시 array? json?값으로 JS에 보내줄 수도 있고, 교사에게 직접 http or socket.io로 전송도 가능합니다.
