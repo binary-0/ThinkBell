@@ -2,6 +2,11 @@ import mediapipe as mp
 import numpy as np
 import cv2
 
+gesture = {
+    0:'fist', 1:'one', 2:'two', 3:'three', 4:'four', 5:'five',
+    6:'six', 7:'rock', 8:'spiderman', 9:'yeah', 10:'ok',
+}
+
 ##Different Playground##
 class PoseDetector:
     def __init__(self, mode = False, upBody = False, smooth=True, detectionCon = 0.5, trackCon = 0.5):
@@ -22,7 +27,7 @@ class PoseDetector:
             if draw:
                 self.mpDraw.draw_landmarks(img, self.results.pose_landmarks, self.mpPose.POSE_CONNECTIONS)
 
-        print('findPoseDone')
+        #print('findPoseDone')
         return img, self.results.pose_landmarks, self.mpPose.POSE_CONNECTIONS
 
     def getPosition(self, img, draw=False):
@@ -47,6 +52,12 @@ class HandDetector():
         self.hands = self.mpHands.Hands(self.mode, self.maxHands, self.detectionCon, self.trackCon)
         self.mpDraw = mp.solutions.drawing_utils
         
+        self.file = np.genfromtxt('gesture_train.csv', delimiter=',')
+        self.angle = self.file[:,:-1].astype(np.float32)
+        self.label = self.file[:, -1].astype(np.float32)
+        self.knn = cv2.ml.KNearest_create()
+        self.knn.train(self.angle, cv2.ml.ROW_SAMPLE, self.label) # 로딩에 넣어야하나
+        
     def findHands(self, img, draw = True):
         #imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(img)
@@ -56,11 +67,12 @@ class HandDetector():
             for handLms in self.results.multi_hand_landmarks:
                 if draw:
                     self.mpDraw.draw_landmarks(img, handLms, self.mpHands.HAND_CONNECTIONS)
-        print('findHandsDone')
+        #print('findHandsDone')
         return img
 
     def getPosition(self, img, handNo = 0, draw = True):
         lmlist = []
+        idx = -1
         if self.results.multi_hand_landmarks:
             myHand = self.results.multi_hand_landmarks[handNo]
             for id, lm in enumerate(myHand.landmark):
@@ -69,7 +81,42 @@ class HandDetector():
                 lmlist.append([id, cx, cy])
                 if draw:
                     cv2.circle(img, (cx, cy), 3, (255, 0, 255), cv2.FILLED)
-        return lmlist
+        
+        if self.results.multi_hand_landmarks:
+            rps_result = []
+            
+            for res in self.results.multi_hand_landmarks:
+                joint = np.zeros((21, 3))
+                for j, lm in enumerate(res.landmark):
+                    joint[j] = [lm.x, lm.y, lm.z]
+
+                # Compute angles between joints
+                v1 = joint[[0,1,2,3,0,5,6,7,0,9,10,11,0,13,14,15,0,17,18,19],:] # Parent joint
+                v2 = joint[[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],:] # Child joint
+                v = v2 - v1 # [20,3]
+                # Normalize v
+                v = v / np.linalg.norm(v, axis=1)[:, np.newaxis]
+
+                
+                # Get angle using arcos of dot product
+                angle = np.arccos(np.einsum('nt,nt->n',
+                    v[[0,1,2,4,5,6,8,9,10,12,13,14,16,17,18],:], 
+                    v[[1,2,3,5,6,7,9,10,11,13,14,15,17,18,19],:])) # [15,]
+
+                angle = np.degrees(angle) # Convert radian to degree
+                
+                # Inference gesture
+                data = np.array([angle], dtype=np.float32)
+                ret, results, neighbours, dist = self.knn.findNearest(data, 3)
+                idx = int(results[0][0])
+
+                # # Draw gesture result
+                # if idx in gesture.keys():
+                #     #org = (int(res.landmark[0].x * img.shape[1]), int(res.landmark[0].y * img.shape[0]))
+                #     print(gesture[idx].upper())
+                #     # cv2.putText(img, text=gesture[idx].upper(), org=(org[0], org[1] + 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)                
+
+        return lmlist, idx
 ###Different Playground###
 
 mp_drawing = mp.solutions.drawing_utils
@@ -98,7 +145,7 @@ handDetector = HandDetector()
 def mediapipe_process(rgb, oriImg, TPImg):
     ret_EAR = -1
     ret_Area = -1
-    ret_HeadPose = -1
+    ret_HeadPose = [-1, -1]
     ret_hand = [[], []]
     ret_pose = None
 
@@ -183,22 +230,26 @@ def mediapipe_process(rgb, oriImg, TPImg):
         #0: forward
         #1: horizontal movement
         #2: vertical(upper) movement
-        if x < -15 or x > 15:
-            ret_HeadPose = 1
-        elif y > 15:
-            ret_HeadPose = 2
-        else:
-            ret_HeadPose = 0
-    
-    ret_pose = poseDetector.getPosition(TPImg)
+        ret_HeadPose = [x, y]
     try:
-        ret_hand[0] = handDetector.getPosition(TPImg, 0, draw=False)
+        ret_pose = poseDetector.getPosition(TPImg)
+    except:
+        ret_pose = []
+    try:
+        ret_hand[0], handGesIdx1 = handDetector.getPosition(TPImg, 0, draw=False)
     except:
         ret_hand[0] = []
         
     try:
-        ret_hand[1] = handDetector.getPosition(TPImg, 1, draw=False)
+        ret_hand[1], handGesIdx2 = handDetector.getPosition(TPImg, 1, draw=False)
+        if handGesIdx1 == -1:
+            handGesIdx1 = handGesIdx2
     except:
         ret_hand[1] = []
 
-    return ret_EAR, ret_Area, ret_HeadPose, ret_hand, ret_pose
+    if handGesIdx1 is 2:
+        handGesIdx1 = 9
+    elif handGesIdx1 is 0 or handGesIdx1 is 7:
+        handGesIdx1 = 5
+
+    return ret_EAR, ret_Area, ret_HeadPose, ret_hand, ret_pose, handGesIdx1

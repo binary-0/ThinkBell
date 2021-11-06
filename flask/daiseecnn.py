@@ -28,10 +28,24 @@ class DaiseeCNN:
         # else:
         #     return np.argmax(predictions[1][0])
 
-        # (기준 low) Heuristic하게 측정된 probability threshold를 이용
-        if predictions[1][0][0] > -3.6: #Engagement Label 0 변동성 처리
-            return 0
-        elif predictions[1][0][1] > -1.6: #Engagement Label 1 변동성 처리
-            return 1
+        # print(f'Conf:{predictions[2][0]}')
+        # print(f'Frust:{predictions[3][0]}')
+        # print()
+
+        # print(np.argmax(predictions[2][0]))
+        # print(np.argmax(predictions[3][0]))
+        # print()
+
+        # if ((predictions[2][0][3] + predictions[3][0][3]) / 2) > -3.9:
+        #     print('Frustrate Detected')
+
+        if predictions[1][0][0] > -3.75: #Engagement Label 0 변동성 처리
+            engageLabel = 0
+        elif predictions[1][0][1] > -1.75: #Engagement Label 1 변동성 처리
+            engageLabel = 1
         else:
-            return np.argmax(predictions[1][0])
+            engageLabel = np.argmax(predictions[1][0])
+
+        ###
+
+        return engageLabel
