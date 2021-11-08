@@ -255,9 +255,9 @@ def get_objects(image, threshold=0.5):
             #0: forward
             #1: horizontal movement
             #2: vertical(upper) movement
-            if headPose[0] < headPoseAvg[0]-7 or headPose[0] > headPoseAvg[0]+7:
+            if headPose[0] < headPoseAvg[0]-8.5 or headPose[0] > headPoseAvg[0]+8.5:
                 headPoseStatus = 1
-            elif headPose[1] > headPoseAvg[1]+7:
+            elif headPose[1] > headPoseAvg[1]+8.5:
                 headPoseStatus = 2
             else:
                 headPoseStatus = 0
