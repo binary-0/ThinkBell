@@ -47,14 +47,18 @@
             Camera</button>
         <button id="muteButton" class="settings" onclick="toggleMute()">Unmuted</button>
         <button id="vidButton" class="settings" onclick="toggleVid()">Video Enabled</button>
-        <button id="teacherOn" class="settings" onclick="getTeacher()">Get Student1 status</button>
 
+        <button id="getStatus" class="settings" style="background-color: red;" onclick="getStatus()">Start BroadCast</button>
+
+        <button id="teacherOn" class="settings" onclick="sendStatus()">Send status</button>
     </div>
+
+    <input type="text" id="studentName" value="Enter your name" style="width: 100px;">
 </body>
 <footer>
     <script src='/js/main.js' lang="text/javascript"></script>
     <script id="objDetect" src='/js/objDetect.js' data-source="localVideo" data-mirror="true" data-uploadWidth="1280" data-scoreThreshold="0.40"></script>
-    <script src='/js/teacher.js' lang="text/javascript"></script>
+    <script src='/js/broadcast.js' lang="text/javascript"></script>
 
 
 </footer>
