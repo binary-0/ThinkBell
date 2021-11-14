@@ -4,63 +4,486 @@
     <script lang="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="/simple-peer/simplepeer.min.js"></script>
     <style>
-        .containers {
-            display: grid;
-            grid-gap: 5px;
-            grid-template-columns: repeat(auto-fit, 1fr);
-            grid-template-rows: repeat(auto-fit, 300px);
-        }
+    #wrap {
+        width: 100%;
+        height: 100%;
 
-        .container {
-            display: flex;
-        }
+    }
 
-        .vid {
-            flex: 0 1 auto;
-            height: 400px;
-        }
+    #wrap .mainframe {
+        position: absolute;
+        width: 1440px;
+        height: 1024px;
+        left: 50%;
+        top: 50%;
+        margin-left: -720px;
+        margin-top: -512px;
+        background-image: url(mainboard.png);
+    }
 
-        .settings {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 2px 2px;
-            cursor: pointer;
-        }
+    #wrap .tempframe {
+        position: absolute;
+        width: 300px;
+        height: 1024px;
+        left: 50%;
+        top: 50%;
+        margin-left: 720px;
+        margin-top: -512px;
+        background-color: #00CA08;
+    }
+
+    .stdframe {
+        position: absolute;
+        width: 316px;
+        height: 244px;
+        left: 20px;
+        top: 40px;
+
+        background: #CEC1A9;
+        border-radius: 10px;
+    }
+
+    .stdframe .name {
+        position: absolute;
+        width: 77.05px;
+        height: 25.68px;
+        left: 8.99px;
+        top: 168.23px;
+        z-index: 3;
+        /*이름은 사람들 얼굴보다 위에 존재해야함.*/
+        background: #090000;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 23px;
+        /* identical to box height */
+
+        text-align: center;
+
+        color: #FFFFFF;
+    }
+
+    .stdframe .heart {
+        position: absolute;
+        /*left: 6.46%;
+        right: 6.45%;*/
+        top: 204.19px;
+        left: 11.56px;
+    }
+
+    .stdframe .healthbar {
+        position: absolute;
+        width: 231.16px;
+        height: 32.11px;
+        left: 41.1px;
+        top: 200.34px;
+
+        background: #FFFFFF;
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 15px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        text-align: center;
+        color: #FFFFFF;
+    }
+
+    .stdframe .changehealthbar {
+        position: absolute;
+        width: 184px;
+        height: 32.11px;
+        left: 41.1px;
+        top: 200.34px;
+
+        background: #00CA08;
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 15px;
+    }
+
+    .stdframe .healthbarword {
+        position: absolute;
+        width: 188.78px;
+        height: 19.26px;
+        left: 61.64px;
+        top: 206.76px;
+
+        font-family: Roboto;
+        font-style: bold;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 18px;
+        text-align: center;
+
+        color: #FFFFFF;
+    }
+
+    .classboard {
+        position: absolute;
+        width: 870px;
+        height: 558px;
+        left: 285px;
+        top: 290px;
+        border-radius: 5px;
+    }
+
+
+    #videos video:nth-child(1) {
+        position: absolute;
+        width: 295.37px;
+        height: 183.64px;
+        left: 35.99px;
+        top: 37.27px;
+        object-fit: fill;
+        border-radius: 10px;
+    }
+
+    #videos video:nth-child(2) {
+        position: absolute;
+        width: 295.37px;
+        height: 183.64px;
+        left: 372px;
+        top: 37.27px;
+        object-fit: fill;
+        border-radius: 10px;
+    }
+
+    #videos video:nth-child(3) {
+        position: absolute;
+        width: 295.37px;
+        height: 183.64px;
+        left: 708.92px;
+        top: 37.27px;
+        object-fit: fill;
+        border-radius: 10px;
+    }
+
+    #videos video:nth-child(4) {
+        position: absolute;
+        width: 295.37px;
+        height: 183.64px;
+        left: 1044.09px;
+        top: 37.27px;
+        object-fit: fill;
+        border-radius: 10px;
+    }
+
+    .footnav {
+        position: absolute;
+        width: 435.6px;
+        height: 59.26px;
+        left: 473.6px;
+        top: 913px;
+
+        background: #15C2B2;
+        border-radius: 100px;
+    }
+
+    .footnav .firstoption {
+        position: absolute;
+        top: 13px;
+        left: 30px;
+        cursor: pointer;
+    }
+
+    .firstoptionword {
+        position: absolute;
+        width: 69px;
+        height: 18px;
+        left: 543px;
+        top: 976px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 18px;
+
+        color: #15C2B2;
+
+    }
+
+    .footnav .secondoption {
+        position: absolute;
+        top: 15px;
+        left: 115px;
+        cursor: pointer;
+    }
+
+    .secondoptionword {
+        position: absolute;
+        width: 47px;
+        height: 18px;
+        left: 632px;
+        top: 976px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 18px;
+        /* identical to box height */
+        color: #15C2B2;
+    }
+
+    .footnav .thirdoption {
+        position: absolute;
+        top: 8px;
+        left: 196.8px;
+        cursor: pointer;
+    }
+
+    .thirdoptionword {
+        position: absolute;
+        width: 47px;
+        height: 18px;
+        left: 705px;
+        top: 976px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 18px;
+
+        color: #15C2B2;
+    }
+
+    .footnav .fourthoption {
+        position: absolute;
+        top: 9.5px;
+        left: 280px;
+        cursor: pointer;
+    }
+
+    .fourthoptionword {
+        position: absolute;
+        width: 32px;
+        height: 18px;
+        left: 783px;
+        top: 976px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 18px;
+        /* identical to box height */
+
+        color: #15C2B2;
+    }
+
+    .footnav .fifthoption {
+        position: absolute;
+        top: 9.5px;
+        left: 365px;
+        cursor: pointer;
+    }
+
+    .fifthoptionword {
+        position: absolute;
+        width: 32px;
+        height: 18px;
+        left: 853px;
+        top: 976px;
+
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 18px;
+
+        color: #15C2B2;
+    }
+
+    .mypage {
+        position: absolute;
+        width: 96px;
+        height: 59.26px;
+        left: 1226px;
+        top: 913px;
+        cursor: pointer;
+
+        background: #007D72;
+        border-radius: 25px;
+
+    }
+
+    .mypageimg {
+        position: absolute;
+        left: 26.4px;
+        top: 9.48px;
+    }
+
+    .onoffswitch {
+        position: absolute;
+        left: 40px;
+        top: 915px;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+        height: 50px;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 40px;
+        width: 40px;
+        left: 5px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: rgba(0, 125, 114, 1);
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px rgba(0, 125, 114, 1);
+        ;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(50px);
+        -ms-transform: translateX(50px);
+        transform: translateX(50px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
     </style>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
 </head>
 
 <body>
-    <div id="videos" class="container">
-        <video id="localVideo" class="vid" autoplay muted></video>
-    </div>
-    <br />
-    <div style="display:block">
-        <button id="switchButton" class="settings" onclick="switchMedia()">Switch
-            Camera</button>
-        <button id="muteButton" class="settings" onclick="toggleMute()">Unmuted</button>
-        <button id="vidButton" class="settings" onclick="toggleVid()">Video Enabled</button>
+  <div id="wrap">
+      <div class="tempframe">
 
-        <button id="getStatus" class="settings" style="background-color: red;" onclick="getStatus()">Start BroadCast</button>
+      </div>
+      <div class="mainframe">
+          <div class="stdframe" style="left: 27px; top: 27px;">
+              <div class="name">
+                  나
+              </div>
+              <img src="heart.png" class="heart">
+              <div class="healthbar"></div>
+              <div class="changehealthbar"></div>
+              <div class="healthbarword">몰입도 80 %</div>
+          </div>
 
-        <!-- <button id="teacherOn" class="settings" onclick="sendStatus()">Send status</button> -->
-    </div>
+          <div class="stdframe" style="left: 362.18px; top: 27px;">
+              <div class="name">
+                  이진영
+              </div>
+              <img src="heart.png" class="heart">
+              <div class="healthbar"></div>
+              <div class="changehealthbar"></div>
+              <div class="healthbarword">몰입도 80 %</div>
+          </div>
 
-    <input type="text" id="studentName" value="Enter your name" style="width: 100px;">
+          <div class="stdframe" style="left: 698.64px; top: 27px;">
+              <div class="name">
+                  이관우
+              </div>
+              <img src="heart.png" class="heart">
+              <div class="healthbar"></div>
+              <div class="changehealthbar"></div>
+              <div class="healthbarword">몰입도 80 %</div>
+          </div>
+
+          <div class="stdframe" style="left: 1033.82px; top: 27px;">
+              <div class="name">
+                  최시열
+              </div>
+              <img src="heart.png" class="heart">
+              <div class="healthbar"></div>
+              <div class="changehealthbar"></div>
+              <div class="healthbarword">몰입도 80 %</div>
+          </div>
+
+          <video autoplay controls class="classboard">
+          </video>
+
+
+
+          <div class="footnav">
+              <div id="firstbutton" class="firstoption">
+                  <img src="./restart.png">
+              </div>
+              <div id="secondbutton" class="secondoption">
+                  <img src="./camera.png">
+              </div>
+              <div id="thirdbutton" class="thirdoption">
+                  <img src="./mic.png">
+              </div>
+              <div id="fourthbutton" class="fourthoption">
+                  <img src="./log.png">
+              </div>
+              <div id="fifthbutton" class="fifthoption">
+                  <img src="./bell.png">
+              </div>
+          </div>
+          <div class="mypage">
+              <div class="mypageimg">
+                  <img src="./mypage.png">
+              </div>
+          </div>
+          <div class="onoffswitch">
+              <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="slider round"></span>
+              </label>
+          </div>
+
+          <!--마지막으로 빼두기 webrtc camera-->
+          <div id="videos">
+              <video id="localVideo" class="vid" autoplay muted></video>
+          </div>
+      </div>
+  </div>
+
+    <!--<input type="text" id="studentName" value="Enter your name" style="width: 100px;">-->
 </body>
 <footer>
     <script src='/js/main.js' lang="text/javascript"></script>
     <script id="objDetect" src='/js/objDetect.js' data-source="localVideo" data-mirror="true" data-uploadWidth="1280" data-scoreThreshold="0.40"></script>
     <script src='/js/broadcast.js' lang="text/javascript"></script>
-
-
 </footer>
 
 </html>
