@@ -59,6 +59,7 @@ function drawBoxes(objects) {
 }
 
 let engagementResult;
+let objects;
 //Add file blob to a form and post
 function postFile(file) {
 
@@ -71,7 +72,7 @@ function postFile(file) {
     xhr.open('POST', "http://127.0.0.1:5000/image", true);
     xhr.onload = function () {
         if (this.status === 200) {
-            let objects = JSON.parse(this.response);
+            objects = JSON.parse(this.response);
             engagementResult=objects;
             console.log(objects);
             //draw the boxes

@@ -1,66 +1,1876 @@
 <html>
-
-<head>
+  <head>
     <script lang="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="/simple-peer/simplepeer.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='scoring_circular_bar.css') }}"
+      rel="stylesheet"
+    />
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+      integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+      integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+    <!-- <script src="../../dist/js/david.js"></script> -->
     <style>
-        .containers {
-            display: grid;
-            grid-gap: 5px;
-            grid-template-columns: repeat(auto-fit, 1fr);
-            grid-template-rows: repeat(auto-fit, 300px);
-        }
+      .containers {
+        display: grid;
+        grid-gap: 5px;
+        grid-template-columns: repeat(auto-fit, 1fr);
+        grid-template-rows: repeat(auto-fit, 300px);
+      }
 
-        .container {
-            display: flex;
-        }
+      .container {
+        display: flex;
+      }
 
-        .vid {
-            flex: 0 1 auto;
-            height: 400px;
-        }
+      .vid {
+        flex: 0 1 auto;
+        height: 400px;
+      }
 
-        .settings {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 2px 2px;
-            cursor: pointer;
-        }
+      .settings {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 2px 2px;
+        cursor: pointer;
+      }
+
+      #modal1 {
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        top: 50px;
+        margin: 0px;
+        padding: 0px;
+      }
+      #modal2 {
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        top: 50px;
+        margin: 0px;
+        padding: 0px;
+      }
+      .modal_left {
+        width: 43%;
+        height: 800px;
+        padding: 0;
+        background: #fff;
+        border: 2px solid black;
+        border-radius: 10px;
+        margin-left: 110px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+      .modal_right {
+        width: 43%;
+        height: 800px;
+        padding: 0;
+        background: #fff;
+        border: 2px solid black;
+        margin-left: 50px;
+        border-radius: 10px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      .modal_mypage {
+        width: 85%;
+        height: 850px;
+        padding: 0;
+        background: #fff;
+        border: 2px solid black;
+        margin-left: 100px;
+        border-radius: 10px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      .card-body {
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+      }
+
+      .mb-4,
+      .my-4 {
+        margin-bottom: 1.5rem !important;
+      }
+      .shadow {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+      }
+
+      .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+      }
+      .progress {
+        display: flex;
+        height: 1rem;
+        overflow: hidden;
+        line-height: 0;
+        font-size: 0.75rem;
+        background-color: #eaecf4;
+        border-radius: 0.35rem;
+      }
+      .progress-agent1 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #FFB800;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-agent1-noborder{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #FFB800;
+        transition: width 0.6s ease; 
+        border-radius : 2px;      
+      }
+      .progress-agent2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #179CC6;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-agent2-noborder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #179CC6;
+        transition: width 0.6s ease;        
+      }
+      .progress-agent3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #BE6BFF;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-agent3-noborder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #BE6BFF;
+        transition: width 0.6s ease;
+      }
+      .progress-agent4-noborder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #9ADD65;
+        transition: width 0.6s ease;
+      }
+      
+
+      .progress-bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #ffb800;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-bar-1 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #3772e4;
+        border: solid #000000 2px;
+        transition: width 0.6s ease;
+        border-radius: 10px;
+      }
+      .progress-bar-2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #66ccdd;
+        border: solid #000000 2px;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-bar-3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #ff6a8e;
+        border: solid #000000 2px;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-bar-4 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #c9559a;
+        border: solid #000000 2px;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-bar-red {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: red;
+        border: solid #000000 2px;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-bar-yellow {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: orange;
+        border: solid #000000 2px;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-bar-green {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: rgb(0, 189, 0);
+        border: solid #000000 2px;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+      .progress-bar-0 {
+        display: flex;
+        height: 0px;
+        width: 0px;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background-color: white;
+        transition: width 0.6s ease;
+        border-radius: 15px;
+      }
+
+      .small,
+      small {
+        font-size: 80%;
+        font-weight: 400;
+      }
+      .font-weight-bold {
+        font-weight: 700 !important;
+      }
+      .float-right {
+        float: right !important;
+      }
+      .float-left {
+        float: left !important;
+      }
+      .progress-border_2 {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        height: 4rem;
+        overflow: hidden;
+        line-height: 0;
+        font-size: 0.75rem;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05),
+          inset 0px 4px 4px rgba(0, 0, 0, 0.1);
+      }
+      .progress-border_log {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        height: 4rem;
+        overflow: hidden;
+        line-height: 0;
+        font-size: 0.75rem;
+        background-color: white;
+        border-radius: 15px;
+      }
+
+      .agent_progress {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        height: 4rem;
+        overflow: hidden;
+        line-height: 0;
+        font-size: 0.75rem;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05),
+          inset 0px 4px 4px rgba(0, 0, 0, 0.1);
+        width: 60%;
+        margin-left: 20px;
+      }
+      .agent_progress_last {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        height: 4rem;
+        overflow: hidden;
+        line-height: 0;
+        font-size: 0.75rem;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05),
+          inset 0px 4px 4px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        margin-left: 20px;
+      }
+      .chart-area {
+        position: relative;
+        height: 10rem;
+        width: 100%;
+      }
+      .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #e3e6f0;
+        border-radius: 0.35rem;
+      }
+      .log_nav {
+        width: 100%;
+        height: 75px;
+        background-color: #fd9535;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        color: white;
+      }
+      .agent_nav {
+        width: 100%;
+        height: 75px;
+        background-color: #15c2b2;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        color: white;
+      }
+      .log_nav_text {
+        font-size: 30px;
+        font-weight: bold;
+        padding-top: 15px;
+        padding-left: 15px;
+      }
+      .log_nav_text_sm {
+        font-size: 15px;
+        font-weight: bold;        
+        padding-left: 15px;
+        padding-top: 5px;
+      }
+      .log_block1 {
+        background-color: #f6b220;
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+        margin-top: 5px;
+        border-radius: 5px;
+      }
+      .log_block2 {
+        background-color: #4b99d5;
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+        margin-top: 5px;
+        border-radius: 5px;
+      }
+      .log_block3 {
+        background-color: #7d4eda;
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+        margin-top: 5px;
+        border-radius: 5px;
+      }
+      .log_person {
+        display: flex;
+        width: 100%;
+        height: 150px;
+        margin-top: 20px;
+        border: 5px solid #dadada;
+        border-radius: 10px;
+      }
+      .log_person_me {
+        display: flex;
+        width: 100%;
+        height: 150px;
+        margin-top: 20px;
+        border: 5px solid #FD9535;
+        border-radius: 10px;
+        box-shadow: 0px 4px 4px rgba(80, 38, 0, 0.25);
+      }
+      .agent_block1 {
+        margin-left: 30px;
+        margin-top: 25px;
+        width: 350px;
+        border-radius: 10px;
+        height: 65px;
+        background-color: #ffac52;
+        color: white;
+        text-align: center;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .stu_log1 {
+        position: absolute;
+        top: 13%;
+        left: 30%;
+        width: 240px;
+        height: 80px;
+        font-size: 15px;
+        font-weight: bold;
+        border: 5px solid #15c2b2;
+        border-start-start-radius: 20px;
+        border-start-end-radius: 20px;
+        background-color: #13a99b;
+        color: white;
+        font-size: 30px;
+      }
+      .stu_log2 {
+        position: absolute;
+        top: 13%;
+        left: 42.4%;
+        width: 240px;
+        height: 80px;
+        font-size: 15px;
+        font-weight: bold;
+        border: 5px solid #15c2b2;
+        border-start-start-radius: 20px;
+        border-start-end-radius: 20px;
+        background-color: #8dd8d1;
+        color: white;
+        font-size: 30px;
+      }
+      .stu_log3 {
+        position: absolute;
+        top: 13%;
+        left: 54.8%;
+        width: 240px;
+        height: 80px;
+        font-size: 15px;
+        font-weight: bold;
+        border: 5px solid #15c2b2;
+        border-start-start-radius: 20px;
+        border-start-end-radius: 20px;
+        background-color: #8dd8d1;
+        color: white;
+        font-size: 30px;
+      }
+      #mypage_background1 {
+        display: block;
+        width: 1000px;
+        height: 600px;
+        margin-top: 125px;
+        margin-left: 120px;
+        background-color: #faf3e8;
+      }
+      #mypage_background2 {
+        display: none;
+        width: 1000px;
+        height: 600px;
+        margin-top: 125px;
+        margin-left: 120px;
+        background-color: #faf3e8;
+      }
+      #mypage_background3 {
+        display: none;
+        width: 1000px;
+        height: 600px;
+        margin-top: 125px;
+        margin-left: 120px;
+        background-color: #faf3e8;
+      }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      .drop_button {
+        font-size: 20px;
+        width: 300px;
+        background-color: #15c2b2;
+        color: black;
+        margin-left: 50px;
+        margin-top: 20px;
+        font-weight: bold;
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 0px;
+      }
+      .drop-content {
+        position: absolute;
+        font-size: 20px;
+        width: 500px;
+        background-color: #15c2b2;
+        color: black;
+        margin-left: 50px;
+        border: 1px solid black;
+        font-weight: bold;
+        z-index: 1;
+        text-align: center;
+      }
+      .drop-content a {
+        display: block;
+        font-size: 20px;
+        background-color: #15c2b2;
+        border: 1px solid black;
+        color: black;
+        text-decoration: none;
+        margin: 2px 0px 0px 0px;
+        padding: 2px;
+      }
+      .progress_text {
+        font-size: 20px;
+        align-self: center;
+        color: black;
+        font-weight: bold;
+      }
+      .agent_bar {
+        display: flex;
+        position: relative;
+        z-index: 1;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      .green_block {
+        width: 25px;
+        height: 25px;
+        background-color: #10c600;
+        border-radius: 5px;
+      }
+      .yello_block {
+        width: 25px;
+        height: 25px;
+        background-color: #ffc700;
+        border-radius: 5px;
+      }
+      .red_block {
+        width: 25px;
+        height: 25px;
+        background-color: #ff2e00;
+        border-radius: 5px;
+      }
+      .ranking_block {
+        width: 95%;
+        height: 90px;
+        background: white;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-top: 20px;
+        margin-left: 30px;
+        display: flex;
+      }
+      .weekly_ranking {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 50px;
+        font-weight: bold;
+        color: #535353;
+      }
+      .ranking_text1 {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 30px;
+        color: #535353;
+        font-weight: bold;
+      }
+      .ranking_name {
+        align-self: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-left: 20px;
+      }
+      .ranking_score_text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 80px;
+        font-weight: bold;
+        font-size: 20px;
+      }
+      .log_name {
+        width: 100px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+      }
+      .flex_100 {
+        flex-direction: column;
+        align-self: center;
+        margin-left: 0px;
+      }
+      .bold_top5 {
+        font-weight: bold;
+        margin-top: 5px;
+      }
+      .log_progress {
+        width: 88%;
+        margin-left: 10px;
+        position: relative;
+        z-index: 1;
+      }
+      .log_left {
+        width: 400px;
+        position: relative;
+        z-index: 1;
+        align-self: center;
+      }
+
+      .log_progress_set {
+        display: flex;
+        margin-top: 25px;
+        position: relative;
+        z-index: 1;
+      }
+      .log_block_text {
+        align-self: center;
+        margin-left: 5px;
+        color: black;
+      }
+      .log_agent {
+        text-align: left;
+        margin-top: 15px;
+        font-weight: bold;
+      }
+      .pro_avg_text {
+        line-height: 45px;
+        text-align: center;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+      }
+
+      .circle_progress_wrap {
+        position: relative;
+        width: 120px;
+        height: 120px;
+      }
+      .circle_progress {
+        transform: rotate(-90deg);
+      }
+      .frame,
+      .bar {
+        fill: none;
+      }
+      .frame {
+        stroke: #e6e6e6;
+      }
+      .bar {
+        stroke: #03c75a;
+        stroke-linecap: round;
+      }   
+      #bar_value1 {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        text-align: center;
+        color: #888;
+        font-size: 16px;
+        line-height: 120px;
+      }
+
+      .circle_pos {
+        margin-top: 10px;
+        margin-left: 15px;
+        margin-right: 10px;
+      }
+      .badge_font1{
+        color : #736142;font-size: 30px;padding-top: 15px;padding-left: 10px;font-weight: bold;
+      }
     </style>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+  </head>
 
-</head>
-
-<body>
-    <div id="videos" class="container">
-        <video id="localVideo" class="vid" autoplay muted></video>
+  <body>
+    <div id="videos" class="container" style ="display: flex;">
+      <video id="localVideo" class="vid" autoplay muted></video>
+      <button type="button" id="modal1_on" style ="height : 50px">학생 로그창 열기</button>
+    <button type="button" id="modal2_on" style ="height : 50px">학생 개인페이지 열기</button>
     </div>
     <br />
-    <div style="display:block">
-        <button id="switchButton" class="settings" onclick="switchMedia()">Switch
-            Camera</button>
-        <button id="muteButton" class="settings" onclick="toggleMute()">Unmuted</button>
-        <button id="vidButton" class="settings" onclick="toggleVid()">Video Enabled</button>
+    <div style="display: block">
+      <button id="switchButton" class="settings" onclick="switchMedia()">
+        Switch Camera
+      </button>
+      <button id="muteButton" class="settings" onclick="toggleMute()">
+        Unmuted
+      </button>
+      <button id="vidButton" class="settings" onclick="toggleVid()">
+        Video Enabled
+      </button>
 
-        <button id="getStatus" class="settings" style="background-color: red;" onclick="getStatus()">Start BroadCast</button>
+      <button
+        id="getStatus"
+        class="settings"
+        style="background-color: red"
+        onclick="getStatus()"
+      >
+        Start BroadCast
+      </button>
 
-        <!-- <button id="teacherOn" class="settings" onclick="sendStatus()">Send status</button> -->
+      <!-- <button id="teacherOn" class="settings" onclick="sendStatus()">Send status</button> -->
     </div>
 
-    <input type="text" id="studentName" value="Enter your name" style="width: 100px;">
-</body>
-<footer>
-    <script src='/js/main.js' lang="text/javascript"></script>
-    <script id="objDetect" src='/js/objDetect.js' data-source="localVideo" data-mirror="true" data-uploadWidth="1280" data-scoreThreshold="0.40"></script>
-    <script src='/js/broadcast.js' lang="text/javascript"></script>
+    <input
+      type="text"
+      id="studentName"
+      value="Enter your name"
+      style="width: 100px"
+    />
+
+    
+    <div id="modal2">
+      <div class="modal_mypage">
+        <div class="agent_nav">
+          <p class="log_nav_text">마이페이지</p>
+        </div>
 
 
-</footer>
+        <div style="display: flex">
+          <div style="flex-direction: column; text-align: center">
+            <img
+              src="http://drive.google.com/uc?export=view&id=1F1DtgciHw9MVE-RvKhQCOaCUmXrp0QiQ"
+              style="margin-top: 100px; margin-left: 50px"
+            />
+            <div style="font-size: 45px; font-weight: bold; margin-left: 50px">
+              박성완
+            </div>
+            <div class="dropdown">
+                <button type ="button" onclick="dp_menu()" class="drop_button">수업진행 : 
+                    <sapn>9월20일</span><br>
+                    <sapn>오후 5시10분 ~ 5시40분</span>
+                </button>
+                <div style="display: none;" class="drop-content" id ="drop1" >
+                    <a hreaf='#'>Menu1</a>
+                    <a hreaf='#'>Menu2</a>
+                    <a hreaf='#'>Menu3</a>
+                    <a hreaf='#'>Menu4</a>
+                    <a hreaf='#'>Menu5</a>
+                </div>
+            </div>  
+          </div>
+          
+          <button type = "button" id = "my_btn1" class = "stu_log1" >몰입도&Agent</button>
+          <button type = "button" id = "my_btn2" class = "stu_log2" >랭킹</button>
+          <button type = "button" id = "my_btn3" class = "stu_log3" >배지</button>
 
+          <!--몰입도 Agent-->
+          <div id ="mypage_background1">
+          
+            <div class ="log_nav_text"> 박성완 학생 수업 몰입도 현황</div>  
+            <div class ="log_nav_text_sm"> 수업 진행 : 21년 9월 20일 오후 5시 10분 ~ 5시 40분</div>                            
+                 
+            
+            <div class ="agent_bar">
+               
+                <h4
+                  class = "progress_text"
+                >
+                  자리 비움 <span id="stu1_away"></span>
+                </h4>
+                <div
+                  id="mypage_bar1"
+                  class="agent_progress"                
+                >
+                <!--
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  -->
+                </div>
+            </div>
+
+            <div class ="agent_bar">
+               
+                <h4
+                  class = "progress_text"
+                >
+                  자세 불량 <span id="stu1_away"></span>
+                </h4>
+                <div
+                  id="mypage_bar2"
+                  class="agent_progress"                
+                >
+                <!--
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                -->
+                </div>
+            </div>
+
+            <div class ="agent_bar">
+               
+                <h4
+                  class = "progress_text"
+                >
+                  졸음 감지 <span id="stu1_away"></span>
+                </h4>
+                <div
+                  id="mypage_bar3"
+                  class="agent_progress"                
+                >
+                <!--
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                -->
+                </div>
+            </div>
+
+            <div class ="agent_bar">               
+                <h4
+                  class = "progress_text"
+                >
+                  발표 부족 <span id="stu1_away"></span>
+                </h4>
+                <div
+                  id="mypage_bar4"
+                  class="agent_progress"                
+                >
+                <!--
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  <div class="progress-bar-1" style="width: 5%"></div>
+                  <div class="progress-bar-0" style="width: 10%"></div>
+                  -->
+                </div>
+            </div>
+
+            <div style ="display: flex; justify-content: flex-end;">
+            <div style="align-self: flex-end; margin-left: 40px; display: flex;margin-top:30px">
+                <div
+                 class ="green_block"
+                ></div>
+                <span style="align-self: center; margin-left: 5px; color: black"
+                  >수업 몰입</span
+                >
+              </div>
+              <div style="align-self: flex-end; margin-left: 20px; display: flex">
+                <div
+                 class ="yello_block"
+                ></div>
+                <span style="align-self: center; margin-left: 5px; color: black"
+                  >수업 집중</span
+                >
+              </div>
+              <div style="align-self: flex-end; margin-left: 20px; display: flex;margin-right: 30px;">
+                <div
+                  class ="red_block"
+                ></div>
+                <span style="align-self: center; margin-left: 5px; color: black"
+                  >수업 집중 안함</span
+                >
+              </div>
+              </div>
+
+              <div class ="agent_bar">                               
+                <div
+                  id="mypage_totalbar"
+                  class="agent_progress_last"                
+                >
+                
+                </div>
+            </div>
+            <img src ="http://drive.google.com/uc?export=view&id=1186YHOtvCnhlW8Ew91d6HKgmkHSkLNyN" 
+            style ="margin-left: 100px;width : 850px">
+            
+        </div> 
+        
+        <!--랭킹-->
+        <div id ="mypage_background2">
+            <div class ="weekly_ranking"> Weelky Ranking</div>          
+            <div class ="ranking_text1" > 9월 3주차 랭킹</div>
+            <div class ="ranking_block">
+                <!--student1 사진 & 랭킹 이미지-->               
+                <img src ="http://drive.google.com/uc?export=view&id=1wiYaYfzh5NjppR9GG4d_jh4GzDwaRfrZ" style ="margin-left: 15px;">
+                <img src ="http://drive.google.com/uc?export=view&id=1dYMW3mvKYPP3o5vE91Bf8COXSAUGH_nl" style ="margin-left: 5px;">
+                <span class ="ranking_name">장하준</span>
+                <div class ="ranking_score_text">
+                    <span>이번주 몰입도 총 점수 : 485점</span>
+                    <span>오늘 획득한 몰입도 점수 : 95점</span>
+                </div>
+            </div>
+            <div class ="ranking_block">
+                <!--student2 사진 & 랭킹 이미지-->
+                <img src ="http://drive.google.com/uc?export=view&id=1z-EmN8f9l98GRNAICV_fpwqlpA5Ucecx" style ="margin-left: 15px; width:75px;height: 75px;margin-top: 10px;">
+                <img src ="http://drive.google.com/uc?export=view&id=1sCsYcwtNP4nA9JXf6B0x6LT7NJz327RU" style ="margin-left: 20px;">
+                <span class ="ranking_name">박성완</span>
+                <div class ="ranking_score_text">
+                    <span>이번주 몰입도 총 점수 : 455점</span>
+                    <span>오늘 획득한 몰입도 점수 : 88점</span>
+                </div>
+            </div>
+            <div class ="ranking_block">
+                <!--student3 사진 & 랭킹 이미지-->
+                <img src ="http://drive.google.com/uc?export=view&id=1Z86yQ4uWlRMNplB8Q9veErCYdC2ZuUb8" style ="margin-left: 17px; width:70px;height: 70px;margin-top: 12px;">
+                <img src ="http://drive.google.com/uc?export=view&id=1Z4RTV4eHntoTkFqryYaQ23QmUdaH_Oe-" style ="margin-left: 25px;border-radius: 100px;">
+                <span class ="ranking_name">이지수</span>
+                <div class ="ranking_score_text">
+                    <span>이번주 몰입도 총 점수 : 447점</span>
+                    <span>오늘 획득한 몰입도 점수 : 78점</span>
+                </div>
+            </div>
+            <div class ="ranking_block">
+                <!--student4 사진 & 랭킹 이미지-->
+                <img src ="http://drive.google.com/uc?export=view&id=1JTOyoDhsmfOMuHj_rKXYfO78AWWLabWb" style ="margin-left: 15px; width:75px;height: 75px;margin-top: 10px;">
+                <img src ="http://drive.google.com/uc?export=view&id=1pTPxXxLGNM6H5jJ1n8RLRz_Defzifu2z" style ="margin-left: 25px;border-radius: 100px;">
+                <span class ="ranking_name">장하준</span>
+                <div class ="ranking_score_text">
+                    <span>이번주 몰입도 총 점수 : 432점</span>
+                    <span>오늘 획득한 몰입도 점수 : 65점</span>
+                </div>
+            </div>            
+        </div>
+        <!--배지-->
+        <div id ="mypage_background3">
+            <div style ="width : 100%; height : 250px;border-bottom: 5px dashed #736142;">
+                <div class ="badge_font1"> 21년 09월 20일 수업 획득 배지</div>
+                <div style ="width : 100%; height : 185px;">
+                    <img src ="http://drive.google.com/uc?export=view&id=1jP1Abtke4WBTwcsaJtGe9Br_qbAFHmJj" style ="margin-top : 10px;margin-left:20px">
+                    <img src ="http://drive.google.com/uc?export=view&id=1G_1km8yQrvA_6EpQNSPK8IH1RAkII4ql" style ="margin-top : 10px;margin-left:20px">
+                    <img src ="http://drive.google.com/uc?export=view&id=1O9kaZEYEOyyzdxwi768XhuBXvGxYzEWU" style ="margin-top : 10px;margin-left:25px">
+                    <img src ="http://drive.google.com/uc?export=view&id=1UsftpS5rLYNUYSWadYBVEzJRSLdcBCFa" style ="margin-top : 10px;margin-left:25px">
+                </div>
+                <div style ="width : 100%; height : 350px; ">
+                    <div class ="badge_font1"> 획득 배지 목록</div>   
+                    <div style ="display: flex;">
+                    <img src ="http://drive.google.com/uc?export=view&id=1FFJTXgrN_Dwm-aqx8-uyjcvs__D6ssG0" style ="margin-top : 20px; margin-left : 25px;width: 125px;">
+                    <div style ="color : #FF9D2B;font-size: 20px;margin-top : 70px;margin-left: 20px;font-size: 20px;font-weight: bold;">노력상 12개</div>
+                    <img src ="http://drive.google.com/uc?export=view&id=17WfUwj3rBqhBPupOpU-f5MDwk8rebQZ7" style ="margin-top : 20px; margin-left : 200px;width: 125px;">
+                    <div style ="color : #0072DB; font-size: 20px;margin-top : 70px;margin-left: 20px;font-size: 20px;font-weight: bold;">의지상 07개</div>
+
+                    </div>
+                    <div style ="display: flex;">
+                        <img src ="http://drive.google.com/uc?export=view&id=1AdLOXh6tQr7UAHr6LXX8lLB8_q3h5ky4" style ="margin-top : 20px; margin-left : 25px;width: 125px;">
+                        <div style ="color : #11A300;font-size: 20px;margin-top : 70px;margin-left: 20px;font-size: 20px;font-weight: bold;">몰입상 21개</div>
+                        <img src ="http://drive.google.com/uc?export=view&id=11uOcjmwWUtCZS2_AV8ptwAruHV6tNnTV" style ="margin-top : 20px; margin-left : 200px;width: 125px;">
+                        <div style ="color : #FF3D00;font-size: 20px;margin-top : 70px;margin-left: 20px;font-size: 20px;font-weight: bold;">발표상 05개</div>
+
+                      
+                    </div>
+
+
+                </div>
+             </div>
+        </div>
+
+
+
+        </div>        
+      </div>
+    </div>   
+
+    <!--학생 로그창-->
+    <div id="modal1">        
+      <div class="modal_left">          
+        <div class="log_nav">
+          <p class="log_nav_text">학생 몰입도 점수</p>
+        </div>
+        <div class="log_person_me">            
+           
+            <div class ="circle_pos">
+            <div class="circle_progress_wrap">
+              <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
+                <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+                <circle id = "bar1" class ="bar" cx="60" cy="60" r="54" stroke-width="12" />
+              </svg>             
+              <strong id="bar_value1" class ="value"></strong>
+            </div>
+            </div>
+            
+
+          <div
+            class ="log_name"
+          >
+            <div style="text-align: center; font-size: 25px; font-weight: bold">
+              박성완
+            </div>
+          </div>
+
+          <div style ="flex-direction: column; ">
+            <div class ="log_agent">에이전트 발생 횟수</div>
+          <div
+          id="stubar1"
+          class="progress-border_log log_left"                       
+        >
+        <div id ="progress_agent1" class="progress-agent1" style="width: 2%;">
+            <span
+            id="agent_text1"
+          class ="pro_avg_text"
+          ></span>
+        </div>
+        <div id ="progress_agent2" class="progress-agent2" style="width: 0%">
+            <span
+            id="agent_text2"
+          class ="pro_avg_text"
+          ></span>
+        </div>
+        <div id ="progress_agent3" class="progress-agent3" style="width: 0%">
+            <span
+            id="agent_text3"
+          class ="pro_avg_text"
+          ></span>
+        </div>         
+        </div>
+        </div>
+
+          <div
+            class ="flex_100"
+          >
+            <div style="display: flex">
+              <div class="log_block1"></div>
+              <div class ="bold_top5">자리비움</div>
+            </div>
+            <div style="display: flex">
+              <div class="log_block2"></div>
+              <div class ="bold_top5">자세불량</div>
+            </div>
+            <div style="display: flex">
+              <div class="log_block3"></div>
+              <div class ="bold_top5">졸음감지</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="log_person">
+            <div class ="circle_pos">
+                <div class="circle_progress_wrap">
+                  <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
+                    <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+                    <circle class = "bar" cx="60" cy="60" r="54" stroke-width="12" />
+                  </svg>             
+                  <strong class="value"></strong>
+                </div>
+            </div>
+          <div
+            class ="log_name"
+          >
+            <div style="text-align: center; font-size: 25px; font-weight: bold">
+              이시우
+            </div>
+          </div>
+
+          <div style ="flex-direction: column; ">
+            <div class ="log_agent">에이전트 발생 횟수</div>
+          <div         
+          class="progress-border_log log_left"                       
+        >
+          <div class="progress-bar" style="width: 10%">
+            <span
+            id="progress-text2"
+          class ="pro_avg_text"
+          >1회</span>
+        </div>  
+        <div class="progress-agent2" style="width: 10%">
+            <span
+            id="agent_text2"
+          class ="pro_avg_text"
+          >1회</span>
+        </div>
+        <div class="progress-agent3" style="width: 10%">
+            <span
+            id="agent_text3"
+          class ="pro_avg_text"
+          >1회</span>
+        </div>    
+        </div>
+        </div>
+
+          <div
+            class ="flex_100"
+          >
+            <div style="display: flex">
+              <div class="log_block1"></div>
+              <div class ="bold_top5">자리비움</div>
+            </div>
+            <div style="display: flex">
+              <div class="log_block2"></div>
+              <div class ="bold_top5">자세불량</div>
+            </div>
+            <div style="display: flex">
+              <div class="log_block3"></div>
+              <div class ="bold_top5">졸음감지</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="log_person">
+            <div class ="circle_pos">
+                <div class="circle_progress_wrap">
+                  <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
+                    <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+                    <circle class = "bar" cx="60" cy="60" r="54" stroke-width="12" />
+                  </svg>             
+                  <strong class="value"></strong>
+                </div>
+            </div>
+          <div
+            class ="log_name"
+          >
+            <div style="text-align: center; font-size: 25px; font-weight: bold">
+              장하윤
+            </div>
+          </div>
+
+          <div style ="flex-direction: column; ">
+            <div class ="log_agent">에이전트 발생 횟수</div>
+            <div         
+            class="progress-border_log log_left"                       
+          >
+            <div class="progress-bar" style="width: 10%">
+              <span
+              id="progress-text2"
+            class ="pro_avg_text"
+            >1회</span>
+          </div>  
+          <div class="progress-agent2" style="width: 10%">
+              <span
+              id="agent_text2"
+            class ="pro_avg_text"
+            >1회</span>
+          </div>
+          <div class="progress-agent3" style="width: 10%">
+              <span
+              id="agent_text3"
+            class ="pro_avg_text"
+            >1회</span>
+          </div>    
+          </div>
+        </div>
+
+          <div
+            class ="flex_100"
+          >
+            <div style="display: flex">
+              <div class="log_block1"></div>
+              <div class ="bold_top5">자리비움</div>
+            </div>
+            <div style="display: flex">
+              <div class="log_block2"></div>
+              <div class ="bold_top5">자세불량</div>
+            </div>
+            <div style="display: flex">
+              <div class="log_block3"></div>
+              <div class ="bold_top5">졸음감지</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="log_person">
+            <div class ="circle_pos">
+                <div class="circle_progress_wrap">
+                  <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
+                    <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+                    <circle class = "bar" cx="60" cy="60" r="54" stroke-width="12" />
+                  </svg>             
+                  <strong class="value"></strong>
+                </div>
+            </div>
+          <div
+            class ="log_name"
+          >
+            <div style="text-align: center; font-size: 25px; font-weight: bold">
+              장하준
+            </div>
+          </div>
+
+          <div style ="flex-direction: column; ">
+            <div class ="log_agent">에이전트 발생 횟수</div>
+            <div         
+            class="progress-border_log log_left"                       
+          >
+            <div class="progress-bar" style="width: 10%">
+              <span
+              id="progress-text2"
+            class ="pro_avg_text"
+            >1회</span>
+          </div>  
+          <div class="progress-agent2" style="width: 10%">
+              <span
+              id="agent_text2"
+            class ="pro_avg_text"
+            >1회</span>
+          </div>
+          <div class="progress-agent3" style="width: 10%">
+              <span
+              id="agent_text3"
+            class ="pro_avg_text"
+            >1회</span>
+          </div>    
+          </div>
+        </div>
+
+          <div
+            class ="flex_100"
+          >
+            <div style="display: flex">
+              <div class="log_block1"></div>
+              <div class ="bold_top5">자리비움</div>
+            </div>
+            <div style="display: flex">
+              <div class="log_block2"></div>
+              <div class ="bold_top5">자세불량</div>
+            </div>
+            <div style="display: flex">
+              <div class="log_block3"></div>
+              <div class ="bold_top5">졸음감지</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal_right">
+        <div class="log_nav">
+          <p class="log_nav_text">학생별 수업 몰입도 현황</p>
+          <div class="agent_block1">
+            <div style="padding-top: 10px">박성완 AI - agent 발생로그</div>
+          </div>
+
+          <div class="card-body" style="position: relative; z-index: 1">
+            <div style="display: flex; position: relative; z-index: 1">
+              <h4
+              class = "progress_text"
+              >
+                자리비움 <span id="stu1_away"></span>
+              </h4>
+              <div
+                id="agentbar1"
+                class="progress-border_2 log_progress"                
+              >
+              <!--
+                <div class="progress-bar-1" style="width: 5%"></div>
+                <div class="progress-bar-0" style="width: 10%"></div>
+                <div class="progress-bar-1" style="width: 5%"></div>
+                <div class="progress-bar-0" style="width: 10%"></div>
+                <div class="progress-bar-1" style="width: 5%"></div>
+                <div class="progress-bar-0" style="width: 10%"></div>
+                -->
+              </div>
+            </div>
+
+            <div
+              class ="log_progress_set"
+            >
+              <h4
+              class = "progress_text"
+              >
+                자세불량 <span id="stu1_small"></span>
+              </h4>
+              <div
+                id="agentbar2"
+                class="progress-border_2 log_progress"               
+              >
+              <!--
+                <div class="progress-bar-2" style="width: 13%"></div>
+                <div class="progress-bar-0" style="width: 10%"></div>
+                <div class="progress-bar-2" style="width: 15%"></div>
+                <div class="progress-bar-0" style="width: 10%"></div>
+                <div class="progress-bar-2" style="width: 7%"></div>
+                <div class="progress-bar-0" style="width: 10%"></div>
+              -->
+              </div>
+            </div>
+
+            <div
+              class ="log_progress_set"
+            >
+              <h4
+              class = "progress_text"
+              >
+                졸음감지<span id="stu1_sleep"></span>
+              </h4>
+              <div
+                id="agentbar3"
+                class="progress-border_2 log_progress"                
+              >
+              <!--
+                <div class="progress-bar-3" style="width: 11%"></div>
+                <div class="progress-bar-0" style="width: 8%"></div>
+                <div class="progress-bar-3" style="width: 5%"></div>
+                <div class="progress-bar-0" style="width: 7%"></div>
+                <div class="progress-bar-3" style="width: 16%"></div>
+                <div class="progress-bar-0" style="width: 10%"></div>
+              -->
+              </div>
+            </div>
+            <div
+              class ="log_progress_set"
+            >
+              <h4
+              class = "progress_text"
+              >
+                발표부족<span id="stu1_sli"></span>
+              </h4>
+              <div
+                id="agentbar4"
+                class="progress-border_2 log_progress"                
+              >
+              <!--
+                <div class="progress-bar-4" style="width: 17%"></div>
+                <div class="progress-bar-0" style="width: 16%"></div>
+                <div class="progress-bar-4" style="width: 7%"></div>
+                <div class="progress-bar-0" style="width: 2%"></div>
+                <div class="progress-bar-4" style="width: 5%"></div>
+                <div class="progress-bar-0" style="width: 10%"></div>
+              -->
+              </div>
+            </div>
+            <image
+              src="http://drive.google.com/uc?export=view&id=1186YHOtvCnhlW8Ew91d6HKgmkHSkLNyN"
+              style="
+                width: 92%;
+                height: 45px;
+                padding: 0px;
+                margin: 0px;
+                margin-left: 80px;
+              "
+            ></image>
+          </div>
+
+          <div style="display: flex">
+            <div class="agent_block1">
+              <div style="padding-top: 10px">전체 몰입도 로그</div>
+            </div>
+            <div style="align-self: flex-end; margin-left: 40px; display: flex">
+              <div
+                class ="green_block"
+              ></div>
+              <span class ="log_block_text"
+                >수업 몰입</span
+              >
+            </div>
+            <div style="align-self: flex-end; margin-left: 20px; display: flex">
+              <div
+               class = "yello_block"
+              ></div>
+              <span class ="log_block_text"
+                >수업 집중</span
+              >
+            </div>
+            <div style="align-self: flex-end; margin-left: 20px; display: flex">
+              <div
+                class ="red_block"
+              ></div>
+              <span class ="log_block_text"
+                >수업 집중 안함</span
+              >
+            </div>
+          </div>
+          <div
+            id="all_log"
+            class="progress-border_2"
+            style="
+              width: 95%;
+              margin-left: 15px;
+              position: relative;
+              z-index: 1;
+              margin-top: 20px;
+            "
+          >
+          <!--
+                <div class="progress-bar-red" style="width: 10%"></div>
+                <div class="progress-bar-red" style="width: 10%"></div>
+                <div class="progress-bar-yellow" style="width: 10%"></div>
+                <div class="progress-bar-yellow" style="width: 10%"></div>
+                <div class="progress-bar-green" style="width: 10%"></div>
+                <div class="progress-bar-red" style="width: 10%"></div>
+                <div class="progress-bar-green" style="width: 10%"></div>
+                <div class="progress-bar-green" style="width: 10%"></div>
+                <div class="progress-bar-green" style="width: 10%"></div>
+                <div class="progress-bar-red" style="width: 10%"></div>    
+            -->                          
+        </div>
+
+          <image
+            src="http://drive.google.com/uc?export=view&id=1186YHOtvCnhlW8Ew91d6HKgmkHSkLNyN"
+            style="width: 100%; height: 50px; padding: 0px; margin: 0px"
+          ></image>
+        </div>
+      </div>
+    </div>
+  </body>
+
+
+  <script>
+    let present_btn = 1;
+    let modal1 = 0;
+    let modal2 =0;
+    document.getElementById("modal1_on").onclick = function () {
+        if(modal1 === 0)
+        {
+            document.getElementById("modal1").style.display = "flex";
+            modal1 = 1;
+        }
+        else
+        {
+            document.getElementById("modal1").style.display = "none";
+            modal1 = 0;
+        }      
+    };
+    document.getElementById("modal2_on").onclick = function () {
+        if(modal2 === 0)
+        {
+            document.getElementById("modal2").style.display = "flex";
+            modal2 = 1;
+        }
+        else
+        {
+            document.getElementById("modal2").style.display = "none";
+            modal2 = 0;
+        }   
+    };
+
+    function dp_menu(){
+            let click = document.getElementById("drop1");
+            if(click.style.display === "none"){
+                click.style.display = "block";
+ 
+            }else{
+                click.style.display = "none";
+            }
+        } 
+
+    $("#my_btn1").click(function(){
+        $("#mypage_background" + String(present_btn)).hide();
+        $("#mypage_background1").show();
+        $("#my_btn" + String(present_btn)).css("background-color","#8DD8D1");
+        $("#my_btn1").css("background-color","#13A99B");
+        present_btn = 1;
+    });
+
+    $("#my_btn2").click(function(){
+        $("#mypage_background" + String(present_btn)).hide();
+        $("#mypage_background2").show();
+        $("#my_btn" + String(present_btn)).css("background-color","#8DD8D1");
+        $("#my_btn2").css("background-color","#13A99B");
+        present_btn = 2;
+    }); 
+    
+    $("#my_btn3").click(function(){
+        $("#mypage_background" + String(present_btn)).hide();
+        $("#mypage_background3").show();
+        $("#my_btn" + String(present_btn)).css("background-color","#8DD8D1");
+        $("#my_btn3").css("background-color","#13A99B");
+        present_btn = 3;
+    }); 
+
+    // 원형 그래프
+    var bar1 = document.querySelector('#bar1');
+    var bar_value1 = document.querySelector('#bar_value1');                 
+
+function progress(per) {
+  var progress = per / 100;
+  var dashoffset = (2 * Math.PI *54) * (1 - progress);
+  bar_value1.innerHTML= per +'%';
+  if(per < 30)
+  {
+    $("#bar1").css("stroke","#EB9872");
+    
+  }
+  else if(per <60)
+  {
+    $("#bar1").css("stroke"," #FFEA2C");    
+  }
+  else if(per <= 100)
+  {
+    $("#bar1").css("stroke"," #00CA08");
+  }  
+  bar1.style.strokeDashoffset = dashoffset;
+  
+}
+function max_log(eng,neu,not)
+{
+    if(eng > neu && eng > not)
+    {
+        return 2;
+    }
+    else if(neu > eng && neu > not)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+  </script>
+
+
+  <footer>
+    <script src="/js/main.js" lang="text/javascript"></script>
+    <script
+      id="objDetect"
+      src="/js/objDetect.js"
+      data-source="localVideo"
+      data-mirror="true"
+      data-uploadWidth="1280"
+      data-scoreThreshold="0.40"
+    ></script>
+    <script src="/js/broadcast.js" lang="text/javascript"></script>
+    <script>
+        let agent1_on = [0,0,0,0];
+        let agent1_count = [0,0,0,0];
+        let agent1_length = [0,0,0,0];
+        let stu1_agent_count = [0,0,0,0];
+        let stu1_color = [0,0,0];
+        let scoreTemp1;
+        let stu1Score;
+        let totalStamp = 0;
+        let log_update = [0,0,0];
+        setInterval(function(){           
+            console.log("objects_color : " + objects["colorStat"]);
+            console.log("objects_generalStat0 : " + objects["generalStat"][0]);
+            console.log("objects_generalStat1 : " + objects["generalStat"][1]);
+            console.log("objects_generalStat2 : " + objects["generalStat"][2]);
+            console.log("objects_generalStat3 : " + objects["generalStat"][3]);
+            console.log("objects_handStat : " + objects["handStat"]);            
+            if(objects["colorStat"] === "2" ) //Engagement 발생
+            {
+                stu1_color[0]++;
+                log_update[0]++;
+            }
+            else if(objects["colorStat"] === "1") //Neutral 발생
+            {
+                stu1_color[1]++;
+                log_update[1]++;
+            }
+            else //Not engagement 발생
+            {
+                stu1_color[2]++;
+                log_update[2]++;
+            }
+            totalStamp+=1;
+            stu1Score = (stu1_color[0] * 2 + stu1_color[1]) / (totalStamp * 2 ) * 100; //점수 계산           
+            stu1Score = Math.round(stu1Score); 
+            progress(stu1Score); //원형 그래프 업데이트
+            bar1.style.strokeDasharray = (2 * Math.PI *54) ;
+
+            //자리비움 발생
+            if(objects["generalStat"][0] === "1")
+            {
+                agent1_on[0]+=1;                
+            }               
+            else
+            {
+                
+              /*if(agent1_count[0] == 2)
+                {
+                     //자리비움이 유지될 경우 Ai-agent 발생 로그에 저장
+                    let agentboard = document.getElementById("agentbar1");
+                    let myboard = document.getElementById("mypage_bar1");
+                    let pbar = document.createElement("div");
+                    let mybar = document.createElement("div");
+                    mybar.className ="progress-agent1-noborder";                
+                    mybar.style.width =  String(agent1_length[0]/2.5) + "%";
+                    pbar.className ="progress-agent1-noborder";                
+                    pbar.style.width = String(agent1_length[0]/2.5) + "%";
+                    agentboard.appendChild(pbar);  
+                    myboard.appendChild(mybar);              
+                }*/
+                agent1_on[0] = 0;
+                agent1_count[0] = 0;  
+                let pboard = document.getElementById("agentbar1");
+                let mypage = document.getElementById("mypage_bar1");
+                let pbar = document.createElement("div");
+                let mybar = document.createElement("div");
+                mybar.className ="progress-bar-0";                
+                mybar.style.width = "0.25%";
+                pbar.className ="progress-bar-0";                
+                pbar.style.width = "0.25%";                
+                pboard.appendChild(pbar);       
+                mypage.appendChild(mybar);
+            }
+            //자세불량 발생
+            if(objects["generalStat"][1] === "1")
+            {
+                agent1_on[1]+=1;                            
+            }               
+            else
+            {
+                agent1_on[1] = 0;
+                agent1_count[1] = 0;        
+                let pboard = document.getElementById("agentbar2");
+                let mypage = document.getElementById("mypage_bar2");
+                let pbar = document.createElement("div");
+                let mybar = document.createElement("div");
+                mybar.className ="progress-bar-0";                
+                mybar.style.width = "0.25%";
+                pbar.className ="progress-bar-0";                
+                pbar.style.width = "0.25%";
+                pboard.appendChild(pbar);   
+                mypage.appendChild(mybar);
+            }
+            //졸음 발생
+            if(objects["generalStat"][3] === "1")
+            {
+                agent1_on[2]+=1;                                 
+            }               
+            else
+            {
+                agent1_on[2] = 0;
+                agent1_count[2] = 0;   
+                 let pboard = document.getElementById("agentbar3");
+                 let mypage = document.getElementById("mypage_bar3");
+                let pbar = document.createElement("div");
+                let mybar = document.createElement("div");
+                mybar.className ="progress-bar-0";                
+                mybar.style.width = "0.25%";
+                pbar.className ="progress-bar-0";                
+                pbar.style.width = "0.25%";
+                pboard.appendChild(pbar);  
+                mypage.appendChild(mybar);
+            }
+
+            //자리비움 기록
+            if(agent1_on[0] >= 5 ) //횟수 기록 기준
+            {  
+                //학생 몰입도 점수 페이지 progressbar 연장
+                if(agent1_count[0] === 0) {
+                stu1_agent_count[0]++;
+                agent1_count[0] = 1;
+                document.getElementById("progress_agent1").style ="width : " + String(stu1_agent_count[0]*10)+"%";
+                $("#agent_text1").text(String(stu1_agent_count[0])+"회");
+                }
+                /*
+                if(agent1_on[0] >= 5 ) //로그 기록 기준
+                {
+                    agent1_length[0] = agent1_on[0];
+                    agent1_count[0] = 2;
+                }*/   
+                let agentboard = document.getElementById("agentbar1");
+                    let myboard = document.getElementById("mypage_bar1");
+                    let pbar = document.createElement("div");
+                    let mybar = document.createElement("div");
+                    mybar.className ="progress-agent1-noborder";                
+                    mybar.style.width =  "0.5%";
+                    pbar.className ="progress-agent1-noborder";                
+                    pbar.style.width = "0.5%";
+                    agentboard.appendChild(pbar);  
+                    myboard.appendChild(mybar);                                 
+            } 
+                         
+            //자세불량 기록
+            if(agent1_on[1] >= 5)
+            {   
+                if(agent1_count[1] === 0){                
+                stu1_agent_count[1]++;
+                agent1_count[1] = 1;
+                document.getElementById("progress_agent2").style ="width : " + String(stu1_agent_count[1]*10)+"%";
+                $("#agent_text2").text(String(stu1_agent_count[1])+"회");
+                }
+                let agentboard = document.getElementById("agentbar2");                
+                let myboard = document.getElementById("mypage_bar2");
+                let pbar = document.createElement("div");
+                let mybar = document.createElement("div");
+                mybar.className ="progress-agent2-noborder";                
+                mybar.style.width = "0.5%";
+                pbar.className ="progress-agent2-noborder";                
+                pbar.style.width = "0.5%";
+                agentboard.appendChild(pbar);
+                myboard.appendChild(mybar); 
+            } 
+            
+            //졸음 기록
+            if(agent1_on[2] >= 5)
+            {   
+                if(agent1_count[2] === 0){
+                stu1_agent_count[2]++;
+                agent1_count[2] = 1;
+                document.getElementById("progress_agent3").style ="width : " + String(stu1_agent_count[2]*10)+"%";
+                $("#agent_text3").text(String(stu1_agent_count[2])+"회");
+                }
+                let agentboard = document.getElementById("agentbar3");
+                let myboard = document.getElementById("mypage_bar3");
+                let pbar = document.createElement("div");
+                let mybar = document.createElement("div");
+                mybar.className ="progress-agent3-noborder";                
+                mybar.style.width = "0.5%";
+                pbar.className ="progress-agent3-noborder";                
+                pbar.style.width = "0.5%";
+                agentboard.appendChild(pbar);
+                myboard.appendChild(mybar);
+            } 
+            //시작할때 progressbar 초기화
+            if(stu1_agent_count[0] === 0)
+            {
+                $(".progress-border_log").css("border-radius","5px")
+            }
+            //자리비움 말고 다른 agent 발생시 자리비움 초기화
+            if(stu1_agent_count[0] === 0 && (stu1_agent_count[1] > 0 || stu1_agent_count[2] > 0))
+            {
+                $("#progress_agent1").css("width", "0%");
+            }
+            if(totalStamp % 30 === 0)
+            {
+                let log_board = document.getElementById("all_log");    
+                let mypage_board = document.getElementById("mypage_totalbar");
+                let maxlog = max_log(log_update[0],log_update[1],log_update[2]);
+                let pbar = document.createElement("div");
+                let mybar = document.createElement("div");
+                if(maxlog === 2) //Engagement가 제일 많을 때
+                {
+                    pbar.className = "progress-bar-green";
+                    pbar.style = "width : 10%";
+                    mybar.className = "progress-bar-green";
+                    mybar.style = "width : 10%";
+                }
+                else if(maxlog === 1) //Neutral이 제일 많을 때
+                {
+                    pbar.className = "progress-bar-yellow";
+                    pbar.style = "width : 10%";
+                    mybar.className = "progress-bar-yellow";
+                    mybar.style = "width : 10%";
+                }
+                else if(maxlog === 0) //Not engagement가 제일 많을 때
+                {
+                    pbar.className = "progress-bar-red";
+                    pbar.style = "width : 10%";
+                    mybar.className = "progress-bar-red";
+                    mybar.style = "width : 10%";
+                }
+                log_board.appendChild(pbar);
+                mypage_board.appendChild(mybar);
+                log_update.fill(0);                
+            }
+            
+            
+
+        },1000);          
+
+        
+        
+    </script>
+
+  </footer>
 </html>
