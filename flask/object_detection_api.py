@@ -286,12 +286,12 @@ def get_objects(image, threshold=0.5):
         local_prediction = 0
 
     predEngage = dQ.detectionPush(local_prediction)
-    if predEngage is 0 or predEngage is 1: #Not engaged
+    if predEngage is 0:
         colorStatus = 0
-    elif predEngage is 2: #Not engaged
+    elif predEngage is 1:
         colorStatus = 1
     else: #Not engaged
-        colorStatus = 3
+        colorStatus = 2
 
     generalStatus = [False, False, False, False]
     if headStatus is None:

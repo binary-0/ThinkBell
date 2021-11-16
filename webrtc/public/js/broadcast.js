@@ -23,8 +23,8 @@ function sendStatus() {
 
         let toSend = new Object();
         toSend.name = document.getElementById('studentName').value;
-        toSend.eng = engagementResult;
-        
+        toSend.eng = engagementResult; 
+        //toSend.badge =  12
         socket.emit("message", toSend);
     }
 
