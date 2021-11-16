@@ -105,6 +105,7 @@ function max_log(eng,neu,not)
         let agent1_count = [0,0,0,0];
         let agent1_length = [0,0,0,0];
         let stu1_agent_count = [0,0,0,0];
+        let stu1_today_badge = [0,0,0,0]; //의지상, 노력상, 발표상, 몰입상 순서로 진행
         let stu1_color = [0,0,0];
         let scoreTemp1;
         let stu1Score;
@@ -227,6 +228,7 @@ function max_log(eng,neu,not)
                 if(engage_again > lecture_time * (4/10))
                 {
                     $("#today_badge1").show();
+                    stu1_today_badge[0]++;
                 }
             }
 
@@ -346,6 +348,7 @@ function max_log(eng,neu,not)
             if(stu1_color[0] > lecture_time * (7/10))
             {
                 $("#today_badge4").show();
+                stu1_today_badge[3]++;
             }
             //수업에 20% 이상 졸음 감지되고 다시 회복될 때 -> 의지상
             if(agent1_on[2] > lecture_time * (2/10))            
@@ -374,8 +377,13 @@ function max_log(eng,neu,not)
                 if(stu1_badge3_time > stu1_badge3*2)
                 {
                     $("#today_badge2").show();
+                    stu1_today_badge[1]++;
                 }
             }     
+            console.log("engLog length : ");
+            console.log(engLog.length);
+            console.log("engLog : ");
+            console.log(engLog);
            
             
 
