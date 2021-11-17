@@ -88,7 +88,7 @@ let modal2 =0;
 function progress(per,bar,bar_value) {
   var progress = per / 100;
   var dashoffset = (2 * Math.PI *54) * (1 - progress);
-  bar_value.innerHTML= per +'%'; //여기 오류
+  bar_value.innerHTML= String(per) +'%'; //여기 오류
   if(per < 30)
   {
     $("#bar1").css("stroke","#EB9872");
@@ -440,16 +440,19 @@ function max_log(eng,neu,not)
                 {                    
                     console.log("another connection!");
                     let student_name ="#student" + login_count + "_name"; 
+                    
                     //이름 설정                  
                     $(student_name).val((engLog[i].name));      
                     //랭킹 점수 업데이트
                     ranking_score[login_count] = parseInt(engLog[i].score);                    
-                    let bar = document.querySelector("#bar" + String(login_count + 1));
-                    let bar_value = document.querySelector("#bar_value" +String(login_count + 1));
+                    let bar = document.getElementById("bar" + String(login_count + 1));
+                    let bar_value = document.getElementById("bar_value" + String(login_count + 1));
+                    engagement_gauge[login_count] = engLog[i].gauge;
+                    console.log("bar_value : " + bar_value);
                     progress(ranking_score[login_count],bar,bar_value);   
                     let agent1 = parseInt(engLog[i].agent[1]); //자리비움 횟수
                     let agent2 = parseInt(engLog[i].agent[3]); //자세 불량 횟수
-                    let agent3 = parseint(engLog[i].agent[7]); //졸음 발생 횟수  
+                    let agent3 = parseInt(engLog[i].agent[7]); //졸음 발생 횟수  
                     $("#progress_agent" + String(login_count + 1) + "_1").css("width",agent1*10);
                     $("#progress_agent" + String(login_count + 1) + "_2").css("width",agent2*10);
                     $("#progress_agent" + String(login_count + 1) + "_3").css("width",agent3*10);
