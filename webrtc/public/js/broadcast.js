@@ -2,13 +2,11 @@ let engLog = [];
 let names = [];
 let start_lecture = 0;
 
-
 function getStatus() {
    
 
     console.log("get try");
     setInterval(sendStatus, 5000);
-
     // // var output = {sender:"sender", receiver:"receiver"
     // //     ,command:"chat", type:"text", data:"msg"};
     // socket.emit("message", content);
@@ -30,14 +28,10 @@ function getStatus() {
         {
             engLog[names.indexOf(message.name)] = message;
             console.log("same person");
-        }
-        
-        //console.log('Received from ',message.name, ", engagement : ", message.eng, ", agent_count : ", message.agent, ", badge_count : ", message.badge);        
+        }                   
     })
 }
-
 // setInterval(sendStatus, 5000);
-
 function sendStatus() {
 
     if(engagementResult!=null){
@@ -46,10 +40,13 @@ function sendStatus() {
         let toSend = new Object();
         let agent = JSON.stringify(stu1_agent_count);
         let badge = JSON.stringify(stu1_today_badge);
-        toSend.name = document.getElementById('studentName').value;
-        toSend.eng = engagementResult; 
+        let gauge = JSON.stringify(engagement_gauge[0]);
+        let score = JSON.stringify(ranking_score[0]);
+        toSend.name = document.getElementById('studentName').value;        
         toSend.agent = agent;
         toSend.badge = badge;
+        toSend.gauge = gauge;
+        toSend.score = score;
         socket.emit("message", toSend);
     }
 

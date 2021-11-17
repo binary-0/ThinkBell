@@ -510,7 +510,7 @@
   #mypage_background1 {
     display: block;
     width: 1000px;
-    height: 600px;
+    height: 620px;
     margin-top: 125px;
     margin-left: 120px;
     background-color: #faf3e8;
@@ -734,4 +734,7 @@
   }
   .badge_text{
     font-size: 20px;margin-top : 70px;margin-left: 20px;font-size: 20px;font-weight: bold;
+  }
+  .log_name_text{
+    text-align: center; font-size: 25px; font-weight: bold;
   }

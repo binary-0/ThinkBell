@@ -1,6 +1,27 @@
+const firebaseConfig = {
+    apiKey: "AIzaSyDshLWdGu-ICP7rm4hOtuq4KMYOOLrWEPc",
+    authDomain: "woongjin-boys.firebaseapp.com",
+    projectId: "woongjin-boys",
+    storageBucket: "woongjin-boys.appspot.com",
+    messagingSenderId: "384724988797",
+    appId: "1:384724988797:web:c620d4f105ebbedd991214",
+    measurementId: "G-C86JZT2WGB",
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  let database = firebase.firestore();
+  let date = new Date();
+
+  let year = date.getFullYear().toString();
+  let month = (date.getMonth()+1).toString();
+  let day = date.getDate().toString();
+  let hour = date.getHours().toString();
+  let min = date.getMinutes().toString();
+  date = year + "-" + month + "-" + day;
+
 let present_btn = 1;
-    let modal1 = 0;
-    let modal2 =0;
+let modal1 = 0;
+let modal2 =0;
     document.getElementById("modal1_on").onclick = function () {
         if(modal1 === 0)
         {
@@ -34,7 +55,7 @@ let present_btn = 1;
             }else{
                 click.style.display = "none";
             }
-        } 
+        }        
 
     $("#my_btn1").click(function(){
         $("#mypage_background" + String(present_btn)).hide();
@@ -61,13 +82,13 @@ let present_btn = 1;
     }); 
 
     // 원형 그래프
-    var bar1 = document.querySelector('#bar1');
-    var bar_value1 = document.querySelector('#bar_value1');                 
+    let bar1 = document.querySelector('#bar1');
+    let bar_value1 = document.querySelector('#bar_value1');             
 
-function progress(per) {
+function progress(per,bar,bar_value) {
   var progress = per / 100;
   var dashoffset = (2 * Math.PI *54) * (1 - progress);
-  bar_value1.innerHTML= per +'%';
+  bar_value.innerHTML= per +'%'; //여기 오류
   if(per < 30)
   {
     $("#bar1").css("stroke","#EB9872");
@@ -81,8 +102,7 @@ function progress(per) {
   {
     $("#bar1").css("stroke"," #00CA08");
   }  
-  bar1.style.strokeDashoffset = dashoffset;
-  
+  bar.style.strokeDashoffset = dashoffset;  
 }
 function max_log(eng,neu,not)
 {
@@ -106,17 +126,19 @@ function max_log(eng,neu,not)
         let agent1_length = [0,0,0,0];
         let stu1_agent_count = [0,0,0,0];
         let stu1_today_badge = [0,0,0,0]; //의지상, 노력상, 발표상, 몰입상 순서로 진행
-        let stu1_color = [0,0,0];
-        let scoreTemp1;
-        let stu1Score;
+        let stu1_color = [0,0,0];        
+        let ranking_score = [0,0,0,0]; //랭킹 점수 기록       
         let totalStamp = 0;
         let log_update = [0,0,0];           
         let engage_again =0;
-        let lecture_time = 120; //수업 시간은 2분이라고 가정
-        let engagement_gauge1 = 50;
+        let lecture_time = 120; //수업 시간은 2분이라고 가정        
+        let engagement_gauge = [50,0,0,0]; //게이지 점수
         let stu1_badge2 = 0;
         let stu1_badge3 = 0;
         let stu1_badge3_time = 0;
+        let login_count =1;
+        let engagement_gauge2;        
+
 
         setInterval(function(){           
             console.log("objects_color : " + objects["colorStat"]);
@@ -129,7 +151,7 @@ function max_log(eng,neu,not)
             {
                 stu1_color[0]++;
                 log_update[0]++;
-                engagement_gauge1 = engagement_gauge1 + (1 - engagement_gauge1/100);
+                engagement_gauge[0] = engagement_gauge[0] + (1 - engagement_gauge[0]/100);
                                
             }
             else if(objects["colorStat"] === "1") //Neutral 발생
@@ -141,13 +163,13 @@ function max_log(eng,neu,not)
             {
                 stu1_color[2]++;
                 log_update[2]++;
-                engagement_gauge1 = engagement_gauge1 - (engagement_gauge1/100);
+                engagement_gauge[0] = engagement_gauge[0] - (engagement_gauge[0]/100);
             }
-            console.log(engagement_gauge1);
+            console.log(engagement_gauge[0]);
             totalStamp+=1;
-            stu1Score = (stu1_color[0] * 2 + stu1_color[1]) / (totalStamp * 2 ) * 100; //점수 계산           
-            stu1Score = Math.round(stu1Score); 
-            progress(stu1Score); //원형 그래프 업데이트
+            ranking_score[0] = (stu1_color[0] * 2 + stu1_color[1]) / (totalStamp * 2 ) * 100; //점수 계산           
+            ranking_score[0] = Math.round(ranking_score[0]); 
+            progress(ranking_score[0],bar1,bar_value1); //원형 그래프 업데이트
             bar1.style.strokeDasharray = (2 * Math.PI *54) ;
 
             //자리비움 발생
@@ -365,13 +387,13 @@ function max_log(eng,neu,not)
             }
 
             //집중도 게이지가 낮을 경우 -> 노력상 
-            if(engagement_gauge1 < 30)
+            if(engagement_gauge[0] < 30)
             {
                 stu1_badge3++;    
                                  
             }
             //수업 시간의 10% 이상 유지되었을 경우
-            else if(stu1_badge3 > lecture_time * (1/10) && engagement_gauge1 > 70)
+            else if(stu1_badge3 > lecture_time * (1/10) && engagement_gauge[0] > 70)
             {
                 stu1_badge3_time++;
                 if(stu1_badge3_time > stu1_badge3*2)
@@ -380,11 +402,99 @@ function max_log(eng,neu,not)
                     stu1_today_badge[1]++;
                 }
             }     
-            console.log("engLog length : ");
+            console.log("The number of connection : ");
             console.log(engLog.length);
             console.log("engLog : ");
             console.log(engLog);
-           
-            
+            console.log("engLog : [name]");
+            if(engLog.length > 0)
+            {
+                //objects에서 출력
+                console.log(engLog[0].name);                               
+            }
 
+            //본인 이름 바꾸기
+            $("#getStatus").click(function(){                
+                $("#my_name").text($("#studentName").val()); 
+                $("#mypage_name").text($("#studentName").val());
+                $("#myname_log").text($("#studentName").val() + " 학생 수업 몰입도 현황"); 
+                $("#agent_top").text($("#studentName").val() + " AI - agent 발생로그");                
+            })
+            $("#studentName").click(function(){ 
+                if($("#studentName").val() === "Enter your name")
+                {
+                    $("#studentName").val("");
+                }
+            })
+
+            
+            //자신을 제외한 사용자가 들어올 때
+            for(let i=0;i<engLog.length;i++)
+            {       
+                console.log("agent_count : ");                
+                console.log(engLog[0].agent[1]);                
+                console.log(engLog[0].agent[3]);
+                console.log(engLog[0].agent[5]);
+                console.log(engLog[0].agent[7]);
+                if(engLog[i].name !== $("#my_name").text())
+                {                    
+                    console.log("another connection!");
+                    let student_name ="#student" + login_count + "_name"; 
+                    //이름 설정                  
+                    $(student_name).val((engLog[i].name));      
+                    //랭킹 점수 업데이트
+                    ranking_score[login_count] = parseInt(engLog[i].score);                    
+                    let bar = document.querySelector("#bar" + String(login_count + 1));
+                    let bar_value = document.querySelector("#bar_value" +String(login_count + 1));
+                    progress(ranking_score[login_count],bar,bar_value);   
+                    let agent1 = parseInt(engLog[i].agent[1]); //자리비움 횟수
+                    let agent2 = parseInt(engLog[i].agent[3]); //자세 불량 횟수
+                    let agent3 = parseint(engLog[i].agent[7]); //졸음 발생 횟수  
+                    $("#progress_agent" + String(login_count + 1) + "_1").css("width",agent1*10);
+                    $("#progress_agent" + String(login_count + 1) + "_2").css("width",agent2*10);
+                    $("#progress_agent" + String(login_count + 1) + "_3").css("width",agent3*10);
+                    login_count++;
+                }
+            }
+                                 
         },1000); 
+
+        function onAddRecord() {
+            database
+              .collection("student1")
+              .doc(date) //자신이 원하는 아이디 입력
+              .set(
+                {
+                  //요소들 입력
+                  time : hour + "-" + min,
+                  name: $("#my_name").text(),
+                  badge_ary : stu1_today_badge,
+                 
+                },
+                { merge: true }
+              )
+              .then(function () {onLoadData()});
+          }
+
+          var allData = [];
+
+          function onLoadData() {        
+            database.collection("student1")
+              //나오는 정보 제한 가능  .where("date","==","11-7")
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  var _t = {
+                    id: doc.id,                
+                    value: doc.data(),
+                  };
+                  console.log(_t);
+                  allData.push(_t);              
+                });
+              })
+              .catch((error) => {
+                console.log("Error getting documents: ", error);
+              });
+          }
+
+          

@@ -71,6 +71,7 @@
       <video id="localVideo" class="vid" autoplay muted></video>
       <button type="button" id="modal1_on" style ="height : 50px">학생 로그창 열기</button>
     <button type="button" id="modal2_on" style ="height : 50px">학생 개인페이지 열기</button>
+    <button type="button" id="fire_update" style ="height : 50px" onclick="onAddRecord()">firebase update</button>  
     </div>
     <br />
     <div style="display: block">
@@ -108,8 +109,7 @@
       <div class="modal_mypage">
         <div class="agent_nav">
           <p class="log_nav_text">마이페이지</p>
-        </div>
-
+        </div>       
 
         <div style="display: flex">
           <div style="flex-direction: column; text-align: center">
@@ -117,9 +117,9 @@
               src="http://drive.google.com/uc?export=view&id=1F1DtgciHw9MVE-RvKhQCOaCUmXrp0QiQ"
               style="margin-top: 100px; margin-left: 50px"
             />
-            <div style="font-size: 45px; font-weight: bold; margin-left: 50px">
+            <div id = "mypage_name" style="font-size: 45px; font-weight: bold; margin-left: 50px">
               박성완
-            </div>
+            </div>           
             <div class="dropdown">
                 <button type ="button" onclick="dp_menu()" class="drop_button">수업진행 : 
                     <sapn>9월20일</span><br>
@@ -132,7 +132,10 @@
                     <div style ="border: 1px solid black;">9월 24일 <br>오후 5시 20분 ~ 5시 40분</div>
                     <div style ="border: 1px solid black;">9월 25일 <br>오후 5시 20분 ~ 5시 40분</div>
                 </div>
-            </div>  
+            </div> 
+            
+          
+            
           </div>
           
           <button type = "button" id = "my_btn1" class = "stu_log1" >몰입도&Agent</button>
@@ -142,7 +145,7 @@
           <!--몰입도 Agent-->
           <div id ="mypage_background1">
           
-            <div class ="log_nav_text"> 박성완 학생 수업 몰입도 현황</div>  
+            <div id ="myname_log" class ="log_nav_text"> 박성완 학생 수업 몰입도 현황</div>  
             <div class ="log_nav_text_sm"> 수업 진행 : 21년 9월 20일 오후 5시 10분 ~ 5시 40분</div>                            
                  
             
@@ -275,7 +278,8 @@
         
         <!--랭킹-->
         <div id ="mypage_background2">
-            <div class ="weekly_ranking"> Weelky Ranking</div>          
+            <div class ="weekly_ranking"> Weelky Ranking</div>   
+            <input type ="button" value="ranking update" style ="margin-left : 20px" id ="change_button">
             <div class ="ranking_text1" > 9월 3주차 랭킹</div>
             <div class ="ranking_block">
                 <!--student1 사진 & 랭킹 이미지-->               
@@ -379,7 +383,7 @@
           <div
             class ="log_name"
           >
-            <div style="text-align: center; font-size: 25px; font-weight: bold">
+            <div id ="my_name" style="text-align: center; font-size: 25px; font-weight: bold">
               박성완
             </div>
           </div>
@@ -430,19 +434,20 @@
         </div>
 
         <div class="log_person">
+
             <div class ="circle_pos">
                 <div class="circle_progress_wrap">
                   <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
                     <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
-                    <circle class = "bar" cx="60" cy="60" r="54" stroke-width="12" />
+                    <circle id ="bar2" class = "bar" cx="60" cy="60" r="54" stroke-width="12" />
                   </svg>             
-                  <strong class="value"></strong>
+                  <strong id ="bar_value2" class="value"></strong>
                 </div>
             </div>
           <div
             class ="log_name"
           >
-            <div style="text-align: center; font-size: 25px; font-weight: bold">
+            <div id = "student1_name" class ="log_name_text">
               이시우
             </div>
           </div>
@@ -452,21 +457,21 @@
           <div         
           class="progress-border_log log_left"                       
         >
-          <div class="progress-bar" style="width: 10%">
+          <div id ="progress_agent2_1" class="progress-agent1" style="width: 10%">
             <span
-            id="progress-text2"
+            id="progress-text2_1"
           class ="pro_avg_text"
           >1회</span>
         </div>  
-        <div class="progress-agent2" style="width: 10%">
+        <div id ="progress_agent2_2" class="progress-agent2" style="width: 10%">
             <span
-            id="agent_text2"
+            id="agent_text2_2"
           class ="pro_avg_text"
           >1회</span>
         </div>
-        <div class="progress-agent3" style="width: 10%">
+        <div id ="progress_agent2_3" class="progress-agent3" style="width: 10%">
             <span
-            id="agent_text3"
+            id="agent_text2_3"
           class ="pro_avg_text"
           >1회</span>
         </div>    
@@ -505,7 +510,7 @@
           <div
             class ="log_name"
           >
-            <div style="text-align: center; font-size: 25px; font-weight: bold">
+            <div id = "student2_name" class ="log_name_text">
               장하윤
             </div>
           </div>
@@ -515,7 +520,7 @@
             <div         
             class="progress-border_log log_left"                       
           >
-            <div class="progress-bar" style="width: 10%">
+            <div class="progress-agent1" style="width: 10%">
               <span
               id="progress-text2"
             class ="pro_avg_text"
@@ -567,7 +572,7 @@
           <div
             class ="log_name"
           >
-            <div style="text-align: center; font-size: 25px; font-weight: bold">
+            <div id = "student3_name" class ="log_name_text">
               장하준
             </div>
           </div>
@@ -577,7 +582,7 @@
             <div         
             class="progress-border_log log_left"                       
           >
-            <div class="progress-bar" style="width: 10%">
+            <div class="progress-agent1" style="width: 10%">
               <span
               id="progress-text2"
             class ="pro_avg_text"
@@ -621,7 +626,7 @@
         <div class="log_nav">
           <p class="log_nav_text">학생별 수업 몰입도 현황</p>
           <div class="agent_block1">
-            <div style="padding-top: 10px">박성완 AI - agent 발생로그</div>
+            <div id ="agent_top" style="padding-top: 10px">박성완 AI - agent 발생로그</div>
           </div>
 
           <div class="card-body" style="position: relative; z-index: 1">
