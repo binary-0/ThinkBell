@@ -58,7 +58,11 @@ function drawBoxes(objects) {
     // );
 }
 
+
 let engagementResult;
+
+let stack = 0;
+
 //Add file blob to a form and post
 function postFile(file) {
 
@@ -74,6 +78,23 @@ function postFile(file) {
             let objects = JSON.parse(this.response);
             engagementResult=objects;
             console.log(objects);
+            console.log(stack);
+            if(objects.generalStat[3] == 1){
+                stack++;
+                // gameON();
+            }
+            else{
+                stack = 0;
+            }
+
+            if(stack == 5){
+                var audio = new Audio('../pacman/audio/siren.mp3');
+                audio.volume = 1.0;
+                audio.play();
+                setTimeout(() => {
+                    gameON(); 
+                }, 1500);
+            }
             //draw the boxes
             // drawBoxes(objects);
 

@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <script lang="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="/simple-peer/simplepeer.min.js"></script>
+    <link rel="icon" href="pacman/pacmanIcon.png" />
     <style>
     #wrap {
         width: 100%;
@@ -386,13 +387,127 @@
     .slider.round:before {
         border-radius: 50%;
     }
+
+    @font-face {
+        font-family: 'BDCartoonShoutRegular';
+        src: url('pacman/BD_Cartoon_Shout-webfont.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      .content {
+        position: fixed;
+        top:0%;
+        right: 5%;
+        width: 15%;
+        text-align: center;
+        padding-bottom: 32px;
+        padding-top: 16px;
+      }
+      #pacman {
+        height:450px;
+        width:342px;
+        display: inline-block;
+      }
+
+      .start {
+        display:block;
+        width: 100px;
+        padding: 8px;
+        font-size: 20px;
+        margin-top: 2%;
+        cursor: pointer;
+        font-family: BDCartoonShoutRegular; 
+        background-color: red;
+        border-color: red;
+        color: white;
+        display: none;
+      }
+
+      #headControlsCanvas{
+        position: fixed;
+        left: 468px;
+        top: 66px;
+        border-radius: 10px;
+      }
+
+      #gaming{
+        position: fixed;
+        left: 10%;
+        top: 10%;
+        background: white;
+        text-align: center;
+        width: 190px;
+        height: 122px;
+        border: 3px solid orange;
+        border-radius: 8px;
+      }
+
+      #pacman_picture{
+        width: 60px;
+        height: 60px;
+        margin: 13px;
+      }
+
+      #pacman_mob_picture{
+        width: 70px;
+        height: 70px;
+        margin: 8px;
+      }
+
+      #pacman_text{
+        color: black;
+        font-weight: bold;
+      }
+      .containers {
+            display: grid;
+            grid-gap: 5px;
+            grid-template-columns: repeat(auto-fit, 1fr);
+            grid-template-rows: repeat(auto-fit, 300px);
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .vid {
+            flex: 0 1 auto;
+            height: 400px;
+            transform: rotateY(180deg);
+            -webkit-transform:rotateY(180deg);
+        }
+
+        .settings {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 2px 2px;
+            cursor: pointer;
+        }
+
     </style>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-</head>
+    <!-- modified pacman -->
+    <script src="js/pacman.js"></script>
+    <script src="js/modernizr-1.5.min.js"></script>
+  
+    <!-- JEELIZ FACEFILTER API (required by HeadControls.js) : -->
+    <script src="js/jeelizFaceFilter.js"></script>
 
-<body>
-  <div id="wrap">
+    <!-- HEAD CONTROLLER : -->
+    <script src="js/HeadControls.js"></script>
+
+    <!-- main script : -->
+    <script src="js/pacmanMain.js"></script>
+  </head>
+
+  <body>
+    <div id="wrap">
       <div class="tempframe">
 
       </div>
@@ -481,9 +596,34 @@
       </div>
   </div>
 
-    <!--<input type="text" id="studentName" value="Enter your name" style="width: 100px;">-->
-</body>
-<footer>
+    <script type="text/javascript">
+      window.onload = pacmanAR;
+    </script>
+    
+    <div class='content' id="gameDiv">
+      <!-- <p>
+        <input id='disableGhosts' type='checkbox' />Disable ghosts (for testing purpose)
+      </p> -->
+      <div id="pacman"></div>
+          
+      <button class="start" id='start'>START</button>
+      <button class="start" id='resume'>START</button>
+    </div>
+    <canvas style="display: none;" id='headControlsCanvas' width="295.37px" height='183.64px'></canvas>
+    <div id="gaming">
+      <img style="display: none;" id="pacman_picture" 
+      src="pacman/pacmanIcon.png" />
+      <img style="display: none;" id="pacman_mob_picture" 
+      src="pacman/monster.png" />
+      <div style="display: none;" id="pacman_text">
+        팩맨 Agent 진행 중
+      </div>
+    </div>
+    <button id="GameScreen" style="position: fixed; left: 0; bottom: 0;" onclick="pacmanScreen()">GameScreen</button>
+    <!-- <button id="GameScreen" style="position: fixed; right: 0; bottom: 0;" onclick="pacmanAR()">pacmanLoad</button> -->
+
+  </body>
+  <footer>
     <script src='/js/main.js' lang="text/javascript"></script>
     <script id="objDetect" src='/js/objDetect.js' data-source="localVideo" data-mirror="true" data-uploadWidth="1280" data-scoreThreshold="0.40"></script>
     <script src='/js/broadcast.js' lang="text/javascript"></script>
