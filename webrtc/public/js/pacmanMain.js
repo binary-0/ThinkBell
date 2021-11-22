@@ -130,11 +130,9 @@ function clearFail(){
   mobicon.style.display = 'inline-block';
   failtext.innerHTML = '팩맨 Agent 실패!';
   failtext.style.display = 'inline-block';
-  video.classList.add('invert');
   setTimeout(() => {
     failtext.style.display = 'none';
     icon.style.display = 'none';
     mobicon.style.display = 'none';
-    video.classList.remove('invert');
   }, 5000);
 }
