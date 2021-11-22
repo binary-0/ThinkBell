@@ -121,16 +121,15 @@
               박성완
             </div>           
             <div class="dropdown">
-                <button type ="button" onclick="dp_menu()" class="drop_button">수업진행 : 
-                    <sapn>9월20일</span><br>
-                    <sapn>오후 5시10분 ~ 5시40분</span>
+                <button id ="default" type ="button" onclick="dp_menu()" class="drop_button">
+                    <div id ="drop_date">수업진행 : 11월13일</div>
+                    <div id ="drop_time">오후 5시10분 ~ 5시40분</div>
                 </button>
                 <div style="display: none;" class="drop-content" id ="drop1" >
-                    <div style ="border: 1px solid black;">9월 21일<br>오후 5시 20분 ~ 5시 40분</div>                 
-                    <div style ="border: 1px solid black;">9월 22일 <br> 오후 5시 20분 ~ 5시 40분</div>
-                    <div style ="border: 1px solid black;">9월 23일 <br>오후 5시 20분 ~ 5시 40분</div>
-                    <div style ="border: 1px solid black;">9월 24일 <br>오후 5시 20분 ~ 5시 40분</div>
-                    <div style ="border: 1px solid black;">9월 25일 <br>오후 5시 20분 ~ 5시 40분</div>
+                    <div id ="fire_btn1"  style ="border: 1px solid black;">11월 10일<br>오후 5시 20분 ~ 5시 40분</div>                 
+                    <div id ="fire_btn2"  style ="border: 1px solid black;">11월 11일 <br> 오후 5시 20분 ~ 5시 40분</div>
+                    <div id ="fire_btn3"  style ="border: 1px solid black;">11월 12일 <br>오후 5시 20분 ~ 5시 40분</div>
+                    <div id ="fire_btn4"  style ="border: 1px solid black;">11월 13일 <br>오후 5시 20분 ~ 5시 40분</div>                   
                 </div>
             </div> 
             
@@ -278,48 +277,56 @@
         
         <!--랭킹-->
         <div id ="mypage_background2">
-            <div class ="weekly_ranking"> Weelky Ranking</div>   
-            <input type ="button" value="ranking update" style ="margin-left : 20px" id ="change_button">
-            <div class ="ranking_text1" > 9월 3주차 랭킹</div>
-            <div class ="ranking_block">
+            <div class ="weekly_ranking"> Weelky Ranking</div>               
+           
+            <div class ="ranking_text1" > 11월 2주차 랭킹</div>
+            <div id = "ranking_block1" class ="ranking_block">
                 <!--student1 사진 & 랭킹 이미지-->               
                 <img src ="http://drive.google.com/uc?export=view&id=1wiYaYfzh5NjppR9GG4d_jh4GzDwaRfrZ" style ="margin-left: 15px;">
-                <img src ="http://drive.google.com/uc?export=view&id=1dYMW3mvKYPP3o5vE91Bf8COXSAUGH_nl" style ="margin-left: 5px;">
-                <span class ="ranking_name">장하준</span>
-                <div class ="ranking_score_text">
-                    <span>이번주 몰입도 총 점수 : 485점</span>
-                    <span>오늘 획득한 몰입도 점수 : 95점</span>
-                </div>
+                <img id ="rank1_img" src ="http://drive.google.com/uc?export=view&id=1dYMW3mvKYPP3o5vE91Bf8COXSAUGH_nl" style ="margin-left: 5px;border-radius: 100px;">
+                <span id ="rank1_name" class ="ranking_name">장하준</span>
+                <div class ="ranking_score_text" >
+                    <div id ="rank1_total">이번주 몰입도 총 점수 : 485점</div>
+                    <div id ="rank1_today">오늘 획득한 몰입도 점수 : 95점</div>     
+                </div>                
+                <img id ="stu_img1" class ="same_img" src ="http://drive.google.com/uc?export=view&id=1tLA6sinLl9w7P9P_DqojGUkCsTFeRjqu" >
+                <div id ="stu_text1" class ="rank_down_text"></div>
             </div>
-            <div class ="ranking_block">
+            <div id = "ranking_block2"  class ="ranking_block">
                 <!--student2 사진 & 랭킹 이미지-->
                 <img src ="http://drive.google.com/uc?export=view&id=1z-EmN8f9l98GRNAICV_fpwqlpA5Ucecx" style ="margin-left: 15px; width:75px;height: 75px;margin-top: 10px;">
-                <img src ="http://drive.google.com/uc?export=view&id=1sCsYcwtNP4nA9JXf6B0x6LT7NJz327RU" style ="margin-left: 20px;">
-                <span class ="ranking_name">박성완</span>
+                <img id ="rank2_img" src ="http://drive.google.com/uc?export=view&id=1sCsYcwtNP4nA9JXf6B0x6LT7NJz327RU" style ="margin-left: 20px;border-radius: 100px;">
+                <span id ="rank2_name" class ="ranking_name">박성완</span>
                 <div class ="ranking_score_text">
-                    <span>이번주 몰입도 총 점수 : 455점</span>
-                    <span>오늘 획득한 몰입도 점수 : 88점</span>
+                    <span id ="rank2_total">이번주 몰입도 총 점수 : 455점</span>
+                    <span id ="rank2_today">오늘 획득한 몰입도 점수 : 88점</span>
                 </div>
+                <img id ="stu_img2" class ="up_img" src ="http://drive.google.com/uc?export=view&id=16q6-jHqmw-L6FTQZZNnZq7xIOS6zhO06" >
+                <div id ="stu_text2" class ="rank_up_text">1</div>
             </div>
-            <div class ="ranking_block">
+            <div id = "ranking_block3"  class ="ranking_block">
                 <!--student3 사진 & 랭킹 이미지-->
                 <img src ="http://drive.google.com/uc?export=view&id=1Z86yQ4uWlRMNplB8Q9veErCYdC2ZuUb8" style ="margin-left: 17px; width:70px;height: 70px;margin-top: 12px;">
-                <img src ="http://drive.google.com/uc?export=view&id=1Z4RTV4eHntoTkFqryYaQ23QmUdaH_Oe-" style ="margin-left: 25px;border-radius: 100px;">
-                <span class ="ranking_name">이지수</span>
+                <img id="rank3_img" src ="http://drive.google.com/uc?export=view&id=1Z4RTV4eHntoTkFqryYaQ23QmUdaH_Oe-" style ="margin-left: 25px;border-radius: 100px;">
+                <span id="rank3_name" class ="ranking_name">이지수</span>
                 <div class ="ranking_score_text">
-                    <span>이번주 몰입도 총 점수 : 447점</span>
-                    <span>오늘 획득한 몰입도 점수 : 78점</span>
+                    <span id ="rank3_total">이번주 몰입도 총 점수 : 447점</span>
+                    <span id ="rank3_today">오늘 획득한 몰입도 점수 : 78점</span>
                 </div>
+                <img id ="stu_img3" class ="down_img" src ="http://drive.google.com/uc?export=view&id=16vzcskud2my5y0bgoijc9oECa4bCRaoU" >
+                <div id ="stu_text3" class ="rank_down_text">2</div>
             </div>
-            <div class ="ranking_block">
+            <div id = "ranking_block4"  class ="ranking_block">
                 <!--student4 사진 & 랭킹 이미지-->
                 <img src ="http://drive.google.com/uc?export=view&id=1JTOyoDhsmfOMuHj_rKXYfO78AWWLabWb" style ="margin-left: 15px; width:75px;height: 75px;margin-top: 10px;">
-                <img src ="http://drive.google.com/uc?export=view&id=1pTPxXxLGNM6H5jJ1n8RLRz_Defzifu2z" style ="margin-left: 25px;border-radius: 100px;">
-                <span class ="ranking_name">장하준</span>
+                <img id ="rank4_img" src ="http://drive.google.com/uc?export=view&id=1pTPxXxLGNM6H5jJ1n8RLRz_Defzifu2z" style ="margin-left: 25px;border-radius: 100px;">
+                <span id ="rank4_name" class ="ranking_name">장하윤</span>
                 <div class ="ranking_score_text">
-                    <span>이번주 몰입도 총 점수 : 432점</span>
-                    <span>오늘 획득한 몰입도 점수 : 65점</span>
+                    <span id ="rank4_total">이번주 몰입도 총 점수 : 432점</span>
+                    <span id ="rank4_today">오늘 획득한 몰입도 점수 : 65점</span>
                 </div>
+                <img id ="stu_img4" class ="same_img" src ="http://drive.google.com/uc?export=view&id=1tLA6sinLl9w7P9P_DqojGUkCsTFeRjqu" >
+                <div id ="stu_text4" class ="rank_up_text"></div>
             </div>            
         </div>
         <!--배지-->
@@ -373,9 +380,9 @@
             <div class="circle_progress_wrap">
               <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
                 <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
-                <circle id = "bar1" class ="bar" cx="60" cy="60" r="54" stroke-width="12" />
+                <circle id = "bar0" class ="bar" cx="60" cy="60" r="54" stroke-width="12" />
               </svg>             
-              <strong id="bar_value1" class ="value"></strong>
+              <strong id="bar_value0" class ="value"></strong>
             </div>
             </div>
             
@@ -439,9 +446,9 @@
                 <div class="circle_progress_wrap">
                   <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
                     <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
-                    <circle id ="bar2" class = "bar" cx="60" cy="60" r="54" stroke-width="12" />
+                    <circle id ="bar1" class = "bar" cx="60" cy="60" r="54" stroke-width="12" />
                   </svg>             
-                  <strong id ="bar_value2" class="value"></strong>
+                  <strong id ="bar_value1" class="value"></strong>
                 </div>
             </div>
           <div
@@ -457,21 +464,21 @@
           <div         
           class="progress-border_log log_left"                       
         >
-          <div id ="progress_agent2_1" class="progress-agent1" style="width: 10%">
+          <div id ="progress_agent1_1" class="progress-agent1" style="width: 10%">
             <span
-            id="progress-text2_1"
+            id="agent_text1_1"
           class ="pro_avg_text"
           >1회</span>
         </div>  
-        <div id ="progress_agent2_2" class="progress-agent2" style="width: 10%">
+        <div id ="progress_agent1_2" class="progress-agent2" style="width: 10%">
             <span
-            id="agent_text2_2"
+            id="agent_text1_2"
           class ="pro_avg_text"
           >1회</span>
         </div>
-        <div id ="progress_agent2_3" class="progress-agent3" style="width: 10%">
+        <div id ="progress_agent1_3" class="progress-agent3" style="width: 10%">
             <span
-            id="agent_text2_3"
+            id="agent_text1_3"
           class ="pro_avg_text"
           >1회</span>
         </div>    
@@ -520,21 +527,21 @@
             <div         
             class="progress-border_log log_left"                       
           >
-            <div class="progress-agent1" style="width: 10%">
+            <div id ="progress_agent2_1" class="progress-agent1" style="width: 10%">
               <span
-              id="progress-text2"
+              id="agent_text2_1"
             class ="pro_avg_text"
             >1회</span>
           </div>  
-          <div class="progress-agent2" style="width: 10%">
+          <div id ="progress_agent2_2" class="progress-agent2" style="width: 10%">
               <span
-              id="agent_text2"
+              id="agent_text2_2"
             class ="pro_avg_text"
             >1회</span>
           </div>
-          <div class="progress-agent3" style="width: 10%">
+          <div id ="progress_agent2_3" class="progress-agent3" style="width: 10%">
               <span
-              id="agent_text3"
+              id="agent_text2_3"
             class ="pro_avg_text"
             >1회</span>
           </div>    
@@ -582,21 +589,21 @@
             <div         
             class="progress-border_log log_left"                       
           >
-            <div class="progress-agent1" style="width: 10%">
+            <div id ="progress_agent3_1" class="progress-agent1" style="width: 10%">
               <span
-              id="progress-text2"
+              id="agent_text3_1"
             class ="pro_avg_text"
             >1회</span>
           </div>  
-          <div class="progress-agent2" style="width: 10%">
+          <div id ="progress_agent3_2" class="progress-agent2" style="width: 10%">
               <span
-              id="agent_text2"
+              id="agent_text3_2"
             class ="pro_avg_text"
             >1회</span>
           </div>
-          <div class="progress-agent3" style="width: 10%">
+          <div id ="progress_agent3_3" class="progress-agent3" style="width: 10%">
               <span
-              id="agent_text3"
+              id="agent_text3_3"
             class ="pro_avg_text"
             >1회</span>
           </div>    
@@ -639,15 +646,7 @@
               <div
                 id="agentbar1"
                 class="progress-border_2 log_progress"                
-              >
-              <!--
-                <div class="progress-bar-1" style="width: 5%"></div>
-                <div class="progress-bar-0" style="width: 10%"></div>
-                <div class="progress-bar-1" style="width: 5%"></div>
-                <div class="progress-bar-0" style="width: 10%"></div>
-                <div class="progress-bar-1" style="width: 5%"></div>
-                <div class="progress-bar-0" style="width: 10%"></div>
-                -->
+              >             
               </div>
             </div>
 
@@ -662,15 +661,7 @@
               <div
                 id="agentbar2"
                 class="progress-border_2 log_progress"               
-              >
-              <!--
-                <div class="progress-bar-2" style="width: 13%"></div>
-                <div class="progress-bar-0" style="width: 10%"></div>
-                <div class="progress-bar-2" style="width: 15%"></div>
-                <div class="progress-bar-0" style="width: 10%"></div>
-                <div class="progress-bar-2" style="width: 7%"></div>
-                <div class="progress-bar-0" style="width: 10%"></div>
-              -->
+              >             
               </div>
             </div>
 
@@ -685,15 +676,7 @@
               <div
                 id="agentbar3"
                 class="progress-border_2 log_progress"                
-              >
-              <!--
-                <div class="progress-bar-3" style="width: 11%"></div>
-                <div class="progress-bar-0" style="width: 8%"></div>
-                <div class="progress-bar-3" style="width: 5%"></div>
-                <div class="progress-bar-0" style="width: 7%"></div>
-                <div class="progress-bar-3" style="width: 16%"></div>
-                <div class="progress-bar-0" style="width: 10%"></div>
-              -->
+              >              
               </div>
             </div>
             <div
@@ -707,15 +690,7 @@
               <div
                 id="agentbar4"
                 class="progress-border_2 log_progress"                
-              >
-              <!--
-                <div class="progress-bar-4" style="width: 17%"></div>
-                <div class="progress-bar-0" style="width: 16%"></div>
-                <div class="progress-bar-4" style="width: 7%"></div>
-                <div class="progress-bar-0" style="width: 2%"></div>
-                <div class="progress-bar-4" style="width: 5%"></div>
-                <div class="progress-bar-0" style="width: 10%"></div>
-              -->
+              >           
               </div>
             </div>
             <image
@@ -769,19 +744,7 @@
               z-index: 1;
               margin-top: 20px;
             "
-          >
-          <!--
-                <div class="progress-bar-red" style="width: 10%"></div>
-                <div class="progress-bar-red" style="width: 10%"></div>
-                <div class="progress-bar-yellow" style="width: 10%"></div>
-                <div class="progress-bar-yellow" style="width: 10%"></div>
-                <div class="progress-bar-green" style="width: 10%"></div>
-                <div class="progress-bar-red" style="width: 10%"></div>
-                <div class="progress-bar-green" style="width: 10%"></div>
-                <div class="progress-bar-green" style="width: 10%"></div>
-                <div class="progress-bar-green" style="width: 10%"></div>
-                <div class="progress-bar-red" style="width: 10%"></div>    
-            -->                          
+          >                                 
         </div>
 
           <image
@@ -793,7 +756,11 @@
     </div>
   </body>
 
-
+ <!--
+   down : http://drive.google.com/uc?export=view&id=16vzcskud2my5y0bgoijc9oECa4bCRaoU
+   up : http://drive.google.com/uc?export=view&id=16q6-jHqmw-L6FTQZZNnZq7xIOS6zhO06
+   same : http://drive.google.com/uc?export=view&id=1tLA6sinLl9w7P9P_DqojGUkCsTFeRjqu
+ -->
   
 
 

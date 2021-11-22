@@ -630,7 +630,7 @@
     align-self: center;
     font-size: 20px;
     font-weight: bold;
-    margin-left: 20px;
+    margin-left: 20px;       
   }
   .ranking_score_text {
     display: flex;
@@ -638,7 +638,7 @@
     justify-content: center;
     margin-left: 80px;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 20px;        
   }
   .log_name {
     width: 100px;
@@ -712,7 +712,7 @@
     stroke: #03c75a;
     stroke-linecap: round;
   }   
-  #bar_value1 {
+ .value {
     position: absolute;
     left: 0;
     right: 0;
@@ -737,4 +737,25 @@
   }
   .log_name_text{
     text-align: center; font-size: 25px; font-weight: bold;
+  }
+  .same_img{
+    width: 6%;margin-left: 15px;margin-left: 180px;
+  }
+  .up_img{
+    width: 3.3%; height : 70%;margin-top: 15px;margin-left: 170px;margin-top: 15px;
+  }
+  .down_img{
+    width: 4%; height : 75%;margin-top: 15px;margin-left: 170px;margin-top: 15px;
+  }
+  .rank_up_text{
+      color: #E35644;
+      font-size: 55px;
+      font-weight: bold;
+      margin-top: 5px;
+  }
+  .rank_down_text{
+    color : #2BB3B9;
+    font-size: 55px;
+    font-weight: bold;
+    margin-top: 5px;
   }

@@ -49,6 +49,5 @@ function sendStatus() {
         toSend.score = score;
         socket.emit("message", toSend);
     }
-
 }
 
