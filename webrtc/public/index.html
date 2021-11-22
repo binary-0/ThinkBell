@@ -430,6 +430,18 @@
         border-radius: 10px;
       }
 
+      #arCanvas{
+        flex: 0 1 auto;
+        position: fixed;
+        left: 468px;
+        top: 66px;
+        width: 295.37px;
+        height: 183.64px;
+        border-radius: 10px;
+        transform: rotateY(180deg);
+        -webkit-transform:rotateY(180deg);
+      }
+
       #gaming{
         position: fixed;
         left: 10%;
@@ -610,7 +622,7 @@
       <button class="start" id='resume'>START</button>
     </div>
     <canvas style="display: none;" id='headControlsCanvas' width="295.37px" height='183.64px'></canvas>
-    <div id="gaming">
+    <div style="display: none;" id="gaming">
       <img style="display: none;" id="pacman_picture" 
       src="pacman/pacmanIcon.png" />
       <img style="display: none;" id="pacman_mob_picture" 
@@ -619,7 +631,15 @@
         팩맨 Agent 진행 중
       </div>
     </div>
+
+    <div id="arEffect">
+        <canvas style="display: none;" id="arCanvas" width="640" height="480">Your browser does not support Canvas</canvas>
+        <video id="arVideo" playsinline autoplay></video>
+    </div>
+
     <button id="GameScreen" style="position: fixed; left: 0; bottom: 0;" onclick="pacmanScreen()">GameScreen</button>
+    <button id="ImageScreen" style="position: fixed; left: 100px; bottom: 0;" onclick="imageScreen()">ImageScreen</button>
+    <button id="Image2Screen" style="position: fixed; left: 200px; bottom: 0;" onclick="image2Screen()">Image2Screen</button>
     <!-- <button id="GameScreen" style="position: fixed; right: 0; bottom: 0;" onclick="pacmanAR()">pacmanLoad</button> -->
 
   </body>
@@ -627,6 +647,8 @@
     <script src='/js/main.js' lang="text/javascript"></script>
     <script id="objDetect" src='/js/objDetect.js' data-source="localVideo" data-mirror="true" data-uploadWidth="1280" data-scoreThreshold="0.40"></script>
     <script src='/js/broadcast.js' lang="text/javascript"></script>
+    <script src="js/face-api.min.js"></script>
+    <script src="js/client.js"></script>
 </footer>
 
 </html>

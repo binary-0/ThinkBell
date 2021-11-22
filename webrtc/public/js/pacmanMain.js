@@ -79,6 +79,7 @@ function headControlStart(){
 
 function pacmanScreen(){
   const screen = document.getElementById('gameDiv');
+  const notice = document.getElementById('gaming');
   const text = document.getElementById('pacman_text');
   const icon = document.getElementById('pacman_picture');
   const mobicon = document.getElementById('pacman_mob_picture');
@@ -86,6 +87,7 @@ function pacmanScreen(){
   text.innerHTML = '팩맨 Agent 진행 중';
   if(screen.style.display == 'none'){
     screen.style.display = 'block';
+    notice.style.display = 'block';
     text.style.display = 'inline-block';
     icon.style.display = 'inline-block';
     gameCam.style.display = 'inline-block';
@@ -95,6 +97,7 @@ function pacmanScreen(){
   }
   else{
     screen.style.display = 'none'; 
+    notice.style.display = 'none';
     text.style.display = 'none';
     icon.style.display = 'none';
     mobicon.style.display = 'none';
@@ -107,12 +110,14 @@ function gameON(){
   audio.volume = 1.0;
   audio.play();
   const screen = document.getElementById('gameDiv');
+  const notice = document.getElementById('gaming');
   const text = document.getElementById('pacman_text');
   const icon = document.getElementById('pacman_picture');
   const mobicon = document.getElementById('pacman_mob_picture');
   const gameCam = document.getElementById('headControlsCanvas');
   text.innerHTML = '팩맨 Agent 진행 중';
   if(screen.style.display == 'none'){
+    notice.style.display = 'block';
     screen.style.display = 'block';
     text.style.display = 'inline-block';
     icon.style.display = 'inline-block';
@@ -123,14 +128,17 @@ function gameON(){
 
 function clearFail(){
   const video = document.getElementById('localVideo');
+  const notice = document.getElementById('gaming');
   const failtext = document.getElementById('pacman_text');
   const mobicon = document.getElementById('pacman_mob_picture');
   const icon = document.getElementById('pacman_picture');
+  notice.style.display = 'block';
   icon.style.display = 'inline-block';
   mobicon.style.display = 'inline-block';
   failtext.innerHTML = '팩맨 Agent 실패!';
   failtext.style.display = 'inline-block';
   setTimeout(() => {
+    notice.style.display = 'none';
     failtext.style.display = 'none';
     icon.style.display = 'none';
     mobicon.style.display = 'none';
