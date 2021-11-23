@@ -5,7 +5,7 @@ import threading
 import os
 from PIL import Image
 from flask import Flask, request, Response
-import json
+
 
 app = Flask(__name__)
 
@@ -62,14 +62,11 @@ def image():
 
         global vadResult
         print(vadResult.value)
-        vad2append={"vad":vadResult.value}
-        tempObj = json.loads(objects)
-        tempObj.update(vad2append)
-        
+
 
         global cvResult
         cvResult=objects
-        return json.dumps(tempObj)
+        return objects
 
     except Exception as e:
         print('POST /image error: %e' % e)

@@ -328,7 +328,7 @@ def start_recording(micSC):
                 if temp_spoken_ratio>0.4: #말을 한 비율이 40%정도면 발표로 인식
                     speechCount+=1
                     balpyo_time = nowTime-startTime
-                    # print("발표! {}분 {}초".format(int(balpyo_time/60), int(balpyo_time%60)))
+                    print("발표! {}분 {}초".format(int(balpyo_time/60), int(balpyo_time%60)))
                 temp_confidence.clear()
                 isAgain=False
 
