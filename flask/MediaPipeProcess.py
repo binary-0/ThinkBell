@@ -139,7 +139,7 @@ FACE_MESH = mp_face_mesh.FaceMesh(static_image_mode=True, max_num_faces=1, min_d
 LEFT_EYE_INDICES = [466, 388, 387, 386, 385, 384, 398, 249, 390, 373, 374, 380, 381, 382, 263, 362]
 RIGHT_EYE_INDICES = [246, 161, 160, 159, 158, 157, 173, 7, 163, 144, 145, 153, 154, 155, 33, 133]
 
-poseDetector = PoseDetector()
+#poseDetector = PoseDetector()
 handDetector = HandDetector()
 
 def mediapipe_process(rgb, oriImg, TPImg):
@@ -152,7 +152,7 @@ def mediapipe_process(rgb, oriImg, TPImg):
     rgb.flags.writeable = False
     
     handDetector.findHands(oriImg, False)
-    poseDetector.findPose(oriImg, False)
+    #poseDetector.findPose(oriImg, False)
     
     results = FACE_MESH.process(rgb)
 
@@ -231,10 +231,8 @@ def mediapipe_process(rgb, oriImg, TPImg):
         #1: horizontal movement
         #2: vertical(upper) movement
         ret_HeadPose = [x, y]
-    try:
-        ret_pose = poseDetector.getPosition(TPImg)
-    except:
-        ret_pose = []
+        
+    ret_pose = []
     try:
         ret_hand[0], handGesIdx1 = handDetector.getPosition(TPImg, 0, draw=False)
     except:
