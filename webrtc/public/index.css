@@ -719,7 +719,7 @@ input:checked+.slider:before {
     position: fixed;
     /* display: none; */
     top: 18%;
-    right: 13%;
+    right: 13.2%;
     width: 15%;
     text-align: center;
     padding-bottom: 32px;
@@ -751,6 +751,12 @@ input:checked+.slider:before {
     left: 305px;
     top: 66px;
     border-radius: 10px;
+}
+
+#arEffect{
+    position: fixed;
+    /* display: none; */
+    top: 0%;
 }
 
 #arCanvas {
