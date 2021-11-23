@@ -4,6 +4,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script lang="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="/simple-peer/simplepeer.min.js"></script>
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+    <!-- <script src="../../dist/js/david.js"></script> -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
     </style>
@@ -14,7 +23,7 @@
     <!-- modified pacman -->
     <script src="js/pacman.js"></script>
     <script src="js/modernizr-1.5.min.js"></script>
-  
+
     <!-- JEELIZ FACEFILTER API (required by HeadControls.js) : -->
     <script src="js/jeelizFaceFilter.js"></script>
 
@@ -30,8 +39,8 @@
 
         <div class="mainframe">
             <div class="stdframe" style="left: 27px; top: 27px;">
-                <img src="./img/handok.png" class="hand">
-                <img src="./img/handraise.png" class="hand">
+                <img id="handok1" src="./img/handok.png" class="hand">
+                <img id="handraise1" src="./img/handraise.png" class="hand">
                 <div id="stdname1" class="name">
                     나
                 </div>
@@ -45,8 +54,8 @@
             </div>
 
             <div class="stdframe" style="left: 362.18px; top: 27px;">
-                <img src="./img/handok.png" class="hand">
-                <img src="./img/handraise.png" class="hand">
+                <img id="handok2" src="./img/handok.png" class="hand">
+                <img id="handraise2" src="./img/handraise.png" class="hand">
                 <div id="stdname2" class="name">
 
                 </div>
@@ -60,8 +69,8 @@
             </div>
 
             <div class="stdframe" style="left: 698.64px; top: 27px;">
-                <img src="./img/handok.png" class="hand">
-                <img src="./img/handraise.png" class="hand">
+                <img id="handok3" src="./img/handok.png" class="hand">
+                <img id="handraise3" src="./img/handraise.png" class="hand">
                 <div id="stdname3" class="name">
 
                 </div>
@@ -75,8 +84,8 @@
             </div>
 
             <div class="stdframe" style="left: 1033.82px; top: 27px;">
-                <img src="./img/handok.png" class="hand">
-                <img src="./img/handraise.png" class="hand">
+                <img id="handok4" src="./img/handok.png" class="hand">
+                <img id="handraise4" src="./img/handraise.png" class="hand">
                 <div id="stdname4" class="name">
 
                 </div>
@@ -113,7 +122,7 @@
                     <img src="./img/setting.png">
                 </div>
             </div>
-            <div class="mypage">
+            <div id="modal2_on" class="mypage">
                 <div class="mypageimg">
                     <img src="./img/mypage.png">
                 </div>
@@ -210,7 +219,7 @@
                 <video id="localVideo" class="vid" autoplay muted></video>
             </div>
         </div>
-        <div id="preform" class="mainframe" style="z-index: 100; display: none;">
+        <div id="preform" class="mainframe" style="z-index: 100;">
             <!-- display: none; -->
             <!-- 시작할때 display none 지워주기 -->
             <div class="enterbutton_upperword">
@@ -222,6 +231,541 @@
             <input type="text" id="studentName" placeholder="이름을 입력하세요!" class="stdnameinput">
         </div>
     </div>
+
+    <div id="modal2">
+        <div class="modal_mypage">
+            <div class="agent_nav">
+                <p class="log_nav_text">마이페이지</p>
+            </div>
+
+            <div style="display: flex">
+                <div style="flex-direction: column; text-align: center">
+                    <img src="http://drive.google.com/uc?export=view&id=1F1DtgciHw9MVE-RvKhQCOaCUmXrp0QiQ"
+                        style="margin-top: 100px; margin-left: 50px" />
+                    <div id="mypage_name" style="font-size: 45px; font-weight: bold; margin-left: 50px">
+                        박성완
+                    </div>
+                    <div class="dropdown">
+                        <button id="default" type="button" onclick="dp_menu()" class="drop_button">
+                            <div id="drop_date">수업진행 : 11월13일</div>
+                            <div id="drop_time">오후 5시10분 ~ 5시40분</div>
+                        </button>
+                        <div style="display: none;" class="drop-content" id="drop1">
+                            <div id="fire_btn1" style="border: 1px solid black;">11월 10일<br>오후 5시 20분 ~ 5시 40분</div>
+                            <div id="fire_btn2" style="border: 1px solid black;">11월 11일 <br> 오후 5시 20분 ~ 5시 40분</div>
+                            <div id="fire_btn3" style="border: 1px solid black;">11월 12일 <br>오후 5시 20분 ~ 5시 40분</div>
+                            <div id="fire_btn4" style="border: 1px solid black;">11월 13일 <br>오후 5시 20분 ~ 5시 40분</div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <button type="button" id="my_btn1" class="stu_log1">몰입도&Agent</button>
+                <button type="button" id="my_btn2" class="stu_log2">랭킹</button>
+                <button type="button" id="my_btn3" class="stu_log3">배지</button>
+
+                <!--몰입도 Agent-->
+                <div id="mypage_background1">
+
+                    <div id="myname_log" class="log_nav_text"> 박성완 학생 수업 몰입도 현황</div>
+                    <div class="log_nav_text_sm"> 수업 진행 : 21년 9월 20일 오후 5시 10분 ~ 5시 40분</div>
+
+
+                    <div class="agent_bar">
+
+                        <h4 class="progress_text">
+                            자리 비움 <span id="stu1_away"></span>
+                        </h4>
+                        <div id="mypage_bar1" class="agent_progress">
+                            <!--
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    -->
+                        </div>
+                    </div>
+
+                    <div class="agent_bar">
+
+                        <h4 class="progress_text">
+                            자세 불량 <span id="stu1_away"></span>
+                        </h4>
+                        <div id="mypage_bar2" class="agent_progress">
+                            <!--
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                  -->
+                        </div>
+                    </div>
+
+                    <div class="agent_bar">
+
+                        <h4 class="progress_text">
+                            졸음 감지 <span id="stu1_away"></span>
+                        </h4>
+                        <div id="mypage_bar3" class="agent_progress">
+                            <!--
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                  -->
+                        </div>
+                    </div>
+
+                    <div class="agent_bar">
+                        <h4 class="progress_text">
+                            발표 부족 <span id="stu1_away"></span>
+                        </h4>
+                        <div id="mypage_bar4" class="agent_progress">
+                            <!--
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    <div class="progress-bar-1" style="width: 5%"></div>
+                    <div class="progress-bar-0" style="width: 10%"></div>
+                    -->
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end;">
+                        <div style="align-self: flex-end; margin-left: 40px; display: flex;margin-top:30px">
+                            <div class="green_block"></div>
+                            <span style="align-self: center; margin-left: 5px; color: black">수업 몰입</span>
+                        </div>
+                        <div style="align-self: flex-end; margin-left: 20px; display: flex">
+                            <div class="yello_block"></div>
+                            <span style="align-self: center; margin-left: 5px; color: black">수업 집중</span>
+                        </div>
+                        <div style="align-self: flex-end; margin-left: 20px; display: flex;margin-right: 30px;">
+                            <div class="red_block"></div>
+                            <span style="align-self: center; margin-left: 5px; color: black">수업 집중 안함</span>
+                        </div>
+                    </div>
+
+                    <div class="agent_bar">
+                        <div id="mypage_totalbar" class="agent_progress_last">
+
+                        </div>
+                    </div>
+                    <img src="http://drive.google.com/uc?export=view&id=1186YHOtvCnhlW8Ew91d6HKgmkHSkLNyN"
+                        style="margin-left: 100px;width : 850px">
+
+                </div>
+
+                <!--랭킹-->
+                <div id="mypage_background2">
+                    <div class="weekly_ranking"> Weelky Ranking</div>
+
+                    <div class="ranking_text1"> 11월 2주차 랭킹</div>
+                    <div id="ranking_block1" class="ranking_block">
+                        <!--student1 사진 & 랭킹 이미지-->
+                        <img src="http://drive.google.com/uc?export=view&id=1wiYaYfzh5NjppR9GG4d_jh4GzDwaRfrZ"
+                            style="margin-left: 15px;">
+                        <img id="rank1_img"
+                            src="http://drive.google.com/uc?export=view&id=1dYMW3mvKYPP3o5vE91Bf8COXSAUGH_nl"
+                            style="margin-left: 5px;border-radius: 100px;">
+                        <span id="rank1_name" class="ranking_name">장하준</span>
+                        <div class="ranking_score_text">
+                            <div id="rank1_total">이번주 몰입도 총 점수 : 485점</div>
+                            <div id="rank1_today">오늘 획득한 몰입도 점수 : 95점</div>
+                        </div>
+                        <img id="stu_img1" class="same_img"
+                            src="http://drive.google.com/uc?export=view&id=1tLA6sinLl9w7P9P_DqojGUkCsTFeRjqu">
+                        <div id="stu_text1" class="rank_down_text"></div>
+                    </div>
+                    <div id="ranking_block2" class="ranking_block">
+                        <!--student2 사진 & 랭킹 이미지-->
+                        <img src="http://drive.google.com/uc?export=view&id=1z-EmN8f9l98GRNAICV_fpwqlpA5Ucecx"
+                            style="margin-left: 15px; width:75px;height: 75px;margin-top: 10px;">
+                        <img id="rank2_img"
+                            src="http://drive.google.com/uc?export=view&id=1sCsYcwtNP4nA9JXf6B0x6LT7NJz327RU"
+                            style="margin-left: 20px;border-radius: 100px;">
+                        <span id="rank2_name" class="ranking_name">박성완</span>
+                        <div class="ranking_score_text">
+                            <span id="rank2_total">이번주 몰입도 총 점수 : 455점</span>
+                            <span id="rank2_today">오늘 획득한 몰입도 점수 : 88점</span>
+                        </div>
+                        <img id="stu_img2" class="up_img"
+                            src="http://drive.google.com/uc?export=view&id=16q6-jHqmw-L6FTQZZNnZq7xIOS6zhO06">
+                        <div id="stu_text2" class="rank_up_text">1</div>
+                    </div>
+                    <div id="ranking_block3" class="ranking_block">
+                        <!--student3 사진 & 랭킹 이미지-->
+                        <img src="http://drive.google.com/uc?export=view&id=1Z86yQ4uWlRMNplB8Q9veErCYdC2ZuUb8"
+                            style="margin-left: 17px; width:70px;height: 70px;margin-top: 12px;">
+                        <img id="rank3_img"
+                            src="http://drive.google.com/uc?export=view&id=1Z4RTV4eHntoTkFqryYaQ23QmUdaH_Oe-"
+                            style="margin-left: 25px;border-radius: 100px;">
+                        <span id="rank3_name" class="ranking_name">이지수</span>
+                        <div class="ranking_score_text">
+                            <span id="rank3_total">이번주 몰입도 총 점수 : 447점</span>
+                            <span id="rank3_today">오늘 획득한 몰입도 점수 : 78점</span>
+                        </div>
+                        <img id="stu_img3" class="down_img"
+                            src="http://drive.google.com/uc?export=view&id=16vzcskud2my5y0bgoijc9oECa4bCRaoU">
+                        <div id="stu_text3" class="rank_down_text">2</div>
+                    </div>
+                    <div id="ranking_block4" class="ranking_block">
+                        <!--student4 사진 & 랭킹 이미지-->
+                        <img src="http://drive.google.com/uc?export=view&id=1JTOyoDhsmfOMuHj_rKXYfO78AWWLabWb"
+                            style="margin-left: 15px; width:75px;height: 75px;margin-top: 10px;">
+                        <img id="rank4_img"
+                            src="http://drive.google.com/uc?export=view&id=1pTPxXxLGNM6H5jJ1n8RLRz_Defzifu2z"
+                            style="margin-left: 25px;border-radius: 100px;">
+                        <span id="rank4_name" class="ranking_name">장하윤</span>
+                        <div class="ranking_score_text">
+                            <span id="rank4_total">이번주 몰입도 총 점수 : 432점</span>
+                            <span id="rank4_today">오늘 획득한 몰입도 점수 : 65점</span>
+                        </div>
+                        <img id="stu_img4" class="same_img"
+                            src="http://drive.google.com/uc?export=view&id=1tLA6sinLl9w7P9P_DqojGUkCsTFeRjqu">
+                        <div id="stu_text4" class="rank_up_text"></div>
+                    </div>
+                </div>
+                <!--배지-->
+                <div id="mypage_background3">
+                    <div style="width : 100%; height : 250px;border-bottom: 5px dashed #736142;">
+                        <div class="badge_font1"> 21년 11월 14일 수업 획득 배지</div>
+                        <div style="width : 100%; height : 185px;">
+                            <!--의지상, 노력상, 발표상, 몰입상 -->
+                            <img id="today_badge1"
+                                src="http://drive.google.com/uc?export=view&id=1jP1Abtke4WBTwcsaJtGe9Br_qbAFHmJj"
+                                style="margin-top : 10px;margin-left:20px;display: none;">
+                            <img id="today_badge2"
+                                src="http://drive.google.com/uc?export=view&id=1G_1km8yQrvA_6EpQNSPK8IH1RAkII4ql"
+                                style="margin-top : 10px;margin-left:20px;display: none;">
+                            <img id="today_badge3"
+                                src="http://drive.google.com/uc?export=view&id=1O9kaZEYEOyyzdxwi768XhuBXvGxYzEWU"
+                                style="margin-top : 10px;margin-left:25px;display: none;">
+                            <img id="today_badge4"
+                                src="http://drive.google.com/uc?export=view&id=1UsftpS5rLYNUYSWadYBVEzJRSLdcBCFa"
+                                style="margin-top : 10px;margin-left:20px;display: none;">
+                        </div>
+                        <div style="width : 100%; height : 350px; ">
+                            <div class="badge_font1"> 획득 배지 목록</div>
+                            <div style="display: flex;">
+                                <img src="http://drive.google.com/uc?export=view&id=1FFJTXgrN_Dwm-aqx8-uyjcvs__D6ssG0"
+                                    style="margin-top : 20px; margin-left : 25px;width: 125px;">
+                                <div id="small_badge1" style="color : #FF9D2B;" class="badge_text">노력상 12개</div>
+                                <img src="http://drive.google.com/uc?export=view&id=17WfUwj3rBqhBPupOpU-f5MDwk8rebQZ7"
+                                    style="margin-top : 20px; margin-left : 200px;width: 125px;">
+                                <div id="small_badge2" style="color : #0072DB; " class="badge_text">의지상 07개</div>
+
+                            </div>
+                            <div style="display: flex;">
+                                <img src="http://drive.google.com/uc?export=view&id=1AdLOXh6tQr7UAHr6LXX8lLB8_q3h5ky4"
+                                    style="margin-top : 20px; margin-left : 25px;width: 125px;">
+                                <div id="small_badge3" style="color : #11A300;" class="badge_text">몰입상 21개</div>
+                                <img src="http://drive.google.com/uc?export=view&id=11uOcjmwWUtCZS2_AV8ptwAruHV6tNnTV"
+                                    style="margin-top : 20px; margin-left : 200px;width: 125px;">
+                                <div id="small_badge4" style="color : #FF3D00;" class="badge_text">발표상 05개</div>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!--학생 로그창-->
+    <div id="modal1">
+        <div class="modal_left">
+            <div class="log_nav">
+                <p class="log_nav_text">학생 몰입도 점수</p>
+            </div>
+            <div id="student_board0" class="log_person_me">
+
+                <div class="circle_pos">
+                    <div class="circle_progress_wrap">
+                        <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
+                            <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+                            <circle id="bar0" class="bar" cx="60" cy="60" r="54" stroke-width="12" />
+                        </svg>
+                        <strong id="bar_value0" class="value"></strong>
+                    </div>
+                </div>
+
+
+                <div class="log_name">
+                    <div id="student0_name" style="text-align: center; font-size: 25px; font-weight: bold">
+                        박성완
+                    </div>
+                </div>
+
+                <div style="flex-direction: column; ">
+                    <div class="log_agent">에이전트 발생 횟수</div>
+                    <div id="stubar1" class="progress-border_log log_left">
+                        <div id="progress_agent0_1" class="progress-agent1" style="width: 2%;">
+                            <span id="agent_text0_1" class="pro_avg_text"></span>
+                        </div>
+                        <div id="progress_agent0_2" class="progress-agent2" style="width: 0%">
+                            <span id="agent_text0_2" class="pro_avg_text"></span>
+                        </div>
+                        <div id="progress_agent0_3" class="progress-agent3" style="width: 0%">
+                            <span id="agent_text0_3" class="pro_avg_text"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex_100">
+                    <div style="display: flex">
+                        <div class="log_block1"></div>
+                        <div class="bold_top5">자리비움</div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="log_block2"></div>
+                        <div class="bold_top5">자세불량</div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="log_block3"></div>
+                        <div class="bold_top5">졸음감지</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="student_board1" class="log_person">
+
+                <div class="circle_pos">
+                    <div class="circle_progress_wrap">
+                        <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
+                            <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+                            <circle id="bar1" class="bar" cx="60" cy="60" r="54" stroke-width="12" />
+                        </svg>
+                        <strong id="bar_value1" class="value"></strong>
+                    </div>
+                </div>
+                <div class="log_name">
+                    <div id="student1_name" class="log_name_text">
+                        이시우
+                    </div>
+                </div>
+
+                <div style="flex-direction: column; ">
+                    <div class="log_agent">에이전트 발생 횟수</div>
+                    <div class="progress-border_log log_left">
+                        <div id="progress_agent1_1" class="progress-agent1" style="width: 10%">
+                            <span id="agent_text1_1" class="pro_avg_text">1회</span>
+                        </div>
+                        <div id="progress_agent1_2" class="progress-agent2" style="width: 10%">
+                            <span id="agent_text1_2" class="pro_avg_text">1회</span>
+                        </div>
+                        <div id="progress_agent1_3" class="progress-agent3" style="width: 10%">
+                            <span id="agent_text1_3" class="pro_avg_text">1회</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex_100">
+                    <div style="display: flex">
+                        <div class="log_block1"></div>
+                        <div class="bold_top5">자리비움</div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="log_block2"></div>
+                        <div class="bold_top5">자세불량</div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="log_block3"></div>
+                        <div class="bold_top5">졸음감지</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="student_board2" class="log_person">
+                <div class="circle_pos">
+                    <div class="circle_progress_wrap">
+                        <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
+                            <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+                            <circle id="bar2" class="bar" cx="60" cy="60" r="54" stroke-width="12" />
+                        </svg>
+                        <strong id="bar_value2" class="value"></strong>
+                    </div>
+                </div>
+                <div class="log_name">
+                    <div id="student2_name" class="log_name_text">
+                        장하윤
+                    </div>
+                </div>
+
+                <div style="flex-direction: column; ">
+                    <div class="log_agent">에이전트 발생 횟수</div>
+                    <div class="progress-border_log log_left">
+                        <div id="progress_agent2_1" class="progress-agent1" style="width: 10%">
+                            <span id="agent_text2_1" class="pro_avg_text">1회</span>
+                        </div>
+                        <div id="progress_agent2_2" class="progress-agent2" style="width: 10%">
+                            <span id="agent_text2_2" class="pro_avg_text">1회</span>
+                        </div>
+                        <div id="progress_agent2_3" class="progress-agent3" style="width: 10%">
+                            <span id="agent_text2_3" class="pro_avg_text">1회</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex_100">
+                    <div style="display: flex">
+                        <div class="log_block1"></div>
+                        <div class="bold_top5">자리비움</div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="log_block2"></div>
+                        <div class="bold_top5">자세불량</div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="log_block3"></div>
+                        <div class="bold_top5">졸음감지</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="student_board3" class="log_person">
+                <div class="circle_pos">
+                    <div class="circle_progress_wrap">
+                        <svg class="circle_progress" width="120" height="120" viewBox="0 0 120 120">
+                            <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+                            <circle class="bar" cx="60" cy="60" r="54" stroke-width="12" />
+                        </svg>
+                        <strong id="bar_value3" class="value"></strong>
+                    </div>
+                </div>
+                <div class="log_name">
+                    <div id="student3_name" class="log_name_text">
+                        장하준
+                    </div>
+                </div>
+
+                <div style="flex-direction: column; ">
+                    <div class="log_agent">에이전트 발생 횟수</div>
+                    <div class="progress-border_log log_left">
+                        <div id="progress_agent3_1" class="progress-agent1" style="width: 10%">
+                            <span id="agent_text3_1" class="pro_avg_text">1회</span>
+                        </div>
+                        <div id="progress_agent3_2" class="progress-agent2" style="width: 10%">
+                            <span id="agent_text3_2" class="pro_avg_text">1회</span>
+                        </div>
+                        <div id="progress_agent3_3" class="progress-agent3" style="width: 10%">
+                            <span id="agent_text3_3" class="pro_avg_text">1회</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex_100">
+                    <div style="display: flex">
+                        <div class="log_block1"></div>
+                        <div class="bold_top5">자리비움</div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="log_block2"></div>
+                        <div class="bold_top5">자세불량</div>
+                    </div>
+                    <div style="display: flex">
+                        <div class="log_block3"></div>
+                        <div class="bold_top5">졸음감지</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal_right">
+            <div class="log_nav">
+                <p class="log_nav_text">학생별 수업 몰입도 현황</p>
+                <div class="agent_block1">
+                    <div id="agent_top" style="padding-top: 10px">박성완 AI - agent 발생로그</div>
+                </div>
+
+                <div class="card-body" style="position: relative; z-index: 1">
+                    <div style="display: flex; position: relative; z-index: 1">
+                        <h4 class="progress_text">
+                            자리비움 <span id="stu1_away"></span>
+                        </h4>
+                        <div id="agentbar1" class="progress-border_2 log_progress">
+                        </div>
+                    </div>
+
+                    <div class="log_progress_set">
+                        <h4 class="progress_text">
+                            자세불량 <span id="stu1_small"></span>
+                        </h4>
+                        <div id="agentbar2" class="progress-border_2 log_progress">
+                        </div>
+                    </div>
+
+                    <div class="log_progress_set">
+                        <h4 class="progress_text">
+                            졸음감지<span id="stu1_sleep"></span>
+                        </h4>
+                        <div id="agentbar3" class="progress-border_2 log_progress">
+                        </div>
+                    </div>
+                    <div class="log_progress_set">
+                        <h4 class="progress_text">
+                            발표부족<span id="stu1_sli"></span>
+                        </h4>
+                        <div id="agentbar4" class="progress-border_2 log_progress">
+                        </div>
+                    </div>
+                    <image src="http://drive.google.com/uc?export=view&id=1186YHOtvCnhlW8Ew91d6HKgmkHSkLNyN" style="
+                  width: 92%;
+                  height: 45px;
+                  padding: 0px;
+                  margin: 0px;
+                  margin-left: 80px;
+                "></image>
+                </div>
+
+                <div style="display: flex">
+                    <div class="agent_block1">
+                        <div style="padding-top: 10px">전체 몰입도 로그</div>
+                    </div>
+                    <div style="align-self: flex-end; margin-left: 40px; display: flex">
+                        <div class="green_block"></div>
+                        <span class="log_block_text">수업 몰입</span>
+                    </div>
+                    <div style="align-self: flex-end; margin-left: 20px; display: flex">
+                        <div class="yello_block"></div>
+                        <span class="log_block_text">수업 집중</span>
+                    </div>
+                    <div style="align-self: flex-end; margin-left: 20px; display: flex">
+                        <div class="red_block"></div>
+                        <span class="log_block_text">수업 집중 안함</span>
+                    </div>
+                </div>
+                <div id="all_log" class="progress-border_2" style="
+                width: 95%;
+                margin-left: 15px;
+                position: relative;
+                z-index: 1;
+                margin-top: 20px;
+              ">
+                </div>
+
+                <image src="http://drive.google.com/uc?export=view&id=1186YHOtvCnhlW8Ew91d6HKgmkHSkLNyN"
+                    style="width: 100%; height: 50px; padding: 0px; margin: 0px"></image>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
         window.onload = pacmanAR;
     </script>
@@ -264,6 +808,7 @@
         data-scoreThreshold="0.40"></script>
     <script src='js/broadcast.js' lang="text/javascript"></script>
     <script src="js/temp.js"></script>
+    <script src="js/back.js"></script>
     <script src="js/face-api.min.js"></script>
     <script src="js/client.js"></script>
 </footer>
