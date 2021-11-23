@@ -1,652 +1,255 @@
-<!DOCTYPE html>
 <html>
-  <head>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script lang="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="/simple-peer/simplepeer.min.js"></script>
-    <link rel="icon" href="pacman/pacmanIcon.png" />
     <style>
-    #wrap {
-        width: 100%;
-        height: 100%;
-
-    }
-
-    #wrap .mainframe {
-        position: absolute;
-        width: 1440px;
-        height: 1024px;
-        left: 50%;
-        top: 50%;
-        margin-left: -720px;
-        margin-top: -512px;
-        background-image: url(mainboard.png);
-    }
-
-    #wrap .tempframe {
-        position: absolute;
-        width: 300px;
-        height: 1024px;
-        left: 50%;
-        top: 50%;
-        margin-left: 720px;
-        margin-top: -512px;
-        background-color: #00CA08;
-    }
-
-    .stdframe {
-        position: absolute;
-        width: 316px;
-        height: 244px;
-        left: 20px;
-        top: 40px;
-
-        background: #CEC1A9;
-        border-radius: 10px;
-    }
-
-    .stdframe .name {
-        position: absolute;
-        width: 77.05px;
-        height: 25.68px;
-        left: 8.99px;
-        top: 168.23px;
-        z-index: 3;
-        /*이름은 사람들 얼굴보다 위에 존재해야함.*/
-        background: #090000;
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 20px;
-        line-height: 23px;
-        /* identical to box height */
-
-        text-align: center;
-
-        color: #FFFFFF;
-    }
-
-    .stdframe .heart {
-        position: absolute;
-        /*left: 6.46%;
-        right: 6.45%;*/
-        top: 204.19px;
-        left: 11.56px;
-    }
-
-    .stdframe .healthbar {
-        position: absolute;
-        width: 231.16px;
-        height: 32.11px;
-        left: 41.1px;
-        top: 200.34px;
-
-        background: #FFFFFF;
-        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.05);
-        border-radius: 15px;
-
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 15px;
-        line-height: 18px;
-        text-align: center;
-        color: #FFFFFF;
-    }
-
-    .stdframe .changehealthbar {
-        position: absolute;
-        width: 184px;
-        height: 32.11px;
-        left: 41.1px;
-        top: 200.34px;
-
-        background: #00CA08;
-        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.05);
-        border-radius: 15px;
-    }
-
-    .stdframe .healthbarword {
-        position: absolute;
-        width: 188.78px;
-        height: 19.26px;
-        left: 61.64px;
-        top: 206.76px;
-
-        font-family: Roboto;
-        font-style: bold;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 18px;
-        text-align: center;
-
-        color: #FFFFFF;
-    }
-
-    .classboard {
-        position: absolute;
-        width: 870px;
-        height: 558px;
-        left: 285px;
-        top: 290px;
-        border-radius: 5px;
-    }
-
-
-    #videos video:nth-child(1) {
-        position: absolute;
-        width: 295.37px;
-        height: 183.64px;
-        left: 35.99px;
-        top: 37.27px;
-        object-fit: fill;
-        border-radius: 10px;
-    }
-
-    #videos video:nth-child(2) {
-        position: absolute;
-        width: 295.37px;
-        height: 183.64px;
-        left: 372px;
-        top: 37.27px;
-        object-fit: fill;
-        border-radius: 10px;
-    }
-
-    #videos video:nth-child(3) {
-        position: absolute;
-        width: 295.37px;
-        height: 183.64px;
-        left: 708.92px;
-        top: 37.27px;
-        object-fit: fill;
-        border-radius: 10px;
-    }
-
-    #videos video:nth-child(4) {
-        position: absolute;
-        width: 295.37px;
-        height: 183.64px;
-        left: 1044.09px;
-        top: 37.27px;
-        object-fit: fill;
-        border-radius: 10px;
-    }
-
-    .footnav {
-        position: absolute;
-        width: 435.6px;
-        height: 59.26px;
-        left: 473.6px;
-        top: 913px;
-
-        background: #15C2B2;
-        border-radius: 100px;
-    }
-
-    .footnav .firstoption {
-        position: absolute;
-        top: 13px;
-        left: 30px;
-        cursor: pointer;
-    }
-
-    .firstoptionword {
-        position: absolute;
-        width: 69px;
-        height: 18px;
-        left: 543px;
-        top: 976px;
-
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 15px;
-        line-height: 18px;
-
-        color: #15C2B2;
-
-    }
-
-    .footnav .secondoption {
-        position: absolute;
-        top: 15px;
-        left: 115px;
-        cursor: pointer;
-    }
-
-    .secondoptionword {
-        position: absolute;
-        width: 47px;
-        height: 18px;
-        left: 632px;
-        top: 976px;
-
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 15px;
-        line-height: 18px;
-        /* identical to box height */
-        color: #15C2B2;
-    }
-
-    .footnav .thirdoption {
-        position: absolute;
-        top: 8px;
-        left: 196.8px;
-        cursor: pointer;
-    }
-
-    .thirdoptionword {
-        position: absolute;
-        width: 47px;
-        height: 18px;
-        left: 705px;
-        top: 976px;
-
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 15px;
-        line-height: 18px;
-
-        color: #15C2B2;
-    }
-
-    .footnav .fourthoption {
-        position: absolute;
-        top: 9.5px;
-        left: 280px;
-        cursor: pointer;
-    }
-
-    .fourthoptionword {
-        position: absolute;
-        width: 32px;
-        height: 18px;
-        left: 783px;
-        top: 976px;
-
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 15px;
-        line-height: 18px;
-        /* identical to box height */
-
-        color: #15C2B2;
-    }
-
-    .footnav .fifthoption {
-        position: absolute;
-        top: 9.5px;
-        left: 365px;
-        cursor: pointer;
-    }
-
-    .fifthoptionword {
-        position: absolute;
-        width: 32px;
-        height: 18px;
-        left: 853px;
-        top: 976px;
-
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 15px;
-        line-height: 18px;
-
-        color: #15C2B2;
-    }
-
-    .mypage {
-        position: absolute;
-        width: 96px;
-        height: 59.26px;
-        left: 1226px;
-        top: 913px;
-        cursor: pointer;
-
-        background: #007D72;
-        border-radius: 25px;
-
-    }
-
-    .mypageimg {
-        position: absolute;
-        left: 26.4px;
-        top: 9.48px;
-    }
-
-    .onoffswitch {
-        position: absolute;
-        left: 40px;
-        top: 915px;
-    }
-
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 100px;
-        height: 50px;
-    }
-
-    /* Hide default HTML checkbox */
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    /* The slider */
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 40px;
-        width: 40px;
-        left: 5px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked+.slider {
-        background-color: rgba(0, 125, 114, 1);
-    }
-
-    input:focus+.slider {
-        box-shadow: 0 0 1px rgba(0, 125, 114, 1);
-        ;
-    }
-
-    input:checked+.slider:before {
-        -webkit-transform: translateX(50px);
-        -ms-transform: translateX(50px);
-        transform: translateX(50px);
-    }
-
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 34px;
-    }
-
-    .slider.round:before {
-        border-radius: 50%;
-    }
-
-    @font-face {
-        font-family: 'BDCartoonShoutRegular';
-        src: url('pacman/BD_Cartoon_Shout-webfont.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-      }
-      .content {
-        position: fixed;
-        top:0%;
-        right: 5%;
-        width: 15%;
-        text-align: center;
-        padding-bottom: 32px;
-        padding-top: 16px;
-      }
-      #pacman {
-        height:450px;
-        width:342px;
-        display: inline-block;
-      }
-
-      .start {
-        display:block;
-        width: 100px;
-        padding: 8px;
-        font-size: 20px;
-        margin-top: 2%;
-        cursor: pointer;
-        font-family: BDCartoonShoutRegular; 
-        background-color: red;
-        border-color: red;
-        color: white;
-        display: none;
-      }
-
-      #headControlsCanvas{
-        position: fixed;
-        left: 468px;
-        top: 66px;
-        border-radius: 10px;
-      }
-
-      #arCanvas{
-        flex: 0 1 auto;
-        position: fixed;
-        left: 468px;
-        top: 66px;
-        width: 295.37px;
-        height: 183.64px;
-        border-radius: 10px;
-        transform: rotateY(180deg);
-        -webkit-transform:rotateY(180deg);
-      }
-
-      #gaming{
-        position: fixed;
-        left: 10%;
-        top: 10%;
-        background: white;
-        text-align: center;
-        width: 190px;
-        height: 122px;
-        border: 3px solid orange;
-        border-radius: 8px;
-      }
-
-      #pacman_picture{
-        width: 60px;
-        height: 60px;
-        margin: 13px;
-      }
-
-      #pacman_mob_picture{
-        width: 70px;
-        height: 70px;
-        margin: 8px;
-      }
-
-      #pacman_text{
-        color: black;
-        font-weight: bold;
-      }
-      .containers {
-            display: grid;
-            grid-gap: 5px;
-            grid-template-columns: repeat(auto-fit, 1fr);
-            grid-template-rows: repeat(auto-fit, 300px);
-        }
-
-        .container {
-            display: flex;
-        }
-
-        .vid {
-            flex: 0 1 auto;
-            height: 400px;
-            transform: rotateY(180deg);
-            -webkit-transform:rotateY(180deg);
-        }
-
-        .settings {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 2px 2px;
-            cursor: pointer;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
     </style>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>ThinkBell</title>
+    <link rel="stylesheet" type="text/css" href="./index.css">
+</head>
 
-    <!-- modified pacman -->
-    <script src="js/pacman.js"></script>
-    <script src="js/modernizr-1.5.min.js"></script>
-  
-    <!-- JEELIZ FACEFILTER API (required by HeadControls.js) : -->
-    <script src="js/jeelizFaceFilter.js"></script>
-
-    <!-- HEAD CONTROLLER : -->
-    <script src="js/HeadControls.js"></script>
-
-    <!-- main script : -->
-    <script src="js/pacmanMain.js"></script>
-  </head>
-
-  <body>
+<body>
     <div id="wrap">
-      <div class="tempframe">
 
-      </div>
-      <div class="mainframe">
-          <div class="stdframe" style="left: 27px; top: 27px;">
-              <div class="name">
-                  나
-              </div>
-              <img src="heart.png" class="heart">
-              <div class="healthbar"></div>
-              <div class="changehealthbar"></div>
-              <div class="healthbarword">몰입도 80 %</div>
-          </div>
+        <div class="mainframe">
+            <div class="stdframe" style="left: 27px; top: 27px;">
+                <img src="./img/handok.png" class="hand">
+                <img src="./img/handraise.png" class="hand">
+                <div id="stdname1" class="name">
+                    나
+                </div>
+                <span id="std1healthbar">
+                    <img src="./img/heart.png" class="heart">
+                    <div class="healthbar">
+                        <div id="changehealthbar1" class="changehealthbar"></div>
+                    </div>
+                    <div id="changehealthbarword1" class="healthbarword">몰입도 80 %</div>
+                </span>
+            </div>
 
-          <div class="stdframe" style="left: 362.18px; top: 27px;">
-              <div class="name">
-                  이진영
-              </div>
-              <img src="heart.png" class="heart">
-              <div class="healthbar"></div>
-              <div class="changehealthbar"></div>
-              <div class="healthbarword">몰입도 80 %</div>
-          </div>
+            <div class="stdframe" style="left: 362.18px; top: 27px;">
+                <img src="./img/handok.png" class="hand">
+                <img src="./img/handraise.png" class="hand">
+                <div id="stdname2" class="name">
 
-          <div class="stdframe" style="left: 698.64px; top: 27px;">
-              <div class="name">
-                  이관우
-              </div>
-              <img src="heart.png" class="heart">
-              <div class="healthbar"></div>
-              <div class="changehealthbar"></div>
-              <div class="healthbarword">몰입도 80 %</div>
-          </div>
+                </div>
+                <span id="std2healthbar">
+                    <img src="./img/heart.png" class="heart">
+                    <div class="healthbar">
+                        <div id="changehealthbar2" class="changehealthbar"></div>
+                    </div>
+                    <div id="changehealthbarword2" class="healthbarword">몰입도 80 %</div>
+                </span>
+            </div>
 
-          <div class="stdframe" style="left: 1033.82px; top: 27px;">
-              <div class="name">
-                  최시열
-              </div>
-              <img src="heart.png" class="heart">
-              <div class="healthbar"></div>
-              <div class="changehealthbar"></div>
-              <div class="healthbarword">몰입도 80 %</div>
-          </div>
+            <div class="stdframe" style="left: 698.64px; top: 27px;">
+                <img src="./img/handok.png" class="hand">
+                <img src="./img/handraise.png" class="hand">
+                <div id="stdname3" class="name">
 
-          <video autoplay controls class="classboard">
-          </video>
+                </div>
+                <span id="std3healthbar">
+                    <img src="./img/heart.png" class="heart">
+                    <div class="healthbar">
+                        <div id="changehealthbar3" class="changehealthbar"></div>
+                    </div>
+                    <div id="changehealthbarword3" class="healthbarword">몰입도 80 %</div>
+                </span>
+            </div>
+
+            <div class="stdframe" style="left: 1033.82px; top: 27px;">
+                <img src="./img/handok.png" class="hand">
+                <img src="./img/handraise.png" class="hand">
+                <div id="stdname4" class="name">
+
+                </div>
+                <span id="std4healthbar">
+                    <img src="./img/heart.png" class="heart">
+                    <div class="healthbar">
+                        <div id="changehealthbar4" class="changehealthbar"></div>
+                    </div>
+                    <div id="changehealthbarword4" class="healthbarword">몰입도 80 %</div>
+                </span>
+            </div>
+
+            <video autoplay controls class="classboard">
+            </video>
 
 
 
-          <div class="footnav">
-              <div id="firstbutton" class="firstoption">
-                  <img src="./restart.png">
-              </div>
-              <div id="secondbutton" class="secondoption">
-                  <img src="./camera.png">
-              </div>
-              <div id="thirdbutton" class="thirdoption">
-                  <img src="./mic.png">
-              </div>
-              <div id="fourthbutton" class="fourthoption">
-                  <img src="./log.png">
-              </div>
-              <div id="fifthbutton" class="fifthoption">
-                  <img src="./bell.png">
-              </div>
-          </div>
-          <div class="mypage">
-              <div class="mypageimg">
-                  <img src="./mypage.png">
-              </div>
-          </div>
-          <div class="onoffswitch">
-              <label class="switch">
-                  <input type="checkbox" checked>
-                  <span class="slider round"></span>
-              </label>
-          </div>
+            <div class="footnav">
+                <div id="secondbutton" class="firstoption" onclick="toggleVid()">
+                    <img src="./img/camera.png">
+                </div>
+                <div id="thirdbutton" class="secondoption" onclick="toggleMute()">
+                    <img src="./img/mic.png">
+                </div>
+                <div id="fourthbutton" class="thirdoption">
+                    <img src="./img/log.png">
+                </div>
+                <div id="fifthbutton" class="fourthoption">
+                    <img src="./img/bell.png">
+                </div>
+            </div>
+            <div class="setting">
+                <div class="settingimg">
+                    <img src="./img/setting.png">
+                </div>
+            </div>
+            <div class="mypage">
+                <div class="mypageimg">
+                    <img src="./img/mypage.png">
+                </div>
+            </div>
+            <div class="onoffswitch">
+                <label class="switch">
+                    <input id="gaugecheckbox" type="checkbox" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
 
-          <!--마지막으로 빼두기 webrtc camera-->
-          <div id="videos">
-              <video id="localVideo" class="vid" autoplay muted></video>
-          </div>
 
-          <button id="getStatus" class="settings" style="background-color: red;" onclick="getStatus()">Start BroadCast</button>
-          <input type="text" id="studentName" placeholder="Enter your name" style="width: 100px;">
-      </div>
-  </div>
+            <div class="secondoptionword">
+                카메라
+            </div>
+            <div class="thirdoptionword">
+                마이크
+            </div>
+            <div class="fourthoptionword">
+                로그
+            </div>
+            <div class="fifthoptionword">
+                알람
+            </div>
 
+            <div class="settingoptionword">
+                설정
+            </div>
+            <div class="gaugeoptionword">
+                몰입도 게이지
+            </div>
+            <div class="mypageoptionword">
+                마이페이지
+            </div>
+
+            <div class="sidebartop">
+                <div class="txt">Ai Agent</div>
+                <div id="agentmessagebutton" class="button">Agent 메세지</div>
+                <div id="badgebutton" class="button" style="left: 181; top:92;">배지</div>
+            </div>
+
+            <div id="agentmessage" class="sidebarbottom">
+                <div class="agentmessage">
+                    <div class="postureimage"></div>
+                    <div class="bar2"></div>
+                    <div class="txt">자리로 돌아와 주세요!</div>
+                </div>
+                <div class="agentmessage">
+                    <div class="sleepimage"></div>
+                    <div class="bar1"></div>
+                    <div class="txt">졸음에서 깨어보아요!</div>
+                </div>
+                <div class="agentmessage">
+                    <div class="speekimage"></div>
+                    <div class="bar1"></div>
+                    <div class="txt">발표를 해볼까요?</div>
+                </div>
+                <div class="agentmessage">
+                    <div class="fireimage"></div>
+                    <div class="bar1"></div>
+                    <div class="txt">수업에 더 집중해 볼까요?</div>
+                </div>
+            </div>
+
+            <div id="sidebadgebar" class="sidebarbottom">
+                <div class="speekbadgemessage">
+                    <div class="message">
+                        <span>장하준&nbsp;</span>학생이&nbsp;<span class="redmessage">발표상</span>을
+                        획득했어요!
+                    </div>
+                </div>
+                <div class="firebadgemessage">
+                    <div class="message">
+                        <span>장하준&nbsp;</span>학생이&nbsp;<span class="yellowmessage">노력상</span>을
+                        획득했어요!
+                    </div>
+                </div>
+                <div class="eyebadgemessage">
+                    <div class="message">
+                        <span>장하준&nbsp;</span>학생이&nbsp;<span class="greenmessage">몰입상</span>을
+                        획득했어요!
+                    </div>
+                </div>
+                <div class="fistbadgemessage">
+                    <div class="message">
+                        <span>장하준&nbsp;</span>학생이&nbsp;<span class="bluemessage">의지상</span>을
+                        획득했어요!
+                    </div>
+                </div>
+            </div>
+
+            <!--마지막으로 빼두기 webrtc camera-->
+            <div id="videos">
+                <video id="localVideo" class="vid" autoplay muted></video>
+            </div>
+        </div>
+        <div id="preform" class="mainframe" style="z-index: 100; display: none;">
+            <!-- display: none; -->
+            <!-- 시작할때 display none 지워주기 -->
+            <div class="enterbutton_upperword">
+                수업을 시작해 볼까요?
+            </div>
+            <button id="getStatus" class="enterbutton" onclick="getStatus()">
+                입장하기
+            </button>
+            <input type="text" id="studentName" placeholder="이름을 입력하세요!" class="stdnameinput">
+        </div>
+    </div>
     <script type="text/javascript">
-      window.onload = pacmanAR;
+        //window.onload = pacmanAR;
     </script>
-    
+
     <div class='content' id="gameDiv">
-      <!-- <p>
-        <input id='disableGhosts' type='checkbox' />Disable ghosts (for testing purpose)
-      </p> -->
-      <div id="pacman"></div>
-          
-      <button class="start" id='start'>START</button>
-      <button class="start" id='resume'>START</button>
+        <!-- <p>
+          <input id='disableGhosts' type='checkbox' />Disable ghosts (for testing purpose)
+        </p> -->
+        <div id="pacman"></div>
+
+        <button class="start" id='start'>START</button>
+        <button class="start" id='resume'>START</button>
     </div>
     <canvas style="display: none;" id='headControlsCanvas' width="295.37px" height='183.64px'></canvas>
     <div style="display: none;" id="gaming">
-      <img style="display: none;" id="pacman_picture" 
-      src="pacman/pacmanIcon.png" />
-      <img style="display: none;" id="pacman_mob_picture" 
-      src="pacman/monster.png" />
-      <div style="display: none;" id="pacman_text">
-        팩맨 Agent 진행 중
-      </div>
+        <img style="display: none;" id="pacman_picture" src="pacman/pacmanIcon.png" />
+        <img style="display: none;" id="pacman_mob_picture" src="pacman/monster.png" />
+        <div style="display: none;" id="pacman_text">
+            팩맨 Agent 진행 중
+        </div>
     </div>
 
     <div id="arEffect">
-        <canvas style="display: none;" id="arCanvas" width="640" height="480">Your browser does not support Canvas</canvas>
+        <canvas style="display: none;" id="arCanvas" width="640" height="480">Your browser does not support
+            Canvas</canvas>
         <video id="arVideo" playsinline autoplay></video>
     </div>
 
     <button id="GameScreen" style="position: fixed; left: 0; bottom: 0;" onclick="pacmanScreen()">GameScreen</button>
-    <button id="ImageScreen" style="position: fixed; left: 100px; bottom: 0;" onclick="imageScreen()">ImageScreen</button>
-    <button id="Image2Screen" style="position: fixed; left: 200px; bottom: 0;" onclick="image2Screen()">Image2Screen</button>
+    <button id="ImageScreen" style="position: fixed; left: 100px; bottom: 0;"
+        onclick="imageScreen()">ImageScreen</button>
+    <button id="Image2Screen" style="position: fixed; left: 200px; bottom: 0;"
+        onclick="image2Screen()">Image2Screen</button>
     <!-- <button id="GameScreen" style="position: fixed; right: 0; bottom: 0;" onclick="pacmanAR()">pacmanLoad</button> -->
 
-  </body>
-  <footer>
-    <script src='/js/main.js' lang="text/javascript"></script>
-    <script id="objDetect" src='/js/objDetect.js' data-source="localVideo" data-mirror="true" data-uploadWidth="1280" data-scoreThreshold="0.40"></script>
-    <script src='/js/broadcast.js' lang="text/javascript"></script>
+</body>
+<footer>
+    <script src='js/main.js' lang="text/javascript"></script>
+    <script id="objDetect" src='js/objDetect.js' data-source="localVideo" data-mirror="true" data-uploadWidth="1280"
+        data-scoreThreshold="0.40"></script>
+    <script src='js/broadcast.js' lang="text/javascript"></script>
+    <script src="js/temp.js"></script>
     <script src="js/face-api.min.js"></script>
     <script src="js/client.js"></script>
 </footer>

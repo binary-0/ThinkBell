@@ -1,0 +1,826 @@
+#wrap {
+    width: 100%;
+    height: 100%;
+
+}
+
+#wrap .mainframe {
+    position: absolute;
+    width: 1740px;
+    height: 1024px;
+    left: 50%;
+    top: 50%;
+    margin-left: -870px;
+    margin-top: -512px;
+    background-image: url(./img/mainboard.png);
+}
+
+.stdframe {
+    position: absolute;
+    width: 316px;
+    height: 244px;
+    left: 20px;
+    top: 40px;
+
+    background: #CEC1A9;
+    border-radius: 10px;
+}
+
+.stdframe .name {
+    position: absolute;
+    width: 77.05px;
+    height: 25.68px;
+    left: 8.99px;
+    top: 168.23px;
+    z-index: 3;
+    /*이름은 사람들 얼굴보다 위에 존재해야함.*/
+    background: #090000;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+.stdframe .hand{
+    position: absolute;
+    display: none;
+    z-index: 3;
+    left: 17px;
+    top: 17px;
+
+}
+
+.stdframe .heart {
+    position: absolute;
+    /*left: 6.46%;
+    right: 6.45%;*/
+    top: 204.19px;
+    left: 11.56px;
+}
+
+.stdframe .healthbar {
+    position: absolute;
+    width: 231.16px;
+    height: 32.11px;
+    left: 41.1px;
+    top: 200.34px;
+
+    background: #FFFFFF;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.stdframe .changehealthbar {
+    position: absolute;
+    width: 184px;
+    height: 32.11px;
+    /* left: 41.1px;
+    top: 200.34px; */
+
+    background: #00CA08;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+}
+
+.stdframe .healthbarword {
+    position: absolute;
+    width: 188.78px;
+    height: 19.26px;
+    left: 61.64px;
+    top: 206.76px;
+
+    font-family: Roboto;
+    font-style: bold;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 18px;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+.classboard {
+    position: absolute;
+    width: 870px;
+    height: 558px;
+    left: 285px;
+    top: 290px;
+    border-radius: 5px;
+}
+
+
+#videos video:nth-child(1) {
+    position: absolute;
+    width: 295.37px;
+    height: 183.64px;
+    left: 35.99px;
+    top: 37.27px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+#videos video:nth-child(2) {
+    position: absolute;
+    width: 295.37px;
+    height: 183.64px;
+    left: 372px;
+    top: 37.27px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+#videos video:nth-child(3) {
+    position: absolute;
+    width: 295.37px;
+    height: 183.64px;
+    left: 708.92px;
+    top: 37.27px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+#videos video:nth-child(4) {
+    position: absolute;
+    width: 295.37px;
+    height: 183.64px;
+    left: 1044.09px;
+    top: 37.27px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.footnav {
+    position: absolute;
+    width: 350px;
+    height: 59.26px;
+    left: 555px;
+    top: 913px;
+
+    background: #15C2B2;
+    border-radius: 100px;
+}
+
+.footnav .firstoption {
+    position: absolute;
+    top: 14px;
+    left: 34px;
+    cursor: pointer;
+}
+
+.footnav .secondoption {
+    position: absolute;
+    top: 10px;
+    left: 115px;
+    cursor: pointer;
+}
+
+.footnav .thirdoption {
+    position: absolute;
+    top: 8px;
+    left: 196.8px;
+    cursor: pointer;
+}
+
+.footnav .fourthoption {
+    position: absolute;
+    top: 9.5px;
+    left: 280px;
+    cursor: pointer;
+}
+
+
+.footnav .fifthoption {
+    position: absolute;
+    top: 9.5px;
+    left: 365px;
+    cursor: pointer;
+}
+
+.mypage {
+    position: absolute;
+    width: 96px;
+    height: 59.26px;
+    left: 1226px;
+    top: 913px;
+    cursor: pointer;
+
+    background: #007D72;
+    border-radius: 25px;
+
+}
+
+.mypageimg {
+    position: absolute;
+    left: 26.4px;
+    top: 9.48px;
+}
+
+.setting {
+    position: absolute;
+    width: 96px;
+    height: 59.26px;
+    left: 20px;
+    top: 915px;
+    cursor: pointer;
+
+    background: #007D72;
+    border-radius: 50px;
+
+}
+
+.settingimg {
+    position: absolute;
+    left: 32px;
+    top: 12px;
+}
+
+.onoffswitch {
+    position: absolute;
+    left: 1100px;
+    top: 920px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    left: 5px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: rgba(0, 125, 114, 1);
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px rgba(0, 125, 114, 1);
+    ;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(50px);
+    -ms-transform: translateX(50px);
+    transform: translateX(50px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.sidebartop {
+    position: absolute;
+    width: 350px;
+    height: 140px;
+    left: 1370px;
+    top: 40px;
+
+    background: #CEC1A9;
+    border-radius: 24px 24px 0px 0px;
+}
+
+.sidebartop .txt {
+
+    position: absolute;
+    width: 127px;
+    height: 41px;
+    left: 111px;
+    top: 16px;
+
+    font-family: Noto Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 41px;
+    text-align: center;
+
+    color: #736142;
+
+
+}
+
+.sidebartop .button {
+    position: absolute;
+    width: 160px;
+    height: 35px;
+    left: 9px;
+    top: 92px;
+
+    background: #FCF1DF;
+    border-radius: 10px;
+
+    font-family: Noto Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    color: #736142;
+
+}
+
+.sidebarbottom {
+    display: flex;
+    flex-direction: row;
+    align-content: start;
+    flex-wrap: wrap;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* scrollbar-width: none; */
+
+    position: absolute;
+    width: 350px;
+    height: 782px;
+    left: 1370px;
+    top: 175px;
+
+    background: #FCF1DF;
+    border: 5px solid #CEC1A9;
+    box-sizing: border-box;
+    border-radius: 0px 0px 25px 25px;
+
+}
+
+.agentmessage {
+    display: flex;
+    flex-direction: row;
+    width: 326px;
+    height: 60px;
+    margin-top: 15px;
+    background: #FFFFFF;
+    border-radius: 20px;
+}
+
+.agentmessage .bar2 {
+    /*position: absolute;*/
+    width: 2px;
+    height: 60px;
+    margin-left: 14px;
+    background-image: url(./img/bar.png);
+}
+
+.agentmessage .bar1 {
+    /*position: absolute;*/
+    width: 2px;
+    height: 60px;
+    margin-left: 16px;
+    background-image: url(./img/bar.png);
+}
+
+.agentmessage .postureimage {
+    width: 60px;
+    height: 58.13px;
+    margin-left: 14px;
+    margin-top: 1px;
+    background-image: url(./img/posture.png);
+}
+
+.agentmessage .sleepimage {
+    width: 50px;
+    height: 40.73px;
+    margin-left: 22px;
+    margin-top: 12px;
+    background-image: url(./img/sleep.png);
+}
+
+.agentmessage .fireimage {
+    width: 50px;
+    height: 45px;
+    margin-left: 22px;
+    margin-top: 7.5px;
+    background-image: url(./img/fire.png);
+}
+
+.agentmessage .speekimage {
+    width: 50px;
+    height: 45px;
+    margin-left: 22px;
+    margin-top: 7.5px;
+    background-image: url(./img/speek.png);
+}
+
+.agentmessage .txt {
+    margin-left: 24px;
+    margin-top: 17px;
+    width: 250px;
+    height: 25px;
+    font-family: Noto Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+
+    color: #736142;
+}
+
+.speekbadgemessage {
+    position: relative;
+    margin-top: 10px;
+    width: 328px;
+    height: 80px;
+    background-image: url(./img/speekbadgemessage.png);
+}
+
+.firebadgemessage {
+    position: relative;
+    margin-top: 10px;
+    width: 328px;
+    height: 80px;
+    background-image: url(./img/firebadgemessage.png);
+}
+
+.eyebadgemessage {
+    position: relative;
+    margin-top: 10px;
+    width: 328px;
+    height: 80px;
+    background-image: url(./img/eyebadgemessage.png);
+}
+
+.fistbadgemessage {
+    position: relative;
+    margin-top: 10px;
+    width: 328px;
+    height: 80px;
+    background-image: url(./img/fistbadgemessage.png);
+}
+
+.message {
+    width: 300px;
+    height: 25px;
+    margin-left: 85px;
+    margin-top: 30px;
+
+    font-family: Noto Sans;
+    font-style: bold;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 20px;
+
+    color: #736142;
+}
+
+.bluemessage {
+    font-weight: 600;
+    font-size: 18px;
+    color: #0072DB;
+}
+
+.greenmessage {
+    font-weight: 600;
+    font-size: 18px;
+    color: #11A300;
+}
+
+.yellowmessage {
+    font-weight: 600;
+    font-size: 18px;
+    color: #FF9D2B;
+}
+
+.redmessage {
+    font-weight: 600;
+    font-size: 18px;
+    color: #FF3D00;
+}
+
+.enterbutton_upperword {
+    position: absolute;
+    width: 375px;
+    height: 48px;
+    left: 702px;
+    top: 357px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 54px;
+
+    color: #FFFFFF;
+}
+
+.enterbutton {
+    position: absolute;
+    width: 450px;
+    height: 150px;
+    left: 665px;
+    top: 445px;
+
+    background: #15C2B2;
+    border-radius: 15px;
+    cursor: pointer;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 80px;
+    line-height: 145px;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+.stdnameinput {
+    position: absolute;
+    width: 350px;
+    height: 50px;
+    left: 715px;
+    top: 620px;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.firstoptionword {
+    position: absolute;
+    width: 69px;
+    height: 18px;
+    left: 490px;
+    top: 980px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+
+    color: #15C2B2;
+}
+
+.secondoptionword {
+    position: absolute;
+    width: 47px;
+    height: 18px;
+    left: 585px;
+    top: 980px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+    color: #15C2B2;
+}
+
+.thirdoptionword {
+    position: absolute;
+    width: 47px;
+    height: 18px;
+    left: 670px;
+    top: 980px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+
+    color: #15C2B2;
+}
+
+.fourthoptionword {
+    position: absolute;
+    width: 32px;
+    height: 18px;
+    left: 760px;
+    top: 980px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    color: #15C2B2;
+}
+.fifthoptionword {
+    position: absolute;
+    width: 32px;
+    height: 18px;
+    left: 843px;
+    top: 980px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+
+    color: #15C2B2;
+}
+.gaugeoptionword {
+    position: absolute;
+    width: 100px;
+    height: 18px;
+    left: 1103px;
+    top: 980px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+
+    color: #15C2B2;
+}
+.mypageoptionword {
+    position: absolute;
+    width: 100px;
+    height: 18px;
+    left: 1237px;
+    top: 980px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+
+    color: #15C2B2;
+}
+.settingoptionword {
+    position: absolute;
+    width: 60px;
+    height: 18px;
+    left: 52px;
+    top: 980px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+
+    color: #15C2B2;
+}
+
+@font-face {
+    font-family: 'BDCartoonShoutRegular';
+    src: url('pacman/BD_Cartoon_Shout-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.content {
+    position: fixed;
+    /* display: none; */
+    top: 0%;
+    right: 5%;
+    width: 15%;
+    text-align: center;
+    padding-bottom: 32px;
+    padding-top: 16px;
+}
+
+#pacman {
+    height: 450px;
+    width: 342px;
+    display: inline-block;
+}
+
+.start {
+    display: block;
+    width: 100px;
+    padding: 8px;
+    font-size: 20px;
+    margin-top: 2%;
+    cursor: pointer;
+    font-family: BDCartoonShoutRegular;
+    background-color: red;
+    border-color: red;
+    color: white;
+    display: none;
+}
+
+#headControlsCanvas {
+    position: fixed;
+    left: 468px;
+    top: 66px;
+    border-radius: 10px;
+}
+
+#arCanvas {
+    flex: 0 1 auto;
+    position: fixed;
+    left: 468px;
+    top: 66px;
+    width: 295.37px;
+    height: 183.64px;
+    border-radius: 10px;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+}
+
+#gaming {
+    position: fixed;
+    left: 10%;
+    top: 10%;
+    background: white;
+    text-align: center;
+    width: 190px;
+    height: 122px;
+    border: 3px solid orange;
+    border-radius: 8px;
+}
+
+#pacman_picture {
+    width: 60px;
+    height: 60px;
+    margin: 13px;
+}
+
+#pacman_mob_picture {
+    width: 70px;
+    height: 70px;
+    margin: 8px;
+}
+
+#pacman_text {
+    color: black;
+    font-weight: bold;
+}
+
+.containers {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(auto-fit, 1fr);
+    grid-template-rows: repeat(auto-fit, 300px);
+}
+
+.container {
+    display: flex;
+}
+
+.vid {
+    flex: 0 1 auto;
+    height: 400px;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+}
+
+.settings {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 2px;
+    cursor: pointer;
+}
