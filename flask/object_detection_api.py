@@ -230,13 +230,18 @@ def get_objects(image, threshold=0.5):
 
     if caliEnd is False:
         if time.time() - startTime > CALITIME: # CALIBRATION DONE
-            headAvg = headSum / faceAddedTime
-            EARAvg = EARSum / EARAddedTime
-            headPoseAvg[0] = headPoseSum[0] / faceAddedTime
-            headPoseAvg[1] = headPoseSum[1] / faceAddedTime
-            
-            caliEnd = True
-            print('////////////////////CALIEND//////////')
+            if faceAddedTime == 0 or EARAddedTime == 0:
+                print('Cannot Completed Calibration: because of less count of addition')
+                print('Program is going to recalibrate...')
+                startTime = time.time()
+            else:
+                headAvg = headSum / faceAddedTime
+                EARAvg = EARSum / EARAddedTime
+                headPoseAvg[0] = headPoseSum[0] / faceAddedTime
+                headPoseAvg[1] = headPoseSum[1] / faceAddedTime
+                
+                caliEnd = True
+                print('////////////////////CALIEND//////////')
         else:
             if EAR is not -1 and headArea is not -1:
                 headSum += headArea
