@@ -125,11 +125,6 @@ let fire_date;
 
 setInterval(function () {
   console.log("objects_color : " + objects["colorStat"]);
-  console.log("objects_generalStat0 : " + objects["generalStat"][0]);
-  console.log("objects_generalStat1 : " + objects["generalStat"][1]);
-  console.log("objects_generalStat2 : " + objects["generalStat"][2]);
-  console.log("objects_generalStat3 : " + objects["generalStat"][3]);
-  console.log("objects_handStat : " + objects["handStat"]);
   if (objects["colorStat"] === "2") {
     //Engagement 발생
     stu1_color[0]++;
@@ -361,11 +356,14 @@ setInterval(function () {
   console.log(engLog.length);
   console.log("engLog : ");
   console.log(engLog);
+  /*
+  이름 출력
   console.log("engLog : [name]");
   if (engLog.length > 0) {
     //objects에서 출력
     console.log(engLog[0].name);
   }
+  */
 
   //본인 이름 바꾸기
   $("#getStatus").click(function () {   
@@ -401,7 +399,7 @@ setInterval(function () {
     //원형 바 업데이트
     let bar = document.querySelector("#bar" + String(i));
     let bar_value = document.querySelector("#bar_value" + String(i));
-    console.log("progress check : "+ parseInt(engLog[i].score) + " " + bar + " " + bar_value);
+    //console.log("progress check : "+ parseInt(engLog[i].score) + " " + bar + " " + bar_value);
     progress(parseInt(engLog[i].score), bar, bar_value); //여기 오류 //bar.style.strokeDasharray = 2 * Math.PI * 54; 
     //몰입도 게이지 업데이트
     engagement_gauge[i] = engLog[i].gauge;
@@ -410,8 +408,8 @@ setInterval(function () {
     let agent1 = parseInt(engLog[i].agent[1]); //자리비움 횟수
     let agent2 = parseInt(engLog[i].agent[3]); //자세 불량 횟수
     let agent3 = parseInt(engLog[i].agent[7]); //졸음 발생 횟수
-    console.log("#progress_agent" + String(i) + "_1");
-    console.log("#agent_text" + String(i) + "_1");
+    //console.log("#progress_agent" + String(i) + "_1"); 프로그래스바 아이디 확인
+    //console.log("#agent_text" + String(i) + "_1"); 에이전트 횟수 텍스트 아이디 확인
     $("#progress_agent" + String(i) + "_1").css("width", String(agent1 * 10) +"%");
     $("#progress_agent" + String(i) + "_2").css("width", String(agent2 * 10) +"%" );
     $("#progress_agent" + String(i) + "_3").css("width", String(agent3 * 10) +"%");
