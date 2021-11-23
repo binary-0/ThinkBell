@@ -82,7 +82,7 @@ let bar_value1 = document.querySelector("#bar_value0");
 function progress(per, bar, bar_value) {
   var progress = per / 100;
   var dashoffset = 2 * Math.PI * 54 * (1 - progress);
-  bar_value.innerHTML = String(per) + "%"; //여기 오류
+  bar_value.innerHTML = (String(per) + "%"); //여기 오류
   if (per < 30) {
     $("#bar0").css("stroke", "#EB9872");
   } else if (per < 60) {
@@ -150,7 +150,7 @@ setInterval(function () {
     ((stu1_color[0] * 2 + stu1_color[1]) / (totalStamp * 2)) * 100; //점수 계산
   ranking_score[0] = Math.round(ranking_score[0]);
   progress(ranking_score[0], bar1, bar_value1); //원형 그래프 업데이트
-  //bar1.style.strokeDasharray = 2 * Math.PI * 54; 
+  bar1.style.strokeDasharray = 2 * Math.PI * 54; 
   console.log("gauge : " + parseInt(engagement_gauge[0]));
   console.log("score : " +ranking_score[0]);
 
@@ -231,10 +231,7 @@ setInterval(function () {
     //학생 몰입도 점수 페이지 progressbar 연장
     if (agent1_count[0] === 0) {
       stu1_agent_count[0]++;
-      agent1_count[0] = 1;
-      document.getElementById("progress_agent1").style =
-        "width : " + String(stu1_agent_count[0] * 10) + "%";
-      $("#agent_text1").text(String(stu1_agent_count[0]) + "회");
+      agent1_count[0] = 1;     
     }
     /*
                 if(agent1_on[0] >= 5 ) //로그 기록 기준
@@ -258,10 +255,7 @@ setInterval(function () {
   if (agent1_on[1] >= 5) {
     if (agent1_count[1] === 0) {
       stu1_agent_count[1]++;
-      agent1_count[1] = 1;
-      document.getElementById("progress_agent2").style =
-        "width : " + String(stu1_agent_count[1] * 10) + "%";
-      $("#agent_text2").text(String(stu1_agent_count[1]) + "회");
+      agent1_count[1] = 1;     
     }
     let agentboard = document.getElementById("agentbar2");
     let myboard = document.getElementById("mypage_bar2");
@@ -279,10 +273,7 @@ setInterval(function () {
   if (agent1_on[2] >= 5) {
     if (agent1_count[2] === 0) {
       stu1_agent_count[2]++;
-      agent1_count[2] = 1;
-      document.getElementById("progress_agent3").style =
-        "width : " + String(stu1_agent_count[2] * 10) + "%";
-      $("#agent_text3").text(String(stu1_agent_count[2]) + "회");
+      agent1_count[2] = 1;     
     }
     let agentboard = document.getElementById("agentbar3");
     let myboard = document.getElementById("mypage_bar3");
@@ -295,6 +286,7 @@ setInterval(function () {
     agentboard.appendChild(pbar);
     myboard.appendChild(mybar);
   }
+  /*
   //시작할때 progressbar 초기화
   if (stu1_agent_count[0] === 0) {
     $(".progress-border_log").css("border-radius", "5px");
@@ -306,6 +298,8 @@ setInterval(function () {
   ) {
     $("#progress_agent1").css("width", "0%");
   }
+  */
+  //30초에 한번씩 전체 몰입도 로그 생성
   if (totalStamp % 30 === 0) {
     let log_board = document.getElementById("all_log");
     let mypage_board = document.getElementById("mypage_totalbar");
@@ -374,8 +368,7 @@ setInterval(function () {
   }
 
   //본인 이름 바꾸기
-  $("#getStatus").click(function () {
-    $("#my_name").text($("#studentName").val());
+  $("#getStatus").click(function () {   
     $("#mypage_name").text($("#studentName").val());
     $("#myname_log").text($("#studentName").val() + " 학생 수업 몰입도 현황");
     $("#agent_top").text($("#studentName").val() + " AI - agent 발생로그");
@@ -386,30 +379,42 @@ setInterval(function () {
     }
   });
 
-  //자신을 제외한 사용자가 들어올 때
-  for (let i = 1; i < engLog.length; i++) {
+  //Start BroadCast 버튼 눌렀을 때
+  console.log(engLog.length);
+  for (let i = 0; i < engLog.length; i++) {  
+    let student_board = document.getElementById("student_board" + String(i));
+    if(engLog[i].name === $("#studentName").val())
+    {    
+        student_board.className = "log_person_me";
+    } 
+    else
+    {
+        student_board.className = "log_person";
+    }
     let student_name = "#student" + i + "_name";
     console.log(engLog[i].name);
     console.log(student_name);
     //이름 업데이트
     $(student_name).text(engLog[i].name);
-    //랭킹 업데이트
-    ranking_score[i] = parseInt(engLog[i].score);
+    //랭킹 업데이트    
+    console.log("name : "+engLog[i].name + ", score : " + parseInt(engLog[i].score));
     //원형 바 업데이트
     let bar = document.querySelector("#bar" + String(i));
     let bar_value = document.querySelector("#bar_value" + String(i));
-    progress(ranking_score[i], bar, bar_value); //여기 오류
+    console.log("progress check : "+ parseInt(engLog[i].score) + " " + bar + " " + bar_value);
+    progress(parseInt(engLog[i].score), bar, bar_value); //여기 오류 //bar.style.strokeDasharray = 2 * Math.PI * 54; 
     //몰입도 게이지 업데이트
     engagement_gauge[i] = engLog[i].gauge;
+    //프로그래스바 초기화    
     //에이전트 발생 횟수 & 프로그래스바 업데이트
     let agent1 = parseInt(engLog[i].agent[1]); //자리비움 횟수
     let agent2 = parseInt(engLog[i].agent[3]); //자세 불량 횟수
     let agent3 = parseInt(engLog[i].agent[7]); //졸음 발생 횟수
     console.log("#progress_agent" + String(i) + "_1");
     console.log("#agent_text" + String(i) + "_1");
-    $("#progress_agent" + String(i) + "_1").css("width", agent1 * 10);
-    $("#progress_agent" + String(i) + "_2").css("width", agent2 * 10);
-    $("#progress_agent" + String(i) + "_3").css("width", agent3 * 10);
+    $("#progress_agent" + String(i) + "_1").css("width", String(agent1 * 10) +"%");
+    $("#progress_agent" + String(i) + "_2").css("width", String(agent2 * 10) +"%" );
+    $("#progress_agent" + String(i) + "_3").css("width", String(agent3 * 10) +"%");
     $("#agent_text" + String(i) + "_1").text(String(agent1) + "회");
     $("#agent_text" + String(i) + "_2").text(String(agent2) + "회");
     $("#agent_text" + String(i) + "_3").text(String(agent3) + "회");
