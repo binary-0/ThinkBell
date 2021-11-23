@@ -9,6 +9,20 @@
     </style>
     <title>ThinkBell</title>
     <link rel="stylesheet" type="text/css" href="./index.css">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- modified pacman -->
+    <script src="js/pacman.js"></script>
+    <script src="js/modernizr-1.5.min.js"></script>
+  
+    <!-- JEELIZ FACEFILTER API (required by HeadControls.js) : -->
+    <script src="js/jeelizFaceFilter.js"></script>
+
+    <!-- HEAD CONTROLLER : -->
+    <script src="js/HeadControls.js"></script>
+
+    <!-- main script : -->
+    <script src="js/pacmanMain.js"></script>
 </head>
 
 <body>
@@ -209,7 +223,7 @@
         </div>
     </div>
     <script type="text/javascript">
-        //window.onload = pacmanAR;
+        window.onload = pacmanAR;
     </script>
 
     <div class='content' id="gameDiv">
