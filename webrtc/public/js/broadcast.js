@@ -1,10 +1,11 @@
+
 let engLog = [];
 
 function getStatus() {
 
     console.log("get try");
     setInterval(sendStatus, 5000);
-
+    document.getElementById('preform').style.display = "none";
     // // var output = {sender:"sender", receiver:"receiver"
     // //     ,command:"chat", type:"text", data:"msg"};
     // socket.emit("message", content);

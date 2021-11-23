@@ -5,6 +5,7 @@
  */
 
 //Parameters
+let objects 
 const s = document.getElementById('objDetect');
 const sourceVideo = s.getAttribute("data-source");  //the source video to use
 const uploadWidth = s.getAttribute("data-uploadWidth") || 640; //the width of the upload file
@@ -27,7 +28,7 @@ let imageCtx = imageCanvas.getContext("2d");
 
 //create a canvas for drawing object boundaries
 let drawCanvas = document.createElement('canvas');
-// document.body.appendChild(drawCanvas);
+document.body.appendChild(drawCanvas);
 let drawCtx = drawCanvas.getContext("2d");
 
 //draw boxes and labels on each detected object
@@ -75,7 +76,7 @@ function postFile(file) {
     xhr.open('POST', "http://127.0.0.1:5000/image", true);
     xhr.onload = function () {
         if (this.status === 200) {
-            let objects = JSON.parse(this.response);
+            objects = JSON.parse(this.response);
             engagementResult=objects;
             console.log(objects);
             console.log(stack);
