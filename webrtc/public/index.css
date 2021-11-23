@@ -830,3 +830,9 @@ input:checked+.slider:before {
     margin: 2px 2px;
     cursor: pointer;
 }
+
+.controlBox {
+    text-align: center;
+    padding: 0.5em 0;
+    background: #333e5a;
+  }
