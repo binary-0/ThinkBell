@@ -718,8 +718,8 @@ input:checked+.slider:before {
 .content {
     position: fixed;
     /* display: none; */
-    top: 0%;
-    right: 5%;
+    top: 18%;
+    right: 13%;
     width: 15%;
     text-align: center;
     padding-bottom: 32px;
@@ -748,7 +748,7 @@ input:checked+.slider:before {
 
 #headControlsCanvas {
     position: fixed;
-    left: 468px;
+    left: 305px;
     top: 66px;
     border-radius: 10px;
 }
@@ -756,7 +756,7 @@ input:checked+.slider:before {
 #arCanvas {
     flex: 0 1 auto;
     position: fixed;
-    left: 468px;
+    left: 305px;
     top: 66px;
     width: 295.37px;
     height: 183.64px;

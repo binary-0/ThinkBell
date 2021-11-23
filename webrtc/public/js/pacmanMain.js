@@ -127,6 +127,7 @@ function gameON(){
 }
 
 function clearFail(){
+  image2Screen();
   const video = document.getElementById('localVideo');
   const notice = document.getElementById('gaming');
   const failtext = document.getElementById('pacman_text');
@@ -138,6 +139,7 @@ function clearFail(){
   failtext.innerHTML = '팩맨 Agent 실패!';
   failtext.style.display = 'inline-block';
   setTimeout(() => {
+    image2Screen();
     notice.style.display = 'none';
     failtext.style.display = 'none';
     icon.style.display = 'none';

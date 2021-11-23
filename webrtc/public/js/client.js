@@ -1,7 +1,7 @@
 var canvas = document.getElementById("arCanvas");
 var remoteStream;
 
-const imageSrc = ["img/sunglasses.png", "img/cloud.png"];
+const imageSrc = ["img/firejook.png", "img/cloud.png"];
 
 const streamConstraints = { audio: false, video: true };
 const mtcnnForwardParams = {
@@ -37,10 +37,10 @@ function arBroadcast(imageNum){
                 results.map(result => {
                     ctx.drawImage(
                         image,
-                        result.faceDetection.box.x + 15,
-                        result.faceDetection.box.y + 30,
-                        result.faceDetection.box.width,
-                        result.faceDetection.box.width * (image.height / image.width)
+                        result.faceDetection.box.x - 100,
+                        result.faceDetection.box.y - 180,
+                        result.faceDetection.box.width * 2,
+                        result.faceDetection.box.width * (image.height / image.width) * 2
                     )
                 })
                 requestAnimationFrame(step)

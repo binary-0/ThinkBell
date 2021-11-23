@@ -1053,6 +1053,7 @@ var PACMAN=(function(){ //<-- put all in a closure - Jeeliz modif
         
         function completedLevel() {
             var audio = new Audio('../pacman/audio/clear.wav');
+            imageScreen();
             audio.volume = 1.0;
             audio.play();
             setState(WAITING);
@@ -1063,6 +1064,9 @@ var PACMAN=(function(){ //<-- put all in a closure - Jeeliz modif
             map.reset(level);
             user.newLevel();
             pacmanScreen();
+            setTimeout(() => {
+                imageScreen();
+            }, 5000);
             // startLevel();
         };
 
