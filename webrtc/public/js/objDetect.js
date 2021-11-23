@@ -109,6 +109,30 @@ function postFile(file) {
     xhr.send(formdata);
 }
 
+function startVAD() {
+
+    //Set options as form data
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "http://127.0.0.1:5000/", true);
+    xhr.onload = function () {
+        if (this.status === 200) {
+            // let objects = JSON.parse(this.response);
+            // console.log(objects);
+            console.log(this.response);
+            console.log("vad result coming");
+        }
+        else {
+            console.error(xhr);
+        }
+    };
+    xhr.send(null);
+}
+
+window.onload=function(){
+    startVAD();
+}
+
 //Start object detection
 function startObjectDetection() {
 

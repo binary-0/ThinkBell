@@ -35,7 +35,7 @@ def index():
     p=Process(target=VoiceActivityDetection.start_recording, args=(vadResult, ))
     p.start()
 
-    return Response('Tensor Flow object detection')
+    return Response('Voice detection On')
 
 
 # @app.route('/local')
@@ -59,6 +59,10 @@ def image():
         image_object = Image.open(image_file)
         objects = object_detection_api.get_objects(image_object, threshold)
         print(image_file)
+
+        global vadResult
+        print(vadResult.value)
+
 
         global cvResult
         cvResult=objects
