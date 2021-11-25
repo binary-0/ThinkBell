@@ -34,61 +34,6 @@ const configuration = {
     ]
 }
 
-const button = document.getElementById('camChoiceButton');
-const select = document.getElementById('camSelect');
-let currentStream;
-
-button.addEventListener('click', event => {
-    if (typeof currentStream !== 'undefined') {
-      stopMediaTracks(currentStream);
-    }
-    const videoConstraints = {};
-    if (select.value === '') {
-      videoConstraints.facingMode = 'environment';
-    } else {
-      videoConstraints.deviceId = { exact: select.value };
-    }
-    const constraints = {
-      video: videoConstraints,
-      audio: false
-    };
-  
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then(stream => {
-        currentStream = stream;
-        localVideo.srcObject = stream;
-        return navigator.mediaDevices.enumerateDevices();
-      })
-      .then(gotDevices)
-      .catch(error => {
-        console.error(error);
-      });
-  });
-
-  function gotDevices(mediaDevices) {
-    select.innerHTML = '';
-    select.appendChild(document.createElement('option'));
-    let count = 1;
-    mediaDevices.forEach(mediaDevice => {
-      if (mediaDevice.kind === 'videoinput') {
-        const option = document.createElement('option');
-        option.value = mediaDevice.deviceId;
-        const label = mediaDevice.label || `Camera ${count++}`;
-        const textNode = document.createTextNode(label);
-        option.appendChild(textNode);
-        select.appendChild(option);
-      }
-    });
-  }
-
-  function stopMediaTracks(stream) {
-    stream.getTracks().forEach(track => {
-      track.stop();
-    });
-  }
-
-  navigator.mediaDevices.enumerateDevices().then(gotDevices);
 /**
  * UserMedia constraints
  */
@@ -118,7 +63,7 @@ navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     console.log('Received local stream');
 
     localVideo.srcObject = stream;
-    currentStream = stream;
+    localStream = stream;
     // const spawn = require('child_process').spawn;
     // const pythonn = spawn('python', ['printjs.py', stream]);
     // // console.log(pythonn);

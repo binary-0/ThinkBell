@@ -292,51 +292,142 @@ function changename(name,num){
 function handGesture(gesture,num){
     
     if(num === 1){
-        if(gesture==5){
+        if(gesture===5){
             //raise
             handraise1.style.display = "block";
             setTimeout(() => {handraise1.style.display = "none";}, 5000);
         }
-        else if(gesture==3){
+        else if(gesture===10){
             //ok
             handok1.style.display = "block";
             setTimeout(() => {handok1.style.display = "none";}, 5000);
         }
     }
     else if(num ===2){
-        if(gesture==5){
+        if(gesture===5){
             //raise
             handraise2.style.display = "block";
             setTimeout(() => {handraise2.style.display = "none";}, 5000);
         }
-        else if(gesture==3){
+        else if(gesture===10){
             //ok
             handok2.style.display = "block";
             setTimeout(() => {handok2.style.display = "none";}, 5000);
         }
     }
     else if(num ===3){
-        if(gesture==5){
+        if(gesture===5){
             //raise
             handraise3.style.display = "block";
             setTimeout(() => {handraise3.style.display = "none";}, 5000);
         }
-        else if(gesture==3){
+        else if(gesture===10){
             //ok
             handok3.style.display = "block";
             setTimeout(() => {handok3.style.display = "none";}, 5000);
         }
     }
     else if(num ===4){
-        if(gesture==5){
+        if(gesture===5){
             //raise
             handraise4.style.display = "block";
             setTimeout(() => {handraise4.style.display = "none";}, 5000);
         }
-        else if(gesture==3){
+        else if(gesture===10){
             //ok
             handok4.style.display = "block";
             setTimeout(() => {handok4.style.display = "none";}, 5000);
         }
     }
 }
+
+let badge_on =[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+setInterval(function(){
+    for(let i =0;i<engLog.length;i++){
+        //의지, 노력, 발표, 몰입
+        for(let j=0;j<4;j++){
+            if(parseInt(engLog[i].badge[j]) > 0  && badge_on[i][j] === 0)
+            { 
+                if(j===0){
+                    willbadgemaker(engLog[i].name);
+                    badge_on[i][j]=1;
+                }
+                else if(j===1){
+                    focusbadgemaker(engLog[i].name);
+                    badge_on[i][j]=1;
+                }
+                else if(j===2){
+                    speekbadgemaker(engLog[i].name);
+                    badge_on[i][j]=1;
+                }
+                else if(j===3){
+                    eyebadgemaker(engLog[i].name);
+                    badge_on[i][j]=1;
+                }
+            }
+        }
+    }
+},3000); // 배지 갱신되는 초는 변경 가능 
+
+// 몰입도 게이지, 핸드제스처
+// 이름 바꾸기
+let tempmyname = document.getElementById('studentName').value; 
+let mynameon = -1;
+setInterval(function(){
+    for(let i =0;i<engLog.length;i++){
+
+        if(String(tempmyname) === engLog[i].name){
+            mynameon = i;
+        }
+        else{
+            if(mynameon===-1){
+                changename(engLog[i].name,i+2);
+            }
+            else if(i>mynameon){
+                changename(engLog[i].name,i+1);
+            }
+            else{
+                changename(engLog[i].name,i+2);
+            }
+        }
+    }
+},3000);
+
+setInterval(function(){
+    for(let i =0;i<engLog.length;i++){
+        if(String(tempmyname) === engLog[i].name){
+            changescore(parseInt(engLog[i].gauge),1);
+        }
+        else{
+            if(mynameon===-1){
+                changescore(parseInt(engLog[i].gauge),i+2);
+            }
+            else if(i>mynameon){
+                changescore(parseInt(engLog[i].gauge),i+1);
+            }
+            else{
+                changescore(parseInt(engLog[i].gauge),i+2);
+            }
+        }
+    }
+},3000);
+
+setInterval(function(){
+    for(let i =0;i<engLog.length;i++){
+        if(String(tempmyname) === engLog[i].name){
+            handGesture(parseInt(engLog[i].handpose),1);
+        }
+        else{
+            if(mynameon===-1){
+                handGesture(parseInt(engLog[i].handpose),2+i);
+            }
+            else if(i>mynameon){
+                handGesture(parseInt(engLog[i].handpose),1+i);
+            }
+            else{
+                handGesture(parseInt(engLog[i].handpose),2+i);
+            }
+        }
+    }
+},3000);
+

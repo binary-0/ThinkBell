@@ -165,7 +165,7 @@
             </div>
 
             <div id="agentmessage" class="sidebarbottom">
-                <div class="agentmessage">
+                <!-- <div class="agentmessage">
                     <div class="postureimage"></div>
                     <div class="bar2"></div>
                     <div class="txt">자리로 돌아와 주세요!</div>
@@ -184,11 +184,11 @@
                     <div class="fireimage"></div>
                     <div class="bar1"></div>
                     <div class="txt">수업에 더 집중해 볼까요?</div>
-                </div>
+                </div> -->
             </div>
 
             <div id="sidebadgebar" class="sidebarbottom">
-                <div class="speekbadgemessage">
+                <!-- <div class="speekbadgemessage">
                     <div class="message">
                         <span>장하준&nbsp;</span>학생이&nbsp;<span class="redmessage">발표상</span>을
                         획득했어요!
@@ -211,7 +211,7 @@
                         <span>장하준&nbsp;</span>학생이&nbsp;<span class="bluemessage">의지상</span>을
                         획득했어요!
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <!--마지막으로 빼두기 webrtc camera-->
@@ -235,7 +235,7 @@
     <div id="modal2">
         <div class="modal_mypage">
             <div class="agent_nav">
-                <p class="log_nav_text">마이페이지</p>
+                <div class="log_nav_text">마이페이지</div>
             </div>
 
             <div style="display: flex">
@@ -270,7 +270,7 @@
                 <div id="mypage_background1">
 
                     <div id="myname_log" class="log_nav_text"> 박성완 학생 수업 몰입도 현황</div>
-                    <div class="log_nav_text_sm"> 수업 진행 : 21년 9월 20일 오후 5시 10분 ~ 5시 40분</div>
+                    <div class="log_nav_text_sm"> 수업 진행 : 21년 11월 14일 오후 5시 10분 ~ 5시 40분</div>
 
 
                     <div class="agent_bar">
@@ -491,7 +491,7 @@
     <div id="modal1">
         <div class="modal_left">
             <div class="log_nav">
-                <p class="log_nav_text">학생 몰입도 점수</p>
+                <div class="log_nav_text">학생 몰입도 점수</div>
             </div>
             <div id="student_board0" class="log_person_me">
 
@@ -689,7 +689,7 @@
         </div>
         <div class="modal_right">
             <div class="log_nav">
-                <p class="log_nav_text">학생별 수업 몰입도 현황</p>
+                <div class="log_nav_text">학생별 수업 몰입도 현황</div>
                 <div class="agent_block1">
                     <div id="agent_top" style="padding-top: 10px">박성완 AI - agent 발생로그</div>
                 </div>
@@ -770,13 +770,6 @@
         window.onload = pacmanAR;
     </script>
 
-<div class="controlBox">
-    <button id="camChoiceButton">Get camera</button>
-    <select id="camSelect">
-      <option></option>
-    </select>
-  </div>
-
     <div class='content' id="gameDiv">
         <!-- <p>
           <input id='disableGhosts' type='checkbox' />Disable ghosts (for testing purpose)
@@ -813,9 +806,9 @@
     <script src='js/main.js' lang="text/javascript"></script>
     <script id="objDetect" src='js/objDetect.js' data-source="localVideo" data-mirror="true" data-uploadWidth="1280"
         data-scoreThreshold="0.40"></script>
-    <script src='js/broadcast.js' lang="text/javascript"></script>
     <script src="js/temp.js"></script>
     <script src="js/back.js"></script>
+    <script src='js/broadcast.js' lang="text/javascript"></script>
     <script src="js/face-api.min.js"></script>
     <script src="js/client.js"></script>
 </footer>

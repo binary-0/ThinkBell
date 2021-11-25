@@ -28,7 +28,7 @@ let imageCtx = imageCanvas.getContext("2d");
 
 //create a canvas for drawing object boundaries
 let drawCanvas = document.createElement('canvas');
-document.body.appendChild(drawCanvas);
+// document.body.appendChild(drawCanvas);
 let drawCtx = drawCanvas.getContext("2d");
 
 //draw boxes and labels on each detected object
