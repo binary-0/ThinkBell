@@ -821,6 +821,18 @@ input:checked+.slider:before {
   cursor: pointer;
 }
 
+.controlBox {
+  text-align: center;
+  padding: 0.5em 0;
+  background: #333e5a;
+}
+
+#arEffect{
+  position: fixed;
+  /* display: none; */
+  top: 0%;
+}
+
 #modal1 {
   display: none;
   position: absolute;
