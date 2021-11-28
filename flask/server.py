@@ -1,16 +1,16 @@
 import object_detection_api
 import VoiceActivityDetection
-from multiprocessing import Process, Value
 import threading
 import os
 from PIL import Image
 from flask import Flask, request, Response
-
+import json
 
 app = Flask(__name__)
 
 global cvResult
 global vadResult
+
 # import ssl
 # ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 # ssl_context.load_cert_chain(certfile='server.crt', keyfile='server.key', password='samzzang18')
@@ -27,13 +27,15 @@ def after_request(response):
 @app.route('/')
 def index():
     global vadResult
-    vadResult =Value('i', 0)
+    vadResult=0
 
     # vadResult=threading.Thread(target=VoiceActivityDetection.start_recording).start()
     # gen_frame_thread.start()
     # VoiceActivityDetection.start_recording()
-    p=Process(target=VoiceActivityDetection.start_recording, args=(vadResult, ))
-    p.start()
+
+    t=threading.Thread(target=VoiceActivityDetection.start_recording)
+    t.start()
+    
 
     return Response('Tensor Flow object detection')
 
@@ -60,9 +62,17 @@ def image():
         objects = object_detection_api.get_objects(image_object, threshold)
         print(image_file)
 
+        global vadResult
+        vadResult = VoiceActivityDetection.returnLiveSC()
+        # print(vadResult.value)
+        vad2append={"vad":vadResult}
+        tempObj = json.loads(objects)
+        tempObj.update(vad2append)
+        
+
         global cvResult
         cvResult=objects
-        return objects
+        return json.dumps(tempObj)
 
     except Exception as e:
         print('POST /image error: %e' % e)

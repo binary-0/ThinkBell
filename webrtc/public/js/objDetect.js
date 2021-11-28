@@ -112,7 +112,7 @@ function postFile(file) {
 
 //Start object detection
 function startObjectDetection() {
-
+    startVAD();
     console.log("starting object detection");
 
     //Set canvas sizes base don input video
@@ -132,6 +132,26 @@ function startObjectDetection() {
     imageCtx.drawImage(v, 0, 0, v.videoWidth, v.videoHeight, 0, 0, uploadWidth, uploadWidth * (v.videoHeight / v.videoWidth));
     imageCanvas.toBlob(postFile, 'image/jpeg');
 
+}
+
+function startVAD() {
+
+    //Set options as form data
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "http://127.0.0.1:5000/", true);
+    xhr.onload = function () {
+        if (this.status === 200) {
+            // let objects = JSON.parse(this.response);
+            // console.log(objects);
+            console.log(this.response);
+            console.log("vad result coming");
+        }
+        else {
+            console.error(xhr);
+        }
+    };
+    xhr.send(null);
 }
 
 //Starting events
