@@ -376,16 +376,18 @@ setInterval(function () {
   */
 
   //본인 이름 바꾸기
-  $("#getStatus").click(function () {   
-    $("#mypage_name").text($("#studentName").val());
-    $("#myname_log").text($("#studentName").val() + " 학생 수업 몰입도 현황");
-    $("#agent_top").text($("#studentName").val() + " AI - agent 발생로그");
+  document.getElementById("getStatus").addEventListener('click', function () {   
+    document.getElementById("mypage_name").innerText = $("#studentName").val();
+    document.getElementById("myname_log").innerText = $("#studentName").val() + " 학생 수업 몰입도 현황";
+    document.getElementById("agent_top").innerText = $("#studentName").val() + " AI - agent 발생로그";
   });
-  $("#studentName").click(function () {
+
+  document.getElementById("studentName").addEventListener('click', function () {
     if ($("#studentName").val() === "Enter your name") {
-      $("#studentName").val("");
+      $("#studentName").placeholder("");
     }
   });
+
 
   //Start BroadCast 버튼 눌렀을 때
   console.log(engLog.length);
