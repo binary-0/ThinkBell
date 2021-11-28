@@ -434,7 +434,7 @@
     border-radius: 5px;
   }
   .log_person {
-    display: flex;
+    display: none;
     width: 100%;
     height: 150px;
     margin-top: 20px;
@@ -442,7 +442,7 @@
     border-radius: 10px;
   }
   .log_person_me {
-    display: flex;
+    display: none;
     width: 100%;
     height: 150px;
     margin-top: 20px;

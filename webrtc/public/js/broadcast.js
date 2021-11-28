@@ -6,7 +6,7 @@ function getStatus() {
    
 
     console.log("get try");
-    setInterval(sendStatus, 5000);
+    setInterval(sendStatus, 1000);
     // // var output = {sender:"sender", receiver:"receiver"
     // //     ,command:"chat", type:"text", data:"msg"};
     // socket.emit("message", content);
