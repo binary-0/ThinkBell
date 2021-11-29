@@ -374,6 +374,7 @@ setInterval(function(){
 let tempmyname = document.getElementById('studentName').value; 
 let mynameon = -1;
 setInterval(function(){
+    tempmyname = document.getElementById('studentName').value; 
     for(let i =0;i<engLog.length;i++){
 
         if(String(tempmyname) === engLog[i].name){
