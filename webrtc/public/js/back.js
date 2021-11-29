@@ -125,22 +125,23 @@ let fire_date;
 //let total_score = 485; //전체 점수
 
 setInterval(function () {
-  console.log("objects_color : " + objects["colorStat"]);
+  console.log("vad : " + objects["vad"]);
+  //console.log("objects_color : " + objects["colorStat"]);
   if (objects["colorStat"] === "2") {    
     //Engagement 발생
-    console.log("Engagement!");
+    //console.log("Engagement!");
     stu1_color[0]++;
     log_update[0]++;
     engagement_gauge[0] = engagement_gauge[0] + (1 - engagement_gauge[0] / 100);
   } else if (objects["colorStat"] === "1") {
     //Neutral 발생
-    console.log("Neutral!");
+    //console.log("Neutral!");
     stu1_color[1]++;
     log_update[1]++;
   } 
   else {
     //Not engagement 발생
-    console.log("Not engagement!");
+    //console.log("Not engagement!");
     stu1_color[2]++;
     log_update[2]++;
     engagement_gauge[0] = engagement_gauge[0] - engagement_gauge[0] / 100;
@@ -153,8 +154,7 @@ setInterval(function () {
   progress(ranking_score[0], bar1, bar_value1); //원형 그래프 업데이트
   bar1.style.strokeDasharray = 2 * Math.PI * 54; 
   */
-  console.log("gauge : " + engagement_gauge[0]);
-  console.log("score : " +ranking_score[0]);
+  //console.log("gauge : " + engagement_gauge[0] + ", " + "score : " +ranking_score[0]);
 
   //자리비움 발생
   if (objects["generalStat"][0] === "1") {
@@ -362,8 +362,7 @@ setInterval(function () {
       stu1_today_badge[1]++;
     }
   }
-  console.log("The number of connection : ");
-  console.log(engLog.length);
+  console.log("The number of connection : " + engLog.length);
   console.log("engLog : ");
   console.log(engLog);
   /*
@@ -390,7 +389,7 @@ setInterval(function () {
 
 
   //Start BroadCast 버튼 눌렀을 때
-  console.log(engLog.length);
+  //console.log(engLog.length);
   for (let i = 0; i < engLog.length; i++) {  
     let student_board = document.getElementById("student_board" + String(i));
     if(engLog[i].name === $("#studentName").val())
@@ -403,8 +402,8 @@ setInterval(function () {
     }
     $("#" + "student_board" + String(i)).css("display","flex");
     let student_name = "#student" + i + "_name";
-    console.log(engLog[i].name);
-    console.log(student_name);
+    //console.log(engLog[i].name);
+    //console.log(student_name);
     //이름 업데이트
     $(student_name).text(engLog[i].name);
     //랭킹 업데이트    

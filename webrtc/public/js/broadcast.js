@@ -5,7 +5,7 @@ let start_lecture = 0;
 function getStatus() {
    
 
-    console.log("get try");
+    //console.log("get try");
     setInterval(sendStatus, 1000);
     document.getElementById("preform").style.display ="none";
     // // var output = {sender:"sender", receiver:"receiver"
@@ -23,12 +23,12 @@ function getStatus() {
         {
             names.push(message.name);
             engLog.push(message);
-            console.log("another person");
+            //console.log("another person");
         }
         else if(names.indexOf(message.name) >= 0) //같은 사람의 정보가 들어올 때
         {
             engLog[names.indexOf(message.name)] = message;
-            console.log("same person");
+            //console.log("same person");
         }                   
     })
 }
@@ -36,7 +36,7 @@ function getStatus() {
 function sendStatus() {
 
     if(engagementResult!=null){
-        console.log("send try");
+        //console.log("send try");
 
         let toSend = new Object();
         let agent = JSON.stringify(student_agent_count);
@@ -44,12 +44,14 @@ function sendStatus() {
         let gauge = JSON.stringify(engagement_gauge[0]);
         let score = JSON.stringify(ranking_score[0]);
         let handpose = JSON.stringify(objects["handGestureStatus"]);
+        let vad = JSON.stringify(objects["vad"]);
         toSend.name = document.getElementById('studentName').value;        
         toSend.agent = agent;
         toSend.badge = badge;
         toSend.gauge = gauge;
         toSend.score = score;
         toSend.handpose = handpose;
+        toSend.vad = vad;
         socket.emit("message", toSend);
     }
 }
