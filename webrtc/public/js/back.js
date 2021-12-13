@@ -419,7 +419,9 @@ setInterval(function () {
     //에이전트 발생 횟수 & 프로그래스바 업데이트
     let agent1 = parseInt(engLog[i].agent[1]); //자리비움 횟수
     let agent2 = parseInt(engLog[i].agent[3]); //자세 불량 횟수
-    let agent3 = parseInt(engLog[i].agent[7]); //졸음 발생 횟수
+    let agent3 = parseInt(engLog[i].agent[5]); //졸음 발생 횟수
+    console.log("agent : " + engLog[i].agent);
+    console.log("sleep : " + engLog[i].agent[7]);
     //console.log("#progress_agent" + String(i) + "_1"); 프로그래스바 아이디 확인
     //console.log("#agent_text" + String(i) + "_1"); 에이전트 횟수 텍스트 아이디 확인
     $("#progress_agent" + String(i) + "_1").css("width", String(agent1 * 10) +"%");
@@ -505,6 +507,27 @@ function onLoadRank(name, date) {
     });
 }
 
+function onLoadBadge(name, date) {
+  database
+    .collection(name)
+    .where("time", "==", date)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+
+        console.log("badge_data : ");
+        console.log(doc.data().total_badge);    
+        $("#small_badge1").text("노력상 " + doc.data().total_badge[0] +"개");
+        $("#small_badge2").text("의지상 " + doc.data().total_badge[1] +"개");
+        $("#small_badge3").text("몰입상 " + doc.data().total_badge[2] +"개");
+        $("#small_badge4").text("발표상 " + doc.data().total_badge[3] +"개");
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+}
+
 function ranking_update(date) {
   //date = "11-10";
   let names = ["박성완", "이지수", "장하윤", "장하준"];
@@ -571,27 +594,6 @@ function badge_update(date)
 {    
     onLoadBadge("박성완", date); //socket 통신 할 때는 $("#my_name").text()     
 }
-
-function onLoadBadge(name, date) {
-    database
-      .collection(name)
-      .where("time", "==", date)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-  
-          console.log("badge_data : ");
-          console.log(doc.data().total_badge);    
-          $("#small_badge1").text("노력상 " + doc.data().total_badge[0] +"개");
-          $("#small_badge2").text("의지상 " + doc.data().total_badge[1] +"개");
-          $("#small_badge3").text("몰입상 " + doc.data().total_badge[2] +"개");
-          $("#small_badge4").text("발표상 " + doc.data().total_badge[3] +"개");
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-  }
 
 
 $("#fire_btn1").click(function () {
