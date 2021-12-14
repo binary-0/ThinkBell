@@ -50,6 +50,6 @@ webrtc/public/js 폴더는 다음과 같이 구성되어 있습니다.
 - broadcast.js: 다른 외부 클라이언트들과 status 통신을 위해 사용됩니다.
 - client.js: AR Image Rendering을 위해 사용됩니다.
 - jeelizFaceFilter.js: Face Filter 이용 API입니다.
-- main.js: Front-End에 직접 표시되어 있는 기능들을 관할합니다.
+- main.js(temp.js): Front-End에 직접 표시되어 있는 기능들을 관할합니다.
 - objDetect.js: python flask 서버가 5000번 포트를 이용하여 전송한 처리 결과값을 받아서 AI Agent에 리턴하는 역할을 수행합니다.
 - pacman.js, pacmanMain.js: 팩맨 게임 에이전트 전체를 관할합니다.
