@@ -22,8 +22,8 @@ date = year + "-" + month + "-" + day;
 let present_btn = 1;
 let modal1 = 0;
 let modal2 = 0;
-document.getElementById("fourthbutton").addEventListener('click', function () {
-  console.log("log button click\n")
+document.getElementById("fourthbutton").addEventListener("click", function () {
+  console.log("log button click\n");
   if (modal1 === 0) {
     document.getElementById("modal1").style.display = "flex";
     modal1 = 1;
@@ -32,8 +32,8 @@ document.getElementById("fourthbutton").addEventListener('click', function () {
     modal1 = 0;
   }
 });
-document.getElementById("modal2_on").addEventListener('click', function () {
-    console.log("modal click!");
+document.getElementById("modal2_on").addEventListener("click", function () {
+  console.log("modal click!");
   if (modal2 === 0) {
     document.getElementById("modal2").style.display = "flex";
     modal2 = 1;
@@ -83,7 +83,7 @@ let bar_value1 = document.querySelector("#bar_value0");
 function progress(per, bar, bar_value) {
   var progress = per / 100;
   var dashoffset = 2 * Math.PI * 54 * (1 - progress);
-  bar_value.innerHTML = (String(per) + "%"); //여기 오류
+  bar_value.innerHTML = String(per) + "%"; //여기 오류
   if (per < 30) {
     $("#bar0").css("stroke", "#EB9872");
   } else if (per < 60) {
@@ -120,14 +120,14 @@ let engagement_gauge = [50, 0, 0, 0]; //게이지 점수
 let stu1_badge2 = 0;
 let stu1_badge3 = 0;
 let stu1_badge3_time = 0;
-let engagement_gauge2 = [0,0,0,0];
+let engagement_gauge2 = [0, 0, 0, 0];
 let fire_date;
+let vad_data = 0;
 //let total_score = 485; //전체 점수
 
 setInterval(function () {
-  console.log("vad : " + objects["vad"]);
   //console.log("objects_color : " + objects["colorStat"]);
-  if (objects["colorStat"] === "2") {    
+  if (objects["colorStat"] === "2") {
     //Engagement 발생
     //console.log("Engagement!");
     stu1_color[0]++;
@@ -138,14 +138,13 @@ setInterval(function () {
     //console.log("Neutral!");
     stu1_color[1]++;
     log_update[1]++;
-  } 
-  else {
+  } else {
     //Not engagement 발생
     //console.log("Not engagement!");
     stu1_color[2]++;
     log_update[2]++;
     engagement_gauge[0] = engagement_gauge[0] - engagement_gauge[0] / 100;
-  } 
+  }
   totalStamp += 1;
   ranking_score[0] =
     ((stu1_color[0] * 2 + stu1_color[1]) / (totalStamp * 2)) * 100; //점수 계산
@@ -155,6 +154,37 @@ setInterval(function () {
   bar1.style.strokeDasharray = 2 * Math.PI * 54; 
   */
   //console.log("gauge : " + engagement_gauge[0] + ", " + "score : " +ranking_score[0]);
+
+  //발화 횟수
+  //console.log("vad_data : " + vad_data + ", objects[vad] : " + objects["vad"]);
+  if (vad_data !== parseInt(objects["vad"])) {
+    // 발화 감지
+    let agentboard = document.getElementById("agentbar4");
+    let myboard = document.getElementById("mypage_bar4");
+    let pbar = document.createElement("div");
+    let mybar = document.createElement("div");
+    mybar.className = "progress-agent4-noborder";
+    mybar.style.width = "3%";
+    pbar.className = "progress-agent4-noborder";
+    pbar.style.width = "3%";    
+    agentboard.appendChild(pbar);
+    myboard.appendChild(mybar);
+  } //발화 감지 실패
+  else {
+    //흰색 바 증가
+    let pboard = document.getElementById("agentbar4");
+    let mypage = document.getElementById("mypage_bar4");
+    let pbar = document.createElement("div");
+    let mybar = document.createElement("div");
+    mybar.className = "progress-bar-0";
+    mybar.style.width = "0.25%";
+    pbar.className = "progress-bar-0";
+    pbar.style.width = "0.25%";
+    pboard.appendChild(pbar);
+    mypage.appendChild(mybar);
+  }
+  vad_data = parseInt(objects["vad"]);
+  console.log("vad : " + objects["vad"]);
 
   //자리비움 발생
   if (objects["generalStat"][0] === "1") {
@@ -258,8 +288,8 @@ setInterval(function () {
   if (agent1_on[1] >= 5) {
     if (agent1_count[1] === 0) {
       student_agent_count[1]++;
-      agent1_count[1] = 1;     
-      agentfocusmaker(); 
+      agent1_count[1] = 1;
+      agentfocusmaker();
     }
     let agentboard = document.getElementById("agentbar2");
     let myboard = document.getElementById("mypage_bar2");
@@ -277,7 +307,7 @@ setInterval(function () {
   if (agent1_on[2] >= 5) {
     if (agent1_count[2] === 0) {
       student_agent_count[2]++;
-      agent1_count[2] = 1;  
+      agent1_count[2] = 1;
       agentsleepmaker();
     }
     let agentboard = document.getElementById("agentbar3");
@@ -291,6 +321,7 @@ setInterval(function () {
     agentboard.appendChild(pbar);
     myboard.appendChild(mybar);
   }
+
   /*
   //시작할때 progressbar 초기화
   if (stu1_agent_count[0] === 0) {
@@ -375,58 +406,66 @@ setInterval(function () {
   */
 
   //본인 이름 바꾸기
-  document.getElementById("getStatus").addEventListener('click', function () {   
+  document.getElementById("getStatus").addEventListener("click", function () {
     document.getElementById("mypage_name").innerText = $("#studentName").val();
-    document.getElementById("myname_log").innerText = $("#studentName").val() + " 학생 수업 몰입도 현황";
-    document.getElementById("agent_top").innerText = $("#studentName").val() + " AI - agent 발생로그";
+    document.getElementById("myname_log").innerText =
+      $("#studentName").val() + " 학생 수업 몰입도 현황";
+    document.getElementById("agent_top").innerText =
+      $("#studentName").val() + " AI - agent 발생로그";
   });
 
-  document.getElementById("studentName").addEventListener('click', function () {
+  document.getElementById("studentName").addEventListener("click", function () {
     if ($("#studentName").val() === "Enter your name") {
       $("#studentName").placeholder("");
     }
   });
 
-
   //Start BroadCast 버튼 눌렀을 때
   //console.log(engLog.length);
-  for (let i = 0; i < engLog.length; i++) {  
+  for (let i = 0; i < engLog.length; i++) {
     let student_board = document.getElementById("student_board" + String(i));
-    if(engLog[i].name === $("#studentName").val())
-    {    
-        student_board.className = "log_person_me";
-    } 
-    else
-    {
-        student_board.className = "log_person";
+    if (engLog[i].name === $("#studentName").val()) {
+      student_board.className = "log_person_me";
+    } else {
+      student_board.className = "log_person";
     }
-    $("#" + "student_board" + String(i)).css("display","flex");
+    $("#" + "student_board" + String(i)).css("display", "flex");
     let student_name = "#student" + i + "_name";
     //console.log(engLog[i].name);
     //console.log(student_name);
     //이름 업데이트
     $(student_name).text(engLog[i].name);
-    //랭킹 업데이트    
-    console.log("name : "+engLog[i].name + ", score : " + parseInt(engLog[i].score));
+    //랭킹 업데이트
+    console.log(
+      "name : " + engLog[i].name + ", score : " + parseInt(engLog[i].score)
+    );
     //원형 바 업데이트
     let bar = document.querySelector("#bar" + String(i));
     let bar_value = document.querySelector("#bar_value" + String(i));
     //console.log("progress check : "+ parseInt(engLog[i].score) + " " + bar + " " + bar_value);
-    progress(parseInt(engLog[i].score), bar, bar_value); //여기 오류 //bar.style.strokeDasharray = 2 * Math.PI * 54; 
+    progress(parseInt(engLog[i].score), bar, bar_value); //여기 오류 //bar.style.strokeDasharray = 2 * Math.PI * 54;
     //몰입도 게이지 업데이트
     engagement_gauge2[i] = parseInt(engLog[i].gauge);
-    //프로그래스바 초기화    
+    //프로그래스바 초기화
     //에이전트 발생 횟수 & 프로그래스바 업데이트
     let agent1 = parseInt(engLog[i].agent[1]); //자리비움 횟수
     let agent2 = parseInt(engLog[i].agent[3]); //자세 불량 횟수
     let agent3 = parseInt(engLog[i].agent[5]); //졸음 발생 횟수
-    console.log("agent : " + engLog[i].agent);
-    console.log("sleep : " + engLog[i].agent[7]);
+    console.log("sleep : " + engLog[i].agent[5]);
     //console.log("#progress_agent" + String(i) + "_1"); 프로그래스바 아이디 확인
     //console.log("#agent_text" + String(i) + "_1"); 에이전트 횟수 텍스트 아이디 확인
-    $("#progress_agent" + String(i) + "_1").css("width", String(agent1 * 10) +"%");
-    $("#progress_agent" + String(i) + "_2").css("width", String(agent2 * 10) +"%" );
-    $("#progress_agent" + String(i) + "_3").css("width", String(agent3 * 10) +"%");
+    $("#progress_agent" + String(i) + "_1").css(
+      "width",
+      String(agent1 * 10) + "%"
+    );
+    $("#progress_agent" + String(i) + "_2").css(
+      "width",
+      String(agent2 * 10) + "%"
+    );
+    $("#progress_agent" + String(i) + "_3").css(
+      "width",
+      String(agent3 * 10) + "%"
+    );
     $("#agent_text" + String(i) + "_1").text(String(agent1) + "회");
     $("#agent_text" + String(i) + "_2").text(String(agent2) + "회");
     $("#agent_text" + String(i) + "_3").text(String(agent3) + "회");
@@ -437,7 +476,7 @@ let ranking = 4; //자신의 랭킹 기록
 let today = ranking_score[0]; //오늘 점수
 let changed_rank = 0; //변경된 등수
 let my_name = $("#studentName").val(); //접속자가 입력한 이름
-let document_id = year + "-" +month + "-" + day; //현재 날짜
+let document_id = year + "-" + month + "-" + day; //현재 날짜
 
 function onAddRecord() {
   database
@@ -450,10 +489,10 @@ function onAddRecord() {
         time: hour + "-" + min,
         name: my_name,
         badge_ary: stu1_today_badge,
-        ranking: ranking,        
+        ranking: ranking,
         today_score: today,
         total_score: total_score,
-        rank_change : changed_rank
+        rank_change: changed_rank,
       },
       { merge: true }
     )
@@ -491,7 +530,7 @@ function onLoadRank(name, date) {
     .where("time", "==", date)
     .get()
     .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {       
+      querySnapshot.forEach((doc) => {
         rank_change(
           doc.data().name,
           doc.data().ranking,
@@ -514,13 +553,12 @@ function onLoadBadge(name, date) {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-
         console.log("badge_data : ");
-        console.log(doc.data().total_badge);    
-        $("#small_badge1").text("노력상 " + doc.data().total_badge[0] +"개");
-        $("#small_badge2").text("의지상 " + doc.data().total_badge[1] +"개");
-        $("#small_badge3").text("몰입상 " + doc.data().total_badge[2] +"개");
-        $("#small_badge4").text("발표상 " + doc.data().total_badge[3] +"개");
+        console.log(doc.data().total_badge);
+        $("#small_badge1").text("노력상 " + doc.data().total_badge[0] + "개");
+        $("#small_badge2").text("의지상 " + doc.data().total_badge[1] + "개");
+        $("#small_badge3").text("몰입상 " + doc.data().total_badge[2] + "개");
+        $("#small_badge4").text("발표상 " + doc.data().total_badge[3] + "개");
       });
     })
     .catch((error) => {
@@ -537,82 +575,77 @@ function ranking_update(date) {
 }
 
 function rank_change(name, ranking, today, total, img, change) {
-    console.log(ranking);
-    console.log(change);
-  ranking_change(ranking,change);
+  console.log(ranking);
+  console.log(change);
+  ranking_change(ranking, change);
   if (ranking === 1) {
     document.getElementById("rank1_img").src = img;
     $("#rank1_name").text(name);
-    $("#rank1_total").text("이번주 몰입도 총 점수 : " + total +"점");
-    $("#rank1_today").text("오늘 획득한 몰입도 점수 : " + today +"점");    
+    $("#rank1_total").text("이번주 몰입도 총 점수 : " + total + "점");
+    $("#rank1_today").text("오늘 획득한 몰입도 점수 : " + today + "점");
   } else if (ranking === 2) {
     document.getElementById("rank2_img").src = img;
     $("#rank2_name").text(name);
-    $("#rank2_total").text("이번주 몰입도 총 점수 : " + total +"점");
-    $("#rank2_today").text("오늘 획득한 몰입도 점수 : " + today +"점");
+    $("#rank2_total").text("이번주 몰입도 총 점수 : " + total + "점");
+    $("#rank2_today").text("오늘 획득한 몰입도 점수 : " + today + "점");
   } else if (ranking === 3) {
     document.getElementById("rank3_img").src = img;
     $("#rank3_name").text(name);
-    $("#rank3_total").text("이번주 몰입도 총 점수 : " + total +"점");
-    $("#rank3_today").text("오늘 획득한 몰입도 점수 : " + today +"점");
+    $("#rank3_total").text("이번주 몰입도 총 점수 : " + total + "점");
+    $("#rank3_today").text("오늘 획득한 몰입도 점수 : " + today + "점");
   } else if (ranking === 4) {
     document.getElementById("rank4_img").src = img;
     $("#rank4_name").text(name);
-    $("#rank4_total").text("이번주 몰입도 총 점수 : " + total +"점");
-    $("#rank4_today").text("오늘 획득한 몰입도 점수 : " + today +"점");
-  }  
+    $("#rank4_total").text("이번주 몰입도 총 점수 : " + total + "점");
+    $("#rank4_today").text("오늘 획득한 몰입도 점수 : " + today + "점");
+  }
 }
 
-function ranking_change(ranking, change)
-{
-    let img = "stu_img" + String(ranking);
-    let text = "stu_text" + String(ranking);
-    let img_id = document.getElementById(img);
-    let text_id =  document.getElementById(text);
-    if(change > 0)
-    {       
-        img_id.className = "up_img";
-        img_id.src ="http://drive.google.com/uc?export=view&id=16q6-jHqmw-L6FTQZZNnZq7xIOS6zhO06";
-        text_id.className ="rank_up_text";        
-        text_id.innerHTML = change;
-    }
-    else if(change === 0)
-    {        
-        img_id.className = "same_img";               
-        img_id.src ="http://drive.google.com/uc?export=view&id=1tLA6sinLl9w7P9P_DqojGUkCsTFeRjqu";
-        text_id.innerHTML = "";
-    }
-    else
-    {       
-        img_id.className = "down_img";               
-        img_id.src ="http://drive.google.com/uc?export=view&id=16vzcskud2my5y0bgoijc9oECa4bCRaoU";
-        text_id.className ="rank_down_text";
-        text_id.innerHTML = -change;
-    }
+function ranking_change(ranking, change) {
+  let img = "stu_img" + String(ranking);
+  let text = "stu_text" + String(ranking);
+  let img_id = document.getElementById(img);
+  let text_id = document.getElementById(text);
+  if (change > 0) {
+    img_id.className = "up_img";
+    img_id.src =
+      "http://drive.google.com/uc?export=view&id=16q6-jHqmw-L6FTQZZNnZq7xIOS6zhO06";
+    text_id.className = "rank_up_text";
+    text_id.innerHTML = change;
+  } else if (change === 0) {
+    img_id.className = "same_img";
+    img_id.src =
+      "http://drive.google.com/uc?export=view&id=1tLA6sinLl9w7P9P_DqojGUkCsTFeRjqu";
+    text_id.innerHTML = "";
+  } else {
+    img_id.className = "down_img";
+    img_id.src =
+      "http://drive.google.com/uc?export=view&id=16vzcskud2my5y0bgoijc9oECa4bCRaoU";
+    text_id.className = "rank_down_text";
+    text_id.innerHTML = -change;
+  }
 }
-function badge_update(date)
-{    
-    onLoadBadge("박성완", date); //socket 통신 할 때는 $("#my_name").text()     
+function badge_update(date) {
+  onLoadBadge("박성완", date); //socket 통신 할 때는 $("#my_name").text()
 }
-
 
 $("#fire_btn1").click(function () {
   ranking_update("11-10");
   badge_update("11-10");
-  $("#drop_date").text("수업진행 : 11월 10일");  
+  $("#drop_date").text("수업진행 : 12월 10일");
 });
 $("#fire_btn2").click(function () {
   ranking_update("11-11");
   badge_update("11-11");
-  $("#drop_date").text("수업진행 : 11월 11일");  
+  $("#drop_date").text("수업진행 : 12월 11일");
 });
 $("#fire_btn3").click(function () {
   ranking_update("11-12");
   badge_update("11-12");
-  $("#drop_date").text("수업진행 : 11월 12일");  
+  $("#drop_date").text("수업진행 : 12월 12일");
 });
 $("#fire_btn4").click(function () {
   ranking_update("11-13");
   badge_update("11-13");
-  $("#drop_date").text("수업진행 : 11월 13일");  
+  $("#drop_date").text("수업진행 : 12월 13일");
 });
