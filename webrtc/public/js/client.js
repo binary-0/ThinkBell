@@ -22,8 +22,9 @@ faceapi.loadFaceRecognitionModel('/weights')
 
 function arBroadcast(imageNum){
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
+        let tempStream = stream;
         let localVideo = document.createElement("video")
-        localVideo.srcObject = stream;
+        localVideo.srcObject = tempStream;
         localVideo.autoplay = true
         localVideo.addEventListener('playing', () => {
             let ctx = canvas.getContext("2d");
@@ -32,6 +33,9 @@ function arBroadcast(imageNum){
             // image.src = "img/sunglasses.png"
                 
             function step() {
+                if(canvas.style.display == 'none')
+                    return;
+
                 getFace(localVideo, mtcnnForwardParams)
                 ctx.drawImage(localVideo, 0, 0)
                 results.map(result => {
@@ -45,7 +49,6 @@ function arBroadcast(imageNum){
                 })
                 requestAnimationFrame(step)
             }
-    
             requestAnimationFrame(step)
         })
     
