@@ -13,7 +13,7 @@ ThinkBell project, which is made from 2021 Woongjin Thinkbig Industry-Academic C
 4. 접속이 되었다면, python 클라이언트에서 통신이 잘 되고 있는지 로그를 확인해 주세요.
 
 ## 2. 전체적인 시스템 구조
-#### 요약: 각자 켠 python 클라이언트와 영상 인식과 음성 인식을 진행하고, 결과값을 js webrtc를 통해 영상과 함께 주고받음
+#### 요약: 각자 실행한 python 클라이언트가 영상 인식과 음성 인식을 진행하고, 결과값을 js webrtc를 통해 영상과 함께 주고받음
 
 ![workflow](https://user-images.githubusercontent.com/33966473/134840473-2aa66fff-76f6-4e1a-9d4c-94ac5dee86bc.jpg)
 
