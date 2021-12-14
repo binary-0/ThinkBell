@@ -74,7 +74,7 @@ function agentposturemaker(){
     agentposture.appendChild(agentposture1);
     agentposture.appendChild(agentposture2);
     agentposture.appendChild(agentposture3);
-    agentmessage.appendChild(agentposture);
+    agentmessage.prepend(agentposture);
 }
 
 function agentsleepmaker(){
@@ -91,7 +91,7 @@ function agentsleepmaker(){
     agentsleep.appendChild(agentsleep2);
     agentsleep.appendChild(agentsleep3);
 
-    agentmessage.appendChild(agentsleep);
+    agentmessage.prepend(agentsleep);
 }
 
 
@@ -109,7 +109,7 @@ function agentspeekmaker(){ // sleep , speek 구분하기
     agentspeek.appendChild(agentspeek2);
     agentspeek.appendChild(agentspeek3);
 
-    agentmessage.appendChild(agentspeek);
+    agentmessage.prepend(agentspeek);
 }
 
 
@@ -126,7 +126,7 @@ function agentfocusmaker(){
     agentfocus.appendChild(agentfocus1);
     agentfocus.appendChild(agentfocus2);
     agentfocus.appendChild(agentfocus3);
-    agentmessage.appendChild(agentfocus);
+    agentmessage.prepend(agentfocus);
 }
 
 /*발표상*/
@@ -146,7 +146,7 @@ function speekbadgemaker(name){
     speekbadge1.appendChild(speekbadge2);
     speekbadge1.appendChild(speekbadge3);
     speekbadge.appendChild(speekbadge1);
-    sidebadgebar.appendChild(speekbadge);
+    sidebadgebar.prepend(speekbadge);
 }
 
 /*노력상*/
@@ -166,7 +166,7 @@ function focusbadgemaker(name){
     focusbadge1.appendChild(focusbadge2);
     focusbadge1.appendChild(focusbadge3);
     focusbadge.appendChild(focusbadge1);
-    sidebadgebar.appendChild(focusbadge);
+    sidebadgebar.prepend(focusbadge);
 }
 
 /*몰입상*/
@@ -186,7 +186,7 @@ function eyebadgemaker(name){
     eyebadge1.appendChild(eyebadge2);
     eyebadge1.appendChild(eyebadge3);
     eyebadge.appendChild(eyebadge1);
-    sidebadgebar.appendChild(eyebadge);
+    sidebadgebar.prepend(eyebadge);
 }
 
 /*의지상*/
@@ -206,7 +206,7 @@ function willbadgemaker(name){
     willbadge1.appendChild(willbadge2);
     willbadge1.appendChild(willbadge3);
     willbadge.appendChild(willbadge1);
-    sidebadgebar.appendChild(willbadge);
+    sidebadgebar.prepend(willbadge);
 }
 
 /*몰입도 게이지 변경 방법*/
@@ -430,5 +430,5 @@ setInterval(function(){
             }
         }
     }
-},3000);
+},1000);
 
