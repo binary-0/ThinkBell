@@ -1,4 +1,4 @@
-# ThinkBell Project
+# ThinkBell Project :bell:
 ThinkBell project, which is made from 2021 Woongjin Thinkbig Industry-Academic Cooperation Project Team.
 
 ## 1. 실행 방법
