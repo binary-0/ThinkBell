@@ -43,7 +43,8 @@ function sendStatus() {
         let badge = JSON.stringify(stu1_today_badge);
         let gauge = JSON.stringify(engagement_gauge[0]);
         let score = JSON.stringify(ranking_score[0]);
-        let handpose = JSON.stringify(objects["handStat"]);
+        //let handpose = JSON.stringify(objects["handStat"]);
+        let handpose = objects["handStat"];
         let vad = JSON.stringify(objects["vad"]);
         toSend.name = document.getElementById('studentName').value;        
         toSend.agent = agent;
