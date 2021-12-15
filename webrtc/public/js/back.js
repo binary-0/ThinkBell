@@ -633,21 +633,25 @@ $("#fire_btn1").click(function () {
   ranking_update("11-10");
   badge_update("11-10");
   $("#drop_date").text("수업진행 : 12월 10일");
+  $("#badge_date").text("21년 12월 10일 수업 획득 배지");
 });
 $("#fire_btn2").click(function () {
   ranking_update("11-11");
   badge_update("11-11");
   $("#drop_date").text("수업진행 : 12월 11일");
+  $("#badge_date").text("21년 12월 11일 수업 획득 배지");
 });
 $("#fire_btn3").click(function () {
   ranking_update("11-12");
   badge_update("11-12");
   $("#drop_date").text("수업진행 : 12월 12일");
+  $("#badge_date").text("21년 12월 12일 수업 획득 배지");
 });
 $("#fire_btn4").click(function () {
   ranking_update("11-13");
   badge_update("11-13");
   $("#drop_date").text("수업진행 : 12월 13일");
+  $("#badge_date").text("21년 12월 13일 수업 획득 배지");
 });
 
 
