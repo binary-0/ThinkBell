@@ -295,48 +295,64 @@ function handGesture(gesture,num){
         if(gesture===5){
             //raise
             handraise1.style.display = "block";
-            setTimeout(() => {handraise1.style.display = "none";}, 5000);
+            //setTimeout(() => {handok1.style.display = "none";}, 5000);
         }
         else if(gesture===10){
             //ok
             handok1.style.display = "block";
-            setTimeout(() => {handok1.style.display = "none";}, 5000);
+            //setTimeout(() => {handok1.style.display = "none";}, 5000);
+        }
+        else{
+            handraise1.style.display = "none";
+            handok1.style.display = "none";
         }
     }
     else if(num ===2){
         if(gesture===5){
             //raise
             handraise2.style.display = "block";
-            setTimeout(() => {handraise2.style.display = "none";}, 5000);
+            //setTimeout(() => {handraise2.style.display = "none";}, 5000);
         }
         else if(gesture===10){
             //ok
             handok2.style.display = "block";
-            setTimeout(() => {handok2.style.display = "none";}, 5000);
+            //setTimeout(() => {handok2.style.display = "none";}, 5000);
+        }
+        else{
+            handraise2.style.display = "none";
+            handok2.style.display = "none";
         }
     }
     else if(num ===3){
         if(gesture===5){
             //raise
             handraise3.style.display = "block";
-            setTimeout(() => {handraise3.style.display = "none";}, 5000);
+            //setTimeout(() => {handraise3.style.display = "none";}, 5000);
         }
         else if(gesture===10){
             //ok
             handok3.style.display = "block";
-            setTimeout(() => {handok3.style.display = "none";}, 5000);
+            //setTimeout(() => {handok3.style.display = "none";}, 5000);
+        }
+        else{
+            handraise3.style.display = "none";
+            handok3.style.display = "none";
         }
     }
     else if(num ===4){
         if(gesture===5){
             //raise
             handraise4.style.display = "block";
-            setTimeout(() => {handraise4.style.display = "none";}, 5000);
+            //setTimeout(() => {handraise4.style.display = "none";}, 5000);
         }
         else if(gesture===10){
             //ok
             handok4.style.display = "block";
-            setTimeout(() => {handok4.style.display = "none";}, 5000);
+            //setTimeout(() => {handok4.style.display = "none";}, 5000);
+        }
+        else{
+            handraise4.style.display = "none";
+            handok4.style.display = "none";
         }
     }
 }
@@ -345,8 +361,16 @@ let badge_on =[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
 setInterval(function(){
     for(let i =0;i<engLog.length;i++){
         //의지, 노력, 발표, 몰입
+        // [0,0,0,0]
+        // 1,3,5,7
+        let tempbadge = engLog[i].badge;
+        tempbadge = tempbadge.substr(1,tempbadge.length-1);
+        tempbadge = tempbadge.substr(0,tempbadge.length-1);
+        tempbadge = tempbadge.split(',');
+        //console.log(tempbadge);
         for(let j=0;j<4;j++){
-            if(parseInt(engLog[i].badge[j]) > 0  && badge_on[i][j] === 0)
+            //console.log(tempbadge[j]);
+            if(parseInt(tempbadge[j])&&badge_on[i][j] === 0)
             { 
                 if(j===0){
                     willbadgemaker(engLog[i].name);
