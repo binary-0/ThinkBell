@@ -336,7 +336,7 @@ setInterval(function () {
   }
   */
   //30초에 한번씩 전체 몰입도 로그 생성
-  if (totalStamp % 30 === 0) {
+  if (totalStamp % 45 === 0) {
     let log_board = document.getElementById("all_log");
     let mypage_board = document.getElementById("mypage_totalbar");
     let maxlog = max_log(log_update[0], log_update[1], log_update[2]);
